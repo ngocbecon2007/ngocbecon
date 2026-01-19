@@ -2,37 +2,22 @@
 <head>
 <meta charset="UTF-8">
 <title>Ngọc Becon</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><style>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"><style>
 *{box-sizing:border-box;font-family:'Segoe UI',Arial}
 body{
-margin:0;
-height:100vh;
+margin:0;height:100vh;
 background:linear-gradient(135deg,#ff6fb1,#ffd6ea);
-display:flex;
-justify-content:center;
-align-items:center;
-overflow:hidden;
+display:flex;justify-content:center;align-items:center;
+overflow:hidden;color:#fff
 }
 
-/* INTRO */
-#intro{
-position:fixed;
-inset:0;
+/* LOADING */
+#loading{
+position:fixed;inset:0;z-index:20;
 background:linear-gradient(135deg,#ff4f9a,#ff9fd6);
-display:flex;
-justify-content:center;
-align-items:center;
-z-index:10;
-}
-#intro button{
-padding:18px 36px;
-border:none;
-border-radius:999px;
-font-size:18px;
-background:white;
-color:#ff4f9a;
-box-shadow:0 0 40px #ff4f9a;
-animation:pulse 1.5s infinite;
+display:flex;justify-content:center;align-items:center;
+font-size:22px;font-weight:bold;
+animation:pulse 1.5s infinite
 }
 @keyframes pulse{
 0%{transform:scale(1)}
@@ -42,39 +27,33 @@ animation:pulse 1.5s infinite;
 
 /* CARD */
 .card{
-background:rgba(255,255,255,0.35);
+background:rgba(255,255,255,.35);
 backdrop-filter:blur(18px);
-padding:28px;
-border-radius:30px;
+padding:28px;border-radius:30px;
 text-align:center;
 box-shadow:0 0 45px #ff4f9a;
-width:90%;
-max-width:360px;
-color:#fff;
-display:none;
+width:90%;max-width:360px;
+display:none
 }
 
 /* AVATAR */
 .avatar{
-width:140px;
-height:140px;
+width:140px;height:140px;
 border-radius:50%;
 border:4px solid #fff;
 object-fit:cover;
-box-shadow:0 0 30px #ff4f9a;
+box-shadow:0 0 30px #ff4f9a
 }
 
 /* BUTTON */
 .btn{
 margin-top:14px;
-padding:12px 24px;
-border-radius:999px;
-border:none;
-background:#ff4f9a;
-color:#fff;
+padding:12px 26px;
+border-radius:999px;border:none;
+background:#ff4f9a;color:#fff;
 font-size:15px;
 box-shadow:0 0 18px #ff4f9a;
-cursor:pointer;
+cursor:pointer
 }
 
 /* HEART FLOAT */
@@ -82,24 +61,46 @@ cursor:pointer;
 position:absolute;
 font-size:18px;
 animation:float 5s linear infinite;
+color:#ff4f9a
 }
 @keyframes float{
 0%{transform:translateY(100vh);opacity:0}
 20%{opacity:1}
 100%{transform:translateY(-10vh);opacity:0}
 }
-</style></head><body><!-- INTRO --><div id="intro">
-<button onclick="start()">💗 Chạm để vào 💗</button>
-</div><!-- MAIN --><div class="card" id="main">
+
+/* METEOR */
+.meteor{
+position:absolute;
+width:2px;height:80px;
+background:linear-gradient(transparent,#fff);
+opacity:.7;
+animation:meteor 1.2s linear infinite
+}
+@keyframes meteor{
+0%{transform:translate(-100px,-100px)}
+100%{transform:translate(300px,300px);opacity:0}
+}
+</style></head><body><!-- LOADING --><div id="loading">💗 Ngọc Becon 💗</div><!-- MUSIC --><audio id="music" loop>
+<source src="music.mp3" type="audio/mpeg">
+</audio><!-- MAIN --><div class="card" id="main">
 <img src="avatar.jpg" class="avatar">
 <h2>🌸 Ngọc Becon 🌸</h2>
-<p>Shop Cày Thuê Uy Tín</p><button class="btn" onclick="window.open('shop.html','_blank')">
-🛒 Vào Shop
-</button>
+<p>Shop Cày Thuê Uy Tín</p><button class="btn" onclick="enter()">🛒 Vào Shop</button>
+
 </div><script>
-function start(){
-document.getElementById("intro").style.display="none";
-document.getElementById("main").style.display="block";
+const music=document.getElementById("music");
+
+/* LOADING AUTO */
+setTimeout(()=>{
+loading.style.display="none";
+main.style.display="block";
+},1800);
+
+/* ENTER */
+function enter(){
+music.play().catch(()=>{});
+window.open("shop.html","_blank");
 }
 
 /* HEART FLOAT */
@@ -108,10 +109,19 @@ let h=document.createElement("div");
 h.className="heart";
 h.innerHTML="💖";
 h.style.left=Math.random()*100+"vw";
-h.style.color="#ff4f9a";
 h.style.animationDuration=(3+Math.random()*3)+"s";
 document.body.appendChild(h);
 setTimeout(()=>h.remove(),6000);
 },600);
+
+/* METEOR */
+setInterval(()=>{
+let m=document.createElement("div");
+m.className="meteor";
+m.style.left=Math.random()*100+"vw";
+m.style.top=Math.random()*50+"vh";
+document.body.appendChild(m);
+setTimeout(()=>m.remove(),1200);
+},900);
 </script></body>
 </html>
