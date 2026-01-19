@@ -1,147 +1,254 @@
-<!DOCTYPE html><html lang="vi">
+<!DOCTYPE html>
+<html lang="vi">
 <head>
 <meta charset="UTF-8">
 <title>Ngọc Becon Shop</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"><style>
-*{box-sizing:border-box;font-family:Arial}
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+*{box-sizing:border-box;font-family:sans-serif}
 body{
   margin:0;
-  background:linear-gradient(180deg,#1a001f,#0b0012);
-  color:#fff;
+  background:linear-gradient(180deg,#1a001f,#0b0014);
+  color:white;
 }
-
-/* ===== HEADER ===== */
 header{
-  background:linear-gradient(90deg,#ff4da6,#ff85c2);
-  padding:14px 16px;
+  background:linear-gradient(90deg,#ff4fa7,#ff85c2);
+  padding:12px 16px;
   display:flex;
-  align-items:center;
   justify-content:space-between;
-  position:relative;
+  align-items:center;
 }
-
-.logo{
-  font-weight:bold;
-  font-size:20px;
-}
-
-/* MENU TOGGLE */
-.menu-toggle{
-  font-size:28px;
-  cursor:pointer;
-}
-
-/* DROPDOWN MENU */
-.dropdown-menu{
+.logo{font-size:20px;font-weight:bold}
+.menu-btn{font-size:26px;cursor:pointer}
+nav{
   display:none;
-  position:absolute;
-  top:60px;
-  right:12px;
-  width:230px;
-  background:#1e1e2e;
-  border-radius:14px;
-  overflow:hidden;
-  box-shadow:0 10px 30px rgba(0,0,0,.6);
-  z-index:999;
+  background:#120016;
 }
-
-.dropdown-menu a{
+nav a{
   display:block;
-  padding:14px;
-  color:#fff;
+  padding:12px 16px;
+  color:white;
   text-decoration:none;
-  border-bottom:1px solid #333;
+  border-bottom:1px solid #222;
 }
-
-.dropdown-menu a:hover{
-  background:linear-gradient(90deg,#ff4da6,#ff85c2);
-}
-
-/* ===== MAIN ===== */
-.main{
-  padding:20px;
-}
-
+nav a:hover{background:#ff4fa7}
+.container{padding:15px}
 .card{
-  background:#1e1e2e;
-  border-radius:16px;
-  padding:20px;
-  margin-bottom:16px;
-  box-shadow:0 6px 20px rgba(0,0,0,.4);
-}
-
-h2{margin-top:0}
-
-/* BUTTON */
-.btn{
-  width:100%;
-  padding:14px;
-  border:none;
+  background:#1e0029;
   border-radius:12px;
-  background:linear-gradient(90deg,#ff4da6,#ff85c2);
-  color:#fff;
-  font-size:16px;
-  cursor:pointer;
+  padding:15px;
+  margin-bottom:15px;
+  box-shadow:0 0 10px #ff4fa733;
 }
-
-/* INPUT */
+.btn{
+  background:#ff4fa7;
+  border:none;
+  padding:10px 16px;
+  border-radius:8px;
+  color:white;
+  cursor:pointer;
+  font-weight:bold;
+}
 input,select{
   width:100%;
-  padding:12px;
-  border-radius:10px;
+  padding:10px;
+  margin:6px 0;
+  border-radius:8px;
   border:none;
-  margin-bottom:10px;
 }
-</style></head><body><!-- ===== MUSIC INTRO ===== --><audio autoplay loop>
-  <source src="music.mp3" type="audio/mpeg">
-</audio><!-- ===== HEADER ===== --><header>
-  <div class="logo">💎 Ngọc Becon Shop</div>
-  <div class="menu-toggle" onclick="toggleMenu()">☰</div>  <div id="dropdownMenu" class="dropdown-menu">
-    <a href="#">🏠 Trang chủ</a>
-    <a href="#">⚔️ Liên Quân</a>
-    <a href="#">🔥 Free Fire</a>
-    <a href="#">🟩 Roblox</a>
-    <a href="#">💳 Nạp tiền</a>
-    <a href="#">🎡 Vòng quay</a>
-    <a href="#">📜 Lịch sử</a>
-    <a href="#">⚙️ Tài khoản</a>
+.tab{display:none}
+.active{display:block}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">💖 Ngọc Becon Shop</div>
+  <div class="menu-btn" onclick="toggleMenu()">☰</div>
+</header>
+
+<nav id="menu">
+  <a onclick="openTab('home')">🏠 Trang chủ</a>
+  <a onclick="openTab('lienquan')">🔥 Liên Quân</a>
+  <a onclick="openTab('freefire')">🔫 Free Fire</a>
+  <a onclick="openTab('roblox')">🧱 Roblox</a>
+  <a onclick="openTab('caythue')">⚔️ Cày thuê</a>
+  <a onclick="openTab('nap')">💳 Nạp tiền</a>
+  <a onclick="openTab('vongquay')">🎡 Vòng quay</a>
+  <a onclick="openTab('lichsu')">📜 Lịch sử</a>
+  <a onclick="openTab('caidat')">⚙️ Cài đặt</a>
+</nav>
+
+<div class="container">
+
+<!-- LOGIN -->
+<div id="login" class="tab active">
+  <div class="card">
+    <h2>🔐 Đăng nhập</h2>
+    <input id="user" placeholder="Tài khoản">
+    <input id="pass" type="password" placeholder="Mật khẩu">
+    <button class="btn" onclick="login()">Đăng nhập</button>
   </div>
-</header><!-- ===== CONTENT ===== --><div class="main">  <div class="card">
+</div>
+
+<!-- HOME -->
+<div id="home" class="tab">
+  <div class="card">
     <h2>🔥 Shop game uy tín</h2>
-    <p>Số dư: <b>0đ</b></p>
-  </div>  <!-- LIÊN QUÂN -->  <div class="card">
-    <h2>⚔️ Cày rank Liên Quân</h2>
+    <p>Số dư: <b id="money">0</b>đ</p>
+  </div>
+</div>
+
+<!-- LIÊN QUÂN -->
+<div id="lienquan" class="tab">
+  <div class="card">
+    <h2>🔥 Cày rank Liên Quân</h2>
     <p>Vàng → Kim Cương: 10.000đ</p>
     <p>Kim Cương → Tinh Anh: 15.000đ</p>
     <p>Tinh Anh → Cao Thủ: 20.000đ</p>
     <p>1 sao: 2.000đ</p>
-    <button class="btn">Thuê cày</button>
-  </div>  <!-- FREE FIRE -->  <div class="card">
-    <h2>🔥 Cày rank Free Fire</h2>
+  </div>
+</div>
+
+<!-- FREE FIRE -->
+<div id="freefire" class="tab">
+  <div class="card">
+    <h2>🔫 Cày rank Free Fire</h2>
     <p>Vàng → Bạch Kim: 5.000đ</p>
     <p>Bạch Kim → KC: 10.000đ</p>
     <p>KC → Huyền Thoại: 15.000đ</p>
-    <button class="btn">Thuê cày</button>
-  </div>  <!-- NẠP TIỀN -->  <div class="card">
+  </div>
+</div>
+
+<!-- ROBLOX -->
+<div id="roblox" class="tab">
+  <div class="card">
+    <h2>🧱 Cày level Roblox</h2>
+    <p>Level 1 → 2800</p>
+    <p>Giá: RẺ – Liên hệ admin</p>
+  </div>
+</div>
+
+<!-- CÀY THUÊ -->
+<div id="caythue" class="tab">
+  <div class="card">
+    <h2>⚔️ Chọn dịch vụ cày</h2>
+    <select>
+      <option>Liên Quân</option>
+      <option>Free Fire</option>
+      <option>Roblox</option>
+    </select>
+    <button class="btn">Gửi đơn</button>
+  </div>
+</div>
+
+<!-- NẠP -->
+<div id="nap" class="tab">
+  <div class="card">
     <h2>💳 Nạp tiền</h2>
     <select>
-      <option>Thẻ Viettel</option>
-      <option>Thẻ Mobifone</option>
-      <option>Thẻ Vinaphone</option>
+      <option>Thẻ cào</option>
+      <option>Bank</option>
     </select>
-    <select>
-      <option>10.000đ</option>
-      <option>20.000đ</option>
-      <option>50.000đ</option>
-      <option>100.000đ</option>
-    </select>
-    <input placeholder="Số seri">
-    <input placeholder="Mã thẻ">
-    <button class="btn">Nạp thẻ</button>
-  </div></div><script>
+    <input placeholder="Mệnh giá / Số tiền">
+    <button class="btn" onclick="addMoney()">Nạp</button>
+  </div>
+</div>
+
+<!-- VÒNG QUAY -->
+<div id="vongquay" class="tab">
+  <div class="card" style="text-align:center">
+    <h2>🎡 Vòng quay may mắn</h2>
+    <p>Lượt quay: <b id="luot">1</b></p>
+
+    <div id="wheel" style="
+      width:220px;height:220px;
+      border-radius:50%;
+      margin:20px auto;
+      background:conic-gradient(
+        red,orange,yellow,green,cyan,blue,purple
+      );
+      transition:4s cubic-bezier(.17,.67,.14,1);
+      position:relative;">
+      <div style="position:absolute;top:-18px;left:50%;transform:translateX(-50%)">🔻</div>
+    </div>
+
+    <button class="btn" onclick="spin()">QUAY</button>
+    <h3 id="result"></h3>
+  </div>
+</div>
+
+<!-- LỊCH SỬ -->
+<div id="lichsu" class="tab">
+  <div class="card">
+    <h2>📜 Lịch sử</h2>
+    <p>Chưa có giao dịch</p>
+  </div>
+</div>
+
+<!-- CÀI ĐẶT -->
+<div id="caidat" class="tab">
+  <div class="card">
+    <h2>⚙️ Cài đặt</h2>
+    <input placeholder="Gmail liên kết">
+    <input type="password" placeholder="Mật khẩu mới">
+    <button class="btn">Lưu</button>
+  </div>
+</div>
+
+</div>
+
+<audio id="spinSound">
+  <source src="spin.mp3" type="audio/mpeg">
+</audio>
+
+<audio autoplay loop>
+  <source src="intro.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+let money=0,luot=1,deg=0;
+
 function toggleMenu(){
-  const m=document.getElementById("dropdownMenu");
-  m.style.display = m.style.display==="block"?"none":"block";
+  let m=document.getElementById("menu");
+  m.style.display=m.style.display=="block"?"none":"block";
 }
-</script></body>
+
+function openTab(id){
+  document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+  document.getElementById("menu").style.display="none";
+}
+
+function login(){
+  document.getElementById("login").classList.remove("active");
+  document.getElementById("home").classList.add("active");
+}
+
+function addMoney(){
+  money+=10000;
+  luot++;
+  document.getElementById("money").innerText=money;
+  document.getElementById("luot").innerText=luot;
+}
+
+function spin(){
+  if(luot<=0){alert("Hết lượt");return}
+  luot--;
+  document.getElementById("luot").innerText=luot;
+  document.getElementById("spinSound").play();
+  let r=Math.floor(Math.random()*7)+1;
+  let prize=r*3000;
+  deg+=360*5+r*(360/7);
+  wheel.style.transform=`rotate(${deg}deg)`;
+  setTimeout(()=>{
+    money+=prize;
+    document.getElementById("money").innerText=money;
+    result.innerHTML=`🎉 Trúng ${prize}đ`;
+  },4000);
+}
+</script>
+
+</body>
 </html>
