@@ -2,133 +2,203 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ngọc Becon</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
+*{box-sizing:border-box}
 body{
   margin:0;
   height:100vh;
-  background:linear-gradient(135deg,#ff9acb,#ffc1dc);
+  font-family:'Segoe UI',Arial;
+  background:linear-gradient(135deg,#ff6fb1,#ffd6ea);
+  overflow:hidden;
   display:flex;
   justify-content:center;
   align-items:center;
-  overflow:hidden;
-  font-family:sans-serif;
 }
 
 /* INTRO */
 #intro{
   position:fixed;
   inset:0;
-  background:linear-gradient(135deg,#ff77b7,#ffb3d9);
+  background:linear-gradient(135deg,#ff4f9a,#ff9fd6);
   display:flex;
   justify-content:center;
   align-items:center;
-  z-index:10;
+  z-index:20;
 }
-
 #intro button{
-  padding:18px 35px;
-  border-radius:40px;
+  padding:18px 34px;
   border:none;
+  border-radius:999px;
   font-size:18px;
   background:white;
   color:#ff4f9a;
-  box-shadow:0 0 30px pink;
+  box-shadow:0 0 40px #ff4f9a;
+  cursor:pointer;
+  animation:pulse 1.5s infinite;
+}
+@keyframes pulse{
+  0%{transform:scale(1)}
+  50%{transform:scale(1.1)}
+  100%{transform:scale(1)}
 }
 
 /* CARD */
 .card{
-  width:300px;
-  background:rgba(255,255,255,.35);
-  border-radius:25px;
-  padding:25px;
+  background:rgba(255,255,255,0.35);
+  backdrop-filter:blur(16px);
+  padding:28px;
+  border-radius:30px;
   text-align:center;
-  box-shadow:0 20px 40px rgba(255,105,180,.5);
-  backdrop-filter:blur(10px);
+  box-shadow:0 0 45px #ff4f9a;
+  width:90%;
+  max-width:360px;
+  color:#fff;
+  display:none;
 }
 
 /* AVATAR */
 .avatar{
-  width:120px;
-  height:120px;
+  width:140px;
+  height:140px;
   border-radius:50%;
-  margin:auto;
-  overflow:hidden;
-  box-shadow:0 0 25px pink;
-}
-.avatar img{
-  width:100%;
-  height:100%;
+  border:4px solid #fff;
   object-fit:cover;
+  box-shadow:0 0 30px #ff4f9a;
 }
 
 /* TEXT */
-h1{color:#ff4f9a;margin:15px 0 5px}
-p{color:white;opacity:.8;font-size:14px}
+h1{
+  margin:14px 0 6px;
+  text-shadow:0 0 12px #ff4f9a;
+}
+p{
+  margin:0 0 18px;
+  opacity:.9;
+}
 
 /* BUTTON */
-a{
-  display:inline-block;
-  margin:8px;
-  padding:10px 22px;
-  background:#ff5fa2;
+.btns{
+  display:flex;
+  gap:14px;
+  justify-content:center;
+}
+.btn{
+  padding:11px 20px;
+  border-radius:999px;
+  background:#ff4f9a;
   color:white;
-  border-radius:30px;
   text-decoration:none;
+  box-shadow:0 0 18px #ff4f9a;
+  font-size:14px;
 }
 
-/* HEART */
+/* HEART FLOAT */
 .heart{
   position:absolute;
-  animation:fly 2.5s linear forwards;
+  font-size:18px;
+  color:#ff4f9a;
+  animation:float 5s linear infinite;
 }
-@keyframes fly{
-  to{transform:translateY(-200px) scale(1.4);opacity:0}
+@keyframes float{
+  0%{transform:translateY(100vh);opacity:0}
+  20%{opacity:1}
+  100%{transform:translateY(-10vh);opacity:0}
+}
+
+/* METEOR */
+.meteor{
+  position:absolute;
+  width:2px;
+  height:80px;
+  background:linear-gradient(transparent,#fff);
+  opacity:.8;
+  animation:meteor 1.2s linear infinite;
+}
+@keyframes meteor{
+  0%{transform:translate(-100px,-100px)}
+  100%{transform:translate(300px,300px);opacity:0}
 }
 </style>
 </head>
-
 <body>
 
 <!-- INTRO -->
 <div id="intro">
-  <button id="startBtn">💗 Chạm để vào 💗</button>
+  <button onclick="start()">💗 Chạm để vào 💗</button>
 </div>
 
 <!-- MUSIC -->
-<audio id="music" preload="auto" loop>
+<audio id="music" loop>
   <source src="music.mp3" type="audio/mpeg">
 </audio>
 
 <!-- MAIN -->
-<div class="card">
-  <div class="avatar">
-    <img src="avatar.jpg">
+<div class="card" id="main">
+  <img src="avatar.jpg" class="avatar">
+  <h1>🌸 Ngọc Becon 🌸</h1>
+  <p>Xin• Chào • Bây bi</p>
+
+  <div class="btns">
+    <a class="btn" href="https://www.facebook.com/share/1DH9qdQhZy/" target="_blank">🐰 Facebook</a>
+    <a class="btn" href="https://discord.com/users/ngocbecon" target="_blank">🐿️ Discord</a>
   </div>
-  <h1>Ngọc Becon</h1>
-  <p>Pink • Cute • Lovely</p>
-  <a href="https://www.facebook.com/share/1DH9qdQhZy/" target="_blank">Facebook</a>
-  <a>Discord: ngocbecon</a>
 </div>
 
 <script>
-document.getElementById("startBtn").onclick = ()=>{
-  document.getElementById("intro").style.display="none";
-  const music=document.getElementById("music");
-  music.volume=0.8;
-  music.play().catch(()=>alert("⚠️ Nhạc không load – kiểm tra music.mp3"));
-};
+const music=document.getElementById("music");
 
-document.addEventListener("click",e=>{
-  const h=document.createElement("div");
+/* START */
+function start(){
+  document.getElementById("intro").style.display="none";
+  document.getElementById("main").style.display="block";
+
+  music.volume=0;
+  music.play();
+  let v=0;
+  let fade=setInterval(()=>{
+    if(v<1){v+=0.05;music.volume=v}
+    else clearInterval(fade);
+  },200);
+}
+
+/* HEART FLOAT */
+setInterval(()=>{
+  let h=document.createElement("div");
   h.className="heart";
-  h.innerText="💗";
-  h.style.left=e.pageX+"px";
-  h.style.top=e.pageY+"px";
+  h.innerHTML="💖";
+  h.style.left=Math.random()*100+"vw";
+  h.style.animationDuration=(3+Math.random()*3)+"s";
   document.body.appendChild(h);
-  setTimeout(()=>h.remove(),2500);
+  setTimeout(()=>h.remove(),6000);
+},500);
+
+/* METEOR */
+setInterval(()=>{
+  let m=document.createElement("div");
+  m.className="meteor";
+  m.style.left=Math.random()*100+"vw";
+  m.style.top=Math.random()*50+"vh";
+  document.body.appendChild(m);
+  setTimeout(()=>m.remove(),1200);
+},700);
+
+/* CLICK HEART + SHAKE */
+document.addEventListener("click",e=>{
+  let h=document.createElement("div");
+  h.innerHTML="💗";
+  h.style.position="absolute";
+  h.style.left=e.clientX+"px";
+  h.style.top=e.clientY+"px";
+  h.style.fontSize="22px";
+  h.style.pointerEvents="none";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),600);
+
+  document.body.style.transform="translateX(2px)";
+  setTimeout(()=>document.body.style.transform="",80);
 });
 </script>
 
