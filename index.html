@@ -2,61 +2,26 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<title>Ngọc Becon</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- FIX ZOOM -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+
+<title>💗 Ngọc Becon</title>
 
 <style>
-*{box-sizing:border-box}
-body{
+*{
   margin:0;
-  height:100vh;
-  font-family:'Segoe UI',Arial;
-  background:linear-gradient(135deg,#ff6fb1,#ffd6ea);
+  padding:0;
+  box-sizing:border-box;
+}
+
+html,body{
+  width:100%;
+  height:100%;
   overflow:hidden;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-}
-
-/* INTRO */
-#intro{
-  position:fixed;
-  inset:0;
-  background:linear-gradient(135deg,#ff4f9a,#ff9fd6);
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  z-index:20;
-}
-#intro button{
-  padding:18px 34px;
-  border:none;
-  border-radius:999px;
-  font-size:18px;
-  background:white;
-  color:#ff4f9a;
-  box-shadow:0 0 40px #ff4f9a;
-  cursor:pointer;
-  animation:pulse 1.5s infinite;
-}
-@keyframes pulse{
-  0%{transform:scale(1)}
-  50%{transform:scale(1.1)}
-  100%{transform:scale(1)}
-}
-
-/* CARD */
-.card{
-  background:rgba(255,255,255,0.35);
-  backdrop-filter:blur(16px);
-  padding:28px;
-  border-radius:30px;
-  text-align:center;
-  box-shadow:0 0 45px #ff4f9a;
-  width:90%;
-  max-width:360px;
-  color:#fff;
-  display:none;
+  background:linear-gradient(180deg,#ffb6d5,#ffd6e9);
+  font-family:sans-serif;
+  touch-action:manipulation;
 }
 
 /* AVATAR */
@@ -64,141 +29,131 @@ body{
   width:140px;
   height:140px;
   border-radius:50%;
-  border:4px solid #fff;
-  object-fit:cover;
-  box-shadow:0 0 30px #ff4f9a;
+  margin:120px auto 10px;
+  display:block;
+  border:5px solid #fff;
+  box-shadow:0 0 25px #ff6fae;
 }
 
-/* TEXT */
-h1{
-  margin:14px 0 6px;
-  text-shadow:0 0 12px #ff4f9a;
-}
-p{
-  margin:0 0 18px;
-  opacity:.9;
+/* TÊN */
+.name{
+  text-align:center;
+  font-size:26px;
+  color:#ff3f8e;
+  font-weight:bold;
 }
 
-/* BUTTON */
-.btns{
-  display:flex;
-  gap:14px;
-  justify-content:center;
-}
-.btn{
-  padding:11px 20px;
-  border-radius:999px;
-  background:#ff4f9a;
-  color:white;
-  text-decoration:none;
-  box-shadow:0 0 18px #ff4f9a;
-  font-size:14px;
+/* NÚT TIM */
+#heartBtn{
+  position:fixed;
+  bottom:25px;
+  right:25px;
+  width:65px;
+  height:65px;
+  border-radius:50%;
+  border:none;
+  background:linear-gradient(135deg,#ff4d9d,#ff9acb);
+  font-size:30px;
+  box-shadow:0 0 20px #ff6fb1;
+  animation:pulse 1.2s infinite;
+  z-index:9999;
 }
 
-/* HEART FLOAT */
+/* ĐẾM TIM */
+#heartCount{
+  position:fixed;
+  bottom:100px;
+  right:25px;
+  background:#fff;
+  padding:8px 14px;
+  border-radius:20px;
+  font-size:16px;
+  color:#ff3f8e;
+  box-shadow:0 0 10px #ff9acb;
+}
+
+@keyframes pulse{
+  0%{transform:scale(1)}
+  50%{transform:scale(1.15)}
+  100%{transform:scale(1)}
+}
+
+/* TIM BAY */
 .heart{
-  position:absolute;
-  font-size:18px;
-  color:#ff4f9a;
-  animation:float 5s linear infinite;
-}
-@keyframes float{
-  0%{transform:translateY(100vh);opacity:0}
-  20%{opacity:1}
-  100%{transform:translateY(-10vh);opacity:0}
+  position:fixed;
+  font-size:24px;
+  animation:fly 1s ease-out forwards;
 }
 
-/* METEOR */
-.meteor{
-  position:absolute;
-  width:2px;
-  height:80px;
-  background:linear-gradient(transparent,#fff);
-  opacity:.8;
-  animation:meteor 1.2s linear infinite;
+@keyframes fly{
+  from{opacity:1; transform:translate(0,0) scale(1)}
+  to{opacity:0; transform:translate(var(--x),var(--y)) scale(1.8)}
 }
-@keyframes meteor{
-  0%{transform:translate(-100px,-100px)}
-  100%{transform:translate(300px,300px);opacity:0}
+
+/* INTRO */
+#intro{
+  position:fixed;
+  inset:0;
+  background:#ffb6d5;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-size:30px;
+  color:white;
+  z-index:99999;
+  animation:introOut 1s forwards;
+  animation-delay:1.5s;
+}
+
+@keyframes introOut{
+  to{opacity:0; visibility:hidden}
 }
 </style>
 </head>
+
 <body>
 
-<!-- INTRO -->
-<div id="intro">
-  <button onclick="start()">💗 Chạm để vào 💗</button>
-</div>
+<div id="intro">💗 Welcome 💗</div>
 
-<!-- MUSIC -->
-<audio id="music" loop>
-  <source src="music.mp3" type="audio/mpeg">
-</audio>
+<img src="avatar.jpg" class="avatar">
+<div class="name">Ngọc Becon</div>
 
-<!-- MAIN -->
-<div class="card" id="main">
-  <img src="avatar.jpg" class="avatar">
-  <h1>🌸 Ngọc Becon 🌸</h1>
-  <p>Xin• Chào • Bây bi</p>
+<div id="heartCount">💗 0</div>
+<button id="heartBtn">💗</button>
 
-  <div class="btns">
-    <a class="btn" href="https://www.facebook.com/share/1DH9qdQhZy/" target="_blank">🐰 Facebook</a>
-    <a class="btn" href="https://discord.com/users/ngocbecon" target="_blank">🐿️ Discord</a>
-  </div>
-</div>
+<audio id="music" src="music.mp3" loop></audio>
 
 <script>
-const music=document.getElementById("music");
+let count = localStorage.getItem("heartCount") || 0;
+count = parseInt(count);
+document.getElementById("heartCount").innerText = "💗 " + count;
 
-/* START */
-function start(){
-  document.getElementById("intro").style.display="none";
-  document.getElementById("main").style.display="block";
+const music = document.getElementById("music");
+let started = false;
 
-  music.volume=0;
-  music.play();
-  let v=0;
-  let fade=setInterval(()=>{
-    if(v<1){v+=0.05;music.volume=v}
-    else clearInterval(fade);
-  },200);
-}
+document.body.addEventListener("click",()=>{
+  if(!started){
+    music.play().catch(()=>{});
+    started = true;
+  }
+},{once:true});
 
-/* HEART FLOAT */
-setInterval(()=>{
-  let h=document.createElement("div");
-  h.className="heart";
-  h.innerHTML="💖";
-  h.style.left=Math.random()*100+"vw";
-  h.style.animationDuration=(3+Math.random()*3)+"s";
-  document.body.appendChild(h);
-  setTimeout(()=>h.remove(),6000);
-},500);
+document.getElementById("heartBtn").addEventListener("click",()=>{
+  count++;
+  localStorage.setItem("heartCount",count);
+  document.getElementById("heartCount").innerText="💗 "+count;
 
-/* METEOR */
-setInterval(()=>{
-  let m=document.createElement("div");
-  m.className="meteor";
-  m.style.left=Math.random()*100+"vw";
-  m.style.top=Math.random()*50+"vh";
-  document.body.appendChild(m);
-  setTimeout(()=>m.remove(),1200);
-},700);
-
-/* CLICK HEART + SHAKE */
-document.addEventListener("click",e=>{
-  let h=document.createElement("div");
-  h.innerHTML="💗";
-  h.style.position="absolute";
-  h.style.left=e.clientX+"px";
-  h.style.top=e.clientY+"px";
-  h.style.fontSize="22px";
-  h.style.pointerEvents="none";
-  document.body.appendChild(h);
-  setTimeout(()=>h.remove(),600);
-
-  document.body.style.transform="translateX(2px)";
-  setTimeout(()=>document.body.style.transform="",80);
+  for(let i=0;i<12;i++){
+    let h=document.createElement("div");
+    h.className="heart";
+    h.innerText=["💗","💖","💕","💘"][Math.floor(Math.random()*4)];
+    h.style.left="50%";
+    h.style.top="80%";
+    h.style.setProperty("--x",(Math.random()*200-100)+"px");
+    h.style.setProperty("--y",(Math.random()*-250)+"px");
+    document.body.appendChild(h);
+    setTimeout(()=>h.remove(),1000);
+  }
 });
 </script>
 
