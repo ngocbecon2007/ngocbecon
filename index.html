@@ -1,127 +1,206 @@
-<!DOCTYPE html><html lang="vi">
+<!DOCTYPE html>
+<html lang="vi">
 <head>
 <meta charset="UTF-8">
-<title>Ngọc Becon</title>
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"><style>
-*{box-sizing:border-box;font-family:'Segoe UI',Arial}
+<title>Ngọc Becon • Official</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+
+<style>
+*{box-sizing:border-box}
+html,body{
+  margin:0;width:100%;height:100%;
+  font-family:'Segoe UI',Arial;
+  overflow:hidden;
+}
+
+/* nền gradient động */
 body{
-margin:0;height:100vh;
-background:linear-gradient(135deg,#ff6fb1,#ffd6ea);
-display:flex;justify-content:center;align-items:center;
-overflow:hidden;color:#fff
+  background:linear-gradient(270deg,#ff4f9a,#ff9fd6,#ffd1ea);
+  background-size:600% 600%;
+  animation:bg 12s ease infinite;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+@keyframes bg{
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
 }
 
-/* LOADING */
-#loading{
-position:fixed;inset:0;z-index:20;
-background:linear-gradient(135deg,#ff4f9a,#ff9fd6);
-display:flex;justify-content:center;align-items:center;
-font-size:22px;font-weight:bold;
-animation:pulse 1.5s infinite
-}
-@keyframes pulse{
-0%{transform:scale(1)}
-50%{transform:scale(1.1)}
-100%{transform:scale(1)}
+/* canvas nền */
+canvas{
+  position:fixed;
+  inset:0;
+  z-index:0;
 }
 
-/* CARD */
+/* card */
 .card{
-background:rgba(255,255,255,.35);
-backdrop-filter:blur(18px);
-padding:28px;border-radius:30px;
-text-align:center;
-box-shadow:0 0 45px #ff4f9a;
-width:90%;max-width:360px;
-display:none
+  position:relative;
+  z-index:2;
+  background:rgba(255,255,255,.35);
+  backdrop-filter:blur(20px);
+  border-radius:32px;
+  padding:34px 28px;
+  width:90%;
+  max-width:380px;
+  text-align:center;
+  box-shadow:0 0 60px rgba(255,79,154,.9);
+  animation:enter .9s cubic-bezier(.2,.8,.2,1);
+  color:#fff;
+}
+@keyframes enter{
+  from{transform:scale(.6) rotateX(30deg);opacity:0}
+  to{transform:scale(1);opacity:1}
 }
 
-/* AVATAR */
+/* avatar */
 .avatar{
-width:140px;height:140px;
-border-radius:50%;
-border:4px solid #fff;
-object-fit:cover;
-box-shadow:0 0 30px #ff4f9a
-}
-
-/* BUTTON */
-.btn{
-margin-top:14px;
-padding:12px 26px;
-border-radius:999px;border:none;
-background:#ff4f9a;color:#fff;
-font-size:15px;
-box-shadow:0 0 18px #ff4f9a;
-cursor:pointer
-}
-
-/* HEART FLOAT */
-.heart{
-position:absolute;
-font-size:18px;
-animation:float 5s linear infinite;
-color:#ff4f9a
+  width:150px;height:150px;
+  border-radius:50%;
+  object-fit:cover;
+  border:4px solid #fff;
+  box-shadow:0 0 35px #ff4f9a;
+  animation:float 4s ease-in-out infinite;
 }
 @keyframes float{
-0%{transform:translateY(100vh);opacity:0}
-20%{opacity:1}
-100%{transform:translateY(-10vh);opacity:0}
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-10px)}
 }
 
-/* METEOR */
-.meteor{
-position:absolute;
-width:2px;height:80px;
-background:linear-gradient(transparent,#fff);
-opacity:.7;
-animation:meteor 1.2s linear infinite
+/* chữ */
+h1{
+  margin:18px 0 6px;
+  font-size:26px;
+  text-shadow:0 0 18px #ff4f9a;
 }
-@keyframes meteor{
-0%{transform:translate(-100px,-100px)}
-100%{transform:translate(300px,300px);opacity:0}
-}
-</style></head><body><!-- LOADING --><div id="loading">💗 Ngọc Becon 💗</div><!-- MUSIC --><audio id="music" loop>
-<source src="music.mp3" type="audio/mpeg">
-</audio><!-- MAIN --><div class="card" id="main">
-<img src="avatar.jpg" class="avatar">
-<h2>🌸 Ngọc Becon 🌸</h2>
-<p>Shop Cày Thuê Uy Tín</p><button class="btn" onclick="enter()">🛒 Vào Shop</button>
-
-</div><script>
-const music=document.getElementById("music");
-
-/* LOADING AUTO */
-setTimeout(()=>{
-loading.style.display="none";
-main.style.display="block";
-},1800);
-
-/* ENTER */
-function enter(){
-music.play().catch(()=>{});
-window.open("shop.html","_blank");
+.tag{
+  font-size:14px;
+  opacity:.9;
+  margin-bottom:22px;
 }
 
-/* HEART FLOAT */
-setInterval(()=>{
-let h=document.createElement("div");
-h.className="heart";
-h.innerHTML="💖";
-h.style.left=Math.random()*100+"vw";
-h.style.animationDuration=(3+Math.random()*3)+"s";
-document.body.appendChild(h);
-setTimeout(()=>h.remove(),6000);
-},600);
+/* nút */
+.btn{
+  width:100%;
+  padding:15px;
+  border:none;
+  border-radius:999px;
+  background:#ff4f9a;
+  color:#fff;
+  font-size:17px;
+  box-shadow:0 0 30px #ff4f9a;
+  cursor:pointer;
+  transition:.25s;
+}
+.btn:hover{
+  transform:scale(1.1);
+  box-shadow:0 0 45px #ff2f85;
+}
 
-/* METEOR */
-setInterval(()=>{
-let m=document.createElement("div");
-m.className="meteor";
-m.style.left=Math.random()*100+"vw";
-m.style.top=Math.random()*50+"vh";
-document.body.appendChild(m);
-setTimeout(()=>m.remove(),1200);
-},900);
-</script></body>
+/* footer */
+.footer{
+  margin-top:18px;
+  font-size:12px;
+  opacity:.8;
+}
+
+/* click heart */
+.click-heart{
+  position:absolute;
+  pointer-events:none;
+  animation:pop .6s ease forwards;
+}
+@keyframes pop{
+  from{transform:scale(.5);opacity:1}
+  to{transform:scale(2);opacity:0}
+}
+
+/* loading */
+#loading{
+  position:fixed;
+  inset:0;
+  background:#ff4f9a;
+  z-index:9;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  color:#fff;
+  font-size:20px;
+  animation:fadeout 2.5s forwards;
+}
+@keyframes fadeout{
+  0%{opacity:1}
+  80%{opacity:1}
+  100%{opacity:0;pointer-events:none}
+}
+</style>
+</head>
+
+<body>
+
+<div id="loading">💗 Ngọc Becon Loading...</div>
+
+<canvas id="bg"></canvas>
+
+<div class="card">
+  <img src="avatar.jpg" class="avatar">
+  <h1>🌸 Ngọc Becon 🌸</h1>
+  <div class="tag">Shop Cày Thuê • Uy Tín • Giá Mềm</div>
+  <button class="btn" onclick="goShop()">🛒 Vào Shop Ngay</button>
+  <div class="footer">Official Website • Ngọc Becon</div>
+</div>
+
+<script>
+/* chuyển shop */
+function goShop(){
+  window.location.href="shop.html";
+}
+
+/* canvas tim sao */
+const c=document.getElementById("bg");
+const ctx=c.getContext("2d");
+function resize(){
+  c.width=innerWidth;c.height=innerHeight;
+}
+resize();onresize=resize;
+
+let parts=[];
+for(let i=0;i<80;i++){
+  parts.push({
+    x:Math.random()*c.width,
+    y:Math.random()*c.height,
+    r:Math.random()*2+1,
+    s:Math.random()*1+.3
+  });
+}
+function draw(){
+  ctx.clearRect(0,0,c.width,c.height);
+  ctx.fillStyle="rgba(255,255,255,.8)";
+  parts.forEach(p=>{
+    ctx.beginPath();
+    ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+    ctx.fill();
+    p.y-=p.s;
+    if(p.y<0)p.y=c.height;
+  });
+  requestAnimationFrame(draw);
+}
+draw();
+
+/* click nổ tim */
+document.addEventListener("click",e=>{
+  let h=document.createElement("div");
+  h.className="click-heart";
+  h.innerHTML="💗";
+  h.style.left=e.clientX+"px";
+  h.style.top=e.clientY+"px";
+  h.style.fontSize="24px";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),600);
+});
+</script>
+
+</body>
 </html>
