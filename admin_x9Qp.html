@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Admin</title>
+<style>
+body{font-family:Segoe UI;background:#111;color:#fff;padding:20px}
+table{width:100%;border-collapse:collapse}
+td,th{border:1px solid #444;padding:6px}
+</style>
+</head>
+<body>
+
+<h3>📊 DOANH THU</h3>
+<table>
+<tr><th>Tên</th><th>Dịch vụ</th><th>Tiền</th></tr>
+<tbody id="list"></tbody>
+</table>
+
+<script>
+let arr=JSON.parse(localStorage.getItem("orders")||"[]");
+let sum=0;
+arr.forEach(o=>{
+sum+=o.total;
+list.innerHTML+=`<tr><td>${o.name}</td><td>${o.service}</td><td>${o.total}</td></tr>`;
+});
+list.innerHTML+=`<tr><th colspan="2">Tổng</th><th>${sum}</th></tr>`;
+</script>
+</body>
+</html>
