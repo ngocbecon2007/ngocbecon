@@ -1,0 +1,162 @@
+<!DOCTYPE html><html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ngọc Becon</title><style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", sans-serif;
+}
+
+body {
+  height: 100vh;
+  background: linear-gradient(135deg, #ff9acb, #ffc1dc);
+  overflow: hidden;
+}
+
+/* INTRO */
+#intro {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(135deg, #ff77b7, #ffb3d9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+#intro button {
+  padding: 18px 35px;
+  border-radius: 40px;
+  border: none;
+  background: white;
+  color: #ff5fa2;
+  font-size: 18px;
+  font-weight: bold;
+  box-shadow: 0 0 25px rgba(255,105,180,0.8);
+}
+
+/* CARD */
+.card {
+  width: 300px;
+  background: rgba(255,255,255,0.35);
+  border-radius: 25px;
+  padding: 25px;
+  text-align: center;
+  margin: auto;
+  margin-top: 80px;
+  box-shadow: 0 20px 40px rgba(255,105,180,0.4);
+  backdrop-filter: blur(10px);
+}
+
+/* AVATAR */
+.avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  margin: auto;
+  overflow: hidden;
+  box-shadow: 0 0 30px rgba(255,105,180,0.9);
+}
+
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* TEXT */
+h1 {
+  margin-top: 15px;
+  color: #ff4f9a;
+}
+
+p {
+  color: white;
+  opacity: 0.8;
+  font-size: 14px;
+  margin-bottom: 15px;
+}
+
+/* BUTTONS */
+.btns a {
+  display: inline-block;
+  padding: 10px 20px;
+  border-radius: 30px;
+  background: #ff5fa2;
+  color: white;
+  text-decoration: none;
+  margin: 5px;
+  box-shadow: 0 0 15px rgba(255,105,180,0.6);
+}
+
+/* HEART */
+.heart {
+  position: absolute;
+  color: pink;
+  animation: fly 3s linear forwards;
+}
+
+@keyframes fly {
+  from {transform: translateY(0) scale(1); opacity:1;}
+  to {transform: translateY(-200px) scale(1.5); opacity:0;}
+}
+
+/* STAR */
+.star {
+  position: absolute;
+  width: 2px;
+  height: 80px;
+  background: linear-gradient(white, transparent);
+  animation: fall 1s linear forwards;
+}
+
+@keyframes fall {
+  to {transform: translateY(600px); opacity:0;}
+}
+</style></head><body><!-- INTRO --><div id="intro">
+  <button onclick="startSite()">💗 Chạm để vào Ngọc Becon 💗</button>
+</div><!-- MUSIC --><audio id="music" loop preload="auto">
+  <source src="music.mp3" type="audio/mpeg">
+</audio><!-- MAIN --><div class="card">
+  <div class="avatar">
+    <img src="avatar.jpg">
+  </div>  <h1>Ngọc Becon</h1>
+  <p> </p>  <div class="btns">
+    <a href="https://www.facebook.com/share/1DH9qdQhZy/" target="_blank">Facebook</a>
+    <a href="#">Discord: ngocbecon</a>
+  </div>
+</div><script>
+function startSite(){
+  document.getElementById("intro").style.display="none";
+  const music = document.getElementById("music");
+  music.volume = 0.8;
+  music.play();
+
+  setInterval(createStar,300);
+}
+
+/* CLICK HEART */
+document.addEventListener("click", e=>{
+  const heart = document.createElement("div");
+  heart.className="heart";
+  heart.innerHTML="💗";
+  heart.style.left=e.pageX+"px";
+  heart.style.top=e.pageY+"px";
+  document.body.appendChild(heart);
+  setTimeout(()=>heart.remove(),3000);
+});
+
+/* STAR */
+function createStar(){
+  const star=document.createElement("div");
+  star.className="star";
+  star.style.left=Math.random()*window.innerWidth+"px";
+  star.style.top="-100px";
+  document.body.appendChild(star);
+  setTimeout(()=>star.remove(),1000);
+}
+</script></body>
+</html>
