@@ -1,7 +1,8 @@
-<!DOCTYPE html><html lang="vi">
+<!DOCTYPE html>
+<html lang="vi">
 <head>
 <meta charset="UTF-8">
-<title>Ngọc Becon • Shop</title>
+<title>Ngọc Becon • Shop Game</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <style>
 *{box-sizing:border-box;font-family:Arial}
@@ -9,59 +10,71 @@ body{margin:0;background:#f2f3f7}
 nav{
 position:fixed;bottom:0;left:0;right:0;
 display:flex;background:#fff;border-top:1px solid #ddd}
-nav button{flex:1;padding:10px;border:none;background:none;font-size:13px}
-.page{display:none;padding:15px 15px 80px}
+nav button{
+flex:1;padding:10px;border:none;background:none;font-size:13px}
+.page{display:none;padding:15px 15px 70px}
 .box{
-background:#fff;border-radius:12px;padding:15px;
+background:#fff;border-radius:14px;padding:15px;
 box-shadow:0 0 15px #ccc;margin-bottom:15px}
 button.main{
-padding:10px 16px;border:none;border-radius:8px;
+padding:12px 16px;border:none;border-radius:8px;
 background:#ff4f9a;color:#fff;width:100%}
-input,select{width:100%;padding:8px;margin:6px 0}
-small{color:#666}
-hr{border:none;border-top:1px solid #eee}
+input,select{
+width:100%;padding:9px;margin:6px 0}
+.price{color:#ff4f9a;font-weight:bold}
 </style>
-</head><body><!-- LOGIN / REGISTER --><div class="page" id="login" style="display:block">
+</head>
+<body>
+
+<!-- LOGIN -->
+<div class="page" id="login" style="display:block">
 <div class="box">
-<h3>🔐 Đăng ký / Đăng nhập</h3>
+<h3>🔐 Đăng nhập / Đăng ký</h3>
 <input id="lu" placeholder="Tên tài khoản">
 <input id="lp" type="password" placeholder="Mật khẩu">
-<button class="main" onclick="login()">Vào Shop</button>
+<button class="main" onclick="login()">Vào shop</button>
 </div>
-</div><!-- HOME --><div class="page" id="home">
+</div>
+
+<!-- HOME -->
+<div class="page" id="home">
 <div class="box">
-<h3>Xin chào <span id="uname"></span></h3>
+<h3>👋 Xin chào <span id="uname"></span></h3>
 <p>Số dư: <b id="bal">0đ</b></p>
 </div>
-</div><!-- BOOST --><div class="page" id="boost">
+</div>
+
+<!-- BOOST -->
+<div class="page" id="boost">
 <div class="box">
-<h3>🎮 Chọn cày thuê</h3>
+<h3>🎮 Dịch vụ cày thuê</h3>
+
 <select id="game" onchange="loadRank()">
 <option value="rb">Roblox</option>
 <option value="lq">Liên Quân</option>
 <option value="ff">Free Fire</option>
 </select>
+
 <select id="rank"></select>
+
 <button class="main" onclick="order()">Đặt cày</button>
 </div>
-</div><!-- NAP --><div class="page" id="nap">
-<div class="box">
-<h3>💰 Nạp tiền</h3><h4>🔹 Nạp BANK / MoMo</h4>
-<p>Nội dung CK: <b id="napcode"></b></p>
-<img src="momo.jpg" width="180"><br><br>
-<input id="napbank" placeholder="Số tiền nạp">
-<button class="main" onclick="sendNap('bank')">Đã chuyển BANK</button><hr><h4>🎫 Nạp CARD</h4>
-<select id="cardType">
-<option>Viettel</option>
-<option>Vinaphone</option>
-<option>Mobifone</option>
-</select>
-<input placeholder="Mã thẻ">
-<input placeholder="Seri">
-<button class="main" onclick="sendNap('card')">Gửi thẻ</button><small>Admin xác nhận rồi mới cộng tiền</small>
-
 </div>
-</div><!-- SETTING --><div class="page" id="setting">
+
+<!-- NAP -->
+<div class="page" id="nap">
+<div class="box">
+<h3>💰 Nạp tiền</h3>
+<p>Nội dung chuyển khoản:</p>
+<b id="napcode"></b><br><br>
+<img src="momo.jpg" width="200"><br><br>
+<input id="napmoney" placeholder="Số tiền nạp">
+<button class="main" onclick="sendNap()">Đã chuyển tiền</button>
+</div>
+</div>
+
+<!-- SETTING -->
+<div class="page" id="setting">
 <div class="box">
 <h3>⚙️ Cài đặt</h3>
 <input id="newpass" type="password" placeholder="Mật khẩu mới">
@@ -70,76 +83,95 @@ hr{border:none;border-top:1px solid #eee}
 <input id="gmail" placeholder="Liên kết Gmail">
 <button onclick="saveGmail()">Lưu Gmail</button>
 </div>
-</div><nav>
+</div>
+
+<nav>
 <button onclick="go('home')">🏠</button>
 <button onclick="go('boost')">🎮</button>
 <button onclick="go('nap')">💰</button>
 <button onclick="go('setting')">⚙️</button>
-</nav><script>
+</nav>
+
+<script>
 let u=null;
 
 const prices={
 rb:[
-["Lv 1–100",3000],["Lv 1–300",9000],["Lv 1–700",20000],
-["Lv 1–1000",30000],["Lv 1–1500",50000],
-["Lv 1–2000",70000],["Lv 1–2400",95000],["Lv 1–2800 (MAX)",120000]
+["Level 1–100",2000],
+["Level 1–300",5000],
+["Level 1–700",12000],
+["Level 1–1000",18000],
+["Level 1–1500",30000],
+["Level 1–2000",45000],
+["Level 1–2400",65000],
+["Level 1–2800 (MAX)",80000]
 ],
 lq:[
-["Đồng → Bạc",10000],["Bạc → Vàng",20000],["Vàng → KC",65000]
+["Đồng → Bạc",5000],
+["Bạc → Vàng",5000],
+["Vàng → KC",10000]
 ],
 ff:[
-["+1 Rank",15000],["Full mùa",90000]
+["+1 Rank",10000],
+["Full mùa",50000]
 ]
 };
 
 function login(){
-if(!lu.value||!lp.value)return alert("Nhập đủ thông tin");
-let key="user_"+lu.value;
-let d=localStorage.getItem(key);
-if(!d){
-localStorage.setItem(key,JSON.stringify({pass:lp.value,balance:0,gmail:""}));
-}else{
-if(JSON.parse(d).pass!==lp.value)return alert("Sai mật khẩu");
+u=lu.value;
+if(!u)return alert("Nhập tài khoản");
+if(!localStorage.getItem("user_"+u)){
+localStorage.setItem("user_"+u,JSON.stringify({
+pass:lp.value,balance:0,gmail:""
+}));
 }
-u=lu.value;show("home");
+show("home");
 }
 
 function show(p){
 document.querySelectorAll(".page").forEach(e=>e.style.display="none");
 document.getElementById(p).style.display="block";
 uname.innerText=u;
+update();
 napcode.innerText="NAP_"+u;
-loadRank();update();
+loadRank();
 }
+
 function go(p){show(p)}
 
 function update(){
 let d=JSON.parse(localStorage.getItem("user_"+u));
 bal.innerText=d.balance.toLocaleString()+"đ";
-gmail.value=d.gmail||"";
 }
 
 function loadRank(){
 rank.innerHTML="";
 prices[game.value].forEach(p=>{
 let o=document.createElement("option");
-o.value=p[1];o.text=p[0]+" ("+p[1].toLocaleString()+"đ)";
+o.value=p[1];
+o.text=p[0]+" - "+p[1].toLocaleString()+"đ";
 rank.appendChild(o);
 });
 }
 
-function sendNap(type){
+function sendNap(){
+let money=napmoney.value;
+if(!money)return alert("Nhập số tiền");
+
+let msg=`📥 ĐƠN NẠP\n👤 ${u}\n💰 ${money}đ`;
+let url="https://m.me/NgocBecon?ref="+encodeURIComponent(msg);
+window.open(url,"_blank");
+
 let arr=JSON.parse(localStorage.getItem("nap_orders")||"[]");
-arr.push({user:u,type:type,money:Number(napbank.value||0),time:Date.now()});
+arr.push({user:u,money:Number(money)});
 localStorage.setItem("nap_orders",JSON.stringify(arr));
-alert("⏳ Đã gửi yêu cầu nạp, chờ admin duyệt");
-napbank.value="";
+alert("⏳ Chờ admin xác nhận");
 }
 
 function order(){
 let price=Number(rank.value);
 let d=JSON.parse(localStorage.getItem("user_"+u));
-if(d.balance<price)return alert("Không đủ số dư");
+if(d.balance<price)return alert("Không đủ tiền");
 d.balance-=price;
 localStorage.setItem("user_"+u,JSON.stringify(d));
 alert("✅ Đặt cày thành công");
@@ -159,5 +191,6 @@ d.gmail=gmail.value;
 localStorage.setItem("user_"+u,JSON.stringify(d));
 alert("✔ Đã lưu Gmail");
 }
-</script></body>
+</script>
+</body>
 </html>
