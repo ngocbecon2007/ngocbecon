@@ -1,243 +1,162 @@
-<!DOCTYPE html>
-<html lang="vi">
+<!DOCTYPE html><html lang="vi">
 <head>
 <meta charset="UTF-8">
-<title>Ngọc Becon Shop</title>
+<title>Ngọc Becon • Shop Game</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
 <style>
 *{box-sizing:border-box;font-family:Arial}
-body{margin:0;background:#f4f6fb}
-
-/* HEADER */
+body{margin:0;background:#140e1f;color:#fff}
 header{
-background:linear-gradient(135deg,#ff4f9a,#ff8cc7);
-color:#fff;padding:18px 40px;
-display:flex;align-items:center;justify-content:space-between
+background:linear-gradient(135deg,#ff2f92,#ff6fc4);
+padding:16px 40px;display:flex;justify-content:space-between;align-items:center
 }
-header h1{margin:0;font-size:22px}
-nav a{
-color:#fff;text-decoration:none;
-margin:0 12px;font-weight:bold;font-size:14px
-}
-nav a.active{text-decoration:underline}
-
-/* CONTAINER */
-.container{
-max-width:1150px;
-margin:auto;
-padding:25px
-}
-
-/* BOX */
+nav a{color:#fff;text-decoration:none;margin:0 12px;font-weight:bold}
+.container{max-width:1200px;margin:auto;padding:25px}
 .box{
-background:#fff;
-border-radius:16px;
-padding:22px;
-margin-bottom:25px;
-box-shadow:0 12px 30px rgba(0,0,0,.08)
+background:#1f1b2e;border-radius:14px;padding:20px;margin-bottom:20px;
+box-shadow:0 0 25px rgba(255,79,154,.15)
 }
 .hidden{display:none}
-h2{margin-top:0}
-
-/* BUTTON */
 .btn{
-background:#ff4f9a;
-color:#fff;
-border:none;
-border-radius:8px;
-padding:10px 18px;
-cursor:pointer;
-font-weight:bold
+background:#ff4f9a;border:none;color:#fff;padding:10px 18px;
+border-radius:8px;cursor:pointer;margin-top:8px
 }
-.btn:hover{opacity:.9}
-
-/* FORM */
-input,select{
-width:100%;
-padding:10px;
-margin:6px 0;
-border-radius:6px;
-border:1px solid #ccc
-}
-
-/* TABLE */
+input,select{width:100%;padding:9px;margin:6px 0;border-radius:6px;border:none}
 table{width:100%;border-collapse:collapse}
-th,td{padding:10px;border-bottom:1px solid #ddd}
-th{background:#ff4f9a;color:#fff}
-.price{color:#ff4f9a;font-weight:bold}
+th,td{padding:10px;border-bottom:1px solid #333}
+th{background:#ff4f9a}
+.wheel{display:flex;gap:10px;font-size:28px;margin:15px 0}
 </style>
-</head>
-
-<body>
-
-<!-- BẢO VỆ SHOP -->
-<script>
-const CURRENT_USER = localStorage.getItem("current_user");
-if(!CURRENT_USER){
-  location.href="auth.html";
-}
-</script>
-
-<header>
-  <h1>💖 Ngọc Becon Shop</h1>
-  <nav>
-    <a href="#" onclick="showPage('home')" class="active">Trang chủ</a>
-    <a href="#" onclick="showPage('roblox')">Roblox</a>
-    <a href="#" onclick="showPage('games')">Game khác</a>
-    <a href="#" onclick="showPage('nap')">Nạp tiền</a>
-    <a href="#" onclick="showPage('history')">Lịch sử</a>
-    <a href="#" onclick="showPage('account')">Tài khoản</a>
-  </nav>
-</header>
-
-<div class="container">
-
-<!-- HOME -->
-<div id="home" class="box">
-<h2>🔥 Shop game uy tín</h2>
-<p>Cày thuê giá rẻ – Xác nhận thủ công – Hỗ trợ nhanh</p>
-<ul>
-<li>Roblox 1 → 2800 (MAX)</li>
-<li>Liên Quân, Free Fire</li>
-<li>Nạp tiền qua Momo / Bank</li>
-</ul>
-</div>
-
-<!-- ROBLOX -->
-<div id="roblox" class="box hidden">
-<h2>🎮 Cày thuê Roblox</h2>
-<select id="rb">
-<option value="3000">Lv 1–100 (3.000đ)</option>
-<option value="8000">Lv 1–300 (8.000đ)</option>
-<option value="18000">Lv 1–700 (18.000đ)</option>
-<option value="28000">Lv 1–1000 (28.000đ)</option>
-<option value="45000">Lv 1–1500 (45.000đ)</option>
-<option value="65000">Lv 1–2000 (65.000đ)</option>
-<option value="90000">Lv 1–2400 (90.000đ)</option>
-<option value="115000">Lv 1–2800 MAX (115.000đ)</option>
+</head><body><header>
+<h2>💖 Ngọc Becon Shop</h2>
+<nav>
+<a onclick="show('home')">Trang chủ</a>
+<a onclick="show('lq')">Liên Quân</a>
+<a onclick="show('ff')">Free Fire</a>
+<a onclick="show('rb')">Roblox</a>
+<a onclick="show('nap')">Nạp tiền</a>
+<a onclick="show('spin')">Vòng quay</a>
+<a onclick="show('history')">Lịch sử</a>
+<a onclick="show('account')">Tài khoản</a>
+</nav>
+</header><div class="container"><!-- LOGIN --><div id="login" class="box">
+<h3>🔐 Đăng nhập / Đăng ký</h3>
+<input id="lu" placeholder="Tài khoản">
+<input id="lp" type="password" placeholder="Mật khẩu">
+<button class="btn" onclick="login()">Vào shop</button>
+</div><!-- HOME --><div id="home" class="box hidden">
+<h3>🔥 Shop game uy tín</h3>
+<p>Số dư: <b id="bal">0đ</b></p>
+</div><!-- LIEN QUAN --><div id="lq" class="box hidden">
+<h3>🔥 Liên Quân</h3>
+<button class="btn" onclick="order('LQ Vàng → Kim Cương',10000)">Vàng → KC (10k)</button>
+<button class="btn" onclick="order('LQ KC → Tinh Anh',15000)">KC → TA (15k)</button>
+<button class="btn" onclick="order('LQ TA → Cao Thủ',20000)">TA → Cao Thủ (20k)</button>
+<p>⭐ 1 sao = 2.000đ</p>
+</div><!-- FREE FIRE --><div id="ff" class="box hidden">
+<h3>🔥 Free Fire</h3>
+<button class="btn" onclick="order('FF Vàng → Bạch Kim',5000)">Vàng → BK (5k)</button>
+<button class="btn" onclick="order('FF BK → Kim Cương',10000)">BK → KC (10k)</button>
+<button class="btn" onclick="order('FF KC → Huyền Thoại',15000)">KC → HT (15k)</button>
+</div><!-- ROBLOX --><div id="rb" class="box hidden">
+<h3>🎮 Roblox</h3>
+<select id="rbprice">
+<option value="3000">Lv 1–100 (3k)</option>
+<option value="8000">Lv 1–300 (8k)</option>
+<option value="18000">Lv 1–700 (18k)</option>
+<option value="28000">Lv 1–1000 (28k)</option>
+<option value="45000">Lv 1–1500 (45k)</option>
+<option value="65000">Lv 1–2000 (65k)</option>
+<option value="90000">Lv 1–2400 (90k)</option>
+<option value="115000">Lv 1–2800 MAX (115k)</option>
 </select>
-<button class="btn" onclick="order('Roblox', rb.value)">Đặt cày</button>
-</div>
-
-<!-- GAME KHÁC -->
-<div id="games" class="box hidden">
-<h2>🎯 Game khác</h2>
-<button class="btn" onclick="order('Liên Quân +1 Rank',20000)">Liên Quân +1 Rank</button>
-<br><br>
-<button class="btn" onclick="order('Free Fire +1 Rank',15000)">Free Fire +1 Rank</button>
-</div>
-
-<!-- NẠP -->
-<div id="nap" class="box hidden">
-<h2>💰 Nạp tiền</h2>
-<p>Nội dung chuyển khoản:</p>
-<b>NAP_<span id="user"></span></b><br><br>
-<img src="momo.jpg" width="200"><br><br>
-<input id="money" placeholder="Số tiền">
+<button class="btn" onclick="order('Roblox',rbprice.value)">Đặt cày</button>
+</div><!-- NAP --><div id="nap" class="box hidden">
+<h3>💰 Nạp tiền</h3>
+<h4>Nạp thẻ cào</h4>
+<select><option>Viettel</option><option>Mobifone</option><option>Vinaphone</option></select>
+<input placeholder="Mệnh giá">
+<input placeholder="Seri">
+<input placeholder="Mã thẻ">
+<button class="btn">Gửi thẻ</button><hr>
+<h4>Nạp Bank / MoMo</h4>
+<p>Nội dung: <b>NAP_<span id="user"></span></b></p>
+<img src="momo.jpg" width="200"><br>
+<input id="napmoney" placeholder="Số tiền">
 <button class="btn" onclick="nap()">Đã chuyển tiền</button>
-</div>
-
-<!-- LỊCH SỬ -->
-<div id="history" class="box hidden">
-<h2>📜 Lịch sử đơn</h2>
+</div><!-- SPIN --><div id="spin" class="box hidden">
+<h3>🎡 Vòng quay may mắn</h3>
+<p>10.000đ / 1 lượt – mỗi màu +3.000đ</p>
+<div class="wheel">🔴 🟠 🟡 🟢 🔵 🟣 🟤</div>
+<button class="btn" onclick="spin()">QUAY</button>
+</div><!-- HISTORY --><div id="history" class="box hidden">
+<h3>📜 Lịch sử</h3>
 <table>
-<thead>
-<tr>
-<th>Game</th>
-<th>Giá</th>
-<th>Trạng thái</th>
-</tr>
-</thead>
+<thead><tr><th>Nội dung</th><th>Giá</th><th>Trạng thái</th></tr></thead>
 <tbody id="his"></tbody>
 </table>
-</div>
-
-<!-- TÀI KHOẢN -->
-<div id="account" class="box hidden">
-<h2>👤 Tài khoản</h2>
-<p>Tên: <b id="uname"></b></p>
-<p>Số dư: <span class="price" id="bal">0đ</span></p>
-
+</div><!-- ACCOUNT --><div id="account" class="box hidden">
+<h3>⚙️ Tài khoản</h3>
+<p>User: <b id="uname"></b></p>
 <input id="gmail" placeholder="Liên kết Gmail">
-<button class="btn" onclick="saveGmail()">Lưu Gmail</button>
-
-<hr>
-<button class="btn" onclick="logout()">Đăng xuất</button>
-</div>
-
-</div>
-
-<audio id="music" src="music.mp3" loop></audio>
+<button class="btn" onclick="save()">Lưu</button>
+</div></div><audio id="music" src="music.mp3" loop></audio>
+<audio id="spinSound" src="spin.mp3"></audio>
 
 <script>
-const u = CURRENT_USER;
-user.innerText = u;
-uname.innerText = u;
-
-if(!localStorage.getItem("data_"+u)){
-localStorage.setItem("data_"+u, JSON.stringify({
-balance:0,
-gmail:"",
-history:[]
-}));
+let u=null;
+function login(){
+u=lu.value;if(!u)return;
+if(!localStorage.getItem("u_"+u)){
+localStorage.setItem("u_"+u,JSON.stringify({bal:0,his:[],gmail:""}));
 }
-
-function showPage(id){
-document.querySelectorAll(".box").forEach(e=>e.classList.add("hidden"));
-document.getElementById(id).classList.remove("hidden");
-document.querySelectorAll("nav a").forEach(a=>a.classList.remove("active"));
-event.target.classList.add("active");
-loadData();
+loginBox(false);
 }
-
-function loadData(){
-let d = JSON.parse(localStorage.getItem("data_"+u));
-bal.innerText = d.balance.toLocaleString()+"đ";
-gmail.value = d.gmail;
-his.innerHTML = "";
-d.history.forEach(o=>{
-his.innerHTML += `
-<tr>
-<td>${o.game}</td>
-<td>${o.price.toLocaleString()}đ</td>
-<td>${o.status}</td>
-</tr>`;
-});
-}
-
-function order(game,price){
-let d = JSON.parse(localStorage.getItem("data_"+u));
-d.history.push({
-game,
-price:Number(price),
-status:"Đang xử lý"
-});
-localStorage.setItem("data_"+u,JSON.stringify(d));
-alert("✅ Đã nhận đơn");
-loadData();
-}
-
-function nap(){
-alert("⏳ Đã gửi yêu cầu nạp – chờ admin duyệt");
-}
-
-function saveGmail(){
-let d = JSON.parse(localStorage.getItem("data_"+u));
-d.gmail = gmail.value;
-localStorage.setItem("data_"+u,JSON.stringify(d));
-alert("✔ Đã lưu Gmail");
-}
-
-function logout(){
-localStorage.removeItem("current_user");
-location.href="index.html";
-}
-
-loadData();
-music.volume = 0.5;
+function loginBox(ok){
+document.getElementById("login").classList.toggle("hidden",ok);
+show("home");
 music.play().catch(()=>{});
-</script>
-
-</body>
+}
+function show(id){
+document.querySelectorAll(".box").forEach(b=>b.classList.add("hidden"));
+document.getElementById(id).classList.remove("hidden");
+user.innerText=u; uname.innerText=u; load();
+}
+function load(){
+let d=JSON.parse(localStorage.getItem("u_"+u));
+bal.innerText=d.bal.toLocaleString()+"đ";
+gmail.value=d.gmail;
+his.innerHTML="";
+d.his.forEach(o=>{
+his.innerHTML+=`<tr><td>${o.n}</td><td>${o.p}</td><td>${o.s}</td></tr>`;
+});
+}
+function order(n,p){
+let d=JSON.parse(localStorage.getItem("u_"+u));
+if(d.bal<p)return alert("Không đủ tiền");
+d.bal-=Number(p);
+d.his.push({n,p:p+"đ",s:"Đang xử lý"});
+localStorage.setItem("u_"+u,JSON.stringify(d));
+load();alert("✅ Đã đặt đơn");
+}
+function nap(){alert("⏳ Chờ admin xác nhận nạp");}
+function spin(){
+let d=JSON.parse(localStorage.getItem("u_"+u));
+if(d.bal<10000)return alert("Cần 10k");
+d.bal-=10000;
+spinSound.play();
+setTimeout(()=>{
+d.bal+=3000;
+d.his.push({n:"Vòng quay",p:"+3000đ",s:"Thành công"});
+localStorage.setItem("u_"+u,JSON.stringify(d));
+load();alert("🎉 Trúng +3.000đ");
+},1200);
+}
+function save(){
+let d=JSON.parse(localStorage.getItem("u_"+u));
+d.gmail=gmail.value;
+localStorage.setItem("u_"+u,JSON.stringify(d));
+alert("✔ Đã lưu");
+}
+</script></body>
 </html>
