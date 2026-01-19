@@ -1,0 +1,70 @@
+<!DOCTYPE html><html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Đăng nhập • Ngọc Becon</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+body{margin:0;font-family:Arial;background:#f2f3f7}
+.box{
+max-width:420px;margin:40px auto;
+background:#fff;border-radius:16px;
+padding:20px;box-shadow:0 0 25px #ddd}
+.tabs{display:flex;margin-bottom:15px}
+.tabs button{
+flex:1;padding:10px;border:none;
+background:#eee;font-weight:bold}
+.tabs button.active{
+background:#ff4f9a;color:#fff}
+input{width:100%;padding:10px;margin:6px 0}
+button.main{
+width:100%;padding:12px;
+border:none;border-radius:10px;
+background:#ff4f9a;color:#fff;font-size:16px}
+</style>
+</head>
+<body><div class="box">
+<div class="tabs">
+<button id="tLogin" class="active" onclick="show('login')">Đăng nhập</button>
+<button id="tReg" onclick="show('reg')">Đăng ký</button>
+</div><div id="login">
+<input id="lu" placeholder="Tên tài khoản">
+<input id="lp" type="password" placeholder="Mật khẩu">
+<button class="main" onclick="login()">Vào shop</button>
+</div><div id="reg" style="display:none">
+<input id="ru" placeholder="Tên tài khoản">
+<input id="rp" type="password" placeholder="Mật khẩu">
+<input id="rg" placeholder="Gmail">
+<button class="main" onclick="register()">Đăng ký</button>
+</div>
+</div><script>
+function show(p){
+login.style.display="none";
+reg.style.display="none";
+tLogin.classList.remove("active");
+tReg.classList.remove("active");
+if(p==="login"){login.style.display="block";tLogin.classList.add("active")}
+else{reg.style.display="block";tReg.classList.add("active")}
+}
+
+function register(){
+if(!ru.value||!rp.value)return alert("Nhập đủ thông tin");
+if(localStorage.getItem("user_"+ru.value))
+return alert("Tài khoản tồn tại");
+
+localStorage.setItem("user_"+ru.value,JSON.stringify({
+pass:rp.value,gmail:rg.value,balance:0
+}));
+alert("Đăng ký thành công");
+show("login");
+}
+
+function login(){
+let d=localStorage.getItem("user_"+lu.value);
+if(!d)return alert("Sai tài khoản");
+d=JSON.parse(d);
+if(d.pass!==lp.value)return alert("Sai mật khẩu");
+localStorage.setItem("current_user",lu.value);
+location.href="shop.html";
+}
+</script></body>
+</html>
