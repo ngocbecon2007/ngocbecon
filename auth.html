@@ -1,70 +1,85 @@
-<!DOCTYPE html><html lang="vi">
+<!DOCTYPE html>
+<html lang="vi">
 <head>
 <meta charset="UTF-8">
 <title>Đăng nhập • Ngọc Becon</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <style>
-body{margin:0;font-family:Arial;background:#f2f3f7}
+body{
+margin:0;height:100vh;
+display:flex;justify-content:center;align-items:center;
+background:#f4f6fb;font-family:Arial
+}
 .box{
-max-width:420px;margin:40px auto;
-background:#fff;border-radius:16px;
-padding:20px;box-shadow:0 0 25px #ddd}
-.tabs{display:flex;margin-bottom:15px}
-.tabs button{
-flex:1;padding:10px;border:none;
-background:#eee;font-weight:bold}
-.tabs button.active{
-background:#ff4f9a;color:#fff}
-input{width:100%;padding:10px;margin:6px 0}
-button.main{
+width:340px;background:#fff;
+padding:25px;border-radius:16px;
+box-shadow:0 10px 30px rgba(0,0,0,.15)
+}
+h2{text-align:center;color:#ff4f9a}
+input{
+width:100%;padding:10px;margin:8px 0;
+border-radius:8px;border:1px solid #ccc
+}
+button{
 width:100%;padding:12px;
-border:none;border-radius:10px;
-background:#ff4f9a;color:#fff;font-size:16px}
+border:none;border-radius:8px;
+background:#ff4f9a;color:#fff;
+font-size:15px;margin-top:10px
+}
+.toggle{text-align:center;margin-top:10px;font-size:13px}
+.toggle a{color:#ff4f9a;cursor:pointer}
 </style>
 </head>
-<body><div class="box">
-<div class="tabs">
-<button id="tLogin" class="active" onclick="show('login')">Đăng nhập</button>
-<button id="tReg" onclick="show('reg')">Đăng ký</button>
-</div><div id="login">
-<input id="lu" placeholder="Tên tài khoản">
-<input id="lp" type="password" placeholder="Mật khẩu">
-<button class="main" onclick="login()">Vào shop</button>
-</div><div id="reg" style="display:none">
-<input id="ru" placeholder="Tên tài khoản">
-<input id="rp" type="password" placeholder="Mật khẩu">
-<input id="rg" placeholder="Gmail">
-<button class="main" onclick="register()">Đăng ký</button>
+<body>
+
+<div class="box">
+<h2 id="title">Đăng nhập</h2>
+
+<input id="user" placeholder="Tên tài khoản">
+<input id="pass" type="password" placeholder="Mật khẩu">
+<input id="gmail" placeholder="Gmail (khi đăng ký)" style="display:none">
+
+<button onclick="submit()">Xác nhận</button>
+
+<div class="toggle">
+<span id="txt">Chưa có tài khoản?</span>
+<a onclick="toggle()">Đăng ký</a>
 </div>
-</div><script>
-function show(p){
-login.style.display="none";
-reg.style.display="none";
-tLogin.classList.remove("active");
-tReg.classList.remove("active");
-if(p==="login"){login.style.display="block";tLogin.classList.add("active")}
-else{reg.style.display="block";tReg.classList.add("active")}
+</div>
+
+<script>
+let mode="login";
+
+function toggle(){
+mode = mode==="login" ? "register" : "login";
+title.innerText = mode==="login"?"Đăng nhập":"Đăng ký";
+gmail.style.display = mode==="register"?"block":"none";
+txt.innerText = mode==="login"?"Chưa có tài khoản?":"Đã có tài khoản?";
 }
 
-function register(){
-if(!ru.value||!rp.value)return alert("Nhập đủ thông tin");
-if(localStorage.getItem("user_"+ru.value))
-return alert("Tài khoản tồn tại");
+function submit(){
+let u=user.value.trim(), p=pass.value;
+if(!u||!p) return alert("Nhập đủ thông tin");
 
-localStorage.setItem("user_"+ru.value,JSON.stringify({
-pass:rp.value,gmail:rg.value,balance:0
+let key="user_"+u;
+let data=localStorage.getItem(key);
+
+if(mode==="register"){
+if(data) return alert("❌ Tài khoản đã tồn tại");
+localStorage.setItem(key,JSON.stringify({
+pass:p,gmail:gmail.value,balance:0,history:[]
 }));
-alert("Đăng ký thành công");
-show("login");
-}
-
-function login(){
-let d=localStorage.getItem("user_"+lu.value);
-if(!d)return alert("Sai tài khoản");
-d=JSON.parse(d);
-if(d.pass!==lp.value)return alert("Sai mật khẩu");
-localStorage.setItem("current_user",lu.value);
+alert("✅ Đăng ký thành công");
+toggle();
+}else{
+if(!data) return alert("❌ Tài khoản không tồn tại");
+data=JSON.parse(data);
+if(data.pass!==p) return alert("❌ Sai mật khẩu");
+localStorage.setItem("current_user",u);
 location.href="shop.html";
 }
-</script></body>
+}
+</script>
+
+</body>
 </html>
