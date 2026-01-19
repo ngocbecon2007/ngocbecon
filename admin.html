@@ -2,181 +2,196 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<title>Admin Panel - Ngọc Becon Shop</title>
+<title>Admin Panel – Ngọc Becon Shop</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
 *{box-sizing:border-box;font-family:Arial}
-body{margin:0;background:#0b0014;color:#fff}
+body{margin:0;background:#120017;color:#fff}
+
+/* HEADER */
 header{
-background:linear-gradient(90deg,#ff3f9e,#ff7ac8);
-padding:16px;font-size:20px;font-weight:bold
+background:linear-gradient(135deg,#ff2f92,#ff78c4);
+padding:16px 30px;
+display:flex;justify-content:space-between;align-items:center
 }
-.container{padding:20px;max-width:1200px;margin:auto}
-.card{
-background:#16001f;border-radius:14px;
-padding:15px;margin-bottom:15px;
-box-shadow:0 0 20px #ff3f9e33
+nav a{
+color:#fff;
+margin:0 12px;
+cursor:pointer;
+font-weight:bold
 }
-h2{margin-top:0}
-input,select{
-width:100%;padding:9px;margin:5px 0;
-border-radius:8px;border:none
+nav a.active{border-bottom:2px solid #fff}
+
+/* CONTENT */
+.container{max-width:1200px;margin:auto;padding:25px}
+.page{display:none}
+.page.active{display:block}
+
+.box{
+background:#1c0027;
+padding:20px;
+border-radius:16px;
+margin-bottom:20px;
+box-shadow:0 0 25px rgba(255,79,154,.4)
 }
-button{
-background:#ff3f9e;color:#fff;
-border:none;padding:8px 14px;
-border-radius:8px;font-weight:bold;
-cursor:pointer
+h2{color:#ff78c4;margin-top:0}
+
+table{
+width:100%;
+border-collapse:collapse
 }
-table{width:100%;border-collapse:collapse}
 th,td{
-padding:8px;border-bottom:1px solid #333;
+padding:10px;
+border-bottom:1px solid #333;
 text-align:left
 }
-th{background:#ff3f9e}
-.hidden{display:none}
-.success{color:#6dff9a}
-.warn{color:#ffd36d}
+th{background:#ff4f9a}
+input,select{
+padding:8px;
+border-radius:8px;
+border:none;
+width:100%
+}
+.btn{
+padding:8px 14px;
+border:none;
+border-radius:8px;
+background:linear-gradient(135deg,#ff2f92,#ff78c4);
+color:#fff;
+cursor:pointer;
+font-weight:bold
+}
+.small{width:120px}
 </style>
 </head>
 
 <body>
 
-<header>🛠 ADMIN PANEL – NGỌC BECON SHOP</header>
+<header>
+<h3>🛠 ADMIN – NGỌC BECON SHOP</h3>
+<nav>
+<a onclick="show('users')" class="active">Users</a>
+<a onclick="show('nap')">Duyệt nạp</a>
+<a onclick="show('orders')">Đơn cày</a>
+<a onclick="show('stats')">Thống kê</a>
+</nav>
+</header>
 
 <div class="container">
 
-<!-- LOGIN -->
-<div id="login" class="card">
-<h2>🔐 Đăng nhập Admin</h2>
-<input id="au" placeholder="Admin user">
-<input id="ap" type="password" placeholder="Admin password">
-<button onclick="login()">Đăng nhập</button>
-</div>
-
-<!-- ADMIN -->
-<div id="admin" class="hidden">
-
-<!-- USER LIST -->
-<div class="card">
-<h2>👥 Danh sách người dùng</h2>
+<!-- USERS -->
+<div id="users" class="page active box">
+<h2>👥 Quản lý người dùng</h2>
 <table>
-<thead>
-<tr><th>User</th><th>Số dư</th><th>Cộng tiền</th></tr>
-</thead>
-<tbody id="users"></tbody>
+<tr>
+<th>User</th>
+<th>Số dư</th>
+<th>Cộng tiền</th>
+</tr>
+<tbody id="userList"></tbody>
 </table>
 </div>
 
-<!-- NẠP CHỜ DUYỆT -->
-<div class="card">
+<!-- NẠP -->
+<div id="nap" class="page box">
 <h2>💰 Yêu cầu nạp tiền</h2>
+<p>(Demo local – sau này có backend sẽ tự động)</p>
 <table>
-<thead>
-<tr><th>User</th><th>Số tiền</th><th>Hành động</th></tr>
-</thead>
-<tbody id="naps"></tbody>
+<tr>
+<th>User</th>
+<th>Số tiền</th>
+<th>Hành động</th>
+</tr>
+<tbody id="napList">
+<tr>
+<td>Ngocbecon</td>
+<td>50,000đ</td>
+<td><button class="btn">Duyệt</button></td>
+</tr>
+</tbody>
 </table>
 </div>
 
-<!-- THỐNG KÊ -->
-<div class="card">
-<h2>📊 Thống kê</h2>
-<p>Tổng user: <b id="totalUser">0</b></p>
-<p>Tổng tiền hệ thống: <b id="totalMoney">0đ</b></p>
+<!-- ĐƠN -->
+<div id="orders" class="page box">
+<h2>📦 Đơn cày thuê</h2>
+<table>
+<tr>
+<th>User</th>
+<th>Game</th>
+<th>Nội dung</th>
+<th>Trạng thái</th>
+</tr>
+<tbody>
+<tr>
+<td>Ngocbecon</td>
+<td>Roblox</td>
+<td>Lv 1 → 700</td>
+<td>
+<select>
+<option>Chờ xử lý</option>
+<option>Đang làm</option>
+<option>Hoàn thành</option>
+</select>
+</td>
+</tr>
+</tbody>
+</table>
 </div>
 
+<!-- STATS -->
+<div id="stats" class="page box">
+<h2>📊 Thống kê</h2>
+<p id="totalUser"></p>
+<p id="totalMoney"></p>
 </div>
+
 </div>
 
 <script>
-/* ==== CONFIG ADMIN ==== */
-const ADMIN_USER = "admin";
-const ADMIN_PASS = "123456";
-
-/* ==== LOGIN ==== */
-function login(){
-if(au.value===ADMIN_USER && ap.value===ADMIN_PASS){
-loginBox.style.display="none";
-admin.classList.remove("hidden");
-loadAll();
-}else alert("❌ Sai tài khoản admin");
+const pages=document.querySelectorAll(".page");
+const links=document.querySelectorAll("nav a");
+function show(id){
+pages.forEach(p=>p.classList.remove("active"));
+document.getElementById(id).classList.add("active");
+links.forEach(a=>a.classList.remove("active"));
+event.target.classList.add("active");
 }
 
-/* ==== LOAD USERS ==== */
-function loadAll(){
-users.innerHTML="";
-naps.innerHTML="";
-let total=0, money=0;
+/* USERS */
+let users=JSON.parse(localStorage.getItem("users")||"{}");
+let balances=JSON.parse(localStorage.getItem("balances")||"{}");
+const ul=document.getElementById("userList");
 
-for(let k in localStorage){
-if(k.startsWith("data_")){
-let u=k.replace("data_","");
-let d=JSON.parse(localStorage[k]);
-total++; money+=d.balance||0;
-
-users.innerHTML+=`
+function renderUsers(){
+ul.innerHTML="";
+let total=0,count=0;
+for(let u in users){
+count++;
+let b=balances[u]||0;
+total+=b;
+ul.innerHTML+=`
 <tr>
 <td>${u}</td>
-<td>${(d.balance||0).toLocaleString()}đ</td>
+<td>${b}đ</td>
 <td>
-<input id="add_${u}" placeholder="Số tiền">
-<button onclick="addMoney('${u}')">+</button>
+<input class="small" id="add_${u}" placeholder="Số tiền">
+<button class="btn" onclick="addMoney('${u}')">+</button>
 </td>
 </tr>`;
 }
+document.getElementById("totalUser").innerText="👤 Tổng user: "+count;
+document.getElementById("totalMoney").innerText="💵 Tổng tiền hệ thống: "+total+"đ";
 }
 
-let napArr=JSON.parse(localStorage.getItem("nap_orders")||"[]");
-napArr.forEach((n,i)=>{
-naps.innerHTML+=`
-<tr>
-<td>${n.user}</td>
-<td>${Number(n.money).toLocaleString()}đ</td>
-<td>
-<button onclick="approve(${i})">Duyệt</button>
-<button onclick="reject(${i})">Xóa</button>
-</td>
-</tr>`;
-});
-
-totalUser.innerText=total;
-totalMoney.innerText=money.toLocaleString()+"đ";
-}
-
-/* ==== CỘNG TIỀN THỦ CÔNG ==== */
 function addMoney(u){
-let val=Number(document.getElementById("add_"+u).value);
-if(!val) return;
-let d=JSON.parse(localStorage.getItem("data_"+u));
-d.balance=(d.balance||0)+val;
-localStorage.setItem("data_"+u,JSON.stringify(d));
-alert("✅ Đã cộng tiền cho "+u);
-loadAll();
+let v=parseInt(document.getElementById("add_"+u).value||0);
+balances[u]=(balances[u]||0)+v;
+localStorage.setItem("balances",JSON.stringify(balances));
+renderUsers();
 }
 
-/* ==== DUYỆT NẠP ==== */
-function approve(i){
-let arr=JSON.parse(localStorage.getItem("nap_orders")||"[]");
-let n=arr[i];
-let d=JSON.parse(localStorage.getItem("data_"+n.user));
-d.balance=(d.balance||0)+Number(n.money);
-localStorage.setItem("data_"+n.user,JSON.stringify(d));
-arr.splice(i,1);
-localStorage.setItem("nap_orders",JSON.stringify(arr));
-alert("✔ Đã duyệt nạp");
-loadAll();
-}
-
-function reject(i){
-let arr=JSON.parse(localStorage.getItem("nap_orders")||"[]");
-arr.splice(i,1);
-localStorage.setItem("nap_orders",JSON.stringify(arr));
-loadAll();
-}
-
-/* AUTO */
-const loginBox=document.getElementById("login");
+renderUsers();
 </script>
 
 </body>
