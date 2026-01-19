@@ -1,0 +1,202 @@
+<!DOCTYPE html><html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Admin Panel • Ngọc Becon</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+*{box-sizing:border-box;font-family:Segoe UI,Arial}
+body{margin:0;background:#0f0f14;color:#fff}/* LOGIN */
+#login{
+height:100vh;display:flex;
+justify-content:center;align-items:center}
+.loginBox{
+background:#1b1b25;padding:25px;
+border-radius:16px;width:320px;
+box-shadow:0 0 40px #000}
+.loginBox h2{text-align:center;color:#ff4f9a}
+.loginBox input{
+width:100%;padding:10px;margin:8px 0;
+border:none;border-radius:8px}
+.loginBox button{
+width:100%;padding:10px;border:none;
+border-radius:8px;background:#ff4f9a;color:#fff}
+
+/* PANEL */
+#panel{display:none}
+header{
+background:#1b1b25;padding:14px;
+display:flex;justify-content:space-between;
+align-items:center}
+header b{color:#ff4f9a}
+
+nav{
+display:flex;gap:10px;padding:10px;
+background:#15151e}
+nav button{
+flex:1;padding:10px;border:none;
+border-radius:10px;background:#222;
+color:#fff}
+
+.box{
+background:#1b1b25;border-radius:16px;
+padding:15px;margin:12px}
+
+table{
+width:100%;border-collapse:collapse}
+th,td{
+border-bottom:1px solid #333;
+padding:8px;font-size:13px}
+th{color:#ff4f9a}
+
+button.small{
+padding:5px 10px;border:none;
+border-radius:6px;background:#ff4f9a;color:#fff}
+
+.stat{
+display:grid;grid-template-columns:repeat(3,1fr);
+gap:10px}
+.stat div{
+background:#222;padding:12px;
+border-radius:12px;text-align:center}
+.stat b{color:#ff4f9a;font-size:18px}
+</style>
+
+</head><body><!-- LOGIN --><div id="login">
+<div class="loginBox">
+<h2>ADMIN LOGIN</h2>
+<input id="au" placeholder="Admin user">
+<input id="ap" type="password" placeholder="Admin pass">
+<button onclick="login()">Đăng nhập</button>
+</div>
+</div><!-- PANEL --><div id="panel">
+<header>
+<b>Ngọc Becon • Admin</b>
+<span id="time"></span>
+</header><nav>
+<button onclick="show('dash')">📊 Dashboard</button>
+<button onclick="show('nap')">💰 Nạp tiền</button>
+<button onclick="show('user')">👥 User</button>
+<button onclick="show('log')">📜 Giao dịch</button>
+</nav><!-- DASH --><div class="box page" id="dash">
+<h3>📊 Thống kê</h3>
+<div class="stat">
+<div>Tổng doanh thu<br><b id="rev">0đ</b></div>
+<div>Đơn nạp chờ<br><b id="pend">0</b></div>
+<div>User<br><b id="uc">0</b></div>
+</div>
+</div><!-- NAP --><div class="box page" id="nap">
+<h3>💰 Đơn nạp tiền</h3>
+<table>
+<thead><tr><th>User</th><th>Loại</th><th>Số tiền</th><th></th></tr></thead>
+<tbody id="napList"></tbody>
+</table>
+</div><!-- USER --><div class="box page" id="user">
+<h3>👥 Người dùng</h3>
+<table>
+<thead><tr><th>User</th><th>Số dư</th><th>Cộng</th></tr></thead>
+<tbody id="userList"></tbody>
+</table>
+</div><!-- LOG --><div class="box page" id="log">
+<h3>📜 Lịch sử</h3>
+<table>
+<thead><tr><th>User</th><th>Nội dung</th><th>Tiền</th><th>Time</th></tr></thead>
+<tbody id="logs"></tbody>
+</table>
+</div></div><script>
+/* ADMIN */
+const ADMIN_USER="NgocBecon";
+const ADMIN_PASS="manhmanh";
+
+function login(){
+if(au.value===ADMIN_USER && ap.value===ADMIN_PASS){
+loginDiv.style.display="none";
+panel.style.display="block";
+loadAll(); show('dash');
+}else alert("Sai admin");
+}
+
+const loginDiv=document.getElementById("login");
+
+/* PAGE */
+function show(p){
+document.querySelectorAll(".page").forEach(x=>x.style.display="none");
+document.getElementById(p).style.display="block";
+}
+
+/* LOAD */
+function loadAll(){
+loadNap(); loadUser(); loadLog();
+time.innerText=new Date().toLocaleString();
+}
+
+/* NAP */
+function loadNap(){
+let arr=JSON.parse(localStorage.getItem("nap_orders")||"[]");
+napList.innerHTML=""; pend.innerText=arr.length;
+arr.forEach((o,i)=>{
+napList.innerHTML+=`
+<tr>
+<td>${o.user}</td>
+<td>${o.type||"BANK"}</td>
+<td>${o.money.toLocaleString()}đ</td>
+<td><button class="small" onclick="approve(${i})">Cộng</button></td>
+</tr>`;
+});
+}
+
+/* APPROVE */
+function approve(i){
+let arr=JSON.parse(localStorage.getItem("nap_orders"));
+let o=arr[i];
+let u="user_"+o.user;
+let d=JSON.parse(localStorage.getItem(u));
+d.balance+=o.money;
+localStorage.setItem(u,JSON.stringify(d));
+
+let log=JSON.parse(localStorage.getItem("logs")||"[]");
+log.push({u:o.user,txt:"Nạp tiền",m:o.money,t:new Date().toLocaleString()});
+localStorage.setItem("logs",JSON.stringify(log));
+
+arr.splice(i,1);
+localStorage.setItem("nap_orders",JSON.stringify(arr));
+loadAll();
+}
+
+/* USER */
+function loadUser(){
+let html="",count=0,revv=0;
+for(let k in localStorage){
+if(k.startsWith("user_")){
+count++;
+let d=JSON.parse(localStorage.getItem(k));
+revv+=d.balance;
+html+=`
+<tr>
+<td>${k.replace("user_","")}</td>
+<td>${d.balance.toLocaleString()}đ</td>
+<td><button class="small" onclick="add('${k}')">+10k</button></td>
+</tr>`;
+}}
+userList.innerHTML=html;
+uc.innerText=count;
+rev.innerText=revv.toLocaleString()+"đ";
+}
+
+/* ADD */
+function add(k){
+let d=JSON.parse(localStorage.getItem(k));
+d.balance+=10000;
+localStorage.setItem(k,JSON.stringify(d));
+loadUser();
+}
+
+/* LOG */
+function loadLog(){
+let l=JSON.parse(localStorage.getItem("logs")||"[]");
+logs.innerHTML="";
+l.forEach(x=>{
+logs.innerHTML+=`<tr><td>${x.u}</td><td>${x.txt}</td><td>${x.m.toLocaleString()}đ</td><td>${x.t}</td></tr>`;
+});
+}
+</script></body>
+</html>
