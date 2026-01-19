@@ -1,256 +1,195 @@
-<!DOCTYPE html>
-<html lang="vi">
+<!DOCTYPE html><html lang="vi">
 <head>
 <meta charset="UTF-8">
-<title>Ngọc Becon</title>
+<title>Ngọc Becon • Shop</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><style>
+*{box-sizing:border-box;font-family:'Segoe UI',Arial}
+html,body{margin:0;width:100%;height:100%}
 
-<!-- FIX ZOOM -->
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
-
-<style>
-*{box-sizing:border-box}
-html,body{
-  margin:0;
-  width:100%;
-  height:100%;
-  overflow:hidden;
-  touch-action:manipulation;
-  font-family:'Segoe UI',Arial;
-  background:linear-gradient(135deg,#ff6fb1,#ffd6ea);
-  display:flex;
-  justify-content:center;
-  align-items:center;
-}
+/* ===== USER WEB ===== */
+body{
+background:linear-gradient(135deg,#ff6fb1,#ffd6ea);
+display:flex;justify-content:center;align-items:center;overflow:hidden}
 
 /* INTRO */
-#intro{
-  position:fixed;
-  inset:0;
-  background:linear-gradient(135deg,#ff4f9a,#ff9fd6);
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  z-index:20;
-}
+#intro{position:fixed;inset:0;z-index:10;
+background:linear-gradient(135deg,#ff4f9a,#ff9fd6);
+display:flex;justify-content:center;align-items:center}
 #intro button{
-  padding:18px 34px;
-  border:none;
-  border-radius:999px;
-  font-size:18px;
-  background:white;
-  color:#ff4f9a;
-  box-shadow:0 0 40px #ff4f9a;
-  cursor:pointer;
-  animation:pulse 1.5s infinite;
-}
-@keyframes pulse{
-  0%{transform:scale(1)}
-  50%{transform:scale(1.1)}
-  100%{transform:scale(1)}
-}
+padding:18px 36px;border:none;border-radius:999px;
+background:#fff;color:#ff4f9a;font-size:18px;
+box-shadow:0 0 40px #ff4f9a;cursor:pointer}
 
 /* CARD */
 .card{
-  background:rgba(255,255,255,0.35);
-  backdrop-filter:blur(16px);
-  padding:28px;
-  border-radius:30px;
-  text-align:center;
-  box-shadow:0 0 45px #ff4f9a;
-  width:90%;
-  max-width:360px;
-  color:#fff;
-  display:none;
-}
-
-/* AVATAR */
+background:rgba(255,255,255,.35);
+backdrop-filter:blur(18px);
+padding:26px;border-radius:30px;
+width:92%;max-width:360px;
+box-shadow:0 0 45px #ff4f9a;
+text-align:center;color:#fff;display:none}
 .avatar{
-  width:140px;
-  height:140px;
-  border-radius:50%;
-  border:4px solid #fff;
-  object-fit:cover;
-  box-shadow:0 0 30px #ff4f9a;
-}
-
-/* TEXT */
-h1{
-  margin:14px 0 6px;
-  text-shadow:0 0 12px #ff4f9a;
-}
-p{
-  margin:0 0 18px;
-  opacity:.9;
-}
-
-/* BUTTON */
-.btns{
-  display:flex;
-  gap:14px;
-  justify-content:center;
-}
+width:130px;height:130px;border-radius:50%;
+border:4px solid #fff;object-fit:cover;
+box-shadow:0 0 30px #ff4f9a}
 .btn{
-  padding:11px 20px;
-  border-radius:999px;
-  background:#ff4f9a;
-  color:white;
-  text-decoration:none;
-  box-shadow:0 0 18px #ff4f9a;
-  font-size:14px;
-}
+margin:6px;
+padding:10px 18px;border:none;
+border-radius:999px;background:#ff4f9a;
+color:#fff;box-shadow:0 0 18px #ff4f9a;
+cursor:pointer}
 
-/* TIM BAY NỀN */
-.heart{
-  position:absolute;
-  font-size:18px;
-  color:#ff4f9a;
-  animation:float 5s linear infinite;
-}
-@keyframes float{
-  0%{transform:translateY(100vh);opacity:0}
-  20%{opacity:1}
-  100%{transform:translateY(-10vh);opacity:0}
-}
+/* SHOP */
+#shop,#pay{
+position:fixed;inset:0;z-index:9;
+background:rgba(0,0,0,.6);
+display:none;justify-content:center;align-items:center}
+.shopBox{
+background:#fff;color:#ff4f9a;
+width:94%;max-width:420px;
+border-radius:25px;padding:16px;text-align:center}
 
-/* SAO BĂNG */
-.meteor{
-  position:absolute;
-  width:2px;
-  height:80px;
-  background:linear-gradient(transparent,#fff);
-  opacity:.8;
-  animation:meteor 1.2s linear infinite;
-}
-@keyframes meteor{
-  0%{transform:translate(-100px,-100px)}
-  100%{transform:translate(300px,300px);opacity:0}
-}
-
-/* NÚT TIM */
+/* HEART */
 #heartBtn{
-  position:fixed;
-  bottom:22px;
-  right:22px;
-  width:64px;
-  height:64px;
-  border-radius:50%;
-  border:none;
-  background:linear-gradient(135deg,#ff4d9d,#ff9acb);
-  font-size:30px;
-  box-shadow:0 0 20px #ff6fb1;
-  animation:pulse 1.2s infinite;
-  z-index:9999;
-}
-
-/* ĐẾM TIM */
+position:fixed;bottom:20px;right:20px;
+width:60px;height:60px;border-radius:50%;
+border:none;background:#ff4f9a;color:#fff;
+font-size:26px;box-shadow:0 0 20px #ff6fb1}
 #heartCount{
-  position:fixed;
-  bottom:100px;
-  right:22px;
-  background:white;
-  color:#ff4f9a;
-  padding:8px 14px;
-  border-radius:20px;
-  font-size:16px;
-  box-shadow:0 0 12px #ff9acb;
-  z-index:9999;
-}
-</style>
-</head>
+position:fixed;bottom:90px;right:20px;
+background:#fff;color:#ff4f9a;
+padding:6px 12px;border-radius:20px}
+.heart{
+position:absolute;color:#ff4f9a;
+animation:float 5s linear infinite}
+@keyframes float{
+0%{transform:translateY(100vh);opacity:0}
+20%{opacity:1}
+100%{transform:translateY(-10vh);opacity:0}}
 
-<body>
+/* ===== ADMIN ===== */
+#admin{
+display:none;
+position:fixed;inset:0;
+background:linear-gradient(135deg,#ff4f9a,#ffb3d9);
+color:#fff;overflow:auto;padding:20px}
+.adminBox{
+background:#fff;color:#ff4f9a;
+border-radius:25px;padding:18px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{border:1px solid #ff9acb;padding:6px;text-align:center}
+th{background:#ff4f9a;color:#fff}
+</style></head><body><div id="intro"><button onclick="start()">💗 Vào Website 💗</button></div><audio id="music" src="music.mp3" loop></audio>
 
-<!-- INTRO -->
-<div id="intro">
-  <button onclick="start()">💗 Chạm để vào 💗</button>
-</div>
-
-<!-- MUSIC -->
-<audio id="music" loop>
-  <source src="music.mp3" type="audio/mpeg">
-</audio>
-
-<!-- MAIN -->
 <div class="card" id="main">
-  <img src="avatar.jpg" class="avatar">
-  <h1>🌸 Ngọc Becon 🌸</h1>
-  <p>Xin • Chào • Bây bi</p>
-
-  <div class="btns">
-    <a class="btn" href="https://www.facebook.com/share/1DH9qdQhZy/" target="_blank">🐰 Facebook</a>
-    <a class="btn" href="https://discord.com/users/ngocbecon" target="_blank">🐿️ Discord</a>
-  </div>
+<img src="avatar.jpg" class="avatar">
+<h2>🌸 Ngọc Becon 🌸</h2>
+<p>Shop Cày Thuê Uy Tín</p>
+<button class="btn" onclick="openShop()">🛒 Vào Shop</button>
+<a class="btn" href="https://www.facebook.com/share/17zkW86voT/" target="_blank">📩 Facebook</a>
+</div><div id="shop">
+<div class="shopBox">
+<h3>🛒 SHOP</h3>
+<button onclick="add('Liên Quân +1 Rank',20000)">Liên Quân +1 Rank (20k)</button><br><br>
+<button onclick="add('Free Fire +1 Rank',30000)">Free Fire +1 Rank (30k)</button>
+<p>Tổng: <b id="totalEl">0đ</b></p>
+<input id="name" placeholder="Tên người chơi"><br><br>
+<button class="btn" onclick="toPay()">💳 MoMo</button>
+<button class="btn" onclick="shop.style.display='none'">⬅</button>
 </div>
+</div><div id="pay">
+<div class="shopBox">
+<h3>💳 THANH TOÁN MOMO</h3>
+<img src="momo.jpg" width="150"><br>
+<p id="payInfo"></p>
+<button class="btn" onclick="confirm()">📩 Gửi đơn</button>
+</div>
+</div><div id="admin">
+<div class="adminBox">
+<h2>🔐 ADMIN • Ngọc Becon</h2>
+<table>
+<thead><tr><th>Mã</th><th>Tên</th><th>Dịch vụ</th><th>Tiền</th></tr></thead>
+<tbody id="orders"></tbody>
+</table>
+<p><b>💰 Doanh thu:</b> <span id="revenue">0</span> đ</p>
+</div>
+</div><div id="heartCount">💗 0</div>
+<button id="heartBtn">💗</button><script>
+/* ===== CONFIG ===== */
+const ADMIN_SECRET="ngocbecon888";
+const ADMIN_USER="Ngọc Becon";
+const ADMIN_PASS="manhmanh";
+const FB="https://www.facebook.com/share/17zkW86voT/";
 
-<!-- TIM -->
-<div id="heartCount">💗 0</div>
-<button id="heartBtn">💗</button>
+let total=0,service="",orderID="";
 
-<script>
-const music=document.getElementById("music");
-
-/* START */
-function start(){
-  document.getElementById("intro").style.display="none";
-  document.getElementById("main").style.display="block";
-
-  music.volume=0;
-  music.play();
-  let v=0;
-  let fade=setInterval(()=>{
-    if(v<1){v+=0.05;music.volume=v}
-    else clearInterval(fade);
-  },200);
+/* DEVICE LOCK */
+function deviceID(){
+return btoa(navigator.userAgent+screen.width+screen.height);
 }
 
-/* TIM BAY NỀN */
-setInterval(()=>{
-  let h=document.createElement("div");
-  h.className="heart";
-  h.innerHTML="💖";
-  h.style.left=Math.random()*100+"vw";
-  h.style.animationDuration=(3+Math.random()*3)+"s";
-  document.body.appendChild(h);
-  setTimeout(()=>h.remove(),6000);
-},500);
+/* USER */
+function start(){
+intro.style.display="none";
+main.style.display="block";
+music.play().catch(()=>{});
+}
+function openShop(){shop.style.display="flex"}
+function add(s,p){service=s;total+=p;totalEl.innerText=total+"đ"}
+function genID(){return "NB"+Math.random().toString(36).substr(2,6).toUpperCase()}
+function toPay(){
+orderID=genID();
+shop.style.display="none";
+pay.style.display="flex";
+payInfo.innerHTML=`🧾 ${orderID}<br>💰 ${total}đ`;
+}
+function confirm(){
+let msg=`ĐƠN CÀY\n${name.value}\n${service}\n${total}đ\n${orderID}`;
+window.open(FB+"?text="+encodeURIComponent(msg));
+let arr=JSON.parse(localStorage.getItem("orders")||"[]");
+arr.push({id:orderID,name:name.value,service,total});
+localStorage.setItem("orders",JSON.stringify(arr));
+alert("✅ Đã gửi đơn");
+location.reload();
+}
 
-/* SAO BĂNG */
-setInterval(()=>{
-  let m=document.createElement("div");
-  m.className="meteor";
-  m.style.left=Math.random()*100+"vw";
-  m.style.top=Math.random()*50+"vh";
-  document.body.appendChild(m);
-  setTimeout(()=>m.remove(),1200);
-},700);
-
-/* ĐẾM TIM */
-let count = localStorage.getItem("heartCount") || 0;
-count = parseInt(count);
-const heartCount=document.getElementById("heartCount");
-heartCount.innerText="💗 "+count;
-
-/* BẤM TIM */
-document.getElementById("heartBtn").addEventListener("click",()=>{
-  count++;
-  localStorage.setItem("heartCount",count);
-  heartCount.innerText="💗 "+count;
-
-  for(let i=0;i<10;i++){
-    let h=document.createElement("div");
-    h.innerHTML=["💗","💖","💕","💘"][Math.floor(Math.random()*4)];
-    h.style.position="fixed";
-    h.style.left="50%";
-    h.style.top="80%";
-    h.style.fontSize="22px";
-    h.style.transform=`translate(${Math.random()*200-100}px,${Math.random()*-250}px)`;
-    h.style.transition="all 1s ease-out";
-    h.style.opacity=0;
-    document.body.appendChild(h);
-    setTimeout(()=>h.remove(),1000);
-  }
+/* ADMIN */
+if(location.search.includes(ADMIN_SECRET)){
+let dev=deviceID();
+let saved=localStorage.getItem("admin_dev");
+if(!saved){
+let u=prompt("Admin:");
+let p=prompt("Pass:");
+if(u===ADMIN_USER&&p===ADMIN_PASS){
+localStorage.setItem("admin_dev",dev);
+openAdmin();
+}else location.href="/";
+}else{
+if(saved!==dev){alert("🚫 Không đúng máy");location.href="/";}
+else openAdmin();
+}}
+function openAdmin(){
+admin.style.display="block";
+let arr=JSON.parse(localStorage.getItem("orders")||"[]");
+let sum=0;
+orders.innerHTML="";
+arr.forEach(o=>{
+sum+=o.total;
+orders.innerHTML+=`<tr><td>${o.id}</td><td>${o.name}</td><td>${o.service}</td><td>${o.total}</td></tr>`;
 });
-</script>
+revenue.innerText=sum;
+}
 
-</body>
+/* HEART */
+let c=localStorage.getItem("heart")||0;
+heartCount.innerText="💗 "+c;
+heartBtn.onclick=()=>{c++;localStorage.setItem("heart",c);heartCount.innerText="💗 "+c}
+setInterval(()=>{
+let h=document.createElement("div");
+h.className="heart";h.innerHTML="💖";
+h.style.left=Math.random()*100+"vw";
+document.body.appendChild(h);
+setTimeout(()=>h.remove(),5000);
+},600);
+</script></body>
 </html>
