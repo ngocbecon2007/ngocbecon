@@ -1,73 +1,263 @@
-<!DOCTYPE html><html lang="vi">
+<!DOCTYPE html>
+<html lang="vi">
 <head>
 <meta charset="UTF-8">
-<title>Admin Panel - Ngọc Becon</title>
+<title>Admin Panel • Ngọc Becon</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
 <style>
-body{margin:0;font-family:Arial;background:#0f1220;color:#fff}
-header{background:#ff4f9a;padding:15px 30px;font-size:20px;font-weight:bold}
-.container{padding:25px}
-.box{background:#1c1f3a;border-radius:12px;padding:20px;margin-bottom:20px}
-input,select{width:100%;padding:10px;margin:6px 0;border-radius:6px;border:none}
-button{background:#ff4f9a;border:none;color:#fff;padding:10px 16px;border-radius:8px;cursor:pointer}
-table{width:100%;border-collapse:collapse;margin-top:10px}
-th,td{padding:8px;border-bottom:1px solid #333;text-align:left}
-th{background:#ff4f9a}
+*{box-sizing:border-box;font-family:Arial}
+body{margin:0;background:#eef1f6}
+
+/* LOGIN */
+#login{
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center
+}
+.login-box{
+background:#fff;
+padding:30px;
+border-radius:14px;
+width:320px;
+box-shadow:0 10px 30px rgba(0,0,0,.15)
+}
+input{width:100%;padding:10px;margin:8px 0}
+
+/* ADMIN */
+header{
+background:#222;
+color:#fff;
+padding:16px 30px;
+display:flex;
+justify-content:space-between;
+align-items:center
+}
+header h2{margin:0}
+header button{
+background:#ff4f9a;
+border:none;
+color:#fff;
+padding:8px 14px;
+border-radius:6px
+}
+
+.container{
+padding:25px;
+max-width:1200px;
+margin:auto
+}
+
+.box{
+background:#fff;
+border-radius:14px;
+padding:20px;
+margin-bottom:25px;
+box-shadow:0 10px 25px rgba(0,0,0,.08)
+}
+
+h3{margin-top:0}
+
+table{
+width:100%;
+border-collapse:collapse;
+font-size:14px
+}
+th,td{
+padding:10px;
+border-bottom:1px solid #ddd
+}
+th{
+background:#ff4f9a;
+color:#fff
+}
+
+.btn{
+background:#ff4f9a;
+border:none;
+color:#fff;
+padding:6px 12px;
+border-radius:6px;
+cursor:pointer
+}
+.btn.gray{background:#666}
+.stat{
+font-size:22px;
+color:#ff4f9a;
+font-weight:bold
+}
 .hidden{display:none}
 </style>
-</head><body><header>🛠 ADMIN PANEL – NGỌC BECON</header><div class="container"><!-- LOGIN --><div id="login" class="box">
-<h2>🔐 Đăng nhập Admin</h2>
-<input id="aduser" placeholder="Tài khoản admin">
-<input id="adpass" type="password" placeholder="Mật khẩu">
-<button onclick="login()">Đăng nhập</button>
-</div><!-- PANEL --><div id="panel" class="hidden"><div class="box">
-<h2>💰 Duyệt nạp tiền</h2>
+</head>
+
+<body>
+
+<!-- LOGIN -->
+<div id="login">
+<div class="login-box">
+<h3>🔐 Admin Login</h3>
+<input id="au" placeholder="Admin user">
+<input id="ap" type="password" placeholder="Password">
+<button class="btn" style="width:100%" onclick="login()">Đăng nhập</button>
+</div>
+</div>
+
+<!-- ADMIN PANEL -->
+<div id="panel" class="hidden">
+<header>
+<h2>👑 ADMIN PANEL</h2>
+<button onclick="logout()">Đăng xuất</button>
+</header>
+
+<div class="container">
+
+<!-- STATS -->
+<div class="box">
+<h3>📊 Thống kê</h3>
+<p>Doanh thu: <span class="stat" id="revenue">0đ</span></p>
+<p>Số user: <b id="users">0</b></p>
+<p>Đơn cày: <b id="orders">0</b></p>
+</div>
+
+<!-- NẠP -->
+<div class="box">
+<h3>💰 Yêu cầu nạp tiền</h3>
 <table>
 <thead>
-<tr><th>User</th><th>Số tiền</th><th>Hành động</th></tr>
+<tr>
+<th>User</th>
+<th>Số tiền</th>
+<th>Hành động</th>
+</tr>
 </thead>
 <tbody id="naplist"></tbody>
 </table>
-</div><div class="box">
-<h2>📦 Đơn hàng</h2>
+</div>
+
+<!-- ĐƠN CÀY -->
+<div class="box">
+<h3>🎮 Đơn cày thuê</h3>
 <table>
 <thead>
-<tr><th>User</th><th>Game</th><th>Giá</th><th>Trạng thái</th></tr>
+<tr>
+<th>User</th>
+<th>Game</th>
+<th>Giá</th>
+<th>Trạng thái</th>
+</tr>
 </thead>
-<tbody id="orders"></tbody>
+<tbody id="orderlist"></tbody>
 </table>
-</div></div>
-</div><script>
-const ADMIN_USER="admin";
-const ADMIN_PASS="123456"; // đổi sau
+</div>
 
+</div>
+</div>
+
+<script>
+const ADMIN_USER="ngocbecon";
+const ADMIN_PASS="manhmanh";
+
+/* LOGIN */
 function login(){
-if(aduser.value===ADMIN_USER && adpass.value===ADMIN_PASS){
-localStorage.setItem("admin","ok");
-loginBox();
-}else alert("Sai admin");
+if(au.value!==ADMIN_USER || ap.value!==ADMIN_PASS){
+alert("❌ Sai thông tin admin"); return;
 }
-
-function loginBox(){
-login.classList.add("hidden");
+loginDiv.style.display="none";
 panel.classList.remove("hidden");
-load();
+loadAll();
 }
 
-if(localStorage.getItem("admin")==="ok") loginBox();
+function logout(){
+location.reload();
+}
 
-function load(){
-naplist.innerHTML="";
-orders.innerHTML="";
+/* LOAD DATA */
+function loadAll(){
+loadStats();
+loadNap();
+loadOrders();
+}
+
+function loadStats(){
+let rev=0, ucount=0, ocount=0;
 for(let k in localStorage){
 if(k.startsWith("data_")){
-let user=k.replace("data_","");
-let d=JSON.parse(localStorage[k]);
+ucount++;
+let d=JSON.parse(localStorage.getItem(k));
 d.history.forEach(o=>{
-orders.innerHTML+=`<tr><td>${user}</td><td>${o.game}</td><td>${o.price}</td><td>${o.status}</td></tr>`;
+if(o.status==="Hoàn thành") rev+=o.price;
+ocount++;
+});
+}
+}
+revenue.innerText=rev.toLocaleString()+"đ";
+users.innerText=ucount;
+orders.innerText=ocount;
+}
+
+/* NẠP */
+function loadNap(){
+let arr=JSON.parse(localStorage.getItem("nap_orders")||"[]");
+naplist.innerHTML="";
+arr.forEach((n,i)=>{
+naplist.innerHTML+=`
+<tr>
+<td>${n.user}</td>
+<td>${n.money.toLocaleString()}đ</td>
+<td>
+<button class="btn" onclick="approve(${i})">Duyệt</button>
+</td>
+</tr>`;
+});
+}
+
+function approve(i){
+let arr=JSON.parse(localStorage.getItem("nap_orders"));
+let n=arr[i];
+let d=JSON.parse(localStorage.getItem("data_"+n.user));
+d.balance+=n.money;
+localStorage.setItem("data_"+n.user,JSON.stringify(d));
+arr.splice(i,1);
+localStorage.setItem("nap_orders",JSON.stringify(arr));
+alert("✅ Đã cộng tiền cho "+n.user);
+loadAll();
+}
+
+/* ĐƠN */
+function loadOrders(){
+orderlist.innerHTML="";
+for(let k in localStorage){
+if(k.startsWith("data_")){
+let u=k.replace("data_","");
+let d=JSON.parse(localStorage.getItem(k));
+d.history.forEach((o,idx)=>{
+orderlist.innerHTML+=`
+<tr>
+<td>${u}</td>
+<td>${o.game}</td>
+<td>${o.price.toLocaleString()}đ</td>
+<td>
+<select onchange="setStatus('${u}',${idx},this.value)">
+<option ${o.status=="Đang xử lý"?"selected":""}>Đang xử lý</option>
+<option ${o.status=="Đang cày"?"selected":""}>Đang cày</option>
+<option ${o.status=="Hoàn thành"?"selected":""}>Hoàn thành</option>
+<option ${o.status=="Hủy"?"selected":""}>Hủy</option>
+</select>
+</td>
+</tr>`;
 });
 }
 }
 }
-</script></body>
+
+function setStatus(u,i,v){
+let d=JSON.parse(localStorage.getItem("data_"+u));
+d.history[i].status=v;
+localStorage.setItem("data_"+u,JSON.stringify(d));
+loadStats();
+}
+</script>
+
+</body>
 </html>
