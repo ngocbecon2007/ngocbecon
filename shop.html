@@ -1,162 +1,147 @@
 <!DOCTYPE html><html lang="vi">
 <head>
 <meta charset="UTF-8">
-<title>Ngọc Becon • Shop Game</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<style>
+<title>Ngọc Becon Shop</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"><style>
 *{box-sizing:border-box;font-family:Arial}
-body{margin:0;background:#140e1f;color:#fff}
-header{
-background:linear-gradient(135deg,#ff2f92,#ff6fc4);
-padding:16px 40px;display:flex;justify-content:space-between;align-items:center
+body{
+  margin:0;
+  background:linear-gradient(180deg,#1a001f,#0b0012);
+  color:#fff;
 }
-nav a{color:#fff;text-decoration:none;margin:0 12px;font-weight:bold}
-.container{max-width:1200px;margin:auto;padding:25px}
-.box{
-background:#1f1b2e;border-radius:14px;padding:20px;margin-bottom:20px;
-box-shadow:0 0 25px rgba(255,79,154,.15)
-}
-.hidden{display:none}
-.btn{
-background:#ff4f9a;border:none;color:#fff;padding:10px 18px;
-border-radius:8px;cursor:pointer;margin-top:8px
-}
-input,select{width:100%;padding:9px;margin:6px 0;border-radius:6px;border:none}
-table{width:100%;border-collapse:collapse}
-th,td{padding:10px;border-bottom:1px solid #333}
-th{background:#ff4f9a}
-.wheel{display:flex;gap:10px;font-size:28px;margin:15px 0}
-</style>
-</head><body><header>
-<h2>💖 Ngọc Becon Shop</h2>
-<nav>
-<a onclick="show('home')">Trang chủ</a>
-<a onclick="show('lq')">Liên Quân</a>
-<a onclick="show('ff')">Free Fire</a>
-<a onclick="show('rb')">Roblox</a>
-<a onclick="show('nap')">Nạp tiền</a>
-<a onclick="show('spin')">Vòng quay</a>
-<a onclick="show('history')">Lịch sử</a>
-<a onclick="show('account')">Tài khoản</a>
-</nav>
-</header><div class="container"><!-- LOGIN --><div id="login" class="box">
-<h3>🔐 Đăng nhập / Đăng ký</h3>
-<input id="lu" placeholder="Tài khoản">
-<input id="lp" type="password" placeholder="Mật khẩu">
-<button class="btn" onclick="login()">Vào shop</button>
-</div><!-- HOME --><div id="home" class="box hidden">
-<h3>🔥 Shop game uy tín</h3>
-<p>Số dư: <b id="bal">0đ</b></p>
-</div><!-- LIEN QUAN --><div id="lq" class="box hidden">
-<h3>🔥 Liên Quân</h3>
-<button class="btn" onclick="order('LQ Vàng → Kim Cương',10000)">Vàng → KC (10k)</button>
-<button class="btn" onclick="order('LQ KC → Tinh Anh',15000)">KC → TA (15k)</button>
-<button class="btn" onclick="order('LQ TA → Cao Thủ',20000)">TA → Cao Thủ (20k)</button>
-<p>⭐ 1 sao = 2.000đ</p>
-</div><!-- FREE FIRE --><div id="ff" class="box hidden">
-<h3>🔥 Free Fire</h3>
-<button class="btn" onclick="order('FF Vàng → Bạch Kim',5000)">Vàng → BK (5k)</button>
-<button class="btn" onclick="order('FF BK → Kim Cương',10000)">BK → KC (10k)</button>
-<button class="btn" onclick="order('FF KC → Huyền Thoại',15000)">KC → HT (15k)</button>
-</div><!-- ROBLOX --><div id="rb" class="box hidden">
-<h3>🎮 Roblox</h3>
-<select id="rbprice">
-<option value="3000">Lv 1–100 (3k)</option>
-<option value="8000">Lv 1–300 (8k)</option>
-<option value="18000">Lv 1–700 (18k)</option>
-<option value="28000">Lv 1–1000 (28k)</option>
-<option value="45000">Lv 1–1500 (45k)</option>
-<option value="65000">Lv 1–2000 (65k)</option>
-<option value="90000">Lv 1–2400 (90k)</option>
-<option value="115000">Lv 1–2800 MAX (115k)</option>
-</select>
-<button class="btn" onclick="order('Roblox',rbprice.value)">Đặt cày</button>
-</div><!-- NAP --><div id="nap" class="box hidden">
-<h3>💰 Nạp tiền</h3>
-<h4>Nạp thẻ cào</h4>
-<select><option>Viettel</option><option>Mobifone</option><option>Vinaphone</option></select>
-<input placeholder="Mệnh giá">
-<input placeholder="Seri">
-<input placeholder="Mã thẻ">
-<button class="btn">Gửi thẻ</button><hr>
-<h4>Nạp Bank / MoMo</h4>
-<p>Nội dung: <b>NAP_<span id="user"></span></b></p>
-<img src="momo.jpg" width="200"><br>
-<input id="napmoney" placeholder="Số tiền">
-<button class="btn" onclick="nap()">Đã chuyển tiền</button>
-</div><!-- SPIN --><div id="spin" class="box hidden">
-<h3>🎡 Vòng quay may mắn</h3>
-<p>10.000đ / 1 lượt – mỗi màu +3.000đ</p>
-<div class="wheel">🔴 🟠 🟡 🟢 🔵 🟣 🟤</div>
-<button class="btn" onclick="spin()">QUAY</button>
-</div><!-- HISTORY --><div id="history" class="box hidden">
-<h3>📜 Lịch sử</h3>
-<table>
-<thead><tr><th>Nội dung</th><th>Giá</th><th>Trạng thái</th></tr></thead>
-<tbody id="his"></tbody>
-</table>
-</div><!-- ACCOUNT --><div id="account" class="box hidden">
-<h3>⚙️ Tài khoản</h3>
-<p>User: <b id="uname"></b></p>
-<input id="gmail" placeholder="Liên kết Gmail">
-<button class="btn" onclick="save()">Lưu</button>
-</div></div><audio id="music" src="music.mp3" loop></audio>
-<audio id="spinSound" src="spin.mp3"></audio>
 
-<script>
-let u=null;
-function login(){
-u=lu.value;if(!u)return;
-if(!localStorage.getItem("u_"+u)){
-localStorage.setItem("u_"+u,JSON.stringify({bal:0,his:[],gmail:""}));
+/* ===== HEADER ===== */
+header{
+  background:linear-gradient(90deg,#ff4da6,#ff85c2);
+  padding:14px 16px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  position:relative;
 }
-loginBox(false);
+
+.logo{
+  font-weight:bold;
+  font-size:20px;
 }
-function loginBox(ok){
-document.getElementById("login").classList.toggle("hidden",ok);
-show("home");
-music.play().catch(()=>{});
+
+/* MENU TOGGLE */
+.menu-toggle{
+  font-size:28px;
+  cursor:pointer;
 }
-function show(id){
-document.querySelectorAll(".box").forEach(b=>b.classList.add("hidden"));
-document.getElementById(id).classList.remove("hidden");
-user.innerText=u; uname.innerText=u; load();
+
+/* DROPDOWN MENU */
+.dropdown-menu{
+  display:none;
+  position:absolute;
+  top:60px;
+  right:12px;
+  width:230px;
+  background:#1e1e2e;
+  border-radius:14px;
+  overflow:hidden;
+  box-shadow:0 10px 30px rgba(0,0,0,.6);
+  z-index:999;
 }
-function load(){
-let d=JSON.parse(localStorage.getItem("u_"+u));
-bal.innerText=d.bal.toLocaleString()+"đ";
-gmail.value=d.gmail;
-his.innerHTML="";
-d.his.forEach(o=>{
-his.innerHTML+=`<tr><td>${o.n}</td><td>${o.p}</td><td>${o.s}</td></tr>`;
-});
+
+.dropdown-menu a{
+  display:block;
+  padding:14px;
+  color:#fff;
+  text-decoration:none;
+  border-bottom:1px solid #333;
 }
-function order(n,p){
-let d=JSON.parse(localStorage.getItem("u_"+u));
-if(d.bal<p)return alert("Không đủ tiền");
-d.bal-=Number(p);
-d.his.push({n,p:p+"đ",s:"Đang xử lý"});
-localStorage.setItem("u_"+u,JSON.stringify(d));
-load();alert("✅ Đã đặt đơn");
+
+.dropdown-menu a:hover{
+  background:linear-gradient(90deg,#ff4da6,#ff85c2);
 }
-function nap(){alert("⏳ Chờ admin xác nhận nạp");}
-function spin(){
-let d=JSON.parse(localStorage.getItem("u_"+u));
-if(d.bal<10000)return alert("Cần 10k");
-d.bal-=10000;
-spinSound.play();
-setTimeout(()=>{
-d.bal+=3000;
-d.his.push({n:"Vòng quay",p:"+3000đ",s:"Thành công"});
-localStorage.setItem("u_"+u,JSON.stringify(d));
-load();alert("🎉 Trúng +3.000đ");
-},1200);
+
+/* ===== MAIN ===== */
+.main{
+  padding:20px;
 }
-function save(){
-let d=JSON.parse(localStorage.getItem("u_"+u));
-d.gmail=gmail.value;
-localStorage.setItem("u_"+u,JSON.stringify(d));
-alert("✔ Đã lưu");
+
+.card{
+  background:#1e1e2e;
+  border-radius:16px;
+  padding:20px;
+  margin-bottom:16px;
+  box-shadow:0 6px 20px rgba(0,0,0,.4);
+}
+
+h2{margin-top:0}
+
+/* BUTTON */
+.btn{
+  width:100%;
+  padding:14px;
+  border:none;
+  border-radius:12px;
+  background:linear-gradient(90deg,#ff4da6,#ff85c2);
+  color:#fff;
+  font-size:16px;
+  cursor:pointer;
+}
+
+/* INPUT */
+input,select{
+  width:100%;
+  padding:12px;
+  border-radius:10px;
+  border:none;
+  margin-bottom:10px;
+}
+</style></head><body><!-- ===== MUSIC INTRO ===== --><audio autoplay loop>
+  <source src="music.mp3" type="audio/mpeg">
+</audio><!-- ===== HEADER ===== --><header>
+  <div class="logo">💎 Ngọc Becon Shop</div>
+  <div class="menu-toggle" onclick="toggleMenu()">☰</div>  <div id="dropdownMenu" class="dropdown-menu">
+    <a href="#">🏠 Trang chủ</a>
+    <a href="#">⚔️ Liên Quân</a>
+    <a href="#">🔥 Free Fire</a>
+    <a href="#">🟩 Roblox</a>
+    <a href="#">💳 Nạp tiền</a>
+    <a href="#">🎡 Vòng quay</a>
+    <a href="#">📜 Lịch sử</a>
+    <a href="#">⚙️ Tài khoản</a>
+  </div>
+</header><!-- ===== CONTENT ===== --><div class="main">  <div class="card">
+    <h2>🔥 Shop game uy tín</h2>
+    <p>Số dư: <b>0đ</b></p>
+  </div>  <!-- LIÊN QUÂN -->  <div class="card">
+    <h2>⚔️ Cày rank Liên Quân</h2>
+    <p>Vàng → Kim Cương: 10.000đ</p>
+    <p>Kim Cương → Tinh Anh: 15.000đ</p>
+    <p>Tinh Anh → Cao Thủ: 20.000đ</p>
+    <p>1 sao: 2.000đ</p>
+    <button class="btn">Thuê cày</button>
+  </div>  <!-- FREE FIRE -->  <div class="card">
+    <h2>🔥 Cày rank Free Fire</h2>
+    <p>Vàng → Bạch Kim: 5.000đ</p>
+    <p>Bạch Kim → KC: 10.000đ</p>
+    <p>KC → Huyền Thoại: 15.000đ</p>
+    <button class="btn">Thuê cày</button>
+  </div>  <!-- NẠP TIỀN -->  <div class="card">
+    <h2>💳 Nạp tiền</h2>
+    <select>
+      <option>Thẻ Viettel</option>
+      <option>Thẻ Mobifone</option>
+      <option>Thẻ Vinaphone</option>
+    </select>
+    <select>
+      <option>10.000đ</option>
+      <option>20.000đ</option>
+      <option>50.000đ</option>
+      <option>100.000đ</option>
+    </select>
+    <input placeholder="Số seri">
+    <input placeholder="Mã thẻ">
+    <button class="btn">Nạp thẻ</button>
+  </div></div><script>
+function toggleMenu(){
+  const m=document.getElementById("dropdownMenu");
+  m.style.display = m.style.display==="block"?"none":"block";
 }
 </script></body>
 </html>
