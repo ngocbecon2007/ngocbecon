@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Ngọc Becon • Shop</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+body{
+margin:0;
+background:linear-gradient(135deg,#ff6fb1,#ffd6ea);
+font-family:Arial;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh}
+.box{
+background:#fff;
+padding:20px;
+border-radius:25px;
+width:90%;
+max-width:380px;
+text-align:center;
+box-shadow:0 0 40px #ff6fb1}
+button{
+margin:6px;
+padding:10px 18px;
+border:none;
+border-radius:999px;
+background:#ff4f9a;
+color:#fff;
+font-size:15px;
+cursor:pointer}
+input{padding:8px;width:90%;margin-top:10px}
+</style>
+</head>
+
+<body>
+
+<div class="box">
+<h3>🛒 SHOP CÀY THUÊ</h3>
+
+<button onclick="add(20000,'Liên Quân +1 Rank')">Liên Quân +1 Rank (20k)</button><br>
+<button onclick="add(30000,'Free Fire +1 Rank')">Free Fire +1 Rank (30k)</button>
+
+<p><b>Tổng:</b> <span id="total">0</span> đ</p>
+<input id="name" placeholder="Tên người chơi">
+
+<br><br>
+<img src="momo.jpg" width="150"><br><br>
+
+<button onclick="send()">📩 Gửi đơn Messenger</button>
+</div>
+
+<script>
+let money=0,service="";
+function add(p,s){money+=p;service=s;total.innerText=money}
+function send(){
+let msg=`ĐƠN CÀY\nTên: ${name.value}\n${service}\n${money}đ`;
+window.open("https://www.facebook.com/share/17zkW86voT/?text="+encodeURIComponent(msg));
+}
+</script>
+
+</body>
+</html>
