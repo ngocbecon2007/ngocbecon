@@ -1,260 +1,314 @@
-<!DOCTYPE html><html lang="vi">
-<head>  
-<meta charset="UTF-8">  
-<title>👑 Admin Công Chúa MAX</title>  
-<meta name="viewport" content="width=device-width, initial-scale=1"><style>  
-:root{  
---pink:#ff6fb7;  
---pink2:#ff9ad5;  
---glow:#ffd1ea;  
-}  
-*{box-sizing:border-box;font-family:"Segoe UI",Arial}  
-body{  
-margin:0;  
-min-height:100vh;  
-background:radial-gradient(circle at top,#5a0070,#140018 70%);  
-color:#fff;  
-overflow:hidden  
-}  
-.hidden{display:none}  /* ✨ ANIMATIONS */
-@keyframes fadeUp{from{opacity:0;transform:translateY(40px)}to{opacity:1}}
-@keyframes glow{0%,100%{box-shadow:0 0 18px var(--pink)}50%{box-shadow:0 0 55px var(--glow)}}
-@keyframes float{0%{transform:translateY(0)}50%{transform:translateY(-10px)}100%{transform:translateY(0)}}
-@keyframes sparkle{from{opacity:1;transform:scale(1)}to{opacity:0;transform:scale(2)}}
-
-/* 💕 HEARTS */
-.heart{
-position:fixed;
-font-size:20px;
-animation:float 5s ease-in-out infinite;
-opacity:.18;
-pointer-events:none
-}
-
-/* ✨ SPARKLE */
-.sparkle{
-position:fixed;
-width:8px;height:8px;
-background:radial-gradient(circle,#fff,var(--pink));
-border-radius:50%;
-pointer-events:none;
-animation:sparkle .6s linear forwards
-}
-
-/* 👑 LOGIN */
-.login{
-max-width:380px;
-margin:110px auto;
-background:linear-gradient(180deg,#2a0035,#190020);
-padding:32px;
-border-radius:34px;
-text-align:center;
-animation:fadeUp .6s ease;
-box-shadow:0 0 60px #ff6fb766
-}
-.login h2{color:var(--pink2);margin-bottom:10px}
-.login p{opacity:.8;font-size:14px}
-input{
-width:100%;
-padding:15px;
-border-radius:20px;
-border:none;
-margin-top:14px;
-font-size:15px
-}
-button{
-width:100%;
-padding:15px;
-border:none;
-border-radius:999px;
-margin-top:18px;
-font-weight:900;
-cursor:pointer;
-background:linear-gradient(90deg,var(--pink),var(--pink2));
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>👑 Admin Ngọc Becon</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+:root{--pink:#ff5fa8}
+*{box-sizing:border-box;font-family:Segoe UI,Arial}
+body{
+margin:0;background:radial-gradient(circle,#4a005f,#120015);
 color:#fff
 }
-button:hover{transform:scale(1.06)}
+.hidden{display:none}
 
-/* 👑 HEADER */
+/* LOGIN */
+.login{
+max-width:380px;margin:120px auto;
+background:#1a001f;padding:30px;
+border-radius:26px;text-align:center;
+animation:fade .6s
+}
+.login h2{color:#ff9ad5}
+.login input{
+width:100%;padding:14px;margin-top:14px;
+border-radius:14px;border:none
+}
+.login button{
+width:100%;padding:14px;margin-top:18px;
+border:none;border-radius:999px;
+background:linear-gradient(90deg,#ff5fa8,#ff9ad5);
+color:#fff;font-weight:800
+}
+
+/* HEADER */
 header{
 position:sticky;top:0;z-index:10;
-background:linear-gradient(90deg,var(--pink),var(--pink2));
-padding:20px;
-text-align:center;
-font-size:22px;
-font-weight:900;
-animation:glow 3s infinite
+background:linear-gradient(90deg,#ff5fa8,#ff9ad5);
+padding:16px;font-weight:900;
+display:flex;justify-content:space-between
 }
 
-.container{max-width:1250px;margin:auto;padding:26px;overflow:auto;height:calc(100vh - 90px)}
+/* LAYOUT */
+.main{display:flex;height:calc(100vh - 64px)}
+.sidebar{
+width:260px;background:#1a001f;padding:16px
+}
+.sidebar button{
+width:100%;padding:12px;margin-bottom:10px;
+border:none;border-radius:14px;
+background:#ff5fa8;color:#fff;font-weight:700
+}
+.content{flex:1;padding:20px;overflow:auto}
 
-/* 🎀 CARD */
+/* CARD */
 .card{
-background:linear-gradient(180deg,#2c0038,#17001f);
-border-radius:34px;
-padding:26px;
-margin-bottom:30px;
-animation:fadeUp .5s ease;
-box-shadow:0 0 45px #ff6fb744
+background:#1a001f;padding:20px;
+border-radius:24px;margin-bottom:20px;
+animation:fade .4s
 }
-h3{color:var(--pink2);margin-top:0}
 
-/* 📊 TABLE */
-table{width:100%;border-collapse:collapse;text-align:center}
-th,td{padding:12px;border-bottom:1px solid #333}
-th{color:var(--pink2)}
+/* TABLE */
+table{width:100%;border-collapse:collapse}
+th,td{padding:10px;border-bottom:1px solid #333;text-align:center}
+th{color:#ff9ad5}
 
-.btn{
-padding:7px 16px;
-border-radius:16px;
-border:none;
-cursor:pointer;
-font-weight:900;
-margin:2px
+/* CHAT */
+.chat-wrap{
+position:fixed;right:20px;bottom:20px;
+width:360px;height:520px;
+background:#120015;border-radius:24px;
+display:flex;flex-direction:column;
+box-shadow:0 0 40px #ff5fa855
 }
-.ok{background:#2ecc71}
-.no{background:#e74c3c}
-.warn{background:#f1c40f;color:#000}
-</style></head><body><!-- 💕 HEARTS --><script>
-for(let i=0;i<15;i++){
-let h=document.createElement("div")
-h.className="heart"
-h.innerText=["💖","💗","💘","💕"][Math.floor(Math.random()*4)]
-h.style.left=Math.random()*100+"%"
-h.style.top=Math.random()*100+"%"
-h.style.animationDuration=3+Math.random()*5+"s"
-document.body.appendChild(h)
+.chat-header{
+background:linear-gradient(90deg,#ff5fa8,#ff9ad5);
+padding:14px;border-radius:24px 24px 0 0;
+font-weight:900
 }
-</script><!-- 🎵 MUSIC --><audio id="music" src="music.mp3" loop></audio>
+.chat-users{
+display:flex;overflow:auto;padding:8px;gap:6px
+}
+.chat-users button{
+padding:8px 14px;border:none;border-radius:999px;
+background:#2a002f;color:#fff;white-space:nowrap
+}
+.chat-users .active{background:#ff5fa8}
+.chat-body{flex:1;overflow:auto;padding:12px}
+.msg{margin-bottom:8px}
+.admin{text-align:right}
+.bubble{
+display:inline-block;padding:10px 14px;
+border-radius:18px;max-width:75%
+}
+.admin .bubble{background:#ff5fa8}
+.user .bubble{background:#333}
+.chat-input{
+display:flex;gap:6px;padding:10px
+}
+.chat-input input{
+flex:1;padding:12px;border-radius:999px;border:none
+}
+.chat-input button{
+width:40px;height:40px;
+border:none;border-radius:50%;
+background:#ff5fa8;color:#fff
+}
 
-<!-- 👑 LOGIN --><div id="loginBox" class="login">  <h2>👑 ADMIN CÔNG CHÚA</h2>  
-<p>Quyền lực hoàng gia tuyệt đối</p>  
-<input id="user" placeholder="Tên công chúa">  
-<input id="pass" type="password" placeholder="Mật khẩu hoàng gia">  
-<button onclick="login()">✨ Đăng nhập ✨</button>  
-</div><!-- 🛠 PANEL --><div id="panel" class="hidden">  
-<header>👑 ADMIN CÔNG CHÚA MAX – NGỌC BECON 👑</header>  
-<div class="container"><div class="card">  
-<h3>👤 Người dùng</h3>  
-<table>  
-<thead><tr><th>User</th><th>Số dư</th><th>Tiền</th><th>Xóa</th></tr></thead>  
-<tbody id="users"></tbody>  
-</table>  
-</div><div class="card">  
-<h3>💳 Nạp tiền</h3>  
-<table>  
-<thead><tr><th>Mã</th><th>User</th><th>Tiền</th><th>Trạng thái</th><th>Xử lý</th></tr></thead>  
-<tbody id="topups"></tbody>  
-</table>  
-</div><div class="card">  
-<h3>🔥 Đơn cày</h3>  
-<table>  
-<thead><tr><th>Mã</th><th>User</th><th>Tiền</th><th>Trạng thái</th><th>Xử lý</th></tr></thead>  
-<tbody id="orders"></tbody>  
-</table>  
-</div></div>  
-</div><script>  
-/* 👑 ADMIN */  
-const ADMIN_USER="Ngocbecon"  
-const ADMIN_PASS="manhmanh"  /* 🎵 MUSIC */
-const music=document.getElementById("music")
-document.addEventListener("click",()=>music.play().catch(()=>{}),{once:true})
+@keyframes fade{
+from{opacity:0;transform:translateY(20px)}
+to{opacity:1}
+}
+</style>
+</head>
 
-/* ✨ SPARKLE */
-document.addEventListener("mousemove",e=>{
-let s=document.createElement("div")
-s.className="sparkle"
-s.style.left=e.clientX+"px"
-s.style.top=e.clientY+"px"
-document.body.appendChild(s)
-setTimeout(()=>s.remove(),600)
-})
+<body>
 
-/* 💾 DATABASE */
-let DB=JSON.parse(localStorage.getItem("VIP_SHOP"))||{users:{},topups:[],orders:[]}
-const save=()=>localStorage.setItem("VIP_SHOP",JSON.stringify(DB))
+<!-- LOGIN -->
+<div id="loginBox" class="login">
+<h2>👑 ADMIN NGỌC BECON</h2>
+<input id="l_user" placeholder="Tài khoản">
+<input id="l_pass" type="password" placeholder="Mật khẩu">
+<button onclick="login()">Đăng nhập</button>
+</div>
 
-/* 🔐 LOGIN */
+<!-- PANEL -->
+<div id="panel" class="hidden">
+<header>
+<span>👑 ADMIN PANEL</span>
+<span onclick="location.reload()" style="cursor:pointer">🚪</span>
+</header>
+
+<div class="main">
+<!-- SIDEBAR -->
+<div class="sidebar">
+<button onclick="show('users')">👤 User</button>
+<button onclick="show('topups')">💳 Nạp tiền</button>
+<button onclick="show('orders')">🔥 Đơn cày</button>
+</div>
+
+<!-- CONTENT -->
+<div class="content">
+
+<div id="users" class="card hidden">
+<h3>👤 Người dùng</h3>
+<table>
+<thead><tr><th>User</th><th>Số dư</th></tr></thead>
+<tbody id="uList"></tbody>
+</table>
+</div>
+
+<div id="topups" class="card hidden">
+<h3>💳 Duyệt nạp tiền</h3>
+<table>
+<thead><tr><th>Mã</th><th>User</th><th>Tiền</th><th>Trạng thái</th><th>Xử lý</th></tr></thead>
+<tbody id="tList"></tbody>
+</table>
+</div>
+
+<div id="orders" class="card hidden">
+<h3>🔥 Duyệt đơn cày</h3>
+<table>
+<thead><tr><th>Mã</th><th>User</th><th>Tiền</th><th>Trạng thái</th><th>Xử lý</th></tr></thead>
+<tbody id="oList"></tbody>
+</table>
+</div>
+
+</div>
+</div>
+</div>
+
+<!-- CHAT ADMIN -->
+<div id="chatBox" class="chat-wrap hidden">
+<div class="chat-header">💬 Chat CSKH</div>
+<div class="chat-users" id="chatUsers"></div>
+<div class="chat-body" id="chatBody"></div>
+<div class="chat-input">
+<input id="chatMsg" placeholder="Nhắn tin...">
+<input type="file" id="imgInput" hidden accept="image/*">
+<button onclick="imgInput.click()">🖼</button>
+<button onclick="sendMsg()">➤</button>
+</div>
+</div>
+
+<script>
+/* ADMIN LOGIN */
+const ADMIN_USER="Ngocbecon"
+const ADMIN_PASS="manhmanh"
+
+/* DATABASE */
+let DB=JSON.parse(localStorage.getItem("SHOP"))||{users:{},topups:[],orders:[]}
+const save=()=>localStorage.setItem("SHOP",JSON.stringify(DB))
+
 function login(){
-if(user.value===ADMIN_USER && pass.value===ADMIN_PASS){
+if(l_user.value===ADMIN_USER && l_pass.value===ADMIN_PASS){
 loginBox.classList.add("hidden")
 panel.classList.remove("hidden")
-music.volume=0.45
+chatBox.classList.remove("hidden")
 loadAll()
-}else alert("❌ Sai mật khẩu công chúa")
+}else alert("Sai tài khoản admin")
 }
 
-/* 👤 USERS */
+/* MENU */
+function show(id){
+["users","topups","orders"].forEach(x=>document.getElementById(x).classList.add("hidden"))
+document.getElementById(id).classList.remove("hidden")
+}
+
+/* USERS */
 function loadUsers(){
-users.innerHTML=""
+uList.innerHTML=""
 Object.keys(DB.users).forEach(u=>{
-users.innerHTML+=`
+uList.innerHTML+=`<tr><td>${u}</td><td>${DB.users[u].money}đ</td></tr>`
+})
+}
 
-<tr>  
-<td>${u}</td>  
-<td>${DB.users[u].money.toLocaleString()}đ</td>  
-<td>  
-<input id="m_${u}" type="number" placeholder="Tiền">  
-<button class="btn ok" onclick="add('${u}')">+</button>  
-<button class="btn warn" onclick="sub('${u}')">-</button>  
-</td>  
-<td><button class="btn no" onclick="del('${u}')">X</button></td>  
-</tr>`  
-})  
-}  
-function add(u){let v=+document.getElementById("m_"+u).value;if(v){DB.users[u].money+=v;save();loadUsers()}}  
-function sub(u){let v=+document.getElementById("m_"+u).value;if(v){DB.users[u].money=Math.max(0,DB.users[u].money-v);save();loadUsers()}}  
-function del(u){if(confirm("Xóa "+u+" ?")){delete DB.users[u];save();loadAll()}}  /* 💳 TOPUPS */
+/* TOPUPS */
 function loadTopups(){
-topups.innerHTML=""
+tList.innerHTML=""
 DB.topups.forEach((x,i)=>{
-topups.innerHTML+=`
+tList.innerHTML+=`
+<tr>
+<td>${x.id}</td><td>${x.user}</td><td>${x.money}</td><td>${x.status}</td>
+<td>
+<button onclick="okTopup(${i})">✔</button>
+<button onclick="noTopup(${i})">✖</button>
+</td>
+</tr>`
+})
+}
+function okTopup(i){
+let x=DB.topups[i]
+if(x.status!=="Chờ duyệt")return
+DB.users[x.user].money+=x.money
+x.status="Đã duyệt"
+save();loadAll()
+}
+function noTopup(i){DB.topups[i].status="Hủy";save();loadTopups()}
 
-<tr>  
-<td>${x.id}</td>  
-<td>${x.user}</td>  
-<td>${x.money}</td>  
-<td>${x.status}</td>  
-<td>  
-<button class="btn ok" onclick="okTopup(${i})">✔</button>  
-<button class="btn no" onclick="noTopup(${i})">✖</button>  
-</td>  
-</tr>`  
-})  
-}  
-function okTopup(i){  
-let x=DB.topups[i]  
-if(x.status!=="Chờ duyệt") return  
-DB.users[x.user].money+=x.money  
-x.status="Đã duyệt"  
-save();loadAll()  
-}  
-function noTopup(i){DB.topups[i].status="Hủy";save();loadTopups()}  /* 🔥 ORDERS */
+/* ORDERS */
 function loadOrders(){
-orders.innerHTML=""
+oList.innerHTML=""
 DB.orders.forEach((x,i)=>{
-orders.innerHTML+=`
+oList.innerHTML+=`
+<tr>
+<td>${x.id}</td><td>${x.user}</td><td>${x.money}</td><td>${x.status}</td>
+<td>
+<button onclick="done(${i})">✔</button>
+<button onclick="cancel(${i})">✖</button>
+</td>
+</tr>`
+})
+}
+function done(i){DB.orders[i].status="Hoàn thành";save();loadOrders()}
+function cancel(i){
+let x=DB.orders[i]
+DB.users[x.user].money+=x.money
+x.status="Hoàn tiền"
+save();loadAll()
+}
 
-<tr>  
-<td>${x.id}</td>  
-<td>${x.user}</td>  
-<td>${x.money}</td>  
-<td>${x.status}</td>  
-<td>  
-<button class="btn ok" onclick="done(${i})">✔</button>  
-<button class="btn no" onclick="cancel(${i})">✖</button>  
-</td>  
-</tr>`  
-})  
-}  
-function done(i){DB.orders[i].status="Hoàn thành";save();loadOrders()}  
-function cancel(i){  
-let x=DB.orders[i]  
-DB.users[x.user].money+=x.money  
-x.status="Hoàn tiền"  
-save();loadAll()  
-}  /* 🚀 LOAD */
-function loadAll(){loadUsers();loadTopups();loadOrders()}
-</script></body>
+/* CHAT */
+let curUser=null
+function loadChatUsers(){
+chatUsers.innerHTML=""
+Object.keys(DB.users).forEach(u=>{
+chatUsers.innerHTML+=`<button onclick="openChat('${u}')">${u}</button>`
+})
+}
+function openChat(u){
+curUser=u
+[...chatUsers.children].forEach(b=>b.classList.remove("active"))
+event.target.classList.add("active")
+loadChat()
+}
+function chatKey(){return "CHAT_"+curUser}
+function loadChat(){
+chatBody.innerHTML=""
+let c=JSON.parse(localStorage.getItem(chatKey()))||[]
+c.forEach(m=>{
+let html=m.type==="img"
+? `<img src="${m.data}" style="max-width:100%">`
+: m.text
+chatBody.innerHTML+=`<div class="msg ${m.from}"><div class="bubble">${html}</div></div>`
+})
+chatBody.scrollTop=9999
+}
+function sendMsg(){
+if(!curUser||!chatMsg.value)return
+let c=JSON.parse(localStorage.getItem(chatKey()))||[]
+c.push({from:"admin",type:"text",text:chatMsg.value})
+localStorage.setItem(chatKey(),JSON.stringify(c))
+chatMsg.value=""
+loadChat()
+}
+imgInput.onchange=()=>{
+let r=new FileReader()
+r.onload=()=>{
+let c=JSON.parse(localStorage.getItem(chatKey()))||[]
+c.push({from:"admin",type:"img",data:r.result})
+localStorage.setItem(chatKey(),JSON.stringify(c))
+loadChat()
+}
+r.readAsDataURL(imgInput.files[0])
+}
 
+/* LOAD */
+function loadAll(){
+loadUsers();loadTopups();loadOrders();loadChatUsers()
+}
+</script>
+
+</body>
 </html>
