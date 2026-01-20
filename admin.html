@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Admin</title>
+<style>
+body{font-family:Poppins;background:linear-gradient(135deg,#ff5fa2,#ff9ecf);color:#fff}
+.box{background:rgba(255,255,255,.2);margin:50px auto;padding:30px;width:300px;border-radius:25px;text-align:center}
+</style>
+</head>
+<body>
+<div class="box">
+<h2>Admin Login</h2>
+<input id="u" placeholder="user"><br><br>
+<input id="p" type="password" placeholder="pass"><br><br>
+<button onclick="login()">Login</button>
+</div>
+<script>
+function login(){if(u.value==='admin'&&p.value==='admin'){alert('Login thành công')}else alert('Sai');}
+</script>
+</body>
+</html>
