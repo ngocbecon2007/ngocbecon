@@ -5,7 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1"><style>
 :root{--pink:#ff4fa3}
 *{box-sizing:border-box;font-family:Segoe UI,Arial}
-body{margin:0;background:radial-gradient(circle,#3a0045,#0b0010);color:#fff;overflow-x:hidden}
+body{
+margin:0;
+background:radial-gradient(circle,#3a0045,#0b0010);
+color:#fff;
+overflow-x:hidden
+}
 .hidden{display:none}
 button{cursor:pointer}
 
@@ -34,12 +39,27 @@ background:#ff4fa3;color:#fff;font-weight:bold
 .card{background:#16001d;padding:20px;border-radius:20px;margin-bottom:20px}
 select,input{padding:10px;border-radius:10px;border:none;margin:6px 0;width:100%}
 
-/* LOGIN */
-.auth{max-width:360px;margin:120px auto;background:#16001d;padding:24px;border-radius:20px;text-align:center}
-.auth input,.auth button{
-width:100%;padding:14px;margin-top:12px;border-radius:14px;border:none
+/* AUTH */
+.auth{
+max-width:360px;margin:120px auto;
+background:#16001d;padding:26px;
+border-radius:22px;text-align:center
 }
-.auth button{background:linear-gradient(90deg,#ff4fa3,#ff77b7);color:#fff}
+.auth h2{margin-bottom:10px}
+.auth input,.auth button{
+width:100%;padding:14px;margin-top:12px;
+border-radius:14px;border:none
+}
+.auth button{
+background:linear-gradient(90deg,#ff4fa3,#ff77b7);
+color:#fff;font-weight:bold
+}
+.switch{
+margin-top:14px;
+color:#ff77b7;
+font-size:14px;
+cursor:pointer
+}
 
 /* MUSIC */
 #musicBtn{
@@ -50,114 +70,86 @@ display:flex;align-items:center;justify-content:center;
 font-size:22px;z-index:20
 }
 
-/* ❤️ TIM RƠI */
+/* HEART */
 .heart{
 position:fixed;
-top:-20px;
-font-size:20px;
-animation:fall linear forwards;
-z-index:9999;
-pointer-events:none
+color:#ff77b7;
+font-size:14px;
+animation:fall 6s linear infinite;
+opacity:.8
 }
 @keyframes fall{
-to{transform:translateY(110vh) rotate(360deg);opacity:0}
+0%{transform:translateY(-10vh)}
+100%{transform:translateY(110vh);opacity:0}
 }
-
-/* 🐱 MÈO CUTE */
-#cuteCat{
-position:fixed;
-bottom:10px;
-left:20px;
-width:90px;
-z-index:9999;
-animation:catFloat 2s ease-in-out infinite
-}
-@keyframes catFloat{
-0%{transform:translateY(0)}
-50%{transform:translateY(-15px)}
-100%{transform:translateY(0)}
-}
-</style></head><body><audio id="bgMusic" src="music.mp3" loop></audio>
-
-<!-- LOGIN --><div id="auth" class="auth">
-<h2>🐰 Ngọc Becon Shop</h2>
-<input id="user" placeholder="Tài khoản">
-<input id="pass" type="password" placeholder="Mật khẩu">
+</style></head><body><!-- AUTH --><div id="auth" class="auth">
+<h2>🐰 Ngọc Becon Shop</h2><div id="loginBox">
+<input id="loginUser" placeholder="Tài khoản">
+<input id="loginPass" type="password" placeholder="Mật khẩu">
 <button onclick="login()">Đăng nhập</button>
+<div class="switch" onclick="showRegister()">Chưa có tài khoản? Đăng ký</div>
+</div><div id="registerBox" class="hidden">
+<input id="regUser" placeholder="Tài khoản mới">
+<input id="regPass" type="password" placeholder="Mật khẩu">
+<button onclick="register()">Đăng ký</button>
+<div class="switch" onclick="showLogin()">Đã có tài khoản? Đăng nhập</div>
+</div>
 </div><header id="header" class="hidden">
 <div class="menu-btn" onclick="toggleMenu()">☰</div>
 <b>Số dư: <span id="money">0đ</span></b>
-</header><!-- MENU --><div id="sideMenu" class="hidden">
+</header><div id="sideMenu" class="hidden">
 <button onclick="showPage('nap')">💳 Nạp thẻ</button>
 <button onclick="showPage('momo')">📱 Nạp MoMo</button>
 <button onclick="showPage('blox')">🍏 Blox Fruit</button>
 <button onclick="showPage('ff')">🔥 Free Fire</button>
 <button onclick="showPage('lq')">⚔️ Liên Quân</button>
 <button onclick="toggleMenu()">❌ Đóng</button>
-</div><div class="container hidden" id="shop"><!-- NẠP CARD --><div id="nap" class="card hidden">
-<h3>💳 Nạp thẻ (trừ 17%)</h3>
+</div><div class="container hidden" id="shop"><div id="nap" class="card hidden">
+<h3>💳 Nạp thẻ (TEST)</h3>
 <select id="amount">
 <option value="10000">10.000</option>
 <option value="20000">20.000</option>
 <option value="50000">50.000</option>
-<option value="100000">100.000</option>
-<option value="200000">200.000</option>
-<option value="500000">500.000</option>
-<option value="1000000">1.000.000</option>
 </select>
-<input placeholder="Số seri">
-<input placeholder="Mã thẻ">
-<button onclick="napCard()">NẠP NGAY</button>
-</div><!-- NẠP MOMO --><div id="momo" class="card hidden">
-<h3>📱 Nạp MoMo (tự chọn)</h3>
-<img src="momo.jpg" style="width:100%;border-radius:16px;margin:10px 0">
-<input id="momoAmount" type="number" placeholder="Nhập số tiền (VD: 50000)">
-<p>Nội dung chuyển khoản:</p>
-<b style="color:#ff4fa3">NAP <span id="momoUser"></span></b>
-<button onclick="napMomo()">XÁC NHẬN ĐÃ CHUYỂN</button>
-</div><div id="blox" class="card hidden">
-<h3>🍏 Blox Fruit</h3>
-<select>
-<option>Level 1–700 (10k)</option>
-<option>Level 700–1500 (10k)</option>
-<option>Mastery 1–300 (10k)</option>
-<option>Haki 7 màu (20k)</option>
-<option>Gear V4 Full (40k)</option>
-</select>
-<button>ĐẶT ĐƠN</button>
-</div><div id="ff" class="card hidden">
-<h3>🔥 Free Fire</h3>
-<select>
-<option>Đồng → Huyền Thoại (40k)</option>
-<option>Huyền Thoại → Cao Thủ (60k)</option>
-<option>Cao Thủ 100⭐ (100k)</option>
-</select>
-<button>ĐẶT ĐƠN</button>
-</div><div id="lq" class="card hidden">
-<h3>⚔️ Liên Quân</h3>
-<select>
-<option>Đồng → BK5 (250k)</option>
-<option>BK5 → KC5 (250k)</option>
-<option>KC5 → TA5 (300k)</option>
-<option>TA5 → CT1⭐ (350k)</option>
-</select>
-<button>ĐẶT ĐƠN</button>
-</div></div><!-- MÈO --><img id="cuteCat" src="https://i.imgur.com/4AiXzf8.png"><div id="musicBtn" onclick="toggleMusic()">🎵</div><script>
+<button onclick="napCard()">Cộng tiền</button>
+</div><div id="momo" class="card hidden">
+<h3>📱 Nạp MoMo</h3>
+<input id="momoAmount" type="number" placeholder="Nhập số tiền">
+<button onclick="napMomo()">Cộng tiền</button>
+</div><div id="blox" class="card hidden"><h3>🍏 Blox Fruit</h3></div>
+<div id="ff" class="card hidden"><h3>🔥 Free Fire</h3></div>
+<div id="lq" class="card hidden"><h3>⚔️ Liên Quân</h3></div></div><div id="musicBtn" onclick="toggleMusic()">🎵</div><script>
 let DB = JSON.parse(localStorage.getItem("SHOP")) || {users:{}}
-let cur = null
-const music = document.getElementById("bgMusic")
+let cur=null
+function save(){localStorage.setItem("SHOP",JSON.stringify(DB))}
+
+function showRegister(){
+loginBox.classList.add("hidden")
+registerBox.classList.remove("hidden")
+}
+function showLogin(){
+registerBox.classList.add("hidden")
+loginBox.classList.remove("hidden")
+}
+
+function register(){
+let u=regUser.value,p=regPass.value
+if(!u||!p) return alert("Nhập đủ thông tin")
+if(DB.users[u]) return alert("Tài khoản tồn tại")
+DB.users[u]={pass:p,money:0}
+save()
+alert("Đăng ký thành công")
+showLogin()
+}
 
 function login(){
-let u=user.value,p=pass.value
-if(!DB.users[u]) DB.users[u]={pass:p,money:0}
-if(DB.users[u].pass!==p) return alert("Sai mật khẩu")
+let u=loginUser.value,p=loginPass.value
+if(!DB.users[u]||DB.users[u].pass!==p) return alert("Sai tài khoản")
 cur=u
 auth.classList.add("hidden")
 header.classList.remove("hidden")
 shop.classList.remove("hidden")
 money.innerText=DB.users[u].money+"đ"
-momoUser.innerText=cur
-music.play()
 }
 
 function toggleMenu(){sideMenu.classList.toggle("hidden")}
@@ -167,25 +159,32 @@ document.getElementById(id).classList.remove("hidden")
 sideMenu.classList.add("hidden")
 }
 
-function napCard(){alert("Đã gửi yêu cầu nạp thẻ")}
-function napMomo(){
-let m=momoAmount.value
-if(!m||m<1000)return alert("Số tiền không hợp lệ")
-alert("Đã gửi yêu cầu nạp MoMo: "+m+"đ")
+function napCard(){
+let m=parseInt(amount.value)
+DB.users[cur].money+=m
+save()
+money.innerText=DB.users[cur].money+"đ"
+alert("Đã cộng "+m+"đ")
 }
-function toggleMusic(){music.paused?music.play():music.pause()}
 
-/* TIM RƠI */
-const hearts=["💖","💗","💘","💕","💓","💞"]
-function createHeart(){
-const h=document.createElement("div")
-h.className="heart"
-h.innerText=hearts[Math.floor(Math.random()*hearts.length)]
-h.style.left=Math.random()*100+"vw"
-h.style.animationDuration=(2+Math.random()*3)+"s"
-document.body.appendChild(h)
-setTimeout(()=>h.remove(),5000)
+function napMomo(){
+let m=parseInt(momoAmount.value)
+if(!m) return
+DB.users[cur].money+=m
+save()
+money.innerText=DB.users[cur].money+"đ"
+alert("Đã cộng "+m+"đ")
 }
-setInterval(createHeart,120)
+
+/* HEART */
+setInterval(()=>{
+let h=document.createElement("div")
+h.className="heart"
+h.innerText="❤"
+h.style.left=Math.random()*100+"vw"
+h.style.fontSize=10+Math.random()*18+"px"
+document.body.appendChild(h)
+setTimeout(()=>h.remove(),6000)
+},350)
 </script></body>
 </html>
