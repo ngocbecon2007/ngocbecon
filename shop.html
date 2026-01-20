@@ -13,6 +13,7 @@ background:radial-gradient(circle,#3b0050,#090010);
 overflow-x:hidden
 }
 .hidden{display:none}
+button{cursor:pointer}
 
 /* BG */
 .bg span{
@@ -46,7 +47,7 @@ border:none;border-radius:12px
 }
 button{
 background:linear-gradient(90deg,var(--pink),var(--purple));
-color:#fff;font-weight:700;cursor:pointer
+color:#fff;font-weight:700
 }
 
 /* HEADER */
@@ -85,7 +86,7 @@ width:46px;height:46px;
 border-radius:50%;
 background:var(--pink);
 display:flex;align-items:center;justify-content:center;
-font-size:20px;cursor:pointer
+font-size:20px
 }
 </style>
 </head>
@@ -104,6 +105,7 @@ font-size:20px;cursor:pointer
 <input id="user" placeholder="Tài khoản">
 <input id="pass" type="password" placeholder="Mật khẩu">
 <button onclick="login()">Đăng nhập</button>
+<button onclick="register()">Đăng ký</button>
 </div>
 </div>
 
@@ -127,7 +129,7 @@ font-size:20px;cursor:pointer
 <option>Thẻ cào</option>
 <option>MoMo</option>
 </select>
-<input id="napMoney" placeholder="Số tiền">
+<input id="napMoney" type="number" placeholder="Số tiền">
 <button onclick="nap()">Gửi yêu cầu</button>
 </div>
 
@@ -148,12 +150,6 @@ font-size:20px;cursor:pointer
 
 </div>
 
-<!-- ADMIN -->
-<div class="container hidden" id="admin">
-<h2>🛠 ADMIN DUYỆT</h2>
-<div id="adminList"></div>
-</div>
-
 <div id="musicBtn" onclick="toggleMusic()">🎵</div>
 
 <script>
@@ -167,24 +163,28 @@ bg.appendChild(s)
 
 /* DB */
 let DB=JSON.parse(localStorage.getItem("SHOP"))||{
-users:{admin:{pass:"admin",money:0}},
+users:{},
 orders:[]
 }
-let cur=null, isAdmin=false
+let cur=null
 function save(){localStorage.setItem("SHOP",JSON.stringify(DB))}
 
 /* AUTH */
+function register(){
+if(DB.users[user.value]) return alert("Tài khoản tồn tại")
+DB.users[user.value]={pass:pass.value,money:0}
+save()
+alert("Đăng ký thành công")
+}
 function login(){
-let u=user.value,p=pass.value
-if(!DB.users[u]) return alert("Sai tài khoản")
-if(DB.users[u].pass!==p) return alert("Sai mật khẩu")
-cur=u;isAdmin=(u==="admin")
+if(!DB.users[user.value]) return alert("Sai tài khoản")
+if(DB.users[user.value].pass!==pass.value) return alert("Sai mật khẩu")
+cur=user.value
 auth.classList.add("hidden")
 header.classList.remove("hidden")
-(isAdmin?admin:app).classList.remove("hidden")
-money.innerText=DB.users[u].money
+app.classList.remove("hidden")
+money.innerText=DB.users[cur].money
 music.play()
-if(isAdmin) renderAdmin()
 }
 
 /* MENU */
@@ -198,15 +198,13 @@ toggleMenu()
 
 /* MUSIC */
 function toggleMusic(){music.paused?music.play():music.pause()}
-
-/* LOGOUT */
 function logout(){location.reload()}
 
-/* USER */
+/* USER ACTION */
 function nap(){
 let v=+napMoney.value
 if(v<=0) return alert("Nhập tiền")
-DB.orders.push({user:cur,type:"Nạp",money:v,status:"Chờ duyệt"})
+DB.orders.push({user:cur,type:"Nạp "+napType.value,money:v,status:"Chờ duyệt"})
 save();alert("Đã gửi, chờ admin duyệt")
 }
 
@@ -221,26 +219,6 @@ list.innerHTML=""
 DB.orders.filter(o=>o.user===cur).forEach(o=>{
 list.innerHTML+=`<div class="status">• ${o.type} | ${o.money}đ | ${o.status}</div>`
 })
-}
-
-/* ADMIN */
-function renderAdmin(){
-adminList.innerHTML=""
-DB.orders.forEach((o,i)=>{
-if(o.status==="Chờ duyệt"){
-adminList.innerHTML+=`
-<div class="card">
-<b>${o.user}</b> | ${o.type} | ${o.money}đ
-<button onclick="duyet(${i})">✔ Duyệt</button>
-</div>`
-}
-})
-}
-function duyet(i){
-let o=DB.orders[i]
-if(o.type==="Nạp") DB.users[o.user].money+=o.money
-o.status="Hoàn thành"
-save();renderAdmin()
 }
 </script>
 </body>
