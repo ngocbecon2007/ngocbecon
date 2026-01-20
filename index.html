@@ -1,39 +1,35 @@
-<!-- INDEX.HTML FULL -->
 <!DOCTYPE html>
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<title>Shop Cày Thuê Game</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<title>🌸 Shop Cày Thuê</title>
 <style>
-body{margin:0;font-family:Poppins;background:linear-gradient(135deg,#ff5fa2,#ff9ecf);color:#fff}
-header{text-align:center;padding:30px}
-nav a{color:#fff;text-decoration:none;margin:0 10px;padding:8px 18px;background:rgba(255,255,255,.2);border-radius:20px}
-.box{background:rgba(255,255,255,.2);margin:20px auto;padding:20px;max-width:400px;border-radius:25px;text-align:center}
-button{padding:10px 25px;border:none;border-radius:20px;font-weight:600}
+*{box-sizing:border-box;font-family:Arial}
+body{margin:0;background:linear-gradient(135deg,#ff4fa3,#ff9ad5);color:#fff;text-align:center}
+.box{background:rgba(255,255,255,.2);margin:30px auto;padding:25px;max-width:420px;border-radius:22px}
+a{color:#fff;text-decoration:none;margin:0 10px}
+button{background:#fff;color:#ff4fa3;border:none;padding:10px 22px;border-radius:20px;font-weight:bold}
 </style>
 </head>
 <body>
-<header>
-<h1>🌸 SHOP CÀY THUÊ 🌸</h1>
-<nav>
+
+<h1>🌸 SHOP CÀY THUÊ</h1>
 <a href="index.html">Trang chủ</a>
 <a href="shop.html">Shop</a>
 <a href="admin.html">Admin</a>
-</nav>
-</header>
 
 <div class="box">
-<h2>💳 Ví của bạn</h2>
-<p>Số dư: <b id="money">0</b> VNĐ</p>
-<button onclick="nap()">Nạp tiền</button>
+<h2>Số dư</h2>
+<p id="money"></p>
 </div>
 
 <script>
-let money = localStorage.getItem('money')||0;
-document.getElementById('money').innerText=money;
-function nap(){money=parseInt(money)+50000;localStorage.setItem('money',money);location.reload();}
+let user = JSON.parse(localStorage.getItem("user")) 
+|| {money:100000, role:"user"};
+localStorage.setItem("user",JSON.stringify(user));
+document.getElementById("money").innerText =
+user.money.toLocaleString()+" VNĐ";
 </script>
+
 </body>
 </html>
