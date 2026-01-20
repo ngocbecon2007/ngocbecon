@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="vi">
+<!DOCTYPE html>
+<html lang="vi">
 <head>
 <meta charset="UTF-8">
 <title>🐰 Ngọc Becon Shop</title>
@@ -13,7 +14,9 @@ color:#fff;
 overflow-x:hidden
 }
 .hidden{display:none}
-button{cursor:pointer}/* HEART */
+button{cursor:pointer}
+
+/* HEART */
 .heart{
 position:fixed;
 top:-40px;
@@ -123,10 +126,15 @@ box-shadow:0 0 20px #ff4fa3
 }
 .momo-img{width:100%;border-radius:16px;margin:10px 0}
 </style>
+</head>
 
-</head><body><audio id="bgMusic" loop>
-  <source src="music.mp3" type="audio/mpeg">
-</audio><script>
+<body>
+
+<audio id="bgMusic" loop>
+<source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<script>
 for(let i=0;i<35;i++){
 let h=document.createElement("div")
 h.className="heart"
@@ -136,76 +144,102 @@ h.style.animationDuration=5+Math.random()*6+"s"
 h.style.fontSize=14+Math.random()*18+"px"
 document.body.appendChild(h)
 }
-</script><!-- AUTH --><div id="auth" class="auth">
+</script>
+
+<div id="auth" class="auth">
 <h2>🐰 Ngọc Becon Shop</h2>
 <input id="authUser" placeholder="Tài khoản">
 <input id="authPass" type="password" placeholder="Mật khẩu">
 <button onclick="login()">Đăng nhập</button>
 <button onclick="register()">Đăng ký</button>
-</div><header id="header" class="hidden">
+</div>
+
+<header id="header" class="hidden">
 <div class="menu-btn" onclick="toggleMenu()">☰</div>
-<b>💖 Số dư: <span id="money">0</span>đ</b>
-</header><div id="sideMenu" class="hidden">
+<b>💖 Số dư: <span id="money">0</span></b>
+</header>
+
+<div id="sideMenu" class="hidden">
 <button onclick="showPage('nap')">💳 Nạp thẻ</button>
 <button onclick="showPage('momo')">📱 Nạp MoMo</button>
 <button onclick="showPage('blox')">🍏 Blox Fruit</button>
 <button onclick="showPage('ff')">🔥 Free Fire</button>
 <button onclick="showPage('lq')">⚔️ Liên Quân</button>
 <button onclick="toggleMenu()">❌ Đóng</button>
-</div><div id="shop" class="container hidden"><!-- NẠP THẺ --><div id="nap" class="card hidden">
+</div>
+
+<div id="shop" class="container hidden">
+
+<div id="nap" class="card hidden">
 <h3>💳 Nạp thẻ</h3>
-<select id="cardType">
-<option>Viettel</option><option>Mobifone</option>
-</select>
 <select id="cardValue">
-<option value="10000">10.000</option>
-<option value="20000">20.000</option>
-<option value="50000">50.000</option>
-<option value="100000">100.000</option>
-<option value="200000">200.000</option>
-<option value="500000">500.000</option>
+<option value="1000">1k</option>
+<option value="10000">10k</option>
+<option value="50000">50k</option>
+<option value="100000">100k</option>
+<option value="500000">500k</option>
 </select>
-<input id="seri" placeholder="Seri thẻ">
-<input id="code" placeholder="Mã thẻ">
+<input placeholder="Seri thẻ">
+<input placeholder="Mã thẻ">
 <button onclick="napThe()">NẠP THẺ</button>
-</div><!-- MOMO --><div id="momo" class="card hidden">
+</div>
+
+<div id="momo" class="card hidden">
 <h3>📱 Nạp MoMo</h3>
 <img src="momo.jpg" class="momo-img">
-<input id="momoMoney" type="number" placeholder="Nhập số tiền">
+<input id="momoMoney" type="number" placeholder="Ví dụ: 10000 = 10k">
 <p>Nội dung: <b style="color:#ff4fa3">NAP <span id="momoUser"></span></b></p>
 <button onclick="napMoMo()">XÁC NHẬN</button>
-</div><!-- BLOX --><div id="blox" class="card hidden">
+</div>
+
+<div id="blox" class="card hidden">
 <h3>🍏 Blox Fruit</h3>
 <select id="bloxPrice">
 <option value="30000">Level 1 → 2800 (30k)</option>
 <option value="15000">Triple Katana (15k)</option>
 <option value="10000">Mastery (10k)</option>
-<option value="20000">Haki 7 màu</option>
-<option value="40000">Gear V4</option>
+<option value="20000">Haki 7 màu (20k)</option>
+<option value="40000">Gear V4 (40k)</option>
 </select>
 <button onclick="datDon('Blox Fruit',bloxPrice.value)">ĐẶT ĐƠN</button>
-</div><!-- FF --><div id="ff" class="card hidden">
+</div>
+
+<div id="ff" class="card hidden">
 <h3>🔥 Free Fire</h3>
 <select id="ffPrice">
-<option value="40000">Đồng → Huyền Thoại</option>
-<option value="60000">Huyền Thoại → Cao Thủ</option>
-<option value="100000">Cao Thủ 100⭐</option>
+<option value="40000">Đồng → Huyền Thoại (40k)</option>
+<option value="60000">Huyền Thoại → Cao Thủ (60k)</option>
+<option value="100000">Cao Thủ 100⭐ (100k)</option>
 </select>
 <button onclick="datDon('Free Fire',ffPrice.value)">ĐẶT ĐƠN</button>
-</div><!-- LQ --><div id="lq" class="card hidden">
+</div>
+
+<div id="lq" class="card hidden">
 <h3>⚔️ Liên Quân</h3>
 <select id="lqPrice">
-<option value="250000">Đồng → BK5</option>
-<option value="250000">BK5 → KC5</option>
-<option value="300000">KC5 → TA5</option>
-<option value="350000">TA5 → CT</option>
+<option value="250000">Đồng → BK5 (250k)</option>
+<option value="300000">KC5 → TA5 (300k)</option>
+<option value="350000">TA5 → CT (350k)</option>
 </select>
 <button onclick="datDon('Liên Quân',lqPrice.value)">ĐẶT ĐƠN</button>
-</div></div><div id="musicBtn" onclick="toggleMusic()">🎵</div><script>
+</div>
+
+</div>
+
+<div id="musicBtn" onclick="toggleMusic()">🎵</div>
+
+<script>
 let DB=JSON.parse(localStorage.getItem("SHOP"))||{users:{}}
 let cur=null
 const music=document.getElementById("bgMusic")
+
 function save(){localStorage.setItem("SHOP",JSON.stringify(DB))}
+
+function formatMoney(v){
+if(v>=1e6) return (v/1e6)+"M"
+if(v>=1e3) return (v/1e3)+"k"
+return v
+}
 
 function register(){
 let u=authUser.value,p=authPass.value
@@ -222,7 +256,7 @@ cur=u
 auth.classList.add("hidden")
 header.classList.remove("hidden")
 shop.classList.remove("hidden")
-money.innerText=DB.users[u].money
+money.innerText=formatMoney(DB.users[u].money)
 momoUser.innerText=cur
 music.play()
 }
@@ -239,27 +273,29 @@ function toggleMusic(){music.paused?music.play():music.pause()}
 function napThe(){
 let v=+cardValue.value
 DB.users[cur].money+=v
-money.innerText=DB.users[cur].money
+money.innerText=formatMoney(DB.users[cur].money)
 save()
-alert("Nạp thẻ thành công +"+v+"đ")
+alert("Nạp thẻ +" + formatMoney(v))
 }
 
 function napMoMo(){
 let v=+momoMoney.value
 if(v<=0)return alert("Nhập số tiền")
 DB.users[cur].money+=v
-money.innerText=DB.users[cur].money
+money.innerText=formatMoney(DB.users[cur].money)
 save()
-alert("Nạp MoMo thành công +"+v+"đ")
+alert("Nạp MoMo +" + formatMoney(v))
 }
 
 function datDon(game,price){
 price=+price
 if(DB.users[cur].money<price)return alert("Không đủ tiền")
 DB.users[cur].money-=price
-money.innerText=DB.users[cur].money
+money.innerText=formatMoney(DB.users[cur].money)
 save()
 alert("Đặt đơn "+game+" thành công!")
 }
-</script></body>
+</script>
+
+</body>
 </html>
