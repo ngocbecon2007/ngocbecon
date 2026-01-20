@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html lang="vi">
+<!DOCTYPE html><html lang="vi">
 <head>
 <meta charset="UTF-8">
 <title>🐰 Ngọc Becon Shop</title>
@@ -7,65 +6,22 @@
 <style>
 :root{--pink:#ff4fa3}
 *{box-sizing:border-box;font-family:Segoe UI,Arial}
-body{
-margin:0;
-background:radial-gradient(circle,#3a0045,#0b0010);
-color:#fff
-}
+body{margin:0;background:radial-gradient(circle,#3a0045,#0b0010);color:#fff}
 .hidden{display:none}
 button{cursor:pointer}
-
-/* AUTH */
-.auth{
-position:fixed;top:50%;left:50%;
-transform:translate(-50%,-50%);
-width:90%;max-width:360px;
-background:#16001d;
-padding:24px;border-radius:20px;
-text-align:center
-}
-.auth input,.auth button{
-width:100%;padding:12px;margin:8px 0;
-border:none;border-radius:14px
-}
-.auth button{background:var(--pink);color:#fff;font-weight:700}
-
-/* HEADER */
-header{
-background:linear-gradient(90deg,#ff4fa3,#ff77b7);
-padding:12px;
-display:flex;justify-content:space-between;align-items:center
-}
-
-/* MENU */
-#sideMenu{
-position:fixed;left:0;top:0;height:100%;width:240px;
-background:#16001d;padding:16px
-}
-#sideMenu button{
-width:100%;margin:6px 0;padding:12px;
-border:none;border-radius:14px;
-background:#ff4fa3;color:#fff;font-weight:700
-}
-
-/* CONTENT */
+header{background:linear-gradient(90deg,#ff4fa3,#ff77b7);padding:12px;display:flex;justify-content:space-between}
+#sideMenu{position:fixed;left:0;top:0;width:240px;height:100%;background:#16001d;padding:20px}
+#sideMenu button{width:100%;margin:6px 0;padding:12px;border:none;border-radius:12px;background:#ff4fa3;color:#fff}
 .container{padding:16px}
-.card{
-background:#16001d;
-padding:16px;border-radius:18px;margin-bottom:14px
-}
-select,input{
-width:100%;padding:12px;margin:6px 0;
-border:none;border-radius:12px
-}
+.card{background:#16001d;padding:16px;border-radius:16px;margin-bottom:12px}
+input,select{width:100%;padding:10px;border-radius:10px;border:none;margin:5px 0}
+.auth{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:#16001d;padding:20px;border-radius:16px;width:300px}
 </style>
 </head>
-
 <body>
 
-<!-- AUTH -->
 <div id="auth" class="auth">
-<h2>🐰 Ngọc Becon Shop</h2>
+<h3>Đăng nhập</h3>
 <input id="authUser" placeholder="Tài khoản">
 <input id="authPass" type="password" placeholder="Mật khẩu">
 <button onclick="login()">Đăng nhập</button>
@@ -73,127 +29,110 @@ border:none;border-radius:12px
 </div>
 
 <header id="header" class="hidden">
-<b>💖 Số dư: <span id="money">0</span>đ</b>
+<b>Số dư: <span id="money">0</span>đ</b>
 <button onclick="toggleMenu()">☰</button>
 </header>
 
 <div id="sideMenu" class="hidden">
-<button onclick="showPage('nap')">💳 Nạp thẻ</button>
-<button onclick="showPage('momo')">📱 Nạp MoMo</button>
-<button onclick="showPage('blox')">🍏 Blox Fruit</button>
-<button onclick="showPage('ff')">🔥 Free Fire</button>
-<button onclick="showPage('lq')">⚔️ Liên Quân</button>
-<button onclick="showPage('cay')">🛠️ Cày thuê</button>
-<button onclick="toggleMenu()">❌ Đóng</button>
+<button onclick="showPage('shop')">🛒 Shop</button>
+<button onclick="showPage('orders')">📦 Đơn của tôi</button>
+<button id="adminBtn" class="hidden" onclick="showPage('admin')">🛠 Admin</button>
+<button onclick="toggleMenu()">❌</button>
 </div>
 
 <div id="shop" class="container hidden">
-
-<div id="nap" class="card hidden">
-<h3>💳 Nạp thẻ</h3>
-<select id="cardValue">
-<option value="10000">10k</option>
-<option value="20000">20k</option>
-<option value="50000">50k</option>
-<option value="100000">100k</option>
+<div class="card">
+<h3>Blox Fruit</h3>
+<select id="price">
+<option value="30000">Cày level (30k)</option>
+<option value="50000">Gear (50k)</option>
 </select>
-<button onclick="napThe()">Nạp</button>
+<button onclick="datDon('Blox Fruit')">Đặt đơn</button>
+</div>
 </div>
 
-<div id="momo" class="card hidden">
-<h3>📱 Nạp MoMo</h3>
-<input id="momoMoney" type="number" placeholder="Số tiền">
-<button onclick="napMoMo()">Xác nhận</button>
+<div id="orders" class="container hidden">
+<h3>Đơn của bạn</h3>
+<div id="orderList"></div>
 </div>
 
-<div id="blox" class="card hidden">
-<h3>🍏 Blox Fruit</h3>
-<select id="bloxPrice">
-<option value="30000">Level 1 → 2800 (30k)</option>
-<option value="15000">Triple Katana (15k)</option>
-</select>
-<button onclick="datDon('Blox Fruit',bloxPrice.value)">Đặt đơn</button>
-</div>
-
-<div id="ff" class="card hidden">
-<h3>🔥 Free Fire</h3>
-<select id="ffPrice">
-<option value="40000">Đồng → Huyền Thoại</option>
-<option value="60000">Huyền Thoại → Cao Thủ</option>
-</select>
-<button onclick="datDon('Free Fire',ffPrice.value)">Đặt đơn</button>
-</div>
-
-<div id="lq" class="card hidden">
-<h3>⚔️ Liên Quân</h3>
-<select id="lqPrice">
-<option value="250000">Đồng → BK5</option>
-<option value="300000">KC5 → TA5</option>
-</select>
-<button onclick="datDon('Liên Quân',lqPrice.value)">Đặt đơn</button>
-</div>
-
-<div id="cay" class="card hidden">
-<h3>🛠️ Cày thuê</h3>
-<select id="cayGame" onchange="loadCay()">
-<option value="">Chọn game</option>
-<option value="blox">Blox Fruit</option>
-<option value="ff">Free Fire</option>
-<option value="lq">Liên Quân</option>
-</select>
-<select id="cayOpt"></select>
-<input id="cayAcc" placeholder="Tài khoản game">
-<input id="cayPass" placeholder="Mật khẩu game">
-<button onclick="datCay()">Tạo đơn (chờ duyệt)</button>
-</div>
-
+<div id="admin" class="container hidden">
+<h3>ADMIN DUYỆT ĐƠN</h3>
+<div id="adminOrders"></div>
 </div>
 
 <script>
 let DB=JSON.parse(localStorage.getItem("SHOP"))||{users:{},orders:[]}
-let cur=null
+let cur=null,isAdmin=false
+
 function save(){localStorage.setItem("SHOP",JSON.stringify(DB))}
 
 function register(){
-if(DB.users[authUser.value])return alert("Tồn tại")
-DB.users[authUser.value]={pass:authPass.value,money:0}
+let u=authUser.value,p=authPass.value
+if(DB.users[u])return alert("Tồn tại")
+DB.users[u]={pass:p,money:0}
 save();alert("OK")
 }
+
 function login(){
-let u=authUser.value
-if(!DB.users[u]||DB.users[u].pass!==authPass.value)return alert("Sai")
+let u=authUser.value,p=authPass.value
+if(u==="Ngocbecon"&&p==="manhmanh"){isAdmin=true}
+if(!DB.users[u]&& !isAdmin)return alert("Sai")
+if(!isAdmin && DB.users[u].pass!==p)return alert("Sai")
 cur=u
 auth.classList.add("hidden")
 header.classList.remove("hidden")
 shop.classList.remove("hidden")
-money.innerText=DB.users[u].money
+if(isAdmin)adminBtn.classList.remove("hidden")
+money.innerText=DB.users[u]?.money||0
 }
+
 function toggleMenu(){sideMenu.classList.toggle("hidden")}
 function showPage(id){
-document.querySelectorAll(".card").forEach(c=>c.classList.add("hidden"))
+document.querySelectorAll(".container").forEach(x=>x.classList.add("hidden"))
 document.getElementById(id).classList.remove("hidden")
-sideMenu.classList.add("hidden")
+if(id==="orders")renderOrders()
+if(id==="admin")renderAdmin()
 }
-function napThe(){DB.users[cur].money+=+cardValue.value;money.innerText=DB.users[cur].money;save()}
-function napMoMo(){DB.users[cur].money+=+momoMoney.value;money.innerText=DB.users[cur].money;save()}
-function datDon(game,price){
-if(DB.users[cur].money<price)return alert("Thiếu tiền")
-DB.users[cur].money-=price;money.innerText=DB.users[cur].money
-DB.orders.push({user:cur,game,price,status:"CHỜ DUYỆT"})
-save();alert("Đã tạo đơn")
+
+function datDon(game){
+let price=+document.getElementById("price").value
+DB.orders.push({user:cur,game,price,status:"Chờ duyệt"})
+save()
+alert("Đã tạo đơn – chờ admin duyệt")
 }
-function loadCay(){
-cayOpt.innerHTML=""
-if(cayGame.value=="blox")cayOpt.innerHTML+=`<option value="30000">Level 1 → 2800</option>`
-if(cayGame.value=="ff")cayOpt.innerHTML+=`<option value="40000">Đồng → Huyền Thoại</option>`
-if(cayGame.value=="lq")cayOpt.innerHTML+=`<option value="250000">Đồng → BK5</option>`
+
+function renderOrders(){
+orderList.innerHTML=""
+DB.orders.filter(o=>o.user===cur).forEach(o=>{
+orderList.innerHTML+=`<div class="card">${o.game} - ${o.price}đ - <b>${o.status}</b></div>`
+})
 }
-function datCay(){
-let p=+cayOpt.value
-if(DB.users[cur].money<p)return alert("Thiếu tiền")
-DB.users[cur].money-=p;money.innerText=DB.users[cur].money
-DB.orders.push({user:cur,type:"Cày",game:cayGame.value,price:p,status:"CHỜ DUYỆT"})
-save();alert("Đã tạo đơn cày")
+
+function renderAdmin(){
+adminOrders.innerHTML=""
+DB.orders.forEach((o,i)=>{
+if(o.status==="Chờ duyệt")
+adminOrders.innerHTML+=`
+<div class="card">
+${o.user} | ${o.game} | ${o.price}đ
+<button onclick="duyet(${i})">Duyệt</button>
+<button onclick="huy(${i})">Hủy</button>
+</div>`
+})
+}
+
+function duyet(i){
+let o=DB.orders[i]
+if(DB.users[o.user].money<o.price)return alert("User thiếu tiền")
+DB.users[o.user].money-=o.price
+o.status="Đã duyệt"
+save();renderAdmin()
+}
+
+function huy(i){
+DB.orders[i].status="Từ chối"
+save();renderAdmin()
 }
 </script>
 </body>
