@@ -1,7 +1,7 @@
 <!DOCTYPE html><html lang="vi">
 <head>
 <meta charset="UTF-8">
-<title>👑 ADMIN GOD MODE</title>
+<title>🎮 ADMIN GAME HUB</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
 :root{--pink:#ff4fa3}
@@ -12,82 +12,83 @@ background:radial-gradient(circle at top,#ff5fa3,#120015);
 color:#fff;
 overflow:hidden
 }
-.hidden{display:none}
-button{cursor:pointer;border:none}/* ===== ANIMATION GOD ===== */
+.hidden{display:none}/* ===== PARTICLE ===== */
 .fx{
-position:fixed;
-top:-40px;
-pointer-events:none;
-animation:fall linear infinite;
-z-index:0
+position:fixed;top:-40px;pointer-events:none;
+animation:fall linear infinite;z-index:0
 }
-@keyframes fall{
-to{transform:translateY(120vh) rotate(360deg)}
-}
+@keyframes fall{to{transform:translateY(120vh) rotate(360deg)}}
 
 /* ===== LOGIN ===== */
 .login{
 position:absolute;top:50%;left:50%;
 transform:translate(-50%,-50%);
 background:#16001d;
-padding:30px;
-border-radius:26px;
-width:92%;max-width:360px;
+padding:30px;border-radius:26px;
+width:90%;max-width:360px;
 text-align:center;
 box-shadow:0 0 60px #ff4fa3
 }
 .login input,.login button{
-width:100%;padding:14px;
-margin:10px 0;border-radius:999px
+width:100%;padding:14px;margin:10px 0;
+border:none;border-radius:999px
 }
 .login button{
 background:linear-gradient(90deg,#ff4fa3,#ff77b7);
 color:#fff;font-weight:900
 }
 
-/* ===== LAYOUT ===== */
-header{
+/* ===== HUD ===== */
+#hub{position:relative;height:100vh;z-index:5}
+.topbar{
+height:64px;
 background:linear-gradient(90deg,#ff4fa3,#ff77b7);
-padding:14px;
-font-weight:900;
-display:flex;
+display:flex;align-items:center;
 justify-content:space-between;
-align-items:center
+padding:0 20px;font-weight:900
 }
-.main{display:flex;height:calc(100vh - 56px)}
-.menu{
-width:220px;
-background:#16001d;
-padding:16px
+.exp{
+height:6px;background:#30001a
 }
-.menu button{
-width:100%;
-margin:6px 0;
-padding:12px;
-border-radius:14px;
-background:#ff4fa3;
-color:#fff;
-font-weight:700;
-box-shadow:0 0 20px #ff4fa3
+.exp span{
+display:block;height:100%;
+background:#ff4fa3;width:80%
 }
-.content{
-flex:1;
-padding:18px;
-overflow:auto
+
+/* ===== GRID ===== */
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:20px;padding:20px
 }
 .card{
 background:#16001d;
-padding:20px;
 border-radius:24px;
-margin-bottom:16px;
-box-shadow:0 0 40px #ff4fa344
+padding:20px;
+text-align:center;
+cursor:pointer;
+box-shadow:0 0 40px #ff4fa344;
+transition:.3s
 }
-input,select{
-width:100%;
-padding:12px;
-border-radius:12px;
-border:none;
-margin:6px 0
+.card:hover{
+transform:scale(1.05);
+box-shadow:0 0 80px #ff4fa3
+}
+.card h3{margin:10px 0;color:#ff9ad5}
+
+/* ===== PANEL ===== */
+.panel{
+position:absolute;top:64px;left:0;
+width:100%;height:calc(100% - 64px);
+background:#0f0014;
+padding:20px;overflow:auto
+}
+input,select,button{
+width:100%;padding:12px;
+margin:6px 0;border-radius:12px;border:none
+}
+button{
+background:#ff4fa3;color:#fff;font-weight:700
 }
 table{width:100%;border-collapse:collapse}
 th,td{padding:10px;border-bottom:1px solid #333;text-align:center}
@@ -96,11 +97,10 @@ th{color:#ff77b7}
 
 </head>
 <body><script>
-["💗","✨","🐱"].forEach(icon=>{
-for(let i=0;i<20;i++){
+["💗","✨","🐱"].forEach(i=>{
+for(let n=0;n<18;n++){
 let e=document.createElement("div")
-e.className="fx"
-e.innerHTML=icon
+e.className="fx";e.innerHTML=i
 e.style.left=Math.random()*100+"vw"
 e.style.fontSize=16+Math.random()*22+"px"
 e.style.animationDuration=5+Math.random()*6+"s"
@@ -108,53 +108,49 @@ document.body.appendChild(e)
 }
 })
 </script><!-- LOGIN --><div id="login" class="login">
-<h2>👑 ADMIN GOD MODE</h2>
+<h2>🎮 ADMIN GAME HUB</h2>
 <input id="u" placeholder="Tài khoản">
 <input id="p" type="password" placeholder="Mật khẩu">
-<button onclick="login()">ĐĂNG NHẬP</button>
-</div><!-- PANEL --><div id="panel" class="hidden">
-<header>
-<span>👑 NGỌC BECON – GOD PANEL</span>
-<span style="cursor:pointer" onclick="location.reload()">🚪</span>
-</header><div class="main">
-<div class="menu">
-<button onclick="show('users')">👤 USER</button>
-<button onclick="show('orders')">📦 ĐƠN CÀY</button>
-<button onclick="show('add')">💎 CỘNG TIỀN</button>
-</div><div class="content"><div id="users" class="card hidden">
-<h3>👤 DANH SÁCH USER</h3>
-<table>
-<thead><tr><th>User</th><th>Số dư</th><th>Xóa</th></tr></thead>
-<tbody id="uList"></tbody>
-</table>
-</div><div id="orders" class="card hidden">
-<h3>📦 ĐƠN CÀY</h3>
-<table>
-<thead><tr><th>User</th><th>Dịch vụ</th><th>Trạng thái</th><th>Đổi</th></tr></thead>
-<tbody id="oList"></tbody>
-</table>
-</div><div id="add" class="card hidden">
-<h3>💎 CỘNG / TRỪ TIỀN</h3>
-<input id="au" placeholder="User">
-<input id="am" type="number" placeholder="Số tiền (+/-)">
+<button onclick="login()">START</button>
+</div><!-- HUB --><div id="hub" class="hidden">
+<div class="topbar">
+<span>👑 NGỌC BECON – GOD</span>
+<span onclick="location.reload()" style="cursor:pointer">🚪</span>
+</div>
+<div class="exp"><span></span></div><div class="grid">
+<div class="card" onclick="openPanel('users')">👤 USER</div>
+<div class="card" onclick="openPanel('money')">💎 MONEY</div>
+<div class="card" onclick="openPanel('orders')">📦 ORDERS</div>
+<div class="card" onclick="godMode()">⚡ GOD MODE</div>
+</div><div id="users" class="panel hidden">
+<h3>👤 USER</h3>
+<table><thead><tr><th>User</th><th>Money</th><th>Del</th></tr></thead>
+<tbody id="uList"></tbody></table>
+</div><div id="money" class="panel hidden">
+<h3>💎 CỘNG / TRỪ</h3>
+<input id="mu" placeholder="User">
+<input id="mm" type="number" placeholder="Số tiền">
 <button onclick="addMoney()">XÁC NHẬN</button>
-</div></div>
+</div><div id="orders" class="panel hidden">
+<h3>📦 ĐƠN CÀY</h3>
+<table><thead><tr><th>User</th><th>DV</th><th>STT</th></tr></thead>
+<tbody id="oList"></tbody></table>
 </div>
 </div><script>
 const ADMIN="Ngocbecon",PASS="manhmanh"
-let DB=JSON.parse(localStorage.getItem("ADMIN_DB"))||{users:{},orders:[]}
-const save=()=>localStorage.setItem("ADMIN_DB",JSON.stringify(DB))
+let DB=JSON.parse(localStorage.getItem("ADMIN_GAME"))||{users:{},orders:[]}
+const save=()=>localStorage.setItem("ADMIN_GAME",JSON.stringify(DB))
 
 function login(){
 if(u.value===ADMIN&&p.value===PASS){
 login.classList.add("hidden")
-panel.classList.remove("hidden")
+hub.classList.remove("hidden")
 load()
-}else alert("Sai quyền admin")
+}else alert("Sai quyền")
 }
 
-function show(id){
-["users","orders","add"].forEach(x=>document.getElementById(x).classList.add("hidden"))
+function openPanel(id){
+document.querySelectorAll(".panel").forEach(p=>p.classList.add("hidden"))
 document.getElementById(id).classList.remove("hidden")
 }
 
@@ -162,35 +158,23 @@ function load(){
 uList.innerHTML=""
 Object.keys(DB.users).forEach(u=>{
 uList.innerHTML+=`<tr>
-<td>${u}</td>
-<td>${DB.users[u]}đ</td>
-<td><button onclick="delUser('${u}')">❌</button></td>
-</tr>`
+<td>${u}</td><td>${DB.users[u]}đ</td>
+<td><button onclick="delUser('${u}')">❌</button></td></tr>`
 })
 oList.innerHTML=""
-DB.orders.forEach((o,i)=>{
-oList.innerHTML+=`<tr>
-<td>${o.user}</td>
-<td>${o.name}</td>
-<td>${o.status}</td>
-<td>
-<select onchange="setStatus(${i},this.value)">
-<option>Chờ</option>
-<option>Đang cày</option>
-<option>Hoàn thành</option>
-<option>Hủy</option>
-</select>
-</td>
-</tr>`
+DB.orders.forEach(o=>{
+oList.innerHTML+=`<tr><td>${o.user}</td><td>${o.name}</td><td>${o.status}</td></tr>`
 })
 }
-
 function delUser(u){delete DB.users[u];save();load()}
 function addMoney(){
-if(!DB.users[au.value])DB.users[au.value]=0
-DB.users[au.value]+=Number(am.value)
+if(!DB.users[mu.value])DB.users[mu.value]=0
+DB.users[mu.value]+=Number(mm.value)
 save();load()
 }
-function setStatus(i,s){DB.orders[i].status=s;save()}
+function godMode(){
+document.body.style.animation="pulse 1s infinite"
+alert("⚡ GOD MODE ACTIVATED")
+}
 </script></body>
 </html>
