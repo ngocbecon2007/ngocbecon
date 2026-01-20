@@ -1,188 +1,250 @@
-<!DOCTYPE html>
-<html lang="vi">
+<!DOCTYPE html><html lang="vi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ngọc Becon Shop</title>
-
-<style>
+<title>Ngọc Becon VIP Shop</title>
+<meta name="viewport" content="width=device-width, initial-scale=1"><style>
+:root{
+--pink:#ff4fa3;
+--bg:#0b0010;
+--vip:#ff77ff;
+}
+*{box-sizing:border-box;font-family:'Segoe UI',Arial}
 body{
-  margin:0;
-  font-family:Arial;
-  background:radial-gradient(circle,#2b0033,#0a0012);
-  color:#fff;
+margin:0;
+background:radial-gradient(circle at top,#3a0045,#0b0010 70%);
+color:#fff;
+overflow-x:hidden
+}
+
+/* ANIMATION */
+@keyframes fadeUp{
+from{opacity:0;transform:translateY(20px)}
+to{opacity:1;transform:none}
+}
+@keyframes glow{
+0%{box-shadow:0 0 10px var(--vip)}
+50%{box-shadow:0 0 30px var(--vip)}
+100%{box-shadow:0 0 10px var(--vip)}
+}
+@keyframes textGlow{
+0%{text-shadow:0 0 6px var(--vip)}
+50%{text-shadow:0 0 20px var(--vip)}
+100%{text-shadow:0 0 6px var(--vip)}
 }
 
 /* HEADER */
 header{
-  background:linear-gradient(90deg,#ff5fa2,#ff8acb);
-  padding:14px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
+position:sticky;top:0;z-index:9;
+background:linear-gradient(90deg,#ff4fa3,#ff77b7);
+padding:16px 35px;
+display:flex;justify-content:space-between;align-items:center
 }
-header h1{font-size:18px;margin:0}
-
-/* CARD */
-.card{
-  background:rgba(0,0,0,.4);
-  border-radius:14px;
-  padding:16px;
-  margin:16px;
-  box-shadow:0 0 25px rgba(255,80,180,.2);
-}
+.menu-btn{font-size:22px;cursor:pointer}
 
 /* MENU */
-.menu button{
-  width:100%;
-  padding:12px;
-  margin:8px 0;
-  border:none;
-  border-radius:10px;
-  background:#ff5fa2;
-  color:#fff;
-  font-weight:bold;
+.dropdown{
+position:absolute;top:70px;right:30px;
+background:#18001e;
+border-radius:18px;
+display:none;min-width:220px;
+box-shadow:0 0 35px rgba(255,79,163,.7)
+}
+.dropdown a{
+display:block;padding:14px 20px;
+cursor:pointer;font-weight:600
+}
+.dropdown a:hover{
+background:linear-gradient(90deg,#ff4fa3,#ff77b7)
 }
 
-/* VÒNG QUAY */
-.wheel-box{
-  position:relative;
-  width:260px;
-  margin:20px auto;
+/* LAYOUT */
+.container{max-width:1250px;margin:auto;padding:35px}
+.card{
+background:linear-gradient(180deg,#200025,#120015);
+border-radius:22px;
+padding:28px;
+margin-bottom:30px;
+box-shadow:0 0 35px rgba(255,79,163,.35);
+animation:fadeUp .6s ease
 }
+.hidden{display:none}
 
-#wheel{
-  width:260px;
-  height:260px;
-  border-radius:50%;
-  background:conic-gradient(
-    red, orange, yellow, green, cyan, blue, purple
-  );
-  transition:transform 4s cubic-bezier(.17,.67,.3,1);
+/* VIP EFFECT */
+.card.vip{animation:glow 2.5s infinite}
+.name.vip{animation:textGlow 2s infinite;color:var(--vip)}
+
+input,select,button{
+width:100%;
+padding:13px;
+border-radius:14px;
+border:none;
+margin-top:12px;
+font-size:15px
 }
-
-.pointer{
-  position:absolute;
-  top:-18px;
-  left:50%;
-  transform:translateX(-50%);
-  width:0;
-  height:0;
-  border-left:12px solid transparent;
-  border-right:12px solid transparent;
-  border-bottom:20px solid #ff5fa2;
-  z-index:10;
+button{
+background:linear-gradient(90deg,#ff4fa3,#ff77b7);
+color:#fff;font-weight:700;
+cursor:pointer
 }
+button:hover{transform:scale(1.05)}
 
-.spin-btn{
-  display:block;
-  margin:15px auto;
-  padding:10px 20px;
-  border:none;
-  border-radius:10px;
-  background:#ff5fa2;
-  color:white;
-  font-weight:bold;
+.price{color:#ff77b7;font-weight:bold}
+.badge{
+padding:6px 14px;border-radius:999px;
+background:linear-gradient(90deg,#ff4fa3,#ff77b7)
 }
+table{width:100%;border-collapse:collapse}
+th,td{padding:10px;border-bottom:1px solid #333}
+th{color:#ff77b7}
+.center{text-align:center}
+</style></head><body><audio id="music" src="music.mp3" loop></audio>
 
-/* NẠP TIỀN */
-select,input{
-  width:100%;
-  padding:10px;
-  margin:8px 0;
-  border-radius:8px;
-  border:none;
-}
-
-/* ẨN TAB */
-.tab{display:none}
-.tab.active{display:block}
-</style>
-</head>
-
-<body>
-
-<header>
-  <h1>✨ Ngọc Becon Shop</h1>
-</header>
-
-<!-- MENU -->
-<div class="card menu">
-  <button onclick="showTab('home')">🏠 Trang chủ</button>
-  <button onclick="showTab('spin')">🎡 Vòng quay may mắn</button>
-  <button onclick="showTab('nap')">💳 Nạp tiền</button>
-  <button onclick="showTab('cay')">🔥 Cày rank</button>
+<header class="hidden" id="header">
+<b>💎 Ngọc Becon VIP Shop</b>
+<div class="menu-btn" onclick="toggleMenu()">☰</div>
+<div class="dropdown" id="menu">
+<a onclick="show('home')">🏠 Trang chủ</a>
+<a onclick="show('service')">🎮 Dịch vụ</a>
+<a onclick="show('order')">📦 Đặt đơn</a>
+<a onclick="show('topup')">💰 Nạp tiền</a>
+<a onclick="show('history')">📜 Lịch sử</a>
+<a onclick="logout()">🚪 Đăng xuất</a>
 </div>
-
-<!-- HOME -->
-<div class="card tab active" id="home">
-  <h3>🔥 Shop game uy tín</h3>
-  <p>Số dư: <b id="money">3000đ</b></p>
-</div>
-
-<!-- VÒNG QUAY -->
-<div class="card tab" id="spin">
-  <h3>🎡 Vòng quay may mắn</h3>
-  <p>Lượt quay: <span id="luot">0</span></p>
-
-  <div class="wheel-box">
-    <div id="wheel"></div>
-    <div class="pointer"></div>
-  </div>
-
-  <button class="spin-btn" onclick="quay()">QUAY</button>
-  <p id="ketqua">🎉 Chưa quay</p>
-</div>
-
-<!-- NẠP TIỀN -->
-<div class="card tab" id="nap">
-  <h3>💳 Nạp tiền</h3>
-
-  <select>
-    <option>MoMo</option>
-  </select>
-
-  <input type="number" placeholder="Nhập số tiền">
-  <img src="momo.jpg" width="100%" style="border-radius:10px;margin-top:10px">
-</div>
-
-<!-- CÀY RANK -->
-<div class="card tab" id="cay">
-  <h3>🔥 Cày rank Liên Quân</h3>
-  <p>Lv 1 - 700: 5.000đ</p>
-  <p>Lv 700 - 1500: 10.000đ</p>
-  <p>Lv 1500 - 2800: 30.000đ</p>
-  <p style="color:#ff5fa2;font-weight:bold">Dark Pink VIP</p>
-</div>
-
-<script>
-let deg=0;
-let luot=0;
-
-function showTab(id){
-  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
+</header><div class="container"><!-- LOGIN --><div id="login" class="card center">
+<h2>🔐 Đăng nhập</h2>
+<input id="l_user" placeholder="Tên tài khoản">
+<input id="l_pass" type="password" placeholder="Mật khẩu">
+<button onclick="login()">Vào shop</button>
+<p onclick="goRegister()" style="cursor:pointer;color:#ff77b7">Đăng ký</p>
+</div><!-- REGISTER --><div id="register" class="card hidden center">
+<h2>📝 Đăng ký</h2>
+<input id="r_user" placeholder="Tên tài khoản">
+<input id="r_pass" type="password" placeholder="Mật khẩu">
+<button onclick="register()">Tạo tài khoản</button>
+<p onclick="goLogin()" style="cursor:pointer;color:#ff77b7">Quay lại</p>
+</div><!-- HOME --><div id="home" class="card hidden">
+<h2>👋 Xin chào <span id="name" class="name"></span></h2>
+<p>Số dư: <span class="price" id="money">0đ</span></p>
+<p>Hạng: <span class="badge" id="rank">Thành viên</span></p>
+</div><!-- SERVICE --><div id="service" class="card hidden">
+<h3>🎮 Dịch vụ</h3>
+<p>Free Fire • Liên Quân • Roblox</p>
+</div><!-- ORDER --><div id="order" class="card hidden">
+<h3>📦 Đặt đơn</h3>
+<select id="game">
+<option>Free Fire</option>
+<option>Liên Quân</option>
+<option>Roblox</option>
+</select>
+<input id="detail" placeholder="Chi tiết đơn">
+<input id="price" placeholder="Giá tiền">
+<button onclick="createOrder()">Gửi đơn</button>
+</div><!-- TOPUP --><div id="topup" class="card hidden">
+<h3>💰 Nạp tiền</h3>
+<b class="price">NAP_<span id="napUser"></span></b><br><br>
+<img src="momo.jpg" width="220" style="border-radius:16px"><br>
+<input id="topMoney" placeholder="Số tiền đã chuyển">
+<button onclick="sendTopup()">Gửi yêu cầu</button>
+</div><!-- HISTORY --><div id="history" class="card hidden">
+<h3>📜 Lịch sử</h3>
+<table>
+<thead><tr><th>Mã</th><th>Loại</th><th>Số tiền</th><th>Trạng thái</th></tr></thead>
+<tbody id="hist"></tbody>
+</table>
+</div></div><script>
+/* ===== SHA-256 ===== */
+async function sha256(text){
+const enc=new TextEncoder().encode(text)
+const buf=await crypto.subtle.digest("SHA-256",enc)
+return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,"0")).join("")
 }
 
-function quay(){
-  if(luot<=0){
-    document.getElementById("ketqua").innerText="❌ Không có lượt quay";
-    return;
-  }
-  luot--;
-  document.getElementById("luot").innerText=luot;
+/* ===== DB ===== */
+let DB=JSON.parse(localStorage.getItem("VIP_SHOP"))||{users:{},orders:[],topups:[]}
+let user=null
+const save=()=>localStorage.setItem("VIP_SHOP",JSON.stringify(DB))
+const bill=()=>`NB-${Math.random().toString(36).substr(2,6).toUpperCase()}`
 
-  let random=Math.floor(Math.random()*360)+720;
-  deg+=random;
-  document.getElementById("wheel").style.transform=`rotate(${deg}deg)`;
+function goRegister(){login.classList.add("hidden");register.classList.remove("hidden")}
+function goLogin(){register.classList.add("hidden");login.classList.remove("hidden")}
 
-  setTimeout(()=>{
-    let tien=[3000,6000,9000,12000];
-    let tr=tien[Math.floor(Math.random()*tien.length)];
-    document.getElementById("ketqua").innerText="🎉 Trúng "+tr+"đ";
-  },4000);
+/* REGISTER */
+async function register(){
+let u=r_user.value.trim(),p=r_pass.value
+if(!u||!p)return alert("Nhập đủ thông tin")
+if(DB.users[u])return alert("Tài khoản đã tồn tại")
+DB.users[u]={pass:await sha256(p),money:0}
+save();alert("✔ Đăng ký thành công");goLogin()
 }
-</script>
 
-</body>
+/* LOGIN */
+async function login(){
+let u=l_user.value.trim(),p=l_pass.value
+let d=DB.users[u]
+if(!d||d.pass!==await sha256(p))return alert("Sai thông tin")
+user=u;start()
+}
+
+/* START */
+function start(){
+login.classList.add("hidden")
+register.classList.add("hidden")
+header.classList.remove("hidden")
+show("home")
+name.innerText=user
+napUser.innerText=user
+update()
+
+let m=document.getElementById("music")
+m.volume=0.5
+m.play().catch(()=>{})
+}
+
+/* UPDATE */
+function update(){
+let d=DB.users[user]
+money.innerText=d.money.toLocaleString()+"đ"
+let home=document.getElementById("home")
+home.classList.remove("vip")
+name.classList.remove("vip")
+
+if(d.money>=1000000){
+rank.innerText="Cộng tác viên"
+home.classList.add("vip")
+name.classList.add("vip")
+}
+else if(d.money>=500000) rank.innerText="Đại lý"
+else rank.innerText="Thành viên"
+
+loadHistory()
+}
+
+function toggleMenu(){
+menu.style.display=menu.style.display=="block"?"none":"block"
+}
+function show(id){
+document.querySelectorAll(".card").forEach(e=>e.classList.add("hidden"))
+document.getElementById(id).classList.remove("hidden")
+menu.style.display="none"
+}
+
+function createOrder(){
+DB.orders.push({user,price:price.value,status:"Chờ duyệt"})
+save();alert("📦 Đã gửi đơn");update()
+}
+function sendTopup(){
+DB.topups.push({user,money:topMoney.value,status:"Chờ duyệt"})
+save();alert("💰 Đã gửi yêu cầu");update()
+}
+function loadHistory(){
+hist.innerHTML=""
+DB.topups.filter(t=>t.user==user).forEach(t=>{
+hist.innerHTML+=`<tr><td>${bill()}</td><td>Nạp</td><td>${t.money}</td><td>${t.status}</td></tr>`
+})
+DB.orders.filter(o=>o.user==user).forEach(o=>{
+hist.innerHTML+=`<tr><td>${bill()}</td><td>Đơn</td><td>${o.price}</td><td>${o.status}</td></tr>`
+})
+}
+function logout(){location.reload()}
+</script></body>
 </html>
