@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Admin Panel</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body{background:#0b0010;color:#fff;font-family:Segoe UI}
+table{width:100%;border-collapse:collapse}
+td,th{padding:10px;border-bottom:1px solid #333}
+</style>
+</head>
+<body>
+
+<h2>🛠 ADMIN SHOP</h2>
+<table>
+<thead><tr><th>User</th><th>Số dư</th><th>+</th><th>-</th></tr></thead>
+<tbody id="list"></tbody>
+</table>
+
+<script>
+let DB=JSON.parse(localStorage.getItem("SHOP_DB"))||{users:{}}
+function load(){
+list.innerHTML=""
+for(let u in DB.users){
+list.innerHTML+=`
+<tr>
+<td>${u}</td>
+<td>${DB.users[u].money}</td>
+<td><button onclick="add('${u}')">+</button></td>
+<td><button onclick="sub('${u}')">-</button></td>
+</tr>`
+}
+}
+function add(u){DB.users[u].money+=100000;save()}
+function sub(u){DB.users[u].money-=100000;save()}
+function save(){localStorage.setItem("SHOP_DB",JSON.stringify(DB));load()}
+load()
+</script>
+
+</body>
+</html>
