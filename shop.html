@@ -1,8 +1,11 @@
-<!DOCTYPE html><html lang="vi">
+<!DOCTYPE html>
+<html lang="vi">
 <head>
 <meta charset="UTF-8">
 <title>Ngọc Becon Shop</title>
-<meta name="viewport" content="width=device-width, initial-scale=1"><style>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
 :root{
 --pink:#ff4fa3;
 --bg:#0b0010;
@@ -16,7 +19,7 @@ color:#fff;
 overflow-x:hidden
 }
 
-/* ANIMATION */
+/* ===== ANIMATION ===== */
 @keyframes fadeUp{
 from{opacity:0;transform:translateY(20px)}
 to{opacity:1;transform:none}
@@ -32,16 +35,16 @@ to{opacity:1;transform:none}
 100%{text-shadow:0 0 6px var(--vip)}
 }
 
-/* HEADER */
+/* ===== HEADER ===== */
 header{
-position:sticky;top:0;z-index:9;
+position:sticky;top:0;z-index:10;
 background:linear-gradient(90deg,#ff4fa3,#ff77b7);
 padding:16px 35px;
 display:flex;justify-content:space-between;align-items:center
 }
 .menu-btn{font-size:22px;cursor:pointer}
 
-/* MENU */
+/* ===== MENU ===== */
 .dropdown{
 position:absolute;top:70px;right:30px;
 background:#18001e;
@@ -57,50 +60,58 @@ cursor:pointer;font-weight:600
 background:linear-gradient(90deg,#ff4fa3,#ff77b7)
 }
 
-/* LAYOUT */
-.container{max-width:1250px;margin:auto;padding:35px}
+/* ===== LAYOUT ===== */
+.container{max-width:1200px;margin:auto;padding:35px}
 .card{
 background:linear-gradient(180deg,#200025,#120015);
 border-radius:22px;
 padding:28px;
 margin-bottom:30px;
 box-shadow:0 0 35px rgba(255,79,163,.35);
-animation:fadeUp .6s ease
+animation:fadeUp .5s ease
 }
 .hidden{display:none}
 
-/* VIP EFFECT */
+/* VIP */
 .card.vip{animation:glow 2.5s infinite}
 .name.vip{animation:textGlow 2s infinite;color:var(--vip)}
 
 input,select,button{
-width:100%;
-padding:13px;
-border-radius:14px;
-border:none;
-margin-top:12px;
-font-size:15px
+width:100%;padding:13px;
+border-radius:14px;border:none;
+margin-top:12px;font-size:15px
 }
 button{
 background:linear-gradient(90deg,#ff4fa3,#ff77b7);
 color:#fff;font-weight:700;
 cursor:pointer
 }
-button:hover{transform:scale(1.05)}
+button:hover{transform:scale(1.04)}
 
 .price{color:#ff77b7;font-weight:bold}
 .badge{
 padding:6px 14px;border-radius:999px;
 background:linear-gradient(90deg,#ff4fa3,#ff77b7)
 }
+.center{text-align:center}
+.register-btn{
+color:#ff77b7;
+cursor:pointer;
+padding:8px;
+display:inline-block
+}
 table{width:100%;border-collapse:collapse}
 th,td{padding:10px;border-bottom:1px solid #333}
 th{color:#ff77b7}
-.center{text-align:center}
-</style></head><body><audio id="music" src="music.mp3" loop></audio>
+</style>
+</head>
+
+<body>
+
+<audio id="music" src="music.mp3" loop></audio>
 
 <header class="hidden" id="header">
-<b>💎 Ngọc Becon VIP Shop</b>
+<b>💎 Ngọc Becon Shop</b>
 <div class="menu-btn" onclick="toggleMenu()">☰</div>
 <div class="dropdown" id="menu">
 <a onclick="show('home')">🏠 Trang chủ</a>
@@ -110,26 +121,43 @@ th{color:#ff77b7}
 <a onclick="show('history')">📜 Lịch sử</a>
 <a onclick="logout()">🚪 Đăng xuất</a>
 </div>
-</header><div class="container"><!-- LOGIN --><div id="login" class="card center">
+</header>
+
+<div class="container">
+
+<!-- LOGIN -->
+<div id="login" class="card center">
 <h2>🔐 Đăng nhập</h2>
 <input id="l_user" placeholder="Tên tài khoản">
 <input id="l_pass" type="password" placeholder="Mật khẩu">
 <button onclick="login()">Vào shop</button>
-<p onclick="goRegister()" style="cursor:pointer;color:#ff77b7">Đăng ký</p>
-</div><!-- REGISTER --><div id="register" class="card hidden center">
+<div class="register-btn" onclick="goRegister()">Đăng ký</div>
+</div>
+
+<!-- REGISTER -->
+<div id="register" class="card hidden center">
 <h2>📝 Đăng ký</h2>
 <input id="r_user" placeholder="Tên tài khoản">
 <input id="r_pass" type="password" placeholder="Mật khẩu">
 <button onclick="register()">Tạo tài khoản</button>
-<p onclick="goLogin()" style="cursor:pointer;color:#ff77b7">Quay lại</p>
-</div><!-- HOME --><div id="home" class="card hidden">
+<div class="register-btn" onclick="goLogin()">Quay lại</div>
+</div>
+
+<!-- HOME -->
+<div id="home" class="card hidden">
 <h2>👋 Xin chào <span id="name" class="name"></span></h2>
 <p>Số dư: <span class="price" id="money">0đ</span></p>
 <p>Hạng: <span class="badge" id="rank">Thành viên</span></p>
-</div><!-- SERVICE --><div id="service" class="card hidden">
+</div>
+
+<!-- SERVICE -->
+<div id="service" class="card hidden">
 <h3>🎮 Dịch vụ</h3>
-<p>Free Fire • Liên Quân • Roblox</p>
-</div><!-- ORDER --><div id="order" class="card hidden">
+<p>🔥 Free Fire • ⚔ Liên Quân • 🟦 Roblox</p>
+</div>
+
+<!-- ORDER -->
+<div id="order" class="card hidden">
 <h3>📦 Đặt đơn</h3>
 <select id="game">
 <option>Free Fire</option>
@@ -139,27 +167,38 @@ th{color:#ff77b7}
 <input id="detail" placeholder="Chi tiết đơn">
 <input id="price" placeholder="Giá tiền">
 <button onclick="createOrder()">Gửi đơn</button>
-</div><!-- TOPUP --><div id="topup" class="card hidden">
+</div>
+
+<!-- TOPUP -->
+<div id="topup" class="card hidden">
 <h3>💰 Nạp tiền</h3>
 <b class="price">NAP_<span id="napUser"></span></b><br><br>
 <img src="momo.jpg" width="220" style="border-radius:16px"><br>
 <input id="topMoney" placeholder="Số tiền đã chuyển">
 <button onclick="sendTopup()">Gửi yêu cầu</button>
-</div><!-- HISTORY --><div id="history" class="card hidden">
+<p>500k → Đại lý | 1tr → CTV</p>
+</div>
+
+<!-- HISTORY -->
+<div id="history" class="card hidden">
 <h3>📜 Lịch sử</h3>
 <table>
 <thead><tr><th>Mã</th><th>Loại</th><th>Số tiền</th><th>Trạng thái</th></tr></thead>
 <tbody id="hist"></tbody>
 </table>
-</div></div><script>
-/* ===== SHA-256 ===== */
-async function sha256(text){
-const enc=new TextEncoder().encode(text)
-const buf=await crypto.subtle.digest("SHA-256",enc)
-return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,"0")).join("")
+</div>
+
+</div>
+
+<script>
+/* SHA-256 */
+async function sha256(t){
+const b=new TextEncoder().encode(t)
+const h=await crypto.subtle.digest("SHA-256",b)
+return Array.from(new Uint8Array(h)).map(x=>x.toString(16).padStart(2,"0")).join("")
 }
 
-/* ===== DB ===== */
+/* DB */
 let DB=JSON.parse(localStorage.getItem("VIP_SHOP"))||{users:{},orders:[],topups:[]}
 let user=null
 const save=()=>localStorage.setItem("VIP_SHOP",JSON.stringify(DB))
@@ -168,7 +207,6 @@ const bill=()=>`NB-${Math.random().toString(36).substr(2,6).toUpperCase()}`
 function goRegister(){login.classList.add("hidden");register.classList.remove("hidden")}
 function goLogin(){register.classList.add("hidden");login.classList.remove("hidden")}
 
-/* REGISTER */
 async function register(){
 let u=r_user.value.trim(),p=r_pass.value
 if(!u||!p)return alert("Nhập đủ thông tin")
@@ -177,7 +215,6 @@ DB.users[u]={pass:await sha256(p),money:0}
 save();alert("✔ Đăng ký thành công");goLogin()
 }
 
-/* LOGIN */
 async function login(){
 let u=l_user.value.trim(),p=l_pass.value
 let d=DB.users[u]
@@ -185,7 +222,6 @@ if(!d||d.pass!==await sha256(p))return alert("Sai thông tin")
 user=u;start()
 }
 
-/* START */
 function start(){
 login.classList.add("hidden")
 register.classList.add("hidden")
@@ -194,34 +230,24 @@ show("home")
 name.innerText=user
 napUser.innerText=user
 update()
-
 let m=document.getElementById("music")
 m.volume=0.5
 m.play().catch(()=>{})
 }
 
-/* UPDATE */
 function update(){
 let d=DB.users[user]
 money.innerText=d.money.toLocaleString()+"đ"
-let home=document.getElementById("home")
-home.classList.remove("vip")
-name.classList.remove("vip")
-
+home.classList.remove("vip");name.classList.remove("vip")
 if(d.money>=1000000){
 rank.innerText="Cộng tác viên"
-home.classList.add("vip")
-name.classList.add("vip")
-}
-else if(d.money>=500000) rank.innerText="Đại lý"
+home.classList.add("vip");name.classList.add("vip")
+}else if(d.money>=500000) rank.innerText="Đại lý"
 else rank.innerText="Thành viên"
-
 loadHistory()
 }
 
-function toggleMenu(){
-menu.style.display=menu.style.display=="block"?"none":"block"
-}
+function toggleMenu(){menu.style.display=menu.style.display=="block"?"none":"block"}
 function show(id){
 document.querySelectorAll(".card").forEach(e=>e.classList.add("hidden"))
 document.getElementById(id).classList.remove("hidden")
@@ -246,5 +272,7 @@ hist.innerHTML+=`<tr><td>${bill()}</td><td>Đơn</td><td>${o.price}</td><td>${o.
 })
 }
 function logout(){location.reload()}
-</script></body>
+</script>
+
+</body>
 </html>
