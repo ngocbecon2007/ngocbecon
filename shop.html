@@ -18,7 +18,7 @@ background:linear-gradient(90deg,#ff4fa3,#ff77b7);
 padding:12px;
 display:flex;align-items:center;justify-content:space-between
 }
-.menu-btn{font-size:22px;cursor:pointer}
+.menu-btn{font-size:22px}
 
 /* SIDE MENU */
 #sideMenu{
@@ -47,18 +47,18 @@ width:100%;padding:14px;margin-top:12px;border-radius:14px;border:none
 #chatBtn{
 position:fixed;right:20px;bottom:20px;
 background:#ff4fa3;padding:14px 18px;
-border-radius:999px;cursor:pointer
+border-radius:999px;z-index:20
 }
 #chatBox{
 position:fixed;right:20px;bottom:80px;
 width:340px;height:460px;background:#0f0014;
-border-radius:20px;display:flex;flex-direction:column
+border-radius:20px;display:flex;flex-direction:column;z-index:20
 }
 .chat-header{background:#ff4fa3;padding:12px;font-weight:bold}
 #chatContent{flex:1;overflow:auto;padding:10px}
 .msg{margin:6px 0}
 .user{text-align:right}
-.bubble{display:inline-block;padding:10px 14px;border-radius:18px;background:#333}
+.bubble{display:inline-block;padding:10px 14px;border-radius:18px;background:#333;max-width:75%}
 .user .bubble{background:#ff4fa3}
 .chat-input{display:flex;gap:6px;padding:8px}
 .chat-input input{flex:1;padding:10px;border-radius:20px;border:none}
@@ -68,13 +68,25 @@ border-radius:20px;display:flex;flex-direction:column
 position:absolute;bottom:140px;right:20px;
 background:#1a001f;border-radius:16px;
 padding:10px;display:grid;
-grid-template-columns:repeat(6,1fr);gap:6px
+grid-template-columns:repeat(6,1fr);gap:6px;z-index:25
 }
 .emoji-box span{cursor:pointer;font-size:22px}
+
+/* MUSIC BTN */
+#musicBtn{
+position:fixed;left:20px;bottom:20px;
+width:48px;height:48px;border-radius:50%;
+background:#ff4fa3;color:#fff;
+display:flex;align-items:center;justify-content:center;
+font-size:22px;z-index:20
+}
 </style>
 </head>
 
 <body>
+
+<!-- MUSIC -->
+<audio id="bgMusic" src="music.mp3" loop></audio>
 
 <!-- LOGIN -->
 <div id="auth" class="auth">
@@ -91,11 +103,11 @@ grid-template-columns:repeat(6,1fr);gap:6px
 
 <!-- MENU -->
 <div id="sideMenu" class="hidden">
-<button onclick="showPage('nap')">💳 Nạp tiền</button>
+<button onclick="showPage('nap')">💳 Nạp thẻ</button>
 <button onclick="showPage('blox')">🍏 Cày Blox Fruit</button>
 <button onclick="showPage('ff')">🔥 Cày Free Fire</button>
 <button onclick="showPage('lq')">⚔️ Cày Liên Quân</button>
-<button onclick="toggleMenu()">❌ Đóng menu</button>
+<button onclick="toggleMenu()">❌ Đóng</button>
 </div>
 
 <div class="container hidden" id="shop">
@@ -122,9 +134,8 @@ grid-template-columns:repeat(6,1fr);gap:6px
 <button onclick="napCard()">NẠP NGAY</button>
 </div>
 
-<!-- BLOX FRUIT -->
 <div id="blox" class="card hidden">
-<h3>🍏 Cày thuê Blox Fruit</h3>
+<h3>🍏 Blox Fruit</h3>
 <select id="bloxPack">
 <option value="Level 1-700 - 10k">Level 1–700 (10k)</option>
 <option value="Level 700-1500 - 10k">Level 700–1500 (10k)</option>
@@ -135,9 +146,8 @@ grid-template-columns:repeat(6,1fr);gap:6px
 <button onclick="order('Blox Fruit',bloxPack.value)">ĐẶT ĐƠN</button>
 </div>
 
-<!-- FREE FIRE -->
 <div id="ff" class="card hidden">
-<h3>🔥 Cày thuê Free Fire</h3>
+<h3>🔥 Free Fire</h3>
 <select id="ffPack">
 <option value="Đồng → Huyền Thoại - 40k">Đồng → Huyền Thoại (40k)</option>
 <option value="Huyền Thoại → Cao Thủ - 60k">Huyền Thoại → Cao Thủ (60k)</option>
@@ -146,9 +156,8 @@ grid-template-columns:repeat(6,1fr);gap:6px
 <button onclick="order('Free Fire',ffPack.value)">ĐẶT ĐƠN</button>
 </div>
 
-<!-- LIÊN QUÂN -->
 <div id="lq" class="card hidden">
-<h3>⚔️ Cày thuê Liên Quân</h3>
+<h3>⚔️ Liên Quân</h3>
 <select id="lqPack">
 <option value="Đồng → BK5 - 250k">Đồng → BK5 (250k)</option>
 <option value="BK5 → KC5 - 250k">BK5 → KC5 (250k)</option>
@@ -182,9 +191,14 @@ grid-template-columns:repeat(6,1fr);gap:6px
 <span onclick="addEmoji('🐰')">🐰</span>
 </div>
 
+<div id="musicBtn" onclick="toggleMusic()">🎵</div>
+
 <script>
 let DB=JSON.parse(localStorage.getItem("SHOP"))||{users:{}}
 let cur=null
+let musicOn=true
+const music=document.getElementById("bgMusic")
+
 function save(){localStorage.setItem("SHOP",JSON.stringify(DB))}
 
 function login(){
@@ -196,6 +210,7 @@ auth.classList.add("hidden")
 header.classList.remove("hidden")
 shop.classList.remove("hidden")
 money.innerText=DB.users[u].money+"đ"
+music.play()
 }
 
 function toggleMenu(){sideMenu.classList.toggle("hidden")}
@@ -211,17 +226,13 @@ if(!chatMsg.value)return
 chatContent.innerHTML+=`<div class="msg user"><div class="bubble">${chatMsg.value}</div></div>`
 chatMsg.value=""
 }
+
 function toggleEmoji(){emojiBox.classList.toggle("hidden")}
 function addEmoji(e){chatMsg.value+=e;emojiBox.classList.add("hidden")}
 
-function pushChat(text){
-chatContent.innerHTML+=`<div class="msg user"><div class="bubble">${text}</div></div>`
-}
-
 function order(game,pack){
 let msg=`📦 ĐẶT ĐƠN ${game}\n➡️ ${pack}`
-DB.users[cur].history.push(msg)
-pushChat(msg)
+chatContent.innerHTML+=`<div class="msg user"><div class="bubble">${msg}</div></div>`
 save()
 alert("Đã gửi đơn sang CSKH")
 }
@@ -229,11 +240,15 @@ alert("Đã gửi đơn sang CSKH")
 function napCard(){
 let m=amount.value
 let receive=Math.floor(m*0.83)
-let msg=`💳 NẠP THẺ\nNhà mạng: ${telco.value}\nMệnh giá: ${m}\nThực nhận: ${receive}đ\n⏳ Chờ duyệt`
-DB.users[cur].history.push(msg)
-pushChat(msg)
+let msg=`💳 NẠP THẺ ${telco.value}\nMệnh giá: ${m}\nNhận: ${receive}đ`
+chatContent.innerHTML+=`<div class="msg user"><div class="bubble">${msg}</div></div>`
 save()
-alert("Đã gửi yêu cầu nạp thẻ")
+alert("Đã gửi yêu cầu nạp")
+}
+
+function toggleMusic(){
+musicOn=!musicOn
+musicOn?music.play():music.pause()
 }
 </script>
 
