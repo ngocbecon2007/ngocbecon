@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>🎲 TÀI XỈU ONLINE</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body{
+margin:0;
+font-family:Arial;
+background:radial-gradient(circle,#1b0029,#050008);
+color:#fff;
+text-align:center
+}
+h1{margin:10px 0}
+#money{font-size:20px;color:#ffd700}
+.board{
+display:flex;
+justify-content:center;
+gap:20px;
+margin:20px 0
+}
+.btn{
+padding:16px 30px;
+border-radius:14px;
+border:none;
+font-size:18px;
+font-weight:bold;
+cursor:pointer
+}
+.tai{background:#ff4f4f}
+.xiu{background:#4fc3ff}
+.dice{
+font-size:50px;
+margin:10px
+}
+.history{
+font-size:14px;
+opacity:.8;
+max-width:90%;
+margin:auto
+}
+.log{
+margin-top:10px;
+color:#00ffcc
+}
+</style>
+</head>
+<body>
+
+<h1>🎲 TÀI XỈU ONLINE</h1>
+<div id="money">💰 1000 coin</div>
+
+<div class="board">
+<button class="btn tai" onclick="bet('TÀI')">🔥 TÀI</button>
+<button class="btn xiu" onclick="bet('XỈU')">❄️ XỈU</button>
+</div>
+
+<div id="dice">
+<span class="dice">🎲</span>
+<span class="dice">🎲</span>
+<span class="dice">🎲</span>
+</div>
+
+<div class="log" id="log">Chọn TÀI hoặc XỈU</div>
+
+<h3>LỊCH SỬ CẦU</h3>
+<div class="history" id="history"></div>
+
+<script>
+let money = +localStorage.getItem("money") || 1000
+let history = JSON.parse(localStorage.getItem("history")||"[]")
+let choice = null
+
+update()
+
+function bet(c){
+if(money<100){alert("Không đủ coin");return}
+choice=c
+money-=100
+roll()
+}
+
+function roll(){
+let d1=r(),d2=r(),d3=r()
+let sum=d1+d2+d3
+let result=sum>=11?"TÀI":"XỈU"
+
+document.getElementById("dice").innerHTML=
+`<span class="dice">${d1}</span>
+ <span class="dice">${d2}</span>
+ <span class="dice">${d3}</span>`
+
+let win = choice===result
+if(win) money+=200
+
+history.unshift(result)
+if(history.length>20)history.pop()
+
+document.getElementById("log").innerText=
+`KẾT QUẢ: ${result} (${sum}) → ${win?"THẮNG":"THUA"}`
+
+save()
+update()
+}
+
+function r(){return Math.floor(Math.random()*6)+1}
+
+function update(){
+document.getElementById("money").innerText="💰 "+money+" coin"
+document.getElementById("history").innerText=history.join(" • ")
+}
+
+function save(){
+localStorage.setItem("money",money)
+localStorage.setItem("history",JSON.stringify(history))
+}
+</script>
+
+</body>
+</html>
