@@ -1,103 +1,47 @@
 <!DOCTYPE html><html lang="vi">
 <head>
 <meta charset="UTF-8">
-<title>Ngọc Becon • Shop Official</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<title>Ngọc Becon • Official</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
-*{box-sizing:border-box;font-family:'Poppins',sans-serif}
 body{
-  margin:0;min-height:100vh;overflow-x:hidden;
-  background:linear-gradient(180deg,#ff9acb,#ff6fae);
-  color:white;text-align:center;
+margin:0;height:100vh;
+display:flex;justify-content:center;align-items:center;
+background:linear-gradient(180deg,#ff9ad5,#ff5fa2);
+font-family:Segoe UI;color:#fff
 }
-/* BACKGROUND PARTICLES */
-.bg{
-  position:fixed;inset:0;z-index:-1;overflow:hidden;
+.card{
+background:rgba(255,255,255,.25);
+backdrop-filter:blur(14px);
+border-radius:26px;
+padding:24px;
+text-align:center;
+box-shadow:0 25px 50px rgba(0,0,0,.25);
+animation:fade .6s
 }
-.star{
-  position:absolute;width:4px;height:4px;border-radius:50%;
-  background:white;opacity:.6;animation:float 10s linear infinite;
+@keyframes fade{from{opacity:0;transform:scale(.9)}to{opacity:1}}
+img{width:90px;height:90px;border-radius:50%;border:4px solid #fff}
+button{
+margin-top:16px;
+border:none;border-radius:20px;
+padding:10px 20px;
+background:#ff4f9a;
+color:#fff;font-weight:700;
+font-size:15px
 }
-@keyframes float{from{transform:translateY(100vh)}to{transform:translateY(-10vh)}}/* CARD */ .center{ min-height:100vh;display:flex;align-items:center;justify-content:center; } .card{ background:rgba(255,255,255,.18); padding:25px;border-radius:24px;width:90%;max-width:360px; backdrop-filter:blur(10px); box-shadow:0 20px 40px rgba(0,0,0,.2); animation:pop .8s ease; } @keyframes pop{from{transform:scale(.9);opacity:0}to{transform:scale(1);opacity:1}} .avatar{ width:100px;height:100px;border-radius:50%; border:4px solid #fff;object-fit:cover;margin-bottom:10px; } button{ width:100%;padding:12px;margin-top:12px; border:none;border-radius:18px; background:#ff4d9a;color:white;font-weight:600;font-size:15px; } button:hover{opacity:.9}
-
-/* MENU */ nav{ display:flex;gap:10px;justify-content:center;margin-bottom:10px } nav button{width:auto;padding:8px 16px;font-size:14px} section{display:none} section.active{display:block}
-
-/* SHOP */ .item{ background:rgba(255,255,255,.15); padding:15px;border-radius:18px;margin-top:12px;text-align:left } .item b{font-size:16px} small{opacity:.85} </style>
-
+</style>
 </head>
-<body><!-- MUSIC --><audio id="bgm" src="music.mp3" loop></audio>
+<body><audio id="bgm" src="music.mp3" loop></audio>
 
-<div class="bg" id="bg"></div><div class="center">
-  <div class="card">
-    <img src="avatar.jpg" class="avatar">
-    <h2>🌸 Ngọc Becon 🌸</h2>
-    <small>Shop Cày Thuê • Uy Tín • Giá Mềm</small><nav>
-  <button onclick="show('home')">Trang Chủ</button>
-  <button onclick="show('shop')">Shop</button>
-  <button onclick="admin()">Admin</button>
-</nav>
-
-<!-- HOME -->
-<section id="home" class="active">
-  <button onclick="playMusic()">🎵 Bật Nhạc</button>
-</section>
-
-<!-- SHOP -->
-<section id="shop">
-  <div id="shopList"></div>
-</section>
-
-<!-- ADMIN -->
-<section id="admin">
-  <input id="name" placeholder="Tên sản phẩm">
-  <input id="price" placeholder="Giá">
-  <input id="desc" placeholder="Mô tả">
-  <button onclick="add()">➕ Thêm</button>
-  <div id="adminList"></div>
-</section>
-
-  </div>
+<div class="card">
+<img src="avatar.jpg">
+<h2>🌸 Ngọc Becon 🌸</h2>
+<p>Shop Cày Thuê • Uy Tín • Giá Mềm</p>
+<button onclick="enter()">🛒 Vào Shop Ngay</button>
 </div><script>
-/* STARS */
-for(let i=0;i<50;i++){
-  const s=document.createElement('div');
-  s.className='star';
-  s.style.left=Math.random()*100+'%';
-  s.style.animationDuration=5+Math.random()*10+'s';
-  s.style.opacity=Math.random();
-  document.getElementById('bg').appendChild(s);
+function enter(){
+document.getElementById("bgm").play().catch(()=>{});
+window.open("shop.html","_self");
 }
-
-/* MUSIC */
-function playMusic(){
-  document.getElementById('bgm').play();
-}
-
-/* SHOP DATA */
-const PASS='admin123';
-let products=JSON.parse(localStorage.getItem('products'))||[
-  {name:'Cày Rank',price:'50.000đ',desc:'Nhanh • An Toàn',on:true},
-  {name:'Thuê Tool',price:'30.000đ',desc:'Uy tín',on:true}
-];
-
-function save(){localStorage.setItem('products',JSON.stringify(products));render();}
-
-function render(){
-  shopList.innerHTML='';adminList.innerHTML='';
-  products.forEach((p,i)=>{
-    if(p.on){
-      shopList.innerHTML+=`<div class='item'><b>${p.name}</b><br><small>${p.desc}</small><br><b>${p.price}</b></div>`;
-    }
-    adminList.innerHTML+=`<div class='item'><b>${p.name}</b> <button onclick='toggle(${i})'>ON/OFF</button> <button onclick='del(${i})'>X</button></div>`;
-  });
-}
-
-function show(id){document.querySelectorAll('section').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');}
-function admin(){prompt('Mật khẩu:')===PASS?show('admin'):alert('Sai mật khẩu');}
-function add(){products.push({name:name.value,price:price.value,desc:desc.value,on:true});name.value=price.value=desc.value='';save();}
-function del(i){products.splice(i,1);save();}
-function toggle(i){products[i].on=!products[i].on;save();}
-render();
 </script></body>
 </html>
