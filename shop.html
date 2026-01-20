@@ -4,95 +4,47 @@
 <meta charset="UTF-8">
 <title>Ngọc Becon Shop</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
 <style>
 :root{--pink:#ff4fa3}
 *{box-sizing:border-box;font-family:Segoe UI,Arial}
-body{
-margin:0;background:radial-gradient(circle,#3a0045,#0b0010);
-color:#fff
-}
+body{margin:0;background:radial-gradient(circle,#3a0045,#0b0010);color:#fff}
 .hidden{display:none}
 
-/* ===== LOGIN ===== */
-.auth{
-max-width:360px;margin:120px auto;
-background:#16001d;padding:24px;
-border-radius:20px;text-align:center
-}
+/* LOGIN */
+.auth{max-width:360px;margin:120px auto;background:#16001d;padding:24px;border-radius:20px;text-align:center}
 .auth h2{color:#ff77b7}
-.auth input{
-width:100%;padding:14px;margin-top:12px;
-border-radius:14px;border:none
-}
-.auth button{
-width:100%;padding:14px;margin-top:14px;
-border:none;border-radius:14px;
-background:linear-gradient(90deg,#ff4fa3,#ff77b7);
-color:#fff;font-weight:bold
-}
+.auth input{width:100%;padding:14px;margin-top:12px;border-radius:14px;border:none}
+.auth button{width:100%;padding:14px;margin-top:14px;border:none;border-radius:14px;background:linear-gradient(90deg,#ff4fa3,#ff77b7);color:#fff;font-weight:bold}
 
-/* ===== HEADER ===== */
-header{
-position:sticky;top:0;
-background:linear-gradient(90deg,#ff4fa3,#ff77b7);
-padding:14px;
-display:flex;justify-content:space-between
-}
+/* HEADER */
+header{position:sticky;top:0;background:linear-gradient(90deg,#ff4fa3,#ff77b7);padding:14px;display:flex;justify-content:space-between}
 
-/* ===== CARD ===== */
+/* CARD */
 .container{max-width:1100px;margin:auto;padding:20px}
-.card{
-background:#16001d;padding:20px;
-border-radius:22px;margin-bottom:20px
-}
+.card{background:#16001d;padding:20px;border-radius:22px;margin-bottom:20px}
 
-/* ===== CHAT ===== */
-#chatBtn{
-position:fixed;right:20px;bottom:20px;
-background:#ff4fa3;padding:14px 18px;
-border-radius:999px;cursor:pointer
-}
-#chatBox{
-position:fixed;right:20px;bottom:80px;
-width:340px;height:460px;
-background:#0f0014;border-radius:22px;
-display:flex;flex-direction:column
-}
-.chat-header{
-background:linear-gradient(90deg,#ff4fa3,#ff77b7);
-padding:12px;border-radius:22px 22px 0 0;
-font-weight:bold
-}
+/* CHAT */
+#chatBtn{position:fixed;right:20px;bottom:20px;background:#ff4fa3;padding:14px 18px;border-radius:999px;cursor:pointer}
+#chatBox{position:fixed;right:20px;bottom:80px;width:340px;height:460px;background:#0f0014;border-radius:22px;display:flex;flex-direction:column}
+.chat-header{background:linear-gradient(90deg,#ff4fa3,#ff77b7);padding:12px;border-radius:22px 22px 0 0;font-weight:bold}
 #chatContent{flex:1;overflow:auto;padding:10px}
 .msg{margin-bottom:8px}
 .user{text-align:right}
-.bubble{
-display:inline-block;padding:10px 14px;
-border-radius:18px;max-width:75%
-}
+.bubble{display:inline-block;padding:10px 14px;border-radius:18px;max-width:75%}
 .user .bubble{background:#ff4fa3}
 .admin .bubble{background:#333}
-.chat-input{
-display:flex;gap:6px;padding:8px
-}
-.chat-input input{
-flex:1;padding:12px;border-radius:999px;border:none
-}
-.chat-input button{
-border:none;border-radius:50%;
-width:38px;height:38px;
-background:#ff4fa3;color:#fff
-}
-.emoji-box,.sticker-box{
+.chat-input{display:flex;gap:6px;padding:8px}
+.chat-input input{flex:1;padding:12px;border-radius:999px;border:none}
+.chat-input button{border:none;border-radius:50%;width:38px;height:38px;background:#ff4fa3;color:#fff}
+
+/* EMOJI */
+.emoji-box{
 position:absolute;bottom:70px;right:20px;
 background:#1a001f;border-radius:16px;
-padding:10px;display:grid;gap:6px
+padding:10px;display:grid;
+grid-template-columns:repeat(6,1fr);gap:6px
 }
-.emoji-box{grid-template-columns:repeat(6,1fr)}
-.sticker-box{grid-template-columns:repeat(3,1fr)}
 .emoji-box span{cursor:pointer;font-size:22px}
-.sticker-box img{width:100%;border-radius:10px;cursor:pointer}
 </style>
 </head>
 
@@ -118,8 +70,8 @@ padding:10px;display:grid;gap:6px
 
 <div class="card">
 <h3>💳 Nạp tiền</h3>
-<p>⏱ Nếu thẻ chờ quá 10 phút chưa xử lý<br>
-👉 Liên hệ: <a style="color:#ff77b7"
+<p>⏱ Chờ quá 10 phút chưa xử lý<br>
+👉 Liên hệ: <a style="color:#ff77b7" target="_blank"
 href="https://www.facebook.com/share/17kCiGf7xE/">Facebook</a></p>
 </div>
 </div>
@@ -136,7 +88,6 @@ CSKH Ngọc Becon 🐰 <small id="cskhStatus">⚫ Offline</small>
 
 <div class="chat-input">
 <button onclick="toggleEmoji()">😊</button>
-<button onclick="toggleSticker()">🐰</button>
 <input id="chatMsg" placeholder="Nhắn tin">
 <input type="file" id="imgInput" hidden accept="image/*">
 <button onclick="imgInput.click()">🖼</button>
@@ -153,15 +104,9 @@ CSKH Ngọc Becon 🐰 <small id="cskhStatus">⚫ Offline</small>
 <span onclick="addEmoji('🐰')">🐰</span>
 </div>
 
-<div id="stickerBox" class="sticker-box hidden">
-<img src="https://i.imgur.com/1X8FQzF.png" onclick="sendSticker(this.src)">
-<img src="https://i.imgur.com/Z6XQZ6Q.png" onclick="sendSticker(this.src)">
-</div>
-
 <script>
 let DB=JSON.parse(localStorage.getItem("SHOP"))||{users:{}}
 let cur=null
-
 function save(){localStorage.setItem("SHOP",JSON.stringify(DB))}
 
 function login(){
@@ -169,7 +114,7 @@ let u=user.value.trim(),p=pass.value
 if(!u||!p)return alert("Nhập đủ thông tin")
 if(!DB.users[u])DB.users[u]={pass:p,money:0}
 if(DB.users[u].pass!==p)return alert("Sai mật khẩu")
-cur=u
+cur=u; save()
 auth.classList.add("hidden")
 header.classList.remove("hidden")
 shop.classList.remove("hidden")
@@ -184,13 +129,14 @@ cskhStatus.innerText=localStorage.getItem("CSKH_ONLINE")=="1"?"🟢 Online":"⚫
 }
 
 function chatKey(){return "CHAT_"+cur}
-
 function loadChat(){
 chatContent.innerHTML=""
 let c=JSON.parse(localStorage.getItem(chatKey()))||[]
 c.forEach(m=>{
-let d=m.type=="img"?`<img src="${m.data}" style="max-width:100%">`:`${m.text}`
-chatContent.innerHTML+=`<div class="msg ${m.from}"><div class="bubble">${d}</div></div>`
+let html=m.type=="img"
+? `<img src="${m.data}" style="max-width:100%">`
+: m.text
+chatContent.innerHTML+=`<div class="msg ${m.from}"><div class="bubble">${html}</div></div>`
 })
 chatContent.scrollTop=9999
 }
@@ -214,10 +160,8 @@ r.onload=()=>saveMsg({from:"user",type:"img",data:r.result})
 r.readAsDataURL(imgInput.files[0])
 }
 
-function toggleEmoji(){emojiBox.classList.toggle("hidden");stickerBox.classList.add("hidden")}
-function toggleSticker(){stickerBox.classList.toggle("hidden");emojiBox.classList.add("hidden")}
+function toggleEmoji(){emojiBox.classList.toggle("hidden")}
 function addEmoji(e){chatMsg.value+=e}
-function sendSticker(s){saveMsg({from:"user",type:"img",data:s});stickerBox.classList.add("hidden")}
 </script>
 
 </body>
