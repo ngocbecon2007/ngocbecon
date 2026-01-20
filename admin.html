@@ -2,196 +2,201 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<title>Admin Panel – Ngọc Becon Shop</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ADMIN LV MAX • Ngọc Becon</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <style>
-*{box-sizing:border-box;font-family:Arial}
-body{margin:0;background:#120017;color:#fff}
-
-/* HEADER */
+:root{--pink:#ff4fa3}
+body{
+margin:0;font-family:Segoe UI;
+background:radial-gradient(circle,#320024,#0b0010);
+color:#fff
+}
+.hidden{display:none}
 header{
-background:linear-gradient(135deg,#ff2f92,#ff78c4);
-padding:16px 30px;
-display:flex;justify-content:space-between;align-items:center
+background:linear-gradient(90deg,#ff4fa3,#ff77b7);
+padding:18px 30px;
+font-size:20px;font-weight:800
 }
-nav a{
-color:#fff;
-margin:0 12px;
-cursor:pointer;
-font-weight:bold
+.container{max-width:1300px;margin:auto;padding:30px}
+.card{
+background:linear-gradient(180deg,#200025,#120015);
+border-radius:18px;padding:22px;
+margin-bottom:25px;
+box-shadow:0 0 40px rgba(255,79,163,.5)
 }
-nav a.active{border-bottom:2px solid #fff}
-
-/* CONTENT */
-.container{max-width:1200px;margin:auto;padding:25px}
-.page{display:none}
-.page.active{display:block}
-
-.box{
-background:#1c0027;
-padding:20px;
-border-radius:16px;
-margin-bottom:20px;
-box-shadow:0 0 25px rgba(255,79,154,.4)
+input,select,button{
+padding:10px;border-radius:10px;border:none;font-size:14px
 }
-h2{color:#ff78c4;margin-top:0}
-
-table{
-width:100%;
-border-collapse:collapse
+button{
+background:linear-gradient(90deg,#ff4fa3,#ff77b7);
+color:#fff;font-weight:700;cursor:pointer
 }
-th,td{
-padding:10px;
-border-bottom:1px solid #333;
-text-align:left
-}
-th{background:#ff4f9a}
-input,select{
-padding:8px;
-border-radius:8px;
-border:none;
-width:100%
-}
-.btn{
-padding:8px 14px;
-border:none;
-border-radius:8px;
-background:linear-gradient(135deg,#ff2f92,#ff78c4);
-color:#fff;
-cursor:pointer;
-font-weight:bold
-}
-.small{width:120px}
+table{width:100%;border-collapse:collapse;margin-top:10px}
+th,td{padding:10px;border-bottom:1px solid #333}
+th{color:#ff77b7}
+.badge{padding:4px 12px;border-radius:999px;background:#ff4fa3}
+.flex{display:flex;gap:15px;flex-wrap:wrap}
+.stat{flex:1;min-width:200px}
+.search{margin-bottom:10px;width:300px}
 </style>
 </head>
 
 <body>
 
-<header>
-<h3>🛠 ADMIN – NGỌC BECON SHOP</h3>
-<nav>
-<a onclick="show('users')" class="active">Users</a>
-<a onclick="show('nap')">Duyệt nạp</a>
-<a onclick="show('orders')">Đơn cày</a>
-<a onclick="show('stats')">Thống kê</a>
-</nav>
-</header>
+<header>👑 ADMIN LV MAX – NGỌC BECON</header>
 
 <div class="container">
 
-<!-- USERS -->
-<div id="users" class="page active box">
-<h2>👥 Quản lý người dùng</h2>
-<table>
-<tr>
-<th>User</th>
-<th>Số dư</th>
-<th>Cộng tiền</th>
-</tr>
-<tbody id="userList"></tbody>
-</table>
+<!-- LOGIN -->
+<div id="login" class="card">
+<h2>🔐 Admin Login</h2>
+<input id="au" placeholder="Admin user"><br><br>
+<input id="ap" type="password" placeholder="Admin password"><br><br>
+<button onclick="login()">Đăng nhập</button>
 </div>
 
-<!-- NẠP -->
-<div id="nap" class="page box">
-<h2>💰 Yêu cầu nạp tiền</h2>
-<p>(Demo local – sau này có backend sẽ tự động)</p>
-<table>
-<tr>
-<th>User</th>
-<th>Số tiền</th>
-<th>Hành động</th>
-</tr>
-<tbody id="napList">
-<tr>
-<td>Ngocbecon</td>
-<td>50,000đ</td>
-<td><button class="btn">Duyệt</button></td>
-</tr>
-</tbody>
-</table>
-</div>
-
-<!-- ĐƠN -->
-<div id="orders" class="page box">
-<h2>📦 Đơn cày thuê</h2>
-<table>
-<tr>
-<th>User</th>
-<th>Game</th>
-<th>Nội dung</th>
-<th>Trạng thái</th>
-</tr>
-<tbody>
-<tr>
-<td>Ngocbecon</td>
-<td>Roblox</td>
-<td>Lv 1 → 700</td>
-<td>
-<select>
-<option>Chờ xử lý</option>
-<option>Đang làm</option>
-<option>Hoàn thành</option>
-</select>
-</td>
-</tr>
-</tbody>
-</table>
-</div>
+<!-- PANEL -->
+<div id="panel" class="hidden">
 
 <!-- STATS -->
-<div id="stats" class="page box">
-<h2>📊 Thống kê</h2>
-<p id="totalUser"></p>
-<p id="totalMoney"></p>
+<div class="card flex">
+<div class="stat">👤 USER<br><b id="statUser">0</b></div>
+<div class="stat">💰 TỔNG TIỀN<br><b id="statMoney">0đ</b></div>
+<div class="stat">📦 ĐƠN<br><b id="statOrder">0</b></div>
+<div class="stat">💳 NẠP<br><b id="statTopup">0</b></div>
 </div>
 
+<!-- USERS -->
+<div class="card">
+<h3>👤 Quản lý USER</h3>
+<input class="search" placeholder="Tìm user..." oninput="searchUser(this.value)">
+<table>
+<thead>
+<tr><th>User</th><th>Số dư</th><th>Hành động</th></tr>
+</thead>
+<tbody id="users"></tbody>
+</table>
+</div>
+
+<!-- TOPUP -->
+<div class="card">
+<h3>💳 Duyệt nạp tiền</h3>
+<table>
+<thead>
+<tr><th>User</th><th>Số tiền</th><th>Trạng thái</th><th>Xử lý</th></tr>
+</thead>
+<tbody id="topups"></tbody>
+</table>
+</div>
+
+<!-- ORDERS -->
+<div class="card">
+<h3>📦 Đơn cày thuê</h3>
+<table>
+<thead>
+<tr><th>User</th><th>Game</th><th>Giá</th><th>Trạng thái</th><th>Xử lý</th></tr>
+</thead>
+<tbody id="orders"></tbody>
+</table>
+</div>
+
+<button onclick="logout()">🚪 Đăng xuất</button>
+
+</div>
 </div>
 
 <script>
-const pages=document.querySelectorAll(".page");
-const links=document.querySelectorAll("nav a");
-function show(id){
-pages.forEach(p=>p.classList.remove("active"));
-document.getElementById(id).classList.add("active");
-links.forEach(a=>a.classList.remove("active"));
-event.target.classList.add("active");
+const ADMIN_USER="admin"
+const ADMIN_PASS="123456"
+
+let DB=JSON.parse(localStorage.getItem("VIP_SHOP"))||{users:{},orders:[],topups:[]}
+
+function login(){
+if(au.value===ADMIN_USER && ap.value===ADMIN_PASS){
+loginDiv(true);load()
+}else alert("Sai admin")
+}
+function logout(){location.reload()}
+function loginDiv(v){
+login.classList.toggle("hidden",v)
+panel.classList.toggle("hidden",!v)
 }
 
-/* USERS */
-let users=JSON.parse(localStorage.getItem("users")||"{}");
-let balances=JSON.parse(localStorage.getItem("balances")||"{}");
-const ul=document.getElementById("userList");
+function load(){
+statUser.innerText=Object.keys(DB.users).length
+statMoney.innerText=Object.values(DB.users)
+.reduce((a,b)=>a+b.money,0).toLocaleString()+"đ"
+statOrder.innerText=DB.orders.length
+statTopup.innerText=DB.topups.length
 
-function renderUsers(){
-ul.innerHTML="";
-let total=0,count=0;
-for(let u in users){
-count++;
-let b=balances[u]||0;
-total+=b;
-ul.innerHTML+=`
+renderUsers()
+renderTopups()
+renderOrders()
+}
+
+function renderUsers(filter=""){
+users.innerHTML=""
+for(let u in DB.users){
+if(!u.includes(filter))continue
+users.innerHTML+=`
 <tr>
 <td>${u}</td>
-<td>${b}đ</td>
+<td>${DB.users[u].money.toLocaleString()}đ</td>
 <td>
-<input class="small" id="add_${u}" placeholder="Số tiền">
-<button class="btn" onclick="addMoney('${u}')">+</button>
+<input placeholder="+/- tiền" onkeydown="if(event.key=='Enter')editMoney('${u}',this.value)">
 </td>
-</tr>`;
+</tr>`
 }
-document.getElementById("totalUser").innerText="👤 Tổng user: "+count;
-document.getElementById("totalMoney").innerText="💵 Tổng tiền hệ thống: "+total+"đ";
 }
 
-function addMoney(u){
-let v=parseInt(document.getElementById("add_"+u).value||0);
-balances[u]=(balances[u]||0)+v;
-localStorage.setItem("balances",JSON.stringify(balances));
-renderUsers();
+function renderTopups(){
+topups.innerHTML=""
+DB.topups.forEach((t,i)=>{
+topups.innerHTML+=`
+<tr>
+<td>${t.user}</td>
+<td>${t.money}</td>
+<td>${t.status}</td>
+<td>
+<button onclick="approveTopup(${i})">✔</button>
+</td>
+</tr>`
+})
 }
 
-renderUsers();
+function renderOrders(){
+orders.innerHTML=""
+DB.orders.forEach((o,i)=>{
+orders.innerHTML+=`
+<tr>
+<td>${o.user}</td>
+<td>${o.game}</td>
+<td>${o.price}</td>
+<td>${o.status}</td>
+<td>
+<button onclick="doneOrder(${i})">Hoàn thành</button>
+</td>
+</tr>`
+})
+}
+
+function editMoney(u,v){
+DB.users[u].money+=Number(v||0)
+save();load()
+}
+function approveTopup(i){
+let t=DB.topups[i]
+if(t.status!="Chờ duyệt")return
+DB.users[t.user].money+=Number(t.money)
+t.status="Đã duyệt"
+save();load()
+}
+function doneOrder(i){
+DB.orders[i].status="Hoàn thành"
+save();load()
+}
+function searchUser(v){renderUsers(v)}
+function save(){localStorage.setItem("VIP_SHOP",JSON.stringify(DB))}
 </script>
 
 </body>
