@@ -1,157 +1,67 @@
-<!DOCTYPE html><html lang="vi">
+<!DOCTYPE html>
+<html lang="vi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>👑 ADMIN GAME HUB</title><style>
-*{box-sizing:border-box;font-family:Poppins,Arial}
-body{
-  margin:0;
-  background:linear-gradient(135deg,#ff7ac8,#2b002b);
-  color:white;
-  overflow:hidden;
-}
-.icon{position:absolute;animation:fall linear infinite;opacity:.9}
-@keyframes fall{to{transform:translateY(120vh) rotate(360deg)}}
+<title>ADMIN – Ngọc Becon</title>
+<style>
+body{background:#120016;color:#fff;font-family:Arial;padding:20px}
+.card{background:#1c0026;padding:16px;border-radius:12px;margin-bottom:12px}
+button{margin:4px;padding:8px 14px;border:none;border-radius:8px;cursor:pointer}
+.ok{background:#00c853;color:#000}
+.no{background:#ff1744;color:#fff}
+</style>
+</head>
+<body>
 
-#login,#hub{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
-.card{
-  background:rgba(30,0,40,.9);
-  padding:25px;
-  border-radius:20px;
-  width:90%;max-width:360px;
-  box-shadow:0 0 40px #ff4fa3;
-}
-input,button{
-  width:100%;padding:14px;border-radius:30px;border:none;margin-top:12px
-}
-button{
-  background:linear-gradient(90deg,#ff4fa3,#ff8ad1);
-  color:white;font-weight:bold
-}
+<h2>👑 ADMIN DUYỆT ĐƠN</h2>
+<div id="list"></div>
 
-#hub{display:none;align-items:stretch}
-.sidebar{
-  width:90px;
-  background:rgba(0,0,0,.35);
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  padding:15px 5px;
-  gap:15px;
-}
-.sidebar button{
-  width:70px;height:70px;
-  border-radius:18px;
-  font-size:22px;
-}
-.main{
-  flex:1;
-  padding:20px;
-  overflow:auto;
-}
-.panel{
-  background:rgba(0,0,0,.35);
-  border-radius:20px;
-  padding:20px;
-  box-shadow:0 0 30px #ff4fa3;
-  animation:fade .4s;
-}
-@keyframes fade{from{opacity:0;transform:scale(.95)}}
-
-.stat{display:flex;justify-content:space-between;margin:10px 0}
-.log{background:#120015;padding:10px;border-radius:12px;max-height:200px;overflow:auto;font-size:13px}
-</style></head><body><script>
-const icons=["💖","🔥","🎮","⭐","💎","🐱"];
-for(let i=0;i<40;i++){
- let s=document.createElement("div");
- s.className="icon";
- s.textContent=icons[Math.floor(Math.random()*icons.length)];
- s.style.left=Math.random()*100+"vw";
- s.style.top="-10vh";
- s.style.fontSize=16+Math.random()*20+"px";
- s.style.animationDuration=5+Math.random()*8+"s";
- document.body.appendChild(s);
-}
-</script><div id="login">
-  <div class="card">
-    <h2>🎮 ADMIN GAME HUB</h2>
-    <input id="u" placeholder="Tài khoản admin">
-    <input id="p" type="password" placeholder="Mật khẩu">
-    <button onclick="login()">BẮT ĐẦU</button>
-  </div>
-</div><div id="hub">
-  <div class="sidebar">
-    <button onclick="show('dash')">🏠</button>
-    <button onclick="show('money')">💰</button>
-    <button onclick="show('order')">📦</button>
-    <button onclick="show('user')">👥</button>
-    <button onclick="show('sys')">⚙️</button>
-  </div>  <div class="main">
-    <div id="content"></div>
-  </div>
-</div><script>
-const ADMIN="Ngocbecon",PASS="manhmanh";
-let money=+localStorage.money||0;
-let orders=JSON.parse(localStorage.orders||"[]");
-let logs=JSON.parse(localStorage.logs||"[]");
+<script>
+let DB = JSON.parse(localStorage.getItem("SHOP")) || {users:{},orders:[]}
 
 function save(){
- localStorage.money=money;
- localStorage.orders=JSON.stringify(orders);
- localStorage.logs=JSON.stringify(logs);
+  localStorage.setItem("SHOP",JSON.stringify(DB))
 }
 
-function login(){
- if(u.value.trim().toLowerCase()==ADMIN.toLowerCase() && p.value.trim()==PASS){
-  loginDiv.style.display="none";
-  hub.style.display="flex";
-  show('dash');
- }else alert("❌ Sai thông tin");
+function load(){
+  list.innerHTML=""
+  DB.orders.forEach(o=>{
+    if(o.status!=="pending") return
+    list.innerHTML+=`
+    <div class="card">
+      <b>User:</b> ${o.user}<br>
+      <b>Loại:</b> ${o.type}<br>
+      <b>Số tiền:</b> ${o.amount}<br>
+      <b>Chi tiết:</b> ${o.info}<br><br>
+      <button class="ok" onclick="duyet(${o.id})">Duyệt</button>
+      <button class="no" onclick="tuChoi(${o.id})">Từ chối</button>
+    </div>`
+  })
 }
 
-function show(t){
- let c=document.getElementById("content");
- if(t=="dash") c.innerHTML=`
-  <div class=panel>
-   <h2>👑 Dashboard</h2>
-   <div class=stat><span>💰 Số dư</span><b>${money}</b></div>
-   <div class=stat><span>📦 Đơn</span><b>${orders.length}</b></div>
-  </div>`;
- if(t=="money") c.innerHTML=`
-  <div class=panel>
-   <h2>💰 Quản lý tiền</h2>
-   <button onclick="act(1)">➕ Cộng tiền</button>
-   <button onclick="act(0)">➖ Trừ tiền</button>
-  </div>`;
- if(t=="order") c.innerHTML=`
-  <div class=panel>
-   <h2>📦 Đơn cày</h2>
-   <button onclick="newOrder()">➕ Tạo đơn</button>
-   <div class=log>${orders.map(o=>`#${o.id} - ${o.st}`).join("<br>")}</div>
-  </div>`;
- if(t=="user") c.innerHTML=`
-  <div class=panel><h2>👥 User</h2><p>Giả lập quản lý user</p></div>`;
- if(t=="sys") c.innerHTML=`
-  <div class=panel>
-   <h2>⚙️ Hệ thống</h2>
-   <button onclick="localStorage.clear();location.reload()">RESET ALL</button>
-  </div>`;
+function duyet(id){
+  let o = DB.orders.find(x=>x.id===id)
+  if(!o) return
+  if(o.type.includes("Nạp")){
+    DB.users[o.user].money += o.amount
+  }
+  if(o.type==="Cày thuê"){
+    DB.users[o.user].money -= o.amount
+  }
+  o.status="done"
+  save()
+  load()
 }
 
-function act(t){
- let v=+prompt("Nhập số");
- if(!v)return;
- money+=t?v:-v;
- logs.unshift((t?"+":"-")+v);
- save();show('dash');
+function tuChoi(id){
+  let o = DB.orders.find(x=>x.id===id)
+  if(!o) return
+  o.status="reject"
+  save()
+  load()
 }
 
-function newOrder(){
- orders.unshift({id:Date.now(),st:"Chờ"});
- save();show('order');
-}
-
-const loginDiv=document.getElementById("login");
-const hub=document.getElementById("hub");
-</script></body>
+load()
+</script>
+</body>
 </html>
