@@ -3,118 +3,256 @@
 <head>
 <meta charset="UTF-8">
 <title>🎲 TÀI XỈU ONLINE</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
 <style>
-body{
-margin:0;
-font-family:Arial;
-background:radial-gradient(circle,#1b0029,#050008);
-color:#fff;
-text-align:center
+:root{
+--gold:#ffcc66;
+--pink:#ff4fa3;
+--bg1:#120018;
+--bg2:#2a0033;
 }
-h1{margin:10px 0}
-#money{font-size:20px;color:#ffd700}
-.board{
+*{box-sizing:border-box;font-family:Segoe UI}
+body{
+margin:0;color:#fff;
+background:radial-gradient(circle,var(--bg2),#050008);
+min-height:100vh;
+overflow:hidden
+}
+.hidden{display:none}
+
+/* BACKGROUND PARTICLE */
+.bg span{
+position:fixed;
+width:8px;height:8px;
+border-radius:50%;
+background:linear-gradient(45deg,var(--pink),var(--gold));
+opacity:.6;
+animation:float linear infinite;
+}
+@keyframes float{
+from{transform:translateY(110vh)}
+to{transform:translateY(-10vh)}
+}
+
+/* HEADER */
+header{
+padding:14px;
+text-align:center;
+font-size:22px;
+font-weight:800;
+background:linear-gradient(90deg,var(--pink),var(--gold));
+box-shadow:0 0 25px #ff4fa3;
+}
+
+/* LOBBY */
+#lobby{
+padding:20px;
+}
+.game-card{
+background:#1a0022;
+border-radius:22px;
+padding:20px;
+margin-bottom:16px;
+box-shadow:0 0 30px #ff4fa355;
+text-align:center;
+}
+.game-card h2{
+margin:10px 0;
+color:var(--gold)
+}
+.play{
+padding:14px;
+border-radius:999px;
+border:none;
+font-weight:800;
+font-size:16px;
+width:100%;
+background:linear-gradient(90deg,var(--pink),var(--gold));
+color:#000;
+cursor:pointer;
+}
+
+/* GAME */
+#game{
+padding:20px;
+text-align:center;
+}
+.coin{
+font-size:18px;
+margin-bottom:10px;
+color:var(--gold)
+}
+.dice-box{
 display:flex;
 justify-content:center;
-gap:20px;
-margin:20px 0
+gap:12px;
+margin:20px 0;
+}
+.dice{
+width:60px;height:60px;
+border-radius:16px;
+background:#000;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:28px;
+box-shadow:0 0 20px #000;
+}
+.roll{animation:shake .6s}
+@keyframes shake{
+0%{transform:rotate(0)}
+25%{transform:rotate(15deg)}
+50%{transform:rotate(-15deg)}
+75%{transform:rotate(10deg)}
+100%{transform:rotate(0)}
+}
+
+.btns{
+display:flex;
+gap:12px;
+margin-top:20px;
 }
 .btn{
-padding:16px 30px;
-border-radius:14px;
+flex:1;
+padding:16px;
 border:none;
+border-radius:16px;
 font-size:18px;
-font-weight:bold;
-cursor:pointer
+font-weight:800;
+cursor:pointer;
 }
-.tai{background:#ff4f4f}
+.tai{background:#ff5b5b}
 .xiu{background:#4fc3ff}
-.dice{
-font-size:50px;
-margin:10px
+
+.result{
+margin-top:16px;
+font-size:18px;
+font-weight:700;
 }
 .history{
+margin-top:20px;
 font-size:14px;
-opacity:.8;
-max-width:90%;
-margin:auto
+opacity:.9;
 }
-.log{
-margin-top:10px;
-color:#00ffcc
+
+/* MUSIC */
+#musicBtn{
+position:fixed;
+right:16px;bottom:16px;
+width:46px;height:46px;
+border-radius:50%;
+background:var(--pink);
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:20px;
+box-shadow:0 0 20px var(--pink);
+cursor:pointer;
 }
 </style>
 </head>
 <body>
 
-<h1>🎲 TÀI XỈU ONLINE</h1>
-<div id="money">💰 1000 coin</div>
+<audio id="music" loop>
+<source src="music.mp3" type="audio/mpeg">
+</audio>
 
-<div class="board">
+<div class="bg" id="bg"></div>
+
+<header>🎲 TÀI XỈU ONLINE</header>
+
+<!-- LOBBY -->
+<div id="lobby">
+<div class="game-card">
+<h2>🎲 TÀI XỈU</h2>
+<p>Game casino mô phỏng</p>
+<button class="play" onclick="start()">VÀO CHƠI</button>
+</div>
+</div>
+
+<!-- GAME -->
+<div id="game" class="hidden">
+<div class="coin">💰 Coin: <span id="coin">1000</span></div>
+
+<div class="dice-box">
+<div class="dice" id="d1">🎲</div>
+<div class="dice" id="d2">🎲</div>
+<div class="dice" id="d3">🎲</div>
+</div>
+
+<div class="btns">
 <button class="btn tai" onclick="bet('TÀI')">🔥 TÀI</button>
 <button class="btn xiu" onclick="bet('XỈU')">❄️ XỈU</button>
 </div>
 
-<div id="dice">
-<span class="dice">🎲</span>
-<span class="dice">🎲</span>
-<span class="dice">🎲</span>
+<div class="result" id="result"></div>
+<div class="history" id="history"></div>
 </div>
 
-<div class="log" id="log">Chọn TÀI hoặc XỈU</div>
-
-<h3>LỊCH SỬ CẦU</h3>
-<div class="history" id="history"></div>
+<div id="musicBtn" onclick="toggleMusic()">🎵</div>
 
 <script>
-let money = +localStorage.getItem("money") || 1000
-let history = JSON.parse(localStorage.getItem("history")||"[]")
-let choice = null
-
-update()
-
-function bet(c){
-if(money<100){alert("Không đủ coin");return}
-choice=c
-money-=100
-roll()
+/* BACKGROUND */
+for(let i=0;i<40;i++){
+let s=document.createElement("span");
+s.style.left=Math.random()*100+"vw";
+s.style.animationDuration=8+Math.random()*8+"s";
+bg.appendChild(s);
 }
 
-function roll(){
-let d1=r(),d2=r(),d3=r()
-let sum=d1+d2+d3
-let result=sum>=11?"TÀI":"XỈU"
+/* DATA */
+let coin=1000;
+let hist=[];
+let music=document.getElementById("music");
 
-document.getElementById("dice").innerHTML=
-`<span class="dice">${d1}</span>
- <span class="dice">${d2}</span>
- <span class="dice">${d3}</span>`
-
-let win = choice===result
-if(win) money+=200
-
-history.unshift(result)
-if(history.length>20)history.pop()
-
-document.getElementById("log").innerText=
-`KẾT QUẢ: ${result} (${sum}) → ${win?"THẮNG":"THUA"}`
-
-save()
-update()
+/* START */
+function start(){
+lobby.classList.add("hidden");
+game.classList.remove("hidden");
+music.play();
 }
 
-function r(){return Math.floor(Math.random()*6)+1}
+/* MUSIC */
+function toggleMusic(){
+music.paused?music.play():music.pause();
+}
 
+/* BET */
+function bet(type){
+if(coin<100) return alert("Không đủ coin");
+coin-=100;
+update();
+
+[d1,d2,d3].forEach(d=>d.classList.add("roll"));
+
+setTimeout(()=>{
+let a=rand(),b=rand(),c=rand();
+let sum=a+b+c;
+[d1,d2,d3].forEach((d,i)=>{
+d.classList.remove("roll");
+d.innerText=[a,b,c][i];
+});
+let kq=sum>=11?"TÀI":"XỈU";
+hist.unshift(kq);
+if(hist.length>20)hist.pop();
+
+if(type===kq){
+coin+=200;
+result.innerText=`🎉 ${kq} (${sum}) – THẮNG`;
+}else{
+result.innerText=`❌ ${kq} (${sum}) – THUA`;
+}
+update();
+},700);
+}
+
+/* UTILS */
+function rand(){return Math.floor(Math.random()*6)+1}
 function update(){
-document.getElementById("money").innerText="💰 "+money+" coin"
-document.getElementById("history").innerText=history.join(" • ")
+coinEl.innerText=coin;
+history.innerText="LỊCH SỬ: "+hist.join(" · ");
 }
-
-function save(){
-localStorage.setItem("money",money)
-localStorage.setItem("history",JSON.stringify(history))
-}
+let coinEl=document.getElementById("coin");
 </script>
 
 </body>
