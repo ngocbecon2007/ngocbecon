@@ -1,8 +1,11 @@
-<!DOCTYPE html><html lang="vi">
+<!DOCTYPE html>
+<html lang="vi">
 <head>
 <meta charset="UTF-8">
 <title>Ngọc Becon Shop</title>
-<meta name="viewport" content="width=device-width, initial-scale=1"><style>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
 :root{--pink:#ff4fa3}
 *{box-sizing:border-box;font-family:Segoe UI,Arial}
 body{margin:0;background:radial-gradient(circle,#3a0045,#0b0010);color:#fff}
@@ -18,7 +21,7 @@ display:flex;align-items:center;justify-content:space-between
 }
 .menu-btn{font-size:22px}
 
-/* SIDE MENU */
+/* MENU */
 #sideMenu{
 position:fixed;left:0;top:0;width:260px;height:100%;
 background:#16001d;padding:20px;z-index:10
@@ -41,27 +44,7 @@ width:100%;padding:14px;margin-top:12px;border-radius:14px;border:none
 }
 .auth button{background:linear-gradient(90deg,#ff4fa3,#ff77b7);color:#fff}
 
-/* CHAT */
-#chatBtn{
-position:fixed;right:20px;bottom:20px;
-background:#ff4fa3;padding:14px 18px;
-border-radius:999px;z-index:20
-}
-#chatBox{
-position:fixed;right:20px;bottom:80px;
-width:340px;height:460px;background:#0f0014;
-border-radius:20px;display:flex;flex-direction:column;z-index:20
-}
-.chat-header{background:#ff4fa3;padding:12px;font-weight:bold}
-#chatContent{flex:1;overflow:auto;padding:10px}
-.msg{margin:6px 0}
-.user{text-align:right}
-.bubble{display:inline-block;padding:10px 14px;border-radius:18px;background:#333;max-width:75%}
-.user .bubble{background:#ff4fa3}
-.chat-input{display:flex;gap:6px;padding:8px}
-.chat-input input{flex:1;padding:10px;border-radius:20px;border:none}
-
-/* MUSIC BTN */
+/* MUSIC */
 #musicBtn{
 position:fixed;left:20px;bottom:20px;
 width:48px;height:48px;border-radius:50%;
@@ -69,25 +52,40 @@ background:#ff4fa3;color:#fff;
 display:flex;align-items:center;justify-content:center;
 font-size:22px;z-index:20
 }
-.momo-img{width:100%;border-radius:14px;margin-top:10px}
-</style></head><body><audio id="bgMusic" loop>
-<source src="data:audio/mpeg;base64,// PUT MUSIC BASE64 HERE //">
-</audio><!-- LOGIN --><div id="auth" class="auth">
+</style>
+</head>
+
+<body>
+
+<audio id="bgMusic" src="music.mp3" loop></audio>
+
+<!-- LOGIN -->
+<div id="auth" class="auth">
 <h2>🐰 Ngọc Becon Shop</h2>
 <input id="user" placeholder="Tài khoản">
 <input id="pass" type="password" placeholder="Mật khẩu">
 <button onclick="login()">Đăng nhập</button>
-</div><header id="header" class="hidden">
+</div>
+
+<header id="header" class="hidden">
 <div class="menu-btn" onclick="toggleMenu()">☰</div>
 <b>Số dư: <span id="money">0đ</span></b>
-</header><!-- MENU --><div id="sideMenu" class="hidden">
+</header>
+
+<!-- MENU -->
+<div id="sideMenu" class="hidden">
 <button onclick="showPage('nap')">💳 Nạp thẻ</button>
 <button onclick="showPage('momo')">📱 Nạp MoMo</button>
+<button onclick="showPage('blox')">🍏 Blox Fruit</button>
 <button onclick="showPage('ff')">🔥 Free Fire</button>
 <button onclick="showPage('lq')">⚔️ Liên Quân</button>
-<button onclick="showPage('blox')">🍏 Blox Fruit</button>
 <button onclick="toggleMenu()">❌ Đóng</button>
-</div><div class="container hidden" id="shop"><!-- NẠP THẺ --><div id="nap" class="card hidden">
+</div>
+
+<div class="container hidden" id="shop">
+
+<!-- NẠP CARD -->
+<div id="nap" class="card hidden">
 <h3>💳 Nạp thẻ (trừ 17%)</h3>
 <select id="telco">
 <option>Viettel</option>
@@ -100,69 +98,99 @@ font-size:22px;z-index:20
 <option value="50000">50.000</option>
 <option value="100000">100.000</option>
 <option value="200000">200.000</option>
+<option value="500000">500.000</option>
+<option value="1000000">1.000.000</option>
 </select>
-<input id="seri" placeholder="Số seri">
-<input id="code" placeholder="Mã thẻ">
+<input placeholder="Số seri">
+<input placeholder="Mã thẻ">
 <button onclick="napCard()">NẠP NGAY</button>
-</div><!-- NẠP MOMO --><div id="momo" class="card hidden">
-<h3>📱 Nạp MoMo (số tiền tự chọn)</h3>
-<input id="momoAmount" placeholder="Nhập số tiền">
-<img class="momo-img" src="data:image/jpeg;base64,// PUT MOMO BASE64 HERE //">
-<button onclick="napMomo()">ĐÃ CHUYỂN MOMO</button>
-</div><!-- GAME --><div id="ff" class="card hidden"><h3>🔥 Free Fire</h3><button onclick="order('Free Fire','Cày Rank')">ĐẶT ĐƠN</button></div>
-<div id="lq" class="card hidden"><h3>⚔️ Liên Quân</h3><button onclick="order('Liên Quân','Cày Rank')">ĐẶT ĐƠN</button></div>
-<div id="blox" class="card hidden"><h3>🍏 Blox Fruit</h3><button onclick="order('Blox Fruit','Cày Level')">ĐẶT ĐƠN</button></div></div><div id="chatBtn" onclick="toggleChat()">🐰 CSKH</div><div id="chatBox" class="hidden">
-<div class="chat-header">CSKH Ngọc Becon</div>
-<div id="chatContent"></div>
-<div class="chat-input">
-<input id="chatMsg" placeholder="Nhắn tin">
-<button onclick="sendText()">➤</button>
 </div>
-</div><div id="musicBtn" onclick="toggleMusic()">🎵</div><script>
-let DB=JSON.parse(localStorage.getItem("SHOP"))||{users:{}}
-let cur=null
-const music=document.getElementById("bgMusic")
-function save(){localStorage.setItem("SHOP",JSON.stringify(DB))}
+
+<!-- NẠP MOMO -->
+<div id="momo" class="card hidden">
+<h3>📱 Nạp MoMo (tự chọn)</h3>
+<img src="momo.jpg" style="width:100%;border-radius:16px;margin:10px 0">
+<input id="momoAmount" type="number" placeholder="Nhập số tiền (VD: 50000)">
+<p>Nội dung chuyển khoản:</p>
+<b style="color:#ff4fa3">NAP <span id="momoUser"></span></b>
+<button onclick="napMomo()">XÁC NHẬN ĐÃ CHUYỂN</button>
+</div>
+
+<div id="blox" class="card hidden">
+<h3>🍏 Blox Fruit</h3>
+<select id="bloxPack">
+<option>Level 1–700 (10k)</option>
+<option>Level 700–1500 (10k)</option>
+<option>Mastery 1–300 (10k)</option>
+<option>Haki 7 màu (20k)</option>
+<option>Gear V4 Full (40k)</option>
+</select>
+<button>ĐẶT ĐƠN</button>
+</div>
+
+<div id="ff" class="card hidden">
+<h3>🔥 Free Fire</h3>
+<select>
+<option>Đồng → Huyền Thoại (40k)</option>
+<option>Huyền Thoại → Cao Thủ (60k)</option>
+<option>Cao Thủ 100⭐ (100k)</option>
+</select>
+<button>ĐẶT ĐƠN</button>
+</div>
+
+<div id="lq" class="card hidden">
+<h3>⚔️ Liên Quân</h3>
+<select>
+<option>Đồng → BK5 (250k)</option>
+<option>BK5 → KC5 (250k)</option>
+<option>KC5 → TA5 (300k)</option>
+<option>TA5 → CT1⭐ (350k)</option>
+</select>
+<button>ĐẶT ĐƠN</button>
+</div>
+
+</div>
+
+<div id="musicBtn" onclick="toggleMusic()">🎵</div>
+
+<script>
+let DB = JSON.parse(localStorage.getItem("SHOP")) || {users:{}}
+let cur = null
+const music = document.getElementById("bgMusic")
+
 function login(){
 let u=user.value,p=pass.value
-if(!DB.users[u])DB.users[u]={pass:p,money:0}
-if(DB.users[u].pass!==p)return alert("Sai mật khẩu")
+if(!DB.users[u]) DB.users[u]={pass:p,money:0}
+if(DB.users[u].pass!==p) return alert("Sai mật khẩu")
 cur=u
 auth.classList.add("hidden")
 header.classList.remove("hidden")
 shop.classList.remove("hidden")
 money.innerText=DB.users[u].money+"đ"
+document.getElementById("momoUser").innerText=cur
 music.play()
 }
+
 function toggleMenu(){sideMenu.classList.toggle("hidden")}
 function showPage(id){
 document.querySelectorAll(".card").forEach(c=>c.classList.add("hidden"))
 document.getElementById(id).classList.remove("hidden")
 sideMenu.classList.add("hidden")
 }
-function toggleChat(){chatBox.classList.toggle("hidden")}
-function sendText(){
-if(!chatMsg.value)return
-chatContent.innerHTML+=`<div class="msg user"><div class="bubble">${chatMsg.value}</div></div>`
-chatMsg.value=""
-}
-function order(g,p){
-chatContent.innerHTML+=`<div class="msg user"><div class="bubble">📦 ${g} - ${p}</div></div>`
-alert("Đã gửi đơn")
-}
+
 function napCard(){
 let m=amount.value
-let r=Math.floor(m*0.83)
-chatContent.innerHTML+=`<div class="msg user"><div class="bubble">💳 Nạp thẻ ${r}đ</div></div>`
-alert("Đã gửi yêu cầu nạp")
+alert("Đã gửi yêu cầu nạp thẻ: "+m+"đ")
 }
+
 function napMomo(){
 let m=momoAmount.value
 if(!m||m<1000)return alert("Số tiền không hợp lệ")
-chatContent.innerHTML+=`<div class="msg user"><div class="bubble">📱 Nạp MoMo ${m}đ</div></div>`
-alert("Đã gửi yêu cầu MoMo")
+alert("Đã gửi yêu cầu nạp MoMo: "+m+"đ")
 }
+
 function toggleMusic(){music.paused?music.play():music.pause()}
-showPage("ff")
-</script></body>
+</script>
+
+</body>
 </html>
