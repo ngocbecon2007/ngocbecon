@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Shop – Ngọc Becon</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+:root{--pink:#ff4fa3}
+body{
+margin:0;
+background:#0b0010;
+color:#fff;
+font-family:Segoe UI
+}
+.hidden{display:none}
+header{
+background:linear-gradient(90deg,#ff4fa3,#ff77b7);
+padding:14px;
+display:flex;
+justify-content:space-between;
+align-items:center
+}
+button{
+border:none;
+border-radius:999px;
+padding:8px 14px;
+font-weight:bold;
+cursor:pointer
+}
+.menu button{margin-left:6px}
+.card{
+background:#16001c;
+margin:20px;
+padding:20px;
+border-radius:20px;
+box-shadow:0 0 30px rgba(255,79,163,.3)
+}
+.vip{box-shadow:0 0 50px #ff77ff}
+input,select{
+width:100%;
+padding:12px;
+margin-top:10px;
+border-radius:12px;
+border:none
+}
+table{width:100%;border-collapse:collapse}
+td,th{padding:8px;border-bottom:1px solid #333}
+</style>
+</head>
+
+<body>
+
+<header id="header" class="hidden">
+<b>💎 NGỌC BECON SHOP</b>
+<div class="menu">
+<button onclick="show('home')">🏠</button>
+<button onclick="show('topup')">💳</button>
+<button onclick="show('boost')">🔥</button>
+<button onclick="show('history')">📜</button>
+<button onclick="logout()">🚪</button>
+</div>
+</header>
+
+<div id="login" class="card">
+<h2>🔐 Đăng nhập</h2>
+<input id="u" placeholder="Tài khoản">
+<input id="p" type="password" placeholder="Mật khẩu">
+<button onclick="login()">Vào shop</button>
+</div>
+
+<div id="home" class="card hidden">
+<h3>Xin chào <span id="name"></span></h3>
+<p>Số dư: <b id="money">0đ</b></p>
+<p>Hạng: <b id="rank"></b></p>
+</div>
+
+<div id="topup" class="card hidden">
+<h3>💳 Auto nạp (demo)</h3>
+<select id="val">
+<option value="10000">10.000</option>
+<option value="50000">50.000</option>
+<option value="100000">100.000</option>
+<option value="500000">500.000</option>
+</select>
+<button onclick="topup()">Nạp ngay</button>
+</div>
+
+<div id="boost" class="card hidden">
+<h3>🔥 Cày thuê</h3>
+<select id="game">
+<option value="500">Free Fire – 1 sao 500đ</option>
+<option value="1000">Liên Quân – 1 trận 1k</option>
+</select>
+<button onclick="order()">Đặt đơn (trừ tiền)</button>
+</div>
+
+<div id="history" class="card hidden">
+<h3>📜 Lịch sử</h3>
+<table>
+<thead><tr><th>Bill</th><th>Loại</th><th>Tiền</th></tr></thead>
+<tbody id="his"></tbody>
+</table>
+</div>
+
+<script>
+let DB=JSON.parse(localStorage.getItem("SHOP_DB"))||{users:{},his:[]}
+let user=null
+const save=()=>localStorage.setItem("SHOP_DB",JSON.stringify(DB))
+const bill=()=>Math.random().toString(36).substr(2,8).toUpperCase()
+
+function login(){
+if(!u.value||!p.value)return alert("Thiếu thông tin")
+if(!DB.users[u.value])DB.users[u.value]={money:0}
+user=u.value
+loginBox()
+}
+
+function loginBox(){
+login.classList.add("hidden")
+header.classList.remove("hidden")
+name.innerText=user
+update()
+show("home")
+}
+
+function update(){
+let m=DB.users[user].money
+money.innerText=m.toLocaleString()+"đ"
+rank.innerText=m>=1000000?"CTV":m>=500000?"Đại lý":"Thành viên"
+home.classList.toggle("vip",m>=1000000)
+load()
+}
+
+function show(id){
+document.querySelectorAll(".card").forEach(e=>e.classList.add("hidden"))
+document.getElementById(id).classList.remove("hidden")
+}
+
+function topup(){
+let v=+val.value
+DB.users[user].money+=v
+DB.his.push({b:bill(),t:"Nạp",m:v,u:user})
+save();update();alert("✔ Nạp thành công")
+}
+
+function order(){
+let price=+game.value
+if(DB.users[user].money<price)return alert("Không đủ tiền")
+DB.users[user].money-=price
+DB.his.push({b:bill(),t:"Cày thuê",m:price,u:user})
+save();update();alert("✔ Đã trừ tiền")
+}
+
+function load(){
+his.innerHTML=""
+DB.his.filter(x=>x.u==user).forEach(x=>{
+his.innerHTML+=`<tr><td>${x.b}</td><td>${x.t}</td><td>${x.m}</td></tr>`
+})
+}
+
+function logout(){location.reload()}
+</script>
+
+</body>
+</html>
