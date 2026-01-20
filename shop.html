@@ -2,23 +2,49 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<title>Shop Dịch Vụ</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🛒 Shop</title>
 <style>
-body{font-family:Poppins;background:linear-gradient(135deg,#ff4f9a,#ffb3d9);color:#fff}
-.card{background:rgba(255,255,255,.2);margin:20px;padding:20px;border-radius:25px}
-button{padding:10px 20px;border-radius:20px;border:none}
+*{box-sizing:border-box;font-family:Arial}
+body{margin:0;background:linear-gradient(135deg,#ff4fa3,#ff9ad5);color:#fff;text-align:center}
+.card{background:rgba(255,255,255,.2);margin:20px auto;padding:20px;max-width:420px;border-radius:22px}
+button{background:#fff;color:#ff4fa3;border:none;padding:10px 22px;border-radius:20px;font-weight:bold}
 </style>
 </head>
 <body>
-<h1 align="center">🛒 SHOP</h1>
-<div class="card">
-<h3>🔥 Free Fire Rank</h3>
-<p>Giá: 20.000đ</p>
-<button onclick="buy(20000)">Mua</button>
-</div>
+
+<h1>🛒 DỊCH VỤ</h1>
+<a href="index.html">Trang chủ</a>
+
+<div id="list"></div>
+
 <script>
-function buy(price){let m=localStorage.getItem('money')||0;if(m<price)return alert('Không đủ tiền');localStorage.setItem('money',m-price);alert('Mua thành công');}
+let user = JSON.parse(localStorage.getItem("user"));
+let services = [
+ {id:1,name:"Cày Rank Free Fire",price:50000},
+ {id:2,name:"Cày Rank Liên Quân",price:70000},
+ {id:3,name:"Cày Roblox",price:60000}
+];
+
+function buy(id){
+ let sv = services.find(s=>s.id===id);
+ if(user.money < sv.price){alert("Không đủ tiền");return;}
+ user.money -= sv.price;
+ localStorage.setItem("user",JSON.stringify(user));
+ alert("Mua thành công: "+sv.name);
+ location.reload();
+}
+
+let html="";
+services.forEach(s=>{
+ html+=`
+ <div class="card">
+ <h3>${s.name}</h3>
+ <p>${s.price.toLocaleString()}đ</p>
+ <button onclick="buy(${s.id})">Mua</button>
+ </div>`;
+});
+document.getElementById("list").innerHTML=html;
 </script>
+
 </body>
 </html>
