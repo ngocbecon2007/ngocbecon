@@ -66,11 +66,12 @@ th{color:#ff9ad5}
 
 /* CHAT */
 .chat-wrap{
-position:fixed;right:20px;bottom:20px;
+position:fixed;right:20px;bottom:90px;
 width:360px;height:520px;
 background:#120015;border-radius:24px;
 display:flex;flex-direction:column;
-box-shadow:0 0 40px #ff5fa855
+box-shadow:0 0 40px #ff5fa855;
+z-index:20
 }
 .chat-header{
 background:linear-gradient(90deg,#ff5fa8,#ff9ad5);
@@ -106,14 +107,54 @@ border:none;border-radius:50%;
 background:#ff5fa8;color:#fff
 }
 
+/* CSKH BUBBLE */
+#cskhBubble{
+position:fixed;
+right:20px;
+bottom:20px;
+background:linear-gradient(90deg,#ff5fa8,#ff9ad5);
+padding:14px 18px;
+border-radius:999px;
+font-weight:800;
+cursor:pointer;
+box-shadow:0 0 20px #ff5fa8;
+z-index:30;
+animation:pulse 1.6s infinite
+}
+
+/* MUSIC BUTTON */
+#musicBtn{
+position:fixed;
+left:20px;
+bottom:20px;
+background:#ff5fa8;
+width:48px;height:48px;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:22px;
+cursor:pointer;
+box-shadow:0 0 20px #ff5fa8;
+z-index:30
+}
+
 @keyframes fade{
 from{opacity:0;transform:translateY(20px)}
 to{opacity:1}
+}
+@keyframes pulse{
+0%{box-shadow:0 0 10px #ff5fa8}
+50%{box-shadow:0 0 30px #ff9ad5}
+100%{box-shadow:0 0 10px #ff5fa8}
 }
 </style>
 </head>
 
 <body>
+
+<!-- MUSIC -->
+<audio id="bgMusic" src="music.mp3" loop></audio>
 
 <!-- LOGIN -->
 <div id="loginBox" class="login">
@@ -131,16 +172,13 @@ to{opacity:1}
 </header>
 
 <div class="main">
-<!-- SIDEBAR -->
 <div class="sidebar">
 <button onclick="show('users')">👤 User</button>
 <button onclick="show('topups')">💳 Nạp tiền</button>
 <button onclick="show('orders')">🔥 Đơn cày</button>
 </div>
 
-<!-- CONTENT -->
 <div class="content">
-
 <div id="users" class="card hidden">
 <h3>👤 Người dùng</h3>
 <table>
@@ -164,30 +202,30 @@ to{opacity:1}
 <tbody id="oList"></tbody>
 </table>
 </div>
-
 </div>
 </div>
 </div>
 
-<!-- CHAT ADMIN -->
+<!-- CHAT -->
 <div id="chatBox" class="chat-wrap hidden">
-<div class="chat-header">💬 Chat CSKH</div>
+<div class="chat-header">💬 CSKH SHOP</div>
 <div class="chat-users" id="chatUsers"></div>
 <div class="chat-body" id="chatBody"></div>
 <div class="chat-input">
 <input id="chatMsg" placeholder="Nhắn tin...">
-<input type="file" id="imgInput" hidden accept="image/*">
-<button onclick="imgInput.click()">🖼</button>
 <button onclick="sendMsg()">➤</button>
 </div>
 </div>
 
+<!-- CSKH BUBBLE -->
+<div id="cskhBubble" onclick="toggleChat()">💬 CSKH</div>
+
+<!-- MUSIC BTN -->
+<div id="musicBtn" onclick="toggleMusic()">🎵</div>
+
 <script>
-/* ADMIN LOGIN */
 const ADMIN_USER="Ngocbecon"
 const ADMIN_PASS="manhmanh"
-
-/* DATABASE */
 let DB=JSON.parse(localStorage.getItem("SHOP"))||{users:{},topups:[],orders:[]}
 const save=()=>localStorage.setItem("SHOP",JSON.stringify(DB))
 
@@ -195,26 +233,22 @@ function login(){
 if(l_user.value===ADMIN_USER && l_pass.value===ADMIN_PASS){
 loginBox.classList.add("hidden")
 panel.classList.remove("hidden")
-chatBox.classList.remove("hidden")
+document.getElementById("bgMusic").play()
 loadAll()
 }else alert("Sai tài khoản admin")
 }
 
-/* MENU */
 function show(id){
 ["users","topups","orders"].forEach(x=>document.getElementById(x).classList.add("hidden"))
 document.getElementById(id).classList.remove("hidden")
 }
 
-/* USERS */
 function loadUsers(){
 uList.innerHTML=""
 Object.keys(DB.users).forEach(u=>{
 uList.innerHTML+=`<tr><td>${u}</td><td>${DB.users[u].money}đ</td></tr>`
 })
 }
-
-/* TOPUPS */
 function loadTopups(){
 tList.innerHTML=""
 DB.topups.forEach((x,i)=>{
@@ -237,7 +271,6 @@ save();loadAll()
 }
 function noTopup(i){DB.topups[i].status="Hủy";save();loadTopups()}
 
-/* ORDERS */
 function loadOrders(){
 oList.innerHTML=""
 DB.orders.forEach((x,i)=>{
@@ -264,13 +297,13 @@ let curUser=null
 function loadChatUsers(){
 chatUsers.innerHTML=""
 Object.keys(DB.users).forEach(u=>{
-chatUsers.innerHTML+=`<button onclick="openChat('${u}')">${u}</button>`
+chatUsers.innerHTML+=`<button onclick="openChat('${u}',this)">${u}</button>`
 })
 }
-function openChat(u){
+function openChat(u,btn){
 curUser=u
 [...chatUsers.children].forEach(b=>b.classList.remove("active"))
-event.target.classList.add("active")
+btn.classList.add("active")
 loadChat()
 }
 function chatKey(){return "CHAT_"+curUser}
@@ -278,33 +311,31 @@ function loadChat(){
 chatBody.innerHTML=""
 let c=JSON.parse(localStorage.getItem(chatKey()))||[]
 c.forEach(m=>{
-let html=m.type==="img"
-? `<img src="${m.data}" style="max-width:100%">`
-: m.text
-chatBody.innerHTML+=`<div class="msg ${m.from}"><div class="bubble">${html}</div></div>`
+chatBody.innerHTML+=`<div class="msg ${m.from}"><div class="bubble">${m.text}</div></div>`
 })
 chatBody.scrollTop=9999
 }
 function sendMsg(){
 if(!curUser||!chatMsg.value)return
 let c=JSON.parse(localStorage.getItem(chatKey()))||[]
-c.push({from:"admin",type:"text",text:chatMsg.value})
+c.push({from:"admin",text:chatMsg.value})
 localStorage.setItem(chatKey(),JSON.stringify(c))
 chatMsg.value=""
 loadChat()
 }
-imgInput.onchange=()=>{
-let r=new FileReader()
-r.onload=()=>{
-let c=JSON.parse(localStorage.getItem(chatKey()))||[]
-c.push({from:"admin",type:"img",data:r.result})
-localStorage.setItem(chatKey(),JSON.stringify(c))
-loadChat()
-}
-r.readAsDataURL(imgInput.files[0])
+function toggleChat(){
+chatBox.classList.toggle("hidden")
+loadChatUsers()
 }
 
-/* LOAD */
+/* MUSIC */
+let musicOn=true
+function toggleMusic(){
+let m=document.getElementById("bgMusic")
+musicOn=!musicOn
+musicOn?m.play():m.pause()
+}
+
 function loadAll(){
 loadUsers();loadTopups();loadOrders();loadChatUsers()
 }
