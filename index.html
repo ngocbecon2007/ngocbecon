@@ -12,7 +12,6 @@ background:linear-gradient(135deg,#ff7eb3,#a855f7);
 display:flex;
 align-items:center;
 justify-content:center;
-overflow:hidden;
 color:#fff
 }
 .card{
@@ -24,7 +23,10 @@ text-align:center;
 box-shadow:0 20px 60px rgba(0,0,0,.4);
 animation:zoom 1s ease
 }
-@keyframes zoom{from{transform:scale(.7);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes zoom{
+from{transform:scale(.7);opacity:0}
+to{transform:scale(1);opacity:1}
+}
 .avatar{
 width:120px;height:120px;
 border-radius:50%;
@@ -34,7 +36,7 @@ margin-bottom:15px
 }
 button{
 margin-top:15px;
-padding:12px 25px;
+padding:12px 28px;
 border:none;
 border-radius:30px;
 background:#ff4d9d;
@@ -42,12 +44,6 @@ color:#fff;
 font-size:16px;
 cursor:pointer;
 box-shadow:0 5px 20px rgba(0,0,0,.4)
-}
-.music{
-margin-top:10px;
-font-size:14px;
-opacity:.8;
-cursor:pointer
 }
 </style>
 </head>
@@ -59,19 +55,14 @@ cursor:pointer
 <img src="avatar.jpg" class="avatar">
 <h2>Ngọc Becon</h2>
 <p>Shop Cày Thuê • Uy Tín • Giá Mềm</p>
-
 <button onclick="enter()">🚀 Vào Shop</button>
-<div class="music" onclick="toggleMusic()">🎵 Bật / Tắt nhạc</div>
 </div>
 
 <script>
-const bgm=document.getElementById("bgm");
-function toggleMusic(){
-bgm.paused?bgm.play():bgm.pause();
-}
 function enter(){
-bgm.play();
-setTimeout(()=>location.href="shop.html",500);
+const bgm=document.getElementById("bgm");
+bgm.play();              // NHẠC TỰ MỞ
+setTimeout(()=>location.href="shop.html",400);
 }
 </script>
 
