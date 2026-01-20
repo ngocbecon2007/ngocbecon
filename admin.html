@@ -2,21 +2,35 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<title>Admin</title>
+<title>👑 Admin</title>
 <style>
-body{font-family:Poppins;background:linear-gradient(135deg,#ff5fa2,#ff9ecf);color:#fff}
-.box{background:rgba(255,255,255,.2);margin:50px auto;padding:30px;width:300px;border-radius:25px;text-align:center}
+*{box-sizing:border-box;font-family:Arial}
+body{margin:0;background:linear-gradient(135deg,#ff4fa3,#ff9ad5);color:#fff;text-align:center}
+.box{background:rgba(255,255,255,.2);margin:30px auto;padding:25px;max-width:420px;border-radius:22px}
+button{background:#fff;color:#ff4fa3;border:none;padding:10px 22px;border-radius:20px;font-weight:bold}
 </style>
 </head>
 <body>
+
+<h1>👑 ADMIN</h1>
+<a href="index.html">Trang chủ</a>
+
 <div class="box">
-<h2>Admin Login</h2>
-<input id="u" placeholder="user"><br><br>
-<input id="p" type="password" placeholder="pass"><br><br>
-<button onclick="login()">Login</button>
+<p id="info"></p>
+<button onclick="add()">+50.000 VNĐ</button>
 </div>
+
 <script>
-function login(){if(u.value==='admin'&&p.value==='admin'){alert('Login thành công')}else alert('Sai');}
+let user = JSON.parse(localStorage.getItem("user"));
+document.getElementById("info").innerText =
+"Số dư hiện tại: "+user.money.toLocaleString()+" VNĐ";
+
+function add(){
+ user.money += 50000;
+ localStorage.setItem("user",JSON.stringify(user));
+ location.reload();
+}
 </script>
+
 </body>
 </html>
