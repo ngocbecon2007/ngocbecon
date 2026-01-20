@@ -10,39 +10,89 @@
 body{margin:0;background:radial-gradient(circle,#3a0045,#0b0010);color:#fff}
 .hidden{display:none}
 
-/* LOGIN */
-.auth{max-width:360px;margin:120px auto;background:#16001d;padding:24px;border-radius:20px;text-align:center}
-.auth h2{color:#ff77b7}
-.auth input{width:100%;padding:14px;margin-top:12px;border-radius:14px;border:none}
-.auth button{width:100%;padding:14px;margin-top:14px;border:none;border-radius:14px;background:linear-gradient(90deg,#ff4fa3,#ff77b7);color:#fff;font-weight:bold}
-
 /* HEADER */
-header{position:sticky;top:0;background:linear-gradient(90deg,#ff4fa3,#ff77b7);padding:14px;display:flex;justify-content:space-between}
+header{
+position:sticky;top:0;z-index:5;
+background:linear-gradient(90deg,#ff4fa3,#ff77b7);
+padding:12px;
+display:flex;align-items:center;justify-content:space-between
+}
+.menu-btn,.gear{cursor:pointer;font-size:22px}
 
-/* CARD */
+/* SIDE MENU */
+#sideMenu{
+position:fixed;left:0;top:0;height:100%;width:260px;
+background:#16001d;padding:20px;z-index:10
+}
+#sideMenu h3{color:#ff77b7}
+#sideMenu button{
+width:100%;margin-top:10px;padding:12px;
+border:none;border-radius:12px;background:#ff4fa3;color:#fff
+}
+
+/* SETTINGS */
+#settings{
+position:fixed;right:20px;top:70px;
+background:#16001d;padding:20px;border-radius:20px;width:300px;z-index:10
+}
+#settings input{width:100%;padding:10px;margin-top:10px;border-radius:10px;border:none}
+
+/* LOGIN */
+.auth{
+max-width:360px;margin:120px auto;background:#16001d;
+padding:24px;border-radius:20px;text-align:center
+}
+.auth input{width:100%;padding:14px;margin-top:12px;border-radius:14px;border:none}
+.auth button{
+width:100%;padding:14px;margin-top:14px;
+border:none;border-radius:14px;
+background:linear-gradient(90deg,#ff4fa3,#ff77b7);color:#fff
+}
+
+/* CONTENT */
 .container{max-width:1100px;margin:auto;padding:20px}
 .card{background:#16001d;padding:20px;border-radius:22px;margin-bottom:20px}
 
 /* CHAT */
-#chatBtn{position:fixed;right:20px;bottom:20px;background:#ff4fa3;padding:14px 18px;border-radius:999px;cursor:pointer}
-#chatBox{position:fixed;right:20px;bottom:80px;width:340px;height:460px;background:#0f0014;border-radius:22px;display:flex;flex-direction:column}
-.chat-header{background:linear-gradient(90deg,#ff4fa3,#ff77b7);padding:12px;border-radius:22px 22px 0 0;font-weight:bold}
+#chatBtn{
+position:fixed;right:20px;bottom:20px;
+background:#ff4fa3;padding:14px 18px;border-radius:999px;cursor:pointer
+}
+#chatBox{
+position:fixed;right:20px;bottom:80px;
+width:340px;height:460px;background:#0f0014;
+border-radius:22px;display:flex;flex-direction:column;z-index:9
+}
+.chat-header{
+background:linear-gradient(90deg,#ff4fa3,#ff77b7);
+padding:12px;font-weight:bold
+}
 #chatContent{flex:1;overflow:auto;padding:10px}
 .msg{margin-bottom:8px}
 .user{text-align:right}
-.bubble{display:inline-block;padding:10px 14px;border-radius:18px;max-width:75%}
+.bubble{
+display:inline-block;padding:10px 14px;
+border-radius:18px;max-width:75%
+}
 .user .bubble{background:#ff4fa3}
-.admin .bubble{background:#333}
+.bot .bubble{background:#333}
+
+/* INPUT */
 .chat-input{display:flex;gap:6px;padding:8px}
-.chat-input input{flex:1;padding:12px;border-radius:999px;border:none}
-.chat-input button{border:none;border-radius:50%;width:38px;height:38px;background:#ff4fa3;color:#fff}
+.chat-input input{
+flex:1;padding:12px;border-radius:999px;border:none
+}
+.chat-input button{
+border:none;border-radius:50%;
+width:38px;height:38px;background:#ff4fa3;color:#fff
+}
 
 /* EMOJI */
 .emoji-box{
-position:absolute;bottom:70px;right:20px;
+position:absolute;right:20px;bottom:150px;
 background:#1a001f;border-radius:16px;
 padding:10px;display:grid;
-grid-template-columns:repeat(6,1fr);gap:6px
+grid-template-columns:repeat(6,1fr);gap:6px;z-index:11
 }
 .emoji-box span{cursor:pointer;font-size:22px}
 </style>
@@ -58,21 +108,36 @@ grid-template-columns:repeat(6,1fr);gap:6px
 <button onclick="login()">Đăng nhập / Đăng ký</button>
 </div>
 
+<!-- HEADER -->
 <header id="header" class="hidden">
-<b>💎 Ngọc Becon Shop</b>
+<div class="menu-btn" onclick="sideMenu.classList.toggle('hidden')">☰</div>
 <span>Số dư: <b id="money">0đ</b></span>
+<div class="gear" onclick="settings.classList.toggle('hidden')">⚙️</div>
 </header>
 
-<div class="container hidden" id="shop">
-<div class="card">
-<h3>👋 Xin chào <span id="uname"></span></h3>
+<!-- SIDE MENU -->
+<div id="sideMenu" class="hidden">
+<h3>📋 Menu</h3>
+<button onclick="alert('Trang nạp tiền')">💳 Nạp tiền</button>
+<button onclick="toggleChat()">💬 CSKH</button>
 </div>
 
+<!-- SETTINGS -->
+<div id="settings" class="hidden">
+<h3>⚙️ Cài đặt</h3>
+<input placeholder="Mật khẩu hiện tại">
+<input placeholder="Mật khẩu mới">
+<input placeholder="Xác nhận mật khẩu">
+<button onclick="logout()">Đăng xuất</button>
+</div>
+
+<!-- SHOP -->
+<div class="container hidden" id="shop">
+<div class="card">👋 Xin chào <b id="uname"></b></div>
 <div class="card">
-<h3>💳 Nạp tiền</h3>
-<p>⏱ Chờ quá 10 phút chưa xử lý<br>
-👉 Liên hệ: <a style="color:#ff77b7" target="_blank"
-href="https://www.facebook.com/share/17kCiGf7xE/">Facebook</a></p>
+⏱ Nạp tiền quá 10 phút chưa xử lý<br>
+👉 <a style="color:#ff77b7" target="_blank"
+href="https://www.facebook.com/share/17kCiGf7xE/">Liên hệ Facebook</a>
 </div>
 </div>
 
@@ -80,21 +145,16 @@ href="https://www.facebook.com/share/17kCiGf7xE/">Facebook</a></p>
 <div id="chatBtn" onclick="toggleChat()">🐰 CSKH</div>
 
 <div id="chatBox" class="hidden">
-<div class="chat-header">
-CSKH Ngọc Becon 🐰 <small id="cskhStatus">⚫ Offline</small>
-</div>
-
+<div class="chat-header">CSKH Ngọc Becon 🐰</div>
 <div id="chatContent"></div>
-
 <div class="chat-input">
 <button onclick="toggleEmoji()">😊</button>
 <input id="chatMsg" placeholder="Nhắn tin">
-<input type="file" id="imgInput" hidden accept="image/*">
-<button onclick="imgInput.click()">🖼</button>
 <button onclick="sendText()">➤</button>
 </div>
 </div>
 
+<!-- EMOJI -->
 <div id="emojiBox" class="emoji-box hidden">
 <span onclick="addEmoji('😀')">😀</span>
 <span onclick="addEmoji('😂')">😂</span>
@@ -106,15 +166,16 @@ CSKH Ngọc Becon 🐰 <small id="cskhStatus">⚫ Offline</small>
 
 <script>
 let DB=JSON.parse(localStorage.getItem("SHOP"))||{users:{}}
-let cur=null
+let cur=null,emojiOpen=false
+
 function save(){localStorage.setItem("SHOP",JSON.stringify(DB))}
 
 function login(){
 let u=user.value.trim(),p=pass.value
-if(!u||!p)return alert("Nhập đủ thông tin")
+if(!u||!p)return alert("Nhập đủ")
 if(!DB.users[u])DB.users[u]={pass:p,money:0}
 if(DB.users[u].pass!==p)return alert("Sai mật khẩu")
-cur=u; save()
+cur=u;save()
 auth.classList.add("hidden")
 header.classList.remove("hidden")
 shop.classList.remove("hidden")
@@ -122,46 +183,45 @@ uname.innerText=u
 money.innerText=DB.users[u].money+"đ"
 }
 
+function logout(){location.reload()}
+
 function toggleChat(){
 chatBox.classList.toggle("hidden")
-loadChat()
-cskhStatus.innerText=localStorage.getItem("CSKH_ONLINE")=="1"?"🟢 Online":"⚫ Offline"
+emojiBox.classList.add("hidden")
+emojiOpen=false
 }
 
-function chatKey(){return "CHAT_"+cur}
-function loadChat(){
-chatContent.innerHTML=""
-let c=JSON.parse(localStorage.getItem(chatKey()))||[]
-c.forEach(m=>{
-let html=m.type=="img"
-? `<img src="${m.data}" style="max-width:100%">`
-: m.text
-chatContent.innerHTML+=`<div class="msg ${m.from}"><div class="bubble">${html}</div></div>`
-})
-chatContent.scrollTop=9999
+function toggleEmoji(){
+emojiOpen=!emojiOpen
+emojiBox.classList.toggle("hidden",!emojiOpen)
 }
 
-function saveMsg(o){
-let c=JSON.parse(localStorage.getItem(chatKey()))||[]
-c.push(o)
-localStorage.setItem(chatKey(),JSON.stringify(c))
-loadChat()
+function addEmoji(e){
+chatMsg.value+=e
+emojiOpen=false
+emojiBox.classList.add("hidden")
+}
+
+chatMsg.onfocus=()=>{
+emojiOpen=false
+emojiBox.classList.add("hidden")
 }
 
 function sendText(){
-if(!chatMsg.value)return
-saveMsg({from:"user",type:"text",text:chatMsg.value})
+if(!chatMsg.value.trim())return
+chatContent.innerHTML+=`
+<div class="msg user"><div class="bubble">${chatMsg.value}</div></div>`
+setTimeout(()=>{
+chatContent.innerHTML+=`
+<div class="msg bot"><div class="bubble">
+CSKH đã nhận tin, vui lòng chờ 🐰
+</div></div>`
+chatContent.scrollTop=9999
+},600)
 chatMsg.value=""
+emojiBox.classList.add("hidden")
+emojiOpen=false
 }
-
-imgInput.onchange=()=>{
-let r=new FileReader()
-r.onload=()=>saveMsg({from:"user",type:"img",data:r.result})
-r.readAsDataURL(imgInput.files[0])
-}
-
-function toggleEmoji(){emojiBox.classList.toggle("hidden")}
-function addEmoji(e){chatMsg.value+=e}
 </script>
 
 </body>
