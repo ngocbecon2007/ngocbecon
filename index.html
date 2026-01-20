@@ -1,47 +1,72 @@
-<!DOCTYPE html><html lang="vi">
+<!DOCTYPE html>
+<html lang="vi">
 <head>
 <meta charset="UTF-8">
-<title>Ngọc Becon • Official</title>
+<title>Ngọc Becon Shop</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
 body{
-margin:0;height:100vh;
-display:flex;justify-content:center;align-items:center;
-background:linear-gradient(180deg,#ff9ad5,#ff5fa2);
-font-family:Segoe UI;color:#fff
+margin:0;
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:radial-gradient(circle at top,#3a0045,#0b0010 70%);
+color:#fff;
+font-family:Segoe UI
 }
-.card{
-background:rgba(255,255,255,.25);
-backdrop-filter:blur(14px);
-border-radius:26px;
-padding:24px;
+.box{
 text-align:center;
-box-shadow:0 25px 50px rgba(0,0,0,.25);
-animation:fade .6s
+animation:fade 1s ease;
 }
-@keyframes fade{from{opacity:0;transform:scale(.9)}to{opacity:1}}
-img{width:90px;height:90px;border-radius:50%;border:4px solid #fff}
+@keyframes fade{
+from{opacity:0;transform:scale(.9)}
+to{opacity:1}
+}
 button{
-margin-top:16px;
-border:none;border-radius:20px;
-padding:10px 20px;
-background:#ff4f9a;
-color:#fff;font-weight:700;
-font-size:15px
+margin-top:20px;
+padding:14px 30px;
+border:none;
+border-radius:999px;
+font-size:18px;
+font-weight:bold;
+cursor:pointer;
+background:linear-gradient(90deg,#ff4fa3,#ff77b7);
+color:#fff;
+box-shadow:0 0 30px #ff4fa3;
+}
+button:hover{transform:scale(1.08)}
+.music{
+margin-top:15px;
+cursor:pointer;
+opacity:.8
 }
 </style>
 </head>
-<body><audio id="bgm" src="music.mp3" loop></audio>
+<body>
 
-<div class="card">
-<img src="avatar.jpg">
-<h2>🌸 Ngọc Becon 🌸</h2>
-<p>Shop Cày Thuê • Uy Tín • Giá Mềm</p>
-<button onclick="enter()">🛒 Vào Shop Ngay</button>
-</div><script>
-function enter(){
-document.getElementById("bgm").play().catch(()=>{});
-window.open("shop.html","_self");
+<audio id="music" src="music.mp3" loop></audio>
+
+<div class="box">
+<h1>💎 NGỌC BECON SHOP</h1>
+<p>Shop dịch vụ game uy tín</p>
+
+<button onclick="enterShop()">🚀 VÀO SHOP</button>
+<div class="music" onclick="toggleMusic()">🎵 Bật / Tắt nhạc</div>
+</div>
+
+<script>
+const music=document.getElementById("music")
+let playing=false
+function toggleMusic(){
+if(playing){music.pause()}
+else{music.play()}
+playing=!playing
 }
-</script></body>
+function enterShop(){
+window.open("shop.html","_blank")
+}
+</script>
+
+</body>
 </html>
