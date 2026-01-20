@@ -12,18 +12,18 @@ body{
 margin:0;
 background:radial-gradient(circle,#3a0045,#0b0010);
 color:#fff;
-overflow:hidden
+overflow-x:hidden
 }
 .hidden{display:none}
 button{cursor:pointer}
 
-/* HEART ANIMATION */
+/* HEART */
 .heart{
 position:fixed;
-top:-50px;
+top:-40px;
 font-size:18px;
 animation:fall linear infinite;
-opacity:.9;
+opacity:.8;
 z-index:0
 }
 @keyframes fall{
@@ -32,7 +32,7 @@ to{transform:translateY(120vh) rotate(360deg)}
 
 /* AUTH */
 .auth{
-position:absolute;
+position:fixed;
 top:50%;left:50%;
 transform:translate(-50%,-50%);
 width:90%;max-width:360px;
@@ -40,9 +40,8 @@ background:#16001d;
 padding:26px;
 border-radius:22px;
 text-align:center;
-z-index:2
+z-index:10
 }
-.auth h2{margin-bottom:20px}
 .auth input{
 width:100%;
 padding:14px;
@@ -53,24 +52,19 @@ border-radius:14px
 .auth button{
 width:100%;
 padding:14px;
-margin-top:12px;
+margin-top:10px;
 border:none;
 border-radius:999px;
 background:linear-gradient(90deg,#ff4fa3,#ff77b7);
 color:#fff;
 font-weight:700
 }
-.auth .switch{
-margin-top:14px;
-color:#ff9ad5;
-cursor:pointer
-}
 
 /* HEADER */
 header{
 position:sticky;
 top:0;
-z-index:5;
+z-index:8;
 background:linear-gradient(90deg,#ff4fa3,#ff77b7);
 padding:12px;
 display:flex;
@@ -83,35 +77,34 @@ align-items:center
 #sideMenu{
 position:fixed;
 left:0;top:0;
-width:260px;height:100%;
+width:240px;height:100%;
 background:#16001d;
 padding:20px;
-z-index:10
+z-index:9
 }
 #sideMenu button{
 width:100%;
 margin:8px 0;
 padding:12px;
 border:none;
-border-radius:12px;
+border-radius:14px;
 background:#ff4fa3;
 color:#fff;
-font-weight:bold
+font-weight:700
 }
 
 /* CONTENT */
 .container{
-max-width:1100px;
-margin:auto;
-padding:20px;
-z-index:2;
-position:relative
+padding:16px;
+max-width:100%;
+position:relative;
+z-index:5
 }
 .card{
 background:#16001d;
-padding:20px;
+padding:18px;
 border-radius:20px;
-margin-bottom:20px
+margin-bottom:16px
 }
 select,input{
 padding:12px;
@@ -124,9 +117,9 @@ width:100%
 /* MUSIC */
 #musicBtn{
 position:fixed;
-left:20px;
-bottom:20px;
-width:48px;height:48px;
+left:16px;
+bottom:16px;
+width:46px;height:46px;
 border-radius:50%;
 background:#ff4fa3;
 color:#fff;
@@ -142,19 +135,17 @@ box-shadow:0 0 20px #ff4fa3
 
 <body>
 
-<!-- MUSIC -->
 <audio id="bgMusic" loop>
   <source src="music.mp3" type="audio/mpeg">
 </audio>
 
-<!-- HEARTS -->
 <script>
-for(let i=0;i<40;i++){
+for(let i=0;i<35;i++){
 let h=document.createElement("div")
 h.className="heart"
 h.innerHTML="💗"
 h.style.left=Math.random()*100+"vw"
-h.style.animationDuration=5+Math.random()*5+"s"
+h.style.animationDuration=5+Math.random()*6+"s"
 h.style.fontSize=14+Math.random()*18+"px"
 document.body.appendChild(h)
 }
@@ -163,26 +154,22 @@ document.body.appendChild(h)
 <!-- AUTH -->
 <div id="auth" class="auth">
 <h2>🐰 Ngọc Becon Shop</h2>
-
 <input id="authUser" placeholder="Tài khoản">
 <input id="authPass" type="password" placeholder="Mật khẩu">
-
 <button onclick="login()">Đăng nhập</button>
 <button onclick="register()">Đăng ký</button>
-
-<div class="switch">💗 Shop cute dễ thương</div>
 </div>
 
-<!-- HEADER -->
 <header id="header" class="hidden">
 <div class="menu-btn" onclick="toggleMenu()">☰</div>
 <b>💖 Số dư: <span id="money">0đ</span></b>
 </header>
 
-<!-- MENU -->
 <div id="sideMenu" class="hidden">
 <button onclick="showPage('nap')">💳 Nạp thẻ</button>
 <button onclick="showPage('momo')">📱 Nạp MoMo</button>
+<button onclick="showPage('blox')">🍏 Blox Fruit</button>
+<button onclick="showPage('ff')">🔥 Free Fire</button>
 <button onclick="showPage('lq')">⚔️ Liên Quân</button>
 <button onclick="toggleMenu()">❌ Đóng</button>
 </div>
@@ -205,10 +192,35 @@ document.body.appendChild(h)
 <button>XÁC NHẬN</button>
 </div>
 
+<div id="blox" class="card hidden">
+<h3>🍏 Blox Fruit (Cày thuê)</h3>
+<select>
+<option>Level 1 → 700 (10k)</option>
+<option>Level 700 → 1500 (10k)</option>
+<option>Mastery 1 → 300 (10k)</option>
+<option>Haki 7 màu (20k)</option>
+<option>Gear V4 Full (40k)</option>
+</select>
+<button>ĐẶT ĐƠN</button>
+</div>
+
+<div id="ff" class="card hidden">
+<h3>🔥 Free Fire (Cày thuê)</h3>
+<select>
+<option>Đồng → Huyền Thoại (40k)</option>
+<option>Huyền Thoại → Cao Thủ (60k)</option>
+<option>Cao Thủ 100⭐ (100k)</option>
+</select>
+<button>ĐẶT ĐƠN</button>
+</div>
+
 <div id="lq" class="card hidden">
-<h3>⚔️ Liên Quân</h3>
+<h3>⚔️ Liên Quân (Cày thuê)</h3>
 <select>
 <option>Đồng → BK5 (250k)</option>
+<option>BK5 → KC5 (250k)</option>
+<option>KC5 → TA5 (300k)</option>
+<option>TA5 → CT (350k)</option>
 </select>
 <button>ĐẶT ĐƠN</button>
 </div>
@@ -251,10 +263,7 @@ document.querySelectorAll(".card").forEach(c=>c.classList.add("hidden"))
 document.getElementById(id).classList.remove("hidden")
 sideMenu.classList.add("hidden")
 }
-
-function toggleMusic(){
-music.paused?music.play():music.pause()
-}
+function toggleMusic(){music.paused?music.play():music.pause()}
 </script>
 
 </body>
