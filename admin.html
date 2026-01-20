@@ -1,212 +1,196 @@
-<!DOCTYPE html>
-<html lang="vi">
+<!DOCTYPE html><html lang="vi">
 <head>
 <meta charset="UTF-8">
-<title>👑 Admin Ngọc Becon</title>
+<title>👑 ADMIN GOD MODE</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
-:root{--pink:#ff5fa8}
+:root{--pink:#ff4fa3}
 *{box-sizing:border-box;font-family:Segoe UI,Arial}
-body{margin:0;background:radial-gradient(circle,#4a005f,#120015);color:#fff}
-.hidden{display:none}
-
-/* LOGIN */
-.login{
-max-width:380px;margin:120px auto;
-background:#1a001f;padding:30px;
-border-radius:26px;text-align:center
+body{
+margin:0;
+background:radial-gradient(circle at top,#ff5fa3,#120015);
+color:#fff;
+overflow:hidden
 }
-.login h2{color:#ff9ad5}
+.hidden{display:none}
+button{cursor:pointer;border:none}/* ===== ANIMATION GOD ===== */
+.fx{
+position:fixed;
+top:-40px;
+pointer-events:none;
+animation:fall linear infinite;
+z-index:0
+}
+@keyframes fall{
+to{transform:translateY(120vh) rotate(360deg)}
+}
+
+/* ===== LOGIN ===== */
+.login{
+position:absolute;top:50%;left:50%;
+transform:translate(-50%,-50%);
+background:#16001d;
+padding:30px;
+border-radius:26px;
+width:92%;max-width:360px;
+text-align:center;
+box-shadow:0 0 60px #ff4fa3
+}
 .login input,.login button{
-width:100%;padding:14px;margin-top:14px;
-border-radius:14px;border:none
+width:100%;padding:14px;
+margin:10px 0;border-radius:999px
 }
 .login button{
-background:linear-gradient(90deg,#ff5fa8,#ff9ad5);
-color:#fff;font-weight:800
+background:linear-gradient(90deg,#ff4fa3,#ff77b7);
+color:#fff;font-weight:900
 }
 
-/* HEADER */
+/* ===== LAYOUT ===== */
 header{
-position:sticky;top:0;z-index:10;
-background:linear-gradient(90deg,#ff5fa8,#ff9ad5);
-padding:16px;font-weight:900;
-display:flex;justify-content:space-between
+background:linear-gradient(90deg,#ff4fa3,#ff77b7);
+padding:14px;
+font-weight:900;
+display:flex;
+justify-content:space-between;
+align-items:center
 }
-
-/* LAYOUT */
-.main{display:flex;height:calc(100vh - 64px)}
-.sidebar{width:260px;background:#1a001f;padding:16px}
-.sidebar button{
-width:100%;padding:12px;margin-bottom:10px;
-border:none;border-radius:14px;
-background:#ff5fa8;color:#fff;font-weight:700
+.main{display:flex;height:calc(100vh - 56px)}
+.menu{
+width:220px;
+background:#16001d;
+padding:16px
 }
-.content{flex:1;padding:20px;overflow:auto}
-
-/* CARD */
+.menu button{
+width:100%;
+margin:6px 0;
+padding:12px;
+border-radius:14px;
+background:#ff4fa3;
+color:#fff;
+font-weight:700;
+box-shadow:0 0 20px #ff4fa3
+}
+.content{
+flex:1;
+padding:18px;
+overflow:auto
+}
 .card{
-background:#1a001f;padding:20px;
-border-radius:24px;margin-bottom:20px
+background:#16001d;
+padding:20px;
+border-radius:24px;
+margin-bottom:16px;
+box-shadow:0 0 40px #ff4fa344
 }
-input,button{padding:12px;border-radius:12px;border:none}
+input,select{
+width:100%;
+padding:12px;
+border-radius:12px;
+border:none;
+margin:6px 0
+}
 table{width:100%;border-collapse:collapse}
 th,td{padding:10px;border-bottom:1px solid #333;text-align:center}
-th{color:#ff9ad5}
+th{color:#ff77b7}
 </style>
+
 </head>
-
-<body>
-
-<!-- LOGIN -->
-<div id="loginBox" class="login">
-<h2>👑 ADMIN NGỌC BECON</h2>
-<input id="l_user" placeholder="Tài khoản">
-<input id="l_pass" type="password" placeholder="Mật khẩu">
-<button onclick="login()">Đăng nhập</button>
-</div>
-
-<div id="panel" class="hidden">
+<body><script>
+["💗","✨","🐱"].forEach(icon=>{
+for(let i=0;i<20;i++){
+let e=document.createElement("div")
+e.className="fx"
+e.innerHTML=icon
+e.style.left=Math.random()*100+"vw"
+e.style.fontSize=16+Math.random()*22+"px"
+e.style.animationDuration=5+Math.random()*6+"s"
+document.body.appendChild(e)
+}
+})
+</script><!-- LOGIN --><div id="login" class="login">
+<h2>👑 ADMIN GOD MODE</h2>
+<input id="u" placeholder="Tài khoản">
+<input id="p" type="password" placeholder="Mật khẩu">
+<button onclick="login()">ĐĂNG NHẬP</button>
+</div><!-- PANEL --><div id="panel" class="hidden">
 <header>
-<span>👑 ADMIN PANEL</span>
-<span onclick="location.reload()" style="cursor:pointer">🚪</span>
-</header>
-
-<div class="main">
-<div class="sidebar">
-<button onclick="show('users')">👤 User</button>
-<button onclick="show('addmoney')">💰 Cộng tiền</button>
-<button onclick="show('topups')">💳 Nạp tiền</button>
-<button onclick="show('orders')">🔥 Đơn cày</button>
-</div>
-
-<div class="content">
-
-<!-- USERS -->
-<div id="users" class="card hidden">
-<h3>👤 Danh sách user</h3>
+<span>👑 NGỌC BECON – GOD PANEL</span>
+<span style="cursor:pointer" onclick="location.reload()">🚪</span>
+</header><div class="main">
+<div class="menu">
+<button onclick="show('users')">👤 USER</button>
+<button onclick="show('orders')">📦 ĐƠN CÀY</button>
+<button onclick="show('add')">💎 CỘNG TIỀN</button>
+</div><div class="content"><div id="users" class="card hidden">
+<h3>👤 DANH SÁCH USER</h3>
 <table>
-<thead><tr><th>User</th><th>Số dư</th></tr></thead>
+<thead><tr><th>User</th><th>Số dư</th><th>Xóa</th></tr></thead>
 <tbody id="uList"></tbody>
 </table>
-</div>
-
-<!-- ADD MONEY -->
-<div id="addmoney" class="card hidden">
-<h3>💰 Cộng tiền thủ công</h3>
-<input id="addUser" placeholder="Tên user">
-<input id="addAmount" type="number" placeholder="Số tiền">
-<button onclick="addMoney()">CỘNG TIỀN</button>
-</div>
-
-<!-- TOPUPS -->
-<div id="topups" class="card hidden">
-<h3>💳 Duyệt nạp tiền</h3>
+</div><div id="orders" class="card hidden">
+<h3>📦 ĐƠN CÀY</h3>
 <table>
-<thead><tr><th>Mã</th><th>User</th><th>Tiền</th><th>Trạng thái</th><th>Xử lý</th></tr></thead>
-<tbody id="tList"></tbody>
-</table>
-</div>
-
-<!-- ORDERS -->
-<div id="orders" class="card hidden">
-<h3>🔥 Đơn cày</h3>
-<table>
-<thead><tr><th>Mã</th><th>User</th><th>Tiền</th><th>Trạng thái</th><th>Xử lý</th></tr></thead>
+<thead><tr><th>User</th><th>Dịch vụ</th><th>Trạng thái</th><th>Đổi</th></tr></thead>
 <tbody id="oList"></tbody>
 </table>
+</div><div id="add" class="card hidden">
+<h3>💎 CỘNG / TRỪ TIỀN</h3>
+<input id="au" placeholder="User">
+<input id="am" type="number" placeholder="Số tiền (+/-)">
+<button onclick="addMoney()">XÁC NHẬN</button>
+</div></div>
 </div>
-
-</div>
-</div>
-</div>
-
-<script>
-const ADMIN_USER="Ngocbecon"
-const ADMIN_PASS="manhmanh"
-let DB=JSON.parse(localStorage.getItem("SHOP"))||{users:{},topups:[],orders:[]}
-const save=()=>localStorage.setItem("SHOP",JSON.stringify(DB))
+</div><script>
+const ADMIN="Ngocbecon",PASS="manhmanh"
+let DB=JSON.parse(localStorage.getItem("ADMIN_DB"))||{users:{},orders:[]}
+const save=()=>localStorage.setItem("ADMIN_DB",JSON.stringify(DB))
 
 function login(){
-if(l_user.value===ADMIN_USER && l_pass.value===ADMIN_PASS){
-loginBox.classList.add("hidden")
+if(u.value===ADMIN&&p.value===PASS){
+login.classList.add("hidden")
 panel.classList.remove("hidden")
-loadAll()
-}else alert("Sai tài khoản admin")
+load()
+}else alert("Sai quyền admin")
 }
 
 function show(id){
-["users","addmoney","topups","orders"].forEach(x=>document.getElementById(x).classList.add("hidden"))
+["users","orders","add"].forEach(x=>document.getElementById(x).classList.add("hidden"))
 document.getElementById(id).classList.remove("hidden")
 }
 
-function loadUsers(){
+function load(){
 uList.innerHTML=""
 Object.keys(DB.users).forEach(u=>{
-uList.innerHTML+=`<tr><td>${u}</td><td>${DB.users[u].money}đ</td></tr>`
-})
-}
-
-/* CỘNG TIỀN */
-function addMoney(){
-let u=addUser.value
-let m=Number(addAmount.value)
-if(!DB.users[u]) return alert("User không tồn tại")
-if(m<=0) return alert("Số tiền không hợp lệ")
-DB.users[u].money+=m
-save();loadUsers()
-alert("Đã cộng "+m+"đ cho "+u)
-}
-
-/* TOPUPS */
-function loadTopups(){
-tList.innerHTML=""
-DB.topups.forEach((x,i)=>{
-tList.innerHTML+=`
-<tr>
-<td>${x.id}</td><td>${x.user}</td><td>${x.money}</td>
-<td>${x.status}</td>
-<td>
-<button onclick="okTopup(${i})">✔</button>
-<button onclick="noTopup(${i})">✖</button>
-</td>
+uList.innerHTML+=`<tr>
+<td>${u}</td>
+<td>${DB.users[u]}đ</td>
+<td><button onclick="delUser('${u}')">❌</button></td>
 </tr>`
 })
-}
-function okTopup(i){
-let x=DB.topups[i]
-if(x.status!=="Chờ duyệt")return
-DB.users[x.user].money+=x.money
-x.status="Đã duyệt"
-save();loadAll()
-}
-function noTopup(i){DB.topups[i].status="Hủy";save();loadTopups()}
-
-/* ORDERS */
-function loadOrders(){
 oList.innerHTML=""
-DB.orders.forEach((x,i)=>{
-oList.innerHTML+=`
-<tr>
-<td>${x.id}</td><td>${x.user}</td><td>${x.money}</td>
-<td>${x.status}</td>
+DB.orders.forEach((o,i)=>{
+oList.innerHTML+=`<tr>
+<td>${o.user}</td>
+<td>${o.name}</td>
+<td>${o.status}</td>
 <td>
-<button onclick="done(${i})">✔</button>
-<button onclick="cancel(${i})">✖</button>
+<select onchange="setStatus(${i},this.value)">
+<option>Chờ</option>
+<option>Đang cày</option>
+<option>Hoàn thành</option>
+<option>Hủy</option>
+</select>
 </td>
 </tr>`
 })
 }
-function done(i){DB.orders[i].status="Hoàn thành";save();loadOrders()}
-function cancel(i){
-let x=DB.orders[i]
-DB.users[x.user].money+=x.money
-x.status="Hoàn tiền"
-save();loadAll()
+
+function delUser(u){delete DB.users[u];save();load()}
+function addMoney(){
+if(!DB.users[au.value])DB.users[au.value]=0
+DB.users[au.value]+=Number(am.value)
+save();load()
 }
-
-function loadAll(){loadUsers();loadTopups();loadOrders()}
-</script>
-
-</body>
+function setStatus(i,s){DB.orders[i].status=s;save()}
+</script></body>
 </html>
