@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Shop Dịch Vụ</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body{font-family:Poppins;background:linear-gradient(135deg,#ff4f9a,#ffb3d9);color:#fff}
+.card{background:rgba(255,255,255,.2);margin:20px;padding:20px;border-radius:25px}
+button{padding:10px 20px;border-radius:20px;border:none}
+</style>
+</head>
+<body>
+<h1 align="center">🛒 SHOP</h1>
+<div class="card">
+<h3>🔥 Free Fire Rank</h3>
+<p>Giá: 20.000đ</p>
+<button onclick="buy(20000)">Mua</button>
+</div>
+<script>
+function buy(price){let m=localStorage.getItem('money')||0;if(m<price)return alert('Không đủ tiền');localStorage.setItem('money',m-price);alert('Mua thành công');}
+</script>
+</body>
+</html>
