@@ -1,238 +1,167 @@
 <!DOCTYPE html><html lang="vi">
 <head>
 <meta charset="UTF-8">
-<title>👑 ADMIN – Ngọc Becon </title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<style>
-:root{
---pink:#ff4fa3;
---pink2:#ff8fd1;
---dark:#08000d;
-}
-*{box-sizing:border-box;font-family:Segoe UI,Arial}
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>👑 ADMIN GAME HUB</title><style>
+*{box-sizing:border-box;font-family:Poppins,Arial}
 body{
-margin:0;
-height:100vh;
-overflow:hidden;
-background:radial-gradient(circle at top,var(--pink2),var(--dark));
-color:#fff;
-}/* ===== VŨ TRỤ ===== */
-body::before{
-content:"";
-position:fixed;
-inset:0;
-background:
-radial-gradient(circle at 15% 20%,#ff4fa344,transparent 40%),
-radial-gradient(circle at 85% 80%,#ff77b744,transparent 40%);
-animation:space 12s infinite alternate;
-z-index:0;
+  margin:0;
+  height:100vh;
+  background:radial-gradient(circle at top,#ff8ecf,#1a001f);
+  overflow:hidden;
+  color:white;
 }
-@keyframes space{to{filter:hue-rotate(50deg)}}
 
-/* ===== PARTICLE ===== */
-.p{
-position:fixed;
-top:-40px;
-pointer-events:none;
-animation:fall linear infinite;
-z-index:1;
+/* ANIMATION ICON */
+.icon{
+  position:absolute;
+  font-size:22px;
+  animation:fall linear infinite;
+  opacity:.9;
 }
-@keyframes fall{to{transform:translateY(120vh) rotate(360deg)}}
+@keyframes fall{
+  from{transform:translateY(-10vh) rotate(0deg)}
+  to{transform:translateY(110vh) rotate(360deg)}
+}
 
-/* ===== LOGIN ===== */
+/* LOGIN */
 #login{
-position:absolute;
-top:50%;left:50%;
-transform:translate(-50%,-50%);
-width:90%;max-width:380px;
-background:linear-gradient(145deg,#1b0024,#09000f);
-border-radius:30px;
-padding:30px;
-text-align:center;
-box-shadow:0 0 150px var(--pink);
-z-index:5;
-animation:float 4s ease-in-out infinite;
-}
-@keyframes float{50%{transform:translate(-50%,-55%)}}
-#login h2{margin-bottom:20px}
-#login input{
-width:100%;
-padding:14px;
-margin:8px 0;
-border:none;
-border-radius:999px;
-}
-#login button{
-width:100%;
-padding:14px;
-margin-top:12px;
-border:none;
-border-radius:999px;
-background:linear-gradient(90deg,var(--pink),var(--pink2));
-color:#fff;
-font-weight:900;
-cursor:pointer;
-box-shadow:0 0 40px var(--pink);
-}
-
-/* ===== HUB ===== */
-#hub{display:none;position:relative;height:100vh;z-index:3}
-.top{
-height:64px;
-display:flex;
-align-items:center;
-justify-content:space-between;
-padding:0 20px;
-background:linear-gradient(90deg,var(--pink),var(--pink2));
-font-weight:900;
-}
-.badge{
-background:#00000055;
-padding:6px 14px;
-border-radius:999px;
-box-shadow:0 0 20px var(--pink);
-}
-
-/* ===== DASH ===== */
-.grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-gap:22px;
-padding:22px;
+  position:absolute;
+  inset:0;
+  display:flex;
+  justify-content:center;
+  align-items:center;
 }
 .card{
-background:linear-gradient(145deg,#1b0023,#0d0014);
-border-radius:26px;
-padding:26px;
-text-align:center;
-cursor:pointer;
-box-shadow:0 0 70px #ff4fa344;
-transition:.4s;
+  width:90%;
+  max-width:360px;
+  background:rgba(20,0,30,.9);
+  border-radius:20px;
+  padding:25px;
+  box-shadow:0 0 40px #ff4fa3;
+  animation:pulse 2s infinite;
 }
-.card:hover{
-transform:translateY(-10px) scale(1.1);
-box-shadow:0 0 160px var(--pink);
+@keyframes pulse{
+  0%{box-shadow:0 0 20px #ff4fa3}
+  50%{box-shadow:0 0 45px #ff85c2}
+  100%{box-shadow:0 0 20px #ff4fa3}
 }
+h2{text-align:center;margin-bottom:20px}
+input,button{
+  width:100%;
+  padding:14px;
+  border:none;
+  border-radius:30px;
+  margin-top:12px;
+  font-size:15px;
+}
+input{background:#eee}
+button{
+  background:linear-gradient(90deg,#ff4fa3,#ff86c8);
+  color:white;
+  font-weight:bold;
+  cursor:pointer;
+  transition:.3s;
+}
+button:hover{transform:scale(1.05)}
 
-/* ===== PANEL ===== */
+/* HUB */
+#hub{display:none;padding:20px}
 .panel{
-display:none;
-position:absolute;
-top:64px;left:0;
-width:100%;
-height:calc(100% - 64px);
-background:#08000f;
-padding:20px;
-overflow:auto;
-animation:fade .4s;
+  background:rgba(0,0,0,.4);
+  border-radius:18px;
+  padding:20px;
+  box-shadow:0 0 30px #ff4fa3;
+  animation:fade .8s;
 }
-@keyframes fade{from{opacity:0;transform:scale(.95)}}
-table{width:100%;border-collapse:collapse}
-th,td{padding:12px;border-bottom:1px solid #333;text-align:center}
-th{color:var(--pink2)}
-input,button,select{
-width:100%;
-padding:12px;
-margin:6px 0;
-border:none;
-border-radius:14px;
-}
-button{background:var(--pink);color:#fff;font-weight:700}
+@keyframes fade{from{opacity:0;transform:scale(.9)}to{opacity:1}}
 
-/* ===== GOD MODE ===== */
-.god{animation:god 0.12s infinite}
-@keyframes god{
-0%{filter:hue-rotate(0deg)}
-50%{filter:hue-rotate(60deg)}
-100%{filter:hue-rotate(0deg)}
+.stat{
+  display:flex;
+  justify-content:space-between;
+  margin:10px 0;
 }
-.shake{animation:shake .12s infinite}
-@keyframes shake{50%{transform:translate(1px,-1px)}}
-</style>
+.log{
+  max-height:150px;
+  overflow:auto;
+  font-size:13px;
+  background:#120015;
+  padding:10px;
+  border-radius:12px;
+}
+.log div{margin-bottom:6px}
+</style></head><body><!-- ICON RAIN --><script>
+const icons=["💖","✨","🔥","🎮","⭐","🐱","💎"];
+for(let i=0;i<30;i++){
+  let s=document.createElement("div");
+  s.className="icon";
+  s.innerText=icons[Math.floor(Math.random()*icons.length)];
+  s.style.left=Math.random()*100+"vw";
+  s.style.animationDuration=5+Math.random()*6+"s";
+  document.body.appendChild(s);
+}
+</script><!-- LOGIN --><div id="login">
+  <div class="card">
+    <h2>🎮 ADMIN GAME HUB</h2>
+    <input id="user" placeholder="Tài khoản admin">
+    <input id="pass" type="password" placeholder="Mật khẩu">
+    <button onclick="login()">BẮT ĐẦU</button>
+  </div>
+</div><!-- HUB --><div id="hub">
+  <div class="panel">
+    <h2>👑 Xin chào Admin</h2>
+    <div class="stat"><span>💰 Số dư:</span><b id="money">0</b></div><button onclick="add()">➕ Cộng tiền</button>
+<button onclick="sub()">➖ Trừ tiền</button>
+<button onclick="reset()">♻ Reset</button>
 
-</head>
-<body><script>
-["💗","✨","⭐","🎮","🐱","🔥"].forEach((i)=>{
-for(let x=0;x<10;x++){
-let e=document.createElement("div");
-e.className="p";
-e.innerHTML=i;
-e.style.left=Math.random()*100+"vw";
-e.style.fontSize=14+Math.random()*28+"px";
-e.style.animationDuration=5+Math.random()*6+"s";
-document.body.appendChild(e);
-}});
-</script><div id="login">
-<h2>👑 ADMIN Ngọc Becon</h2>
-<input id="u" placeholder="Tài khoản admin">
-<input id="p" type="password" placeholder="Mật khẩu">
-<button onclick="login()">BẮT ĐẦU</button>
-</div><div id="hub">
-<div class="top">
-<div>👑 THẦN ĐẾ <span class="badge" id="lv"></span></div>
-<div onclick="location.reload()">🚪</div>
-</div><div class="grid">
-<div class="card" onclick="openP('user')">👤 Người dùng</div>
-<div class="card" onclick="openP('money')">💎 Cộng tiền</div>
-<div class="card" onclick="openP('order')">📜 Đơn cày</div>
-<div class="card" onclick="god()">⚡ Chế độ Thần</div>
-</div><div id="user" class="panel">
-<h3>👤 DANH SÁCH USER</h3>
-<table><thead><tr><th>Tên</th><th>Số dư</th></tr></thead>
-<tbody id="ul"></tbody></table>
-</div><div id="money" class="panel">
-<h3>💎 CỘNG TIỀN</h3>
-<input id="mu" placeholder="Tên user">
-<input id="ma" type="number" placeholder="Số tiền">
-<button onclick="add()">XÁC NHẬN</button>
-</div><div id="order" class="panel">
-<h3>📜 LỊCH SỬ ĐƠN CÀY</h3>
-<table><thead>
-<tr><th>User</th><th>Dịch vụ</th><th>Trạng thái</th></tr>
-</thead><tbody id="ol"></tbody></table>
-</div>
+<h3>📜 Lịch sử</h3>
+<div class="log" id="log"></div>
+
+  </div>
 </div><script>
-const ADMIN="Ngocbecon",PASS="manhmanh";
-let DB=JSON.parse(localStorage.getItem("GOD_ADMIN"))||
-{users:{},orders:[{user:"test",name:"Blox Fruit",status:"Đang cày"}],exp:0,lv:1};
-const save=()=>localStorage.setItem("GOD_ADMIN",JSON.stringify(DB));
+const ADMIN="Ngocbecon";
+const PASS="manhmanh";
+
+let money=+localStorage.getItem("money")||0;
+let logs=JSON.parse(localStorage.getItem("logs")||"[]");
+
+const u=document.getElementById("user");
+const p=document.getElementById("pass");
+
+function save(){
+  localStorage.setItem("money",money);
+  localStorage.setItem("logs",JSON.stringify(logs));
+}
+
+function render(){
+  document.getElementById("money").innerText=money;
+  document.getElementById("log").innerHTML=logs.map(l=>"<div>"+l+"</div>").join("");
+}
 
 function login(){
-if(u.value===ADMIN && p.value===PASS){
-login.style.display="none";
-hub.style.display="block";
-gain(50);render();
-}else alert("❌ Sai thông tin");
+  const user=u.value.trim();
+  const pass=p.value.trim();
+  if(user.toLowerCase()===ADMIN.toLowerCase() && pass===PASS){
+    document.getElementById("login").style.display="none";
+    document.getElementById("hub").style.display="block";
+    render();
+  }else{
+    alert("❌ Sai thông tin");
+  }
 }
-function openP(id){
-document.querySelectorAll(".panel").forEach(p=>p.style.display="none");
-document.getElementById(id).style.display="block";
-}
-function render(){
-lv.innerText="Lv."+DB.lv;
-ul.innerHTML="";
-Object.keys(DB.users).forEach(x=>{
-ul.innerHTML+=`<tr><td>${x}</td><td>${DB.users[x]}đ</td></tr>`;
-});
-ol.innerHTML="";
-DB.orders.forEach(o=>{
-ol.innerHTML+=`<tr><td>${o.user}</td><td>${o.name}</td><td>${o.status}</td></tr>`;
-});
-}
+
 function add(){
-if(!DB.users[mu.value])DB.users[mu.value]=0;
-DB.users[mu.value]+=Number(ma.value);
-gain(20);save();render();
+  let v=+prompt("Cộng bao nhiêu?");
+  if(v>0){money+=v;logs.unshift("➕ +"+v);save();render();}
 }
-function gain(x){
-DB.exp+=x;
-if(DB.exp>=100){DB.exp=0;DB.lv++}
-save();
+function sub(){
+  let v=+prompt("Trừ bao nhiêu?");
+  if(v>0){money-=v;logs.unshift("➖ -"+v);save();render();}
 }
-function god(){
-document.body.classList.toggle("god");
-document.body.classList.toggle("shake");
-alert("⚡ ĐÃ KÍCH HOẠT CHẾ ĐỘ THẦN");
+function reset(){
+  if(confirm("Reset hết?")){
+    money=0;logs=[];save();render();
+  }
 }
 </script></body>
 </html>
