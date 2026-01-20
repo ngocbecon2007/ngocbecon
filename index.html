@@ -2,86 +2,86 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<title>🎲 TÀI XỈU ONLINE</title>
+<title>🎰 SUN MINI CASINO</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
 <style>
 :root{
 --gold:#ffcc66;
 --pink:#ff4fa3;
---bg1:#120018;
---bg2:#2a0033;
+--purple:#7a3cff;
+--dark:#120018;
 }
 *{box-sizing:border-box;font-family:Segoe UI}
 body{
 margin:0;color:#fff;
-background:radial-gradient(circle,var(--bg2),#050008);
+background:radial-gradient(circle,#2a0033,#050008);
 min-height:100vh;
-overflow:hidden
+overflow:hidden;
 }
-.hidden{display:none}
 
-/* BACKGROUND PARTICLE */
+/* PARTICLE */
 .bg span{
 position:fixed;
-width:8px;height:8px;
+width:6px;height:6px;
 border-radius:50%;
 background:linear-gradient(45deg,var(--pink),var(--gold));
 opacity:.6;
 animation:float linear infinite;
 }
 @keyframes float{
-from{transform:translateY(110vh)}
-to{transform:translateY(-10vh)}
+from{transform:translateY(110vh) scale(.6)}
+to{transform:translateY(-10vh) scale(1.4)}
 }
 
 /* HEADER */
 header{
 padding:14px;
-text-align:center;
-font-size:22px;
-font-weight:800;
-background:linear-gradient(90deg,var(--pink),var(--gold));
-box-shadow:0 0 25px #ff4fa3;
+display:flex;
+justify-content:space-between;
+align-items:center;
+background:linear-gradient(90deg,var(--pink),var(--purple));
+box-shadow:0 0 30px #ff4fa3;
 }
+header b{font-size:18px}
 
 /* LOBBY */
 #lobby{
-padding:20px;
+padding:16px;
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:14px;
 }
-.game-card{
-background:#1a0022;
+.game{
+background:#1a0024;
 border-radius:22px;
-padding:20px;
-margin-bottom:16px;
-box-shadow:0 0 30px #ff4fa355;
-text-align:center;
-}
-.game-card h2{
-margin:10px 0;
-color:var(--gold)
-}
-.play{
 padding:14px;
-border-radius:999px;
-border:none;
-font-weight:800;
-font-size:16px;
+text-align:center;
+box-shadow:0 0 30px #ff4fa344;
+animation:pulse 3s infinite;
+}
+@keyframes pulse{
+0%,100%{box-shadow:0 0 25px #ff4fa344}
+50%{box-shadow:0 0 40px #ffcc6688}
+}
+.game img{
 width:100%;
+border-radius:16px;
+}
+.game h3{margin:10px 0;color:var(--gold)}
+.play{
+padding:12px;
+width:100%;
+border:none;
+border-radius:999px;
+font-weight:800;
 background:linear-gradient(90deg,var(--pink),var(--gold));
-color:#000;
 cursor:pointer;
 }
 
 /* GAME */
-#game{
-padding:20px;
-text-align:center;
-}
-.coin{
-font-size:18px;
-margin-bottom:10px;
-color:var(--gold)
-}
+#game{padding:20px;text-align:center}
+.hidden{display:none}
+.coin{color:var(--gold);font-size:18px}
 .dice-box{
 display:flex;
 justify-content:center;
@@ -89,29 +89,24 @@ gap:12px;
 margin:20px 0;
 }
 .dice{
-width:60px;height:60px;
-border-radius:16px;
+width:64px;height:64px;
+border-radius:18px;
 background:#000;
 display:flex;
 align-items:center;
 justify-content:center;
 font-size:28px;
-box-shadow:0 0 20px #000;
+box-shadow:0 0 30px #000;
 }
 .roll{animation:shake .6s}
 @keyframes shake{
-0%{transform:rotate(0)}
-25%{transform:rotate(15deg)}
-50%{transform:rotate(-15deg)}
+0%{transform:rotate(0) scale(1)}
+25%{transform:rotate(15deg) scale(1.1)}
+50%{transform:rotate(-15deg) scale(1.1)}
 75%{transform:rotate(10deg)}
 100%{transform:rotate(0)}
 }
-
-.btns{
-display:flex;
-gap:12px;
-margin-top:20px;
-}
+.btns{display:flex;gap:12px}
 .btn{
 flex:1;
 padding:16px;
@@ -123,17 +118,8 @@ cursor:pointer;
 }
 .tai{background:#ff5b5b}
 .xiu{background:#4fc3ff}
-
-.result{
-margin-top:16px;
-font-size:18px;
-font-weight:700;
-}
-.history{
-margin-top:20px;
-font-size:14px;
-opacity:.9;
-}
+.result{margin-top:12px;font-weight:700}
+.history{margin-top:16px;font-size:14px;opacity:.85}
 
 /* MUSIC */
 #musicBtn{
@@ -146,7 +132,7 @@ display:flex;
 align-items:center;
 justify-content:center;
 font-size:20px;
-box-shadow:0 0 20px var(--pink);
+box-shadow:0 0 25px var(--pink);
 cursor:pointer;
 }
 </style>
@@ -159,101 +145,100 @@ cursor:pointer;
 
 <div class="bg" id="bg"></div>
 
-<header>🎲 TÀI XỈU ONLINE</header>
+<header>
+<b>🎰 SUN MINI</b>
+<div>💰 <span id="coin">1000</span></div>
+</header>
 
 <!-- LOBBY -->
 <div id="lobby">
-<div class="game-card">
-<h2>🎲 TÀI XỈU</h2>
-<p>Game casino mô phỏng</p>
-<button class="play" onclick="start()">VÀO CHƠI</button>
+<div class="game">
+<img src="https://i.imgur.com/9QZ7ZQp.png">
+<h3>TÀI XỈU</h3>
+<button class="play" onclick="openGame()">CHƠI</button>
+</div>
+<div class="game">
+<img src="https://i.imgur.com/DQO5VqP.png">
+<h3>MINI SLOT</h3>
+<button class="play" onclick="alert('Sắp mở')">CHƠI</button>
+</div>
+<div class="game">
+<img src="https://i.imgur.com/nZ7kFzY.png">
+<h3>BẮN CÁ</h3>
+<button class="play" onclick="alert('Sắp mở')">CHƠI</button>
+</div>
+<div class="game">
+<img src="https://i.imgur.com/7M4ZQnF.png">
+<h3>XÓC ĐĨA</h3>
+<button class="play" onclick="alert('Sắp mở')">CHƠI</button>
 </div>
 </div>
 
 <!-- GAME -->
 <div id="game" class="hidden">
-<div class="coin">💰 Coin: <span id="coin">1000</span></div>
-
+<h2>🎲 TÀI XỈU</h2>
 <div class="dice-box">
 <div class="dice" id="d1">🎲</div>
 <div class="dice" id="d2">🎲</div>
 <div class="dice" id="d3">🎲</div>
 </div>
-
 <div class="btns">
 <button class="btn tai" onclick="bet('TÀI')">🔥 TÀI</button>
 <button class="btn xiu" onclick="bet('XỈU')">❄️ XỈU</button>
 </div>
-
 <div class="result" id="result"></div>
 <div class="history" id="history"></div>
+<button class="play" onclick="back()">⬅ VỀ SẢNH</button>
 </div>
 
 <div id="musicBtn" onclick="toggleMusic()">🎵</div>
 
 <script>
-/* BACKGROUND */
-for(let i=0;i<40;i++){
+/* BG */
+for(let i=0;i<45;i++){
 let s=document.createElement("span");
 s.style.left=Math.random()*100+"vw";
-s.style.animationDuration=8+Math.random()*8+"s";
+s.style.animationDuration=8+Math.random()*10+"s";
 bg.appendChild(s);
 }
 
-/* DATA */
-let coin=1000;
-let hist=[];
-let music=document.getElementById("music");
+let coin=1000,hist=[],music=document.getElementById("music");
 
-/* START */
-function start(){
+function toggleMusic(){music.paused?music.play():music.pause()}
+
+function openGame(){
 lobby.classList.add("hidden");
 game.classList.remove("hidden");
 music.play();
 }
-
-/* MUSIC */
-function toggleMusic(){
-music.paused?music.play():music.pause();
+function back(){
+game.classList.add("hidden");
+lobby.classList.remove("hidden");
 }
 
-/* BET */
 function bet(type){
-if(coin<100) return alert("Không đủ coin");
-coin-=100;
-update();
-
+if(coin<100)return alert("Không đủ coin");
+coin-=100;update();
 [d1,d2,d3].forEach(d=>d.classList.add("roll"));
-
 setTimeout(()=>{
-let a=rand(),b=rand(),c=rand();
-let sum=a+b+c;
+let a=r(),b=r(),c=r(),sum=a+b+c;
 [d1,d2,d3].forEach((d,i)=>{
 d.classList.remove("roll");
 d.innerText=[a,b,c][i];
 });
 let kq=sum>=11?"TÀI":"XỈU";
-hist.unshift(kq);
-if(hist.length>20)hist.pop();
-
-if(type===kq){
-coin+=200;
-result.innerText=`🎉 ${kq} (${sum}) – THẮNG`;
-}else{
-result.innerText=`❌ ${kq} (${sum}) – THUA`;
-}
+hist.unshift(kq);if(hist.length>15)hist.pop();
+if(type===kq){coin+=200;result.innerText=`🎉 ${kq} (${sum}) THẮNG`}
+else result.innerText=`❌ ${kq} (${sum}) THUA`;
 update();
 },700);
 }
-
-/* UTILS */
-function rand(){return Math.floor(Math.random()*6)+1}
+function r(){return Math.floor(Math.random()*6)+1}
 function update(){
 coinEl.innerText=coin;
 history.innerText="LỊCH SỬ: "+hist.join(" · ");
 }
 let coinEl=document.getElementById("coin");
 </script>
-
 </body>
 </html>
