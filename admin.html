@@ -2,66 +2,61 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<title>ADMIN – Ngọc Becon</title>
+<title>🛠 ADMIN NGỌC BECON</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
-body{background:#120016;color:#fff;font-family:Arial;padding:20px}
-.card{background:#1c0026;padding:16px;border-radius:12px;margin-bottom:12px}
-button{margin:4px;padding:8px 14px;border:none;border-radius:8px;cursor:pointer}
-.ok{background:#00c853;color:#000}
-.no{background:#ff1744;color:#fff}
+body{
+margin:0;font-family:Segoe UI;
+background:#0b0012;color:#fff
+}
+.card{
+background:#16001f;
+margin:12px;padding:16px;
+border-radius:16px
+}
+button{
+padding:8px 14px;
+border:none;border-radius:10px;
+background:#ff4fa3;color:#fff
+}
 </style>
 </head>
 <body>
 
-<h2>👑 ADMIN DUYỆT ĐƠN</h2>
+<audio autoplay loop>
+<source src="admin.mp3" type="audio/mpeg">
+</audio>
+
+<h2 style="padding:12px">🛠 ADMIN DUYỆT ĐƠN</h2>
 <div id="list"></div>
 
 <script>
-let DB = JSON.parse(localStorage.getItem("SHOP")) || {users:{},orders:[]}
+let DB=JSON.parse(localStorage.getItem("SHOP"))||{users:{},orders:[]}
+function save(){localStorage.setItem("SHOP",JSON.stringify(DB))}
 
-function save(){
-  localStorage.setItem("SHOP",JSON.stringify(DB))
+function render(){
+list.innerHTML=""
+DB.orders.forEach((o,i)=>{
+if(o.status==="Chờ duyệt"){
+list.innerHTML+=`
+<div class="card">
+<b>${o.user}</b><br>
+${o.type}<br>
+💰 ${o.money}đ<br>
+<button onclick="duyet(${i})">✔ Duyệt</button>
+</div>`
 }
-
-function load(){
-  list.innerHTML=""
-  DB.orders.forEach(o=>{
-    if(o.status!=="pending") return
-    list.innerHTML+=`
-    <div class="card">
-      <b>User:</b> ${o.user}<br>
-      <b>Loại:</b> ${o.type}<br>
-      <b>Số tiền:</b> ${o.amount}<br>
-      <b>Chi tiết:</b> ${o.info}<br><br>
-      <button class="ok" onclick="duyet(${o.id})">Duyệt</button>
-      <button class="no" onclick="tuChoi(${o.id})">Từ chối</button>
-    </div>`
-  })
+})
 }
-
-function duyet(id){
-  let o = DB.orders.find(x=>x.id===id)
-  if(!o) return
-  if(o.type.includes("Nạp")){
-    DB.users[o.user].money += o.amount
-  }
-  if(o.type==="Cày thuê"){
-    DB.users[o.user].money -= o.amount
-  }
-  o.status="done"
-  save()
-  load()
+function duyet(i){
+let o=DB.orders[i]
+if(o.type.startsWith("Nạp")){
+DB.users[o.user].money+=o.money
 }
-
-function tuChoi(id){
-  let o = DB.orders.find(x=>x.id===id)
-  if(!o) return
-  o.status="reject"
-  save()
-  load()
+o.status="Hoàn thành"
+save();render()
 }
-
-load()
+render()
 </script>
 </body>
 </html>
