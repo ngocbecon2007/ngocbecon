@@ -1,232 +1,267 @@
-<!DOCTYPE html>
-<html lang="vi">
+<!DOCTYPE html><html lang="vi">
 <head>
 <meta charset="UTF-8">
-<title>Admin Panel - Ngọc Becon Shop</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
-<style>
+<title>👑 Admin Công Chúa MAX</title>
+<meta name="viewport" content="width=device-width, initial-scale=1"><style>
+:root{
+--pink:#ff6fb7;
+--pink2:#ff9ad5;
+--glow:#ffd1ea;
+}
+*{box-sizing:border-box;font-family:"Segoe UI",Arial}
 body{
 margin:0;
-font-family:Segoe UI,Arial;
-background:#0b0010;
-color:#fff
+min-height:100vh;
+background:radial-gradient(circle at top,#5a0070,#140018 70%);
+color:#fff;
+overflow:hidden
 }
 .hidden{display:none}
-header{
-background:linear-gradient(90deg,#ff4fa3,#ff77b7);
-padding:16px;
+
+/* ✨ ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(40px)}to{opacity:1}}
+@keyframes glow{0%,100%{box-shadow:0 0 18px var(--pink)}50%{box-shadow:0 0 55px var(--glow)}}
+@keyframes float{0%{transform:translateY(0)}50%{transform:translateY(-10px)}100%{transform:translateY(0)}}
+@keyframes sparkle{from{opacity:1;transform:scale(1)}to{opacity:0;transform:scale(2)}}
+
+/* 💕 HEARTS */
+.heart{
+position:fixed;
+font-size:20px;
+animation:float 5s ease-in-out infinite;
+opacity:.18;
+pointer-events:none
+}
+
+/* ✨ SPARKLE */
+.sparkle{
+position:fixed;
+width:8px;height:8px;
+background:radial-gradient(circle,#fff,var(--pink));
+border-radius:50%;
+pointer-events:none;
+animation:sparkle .6s linear forwards
+}
+
+/* 👑 LOGIN */
+.login{
+max-width:380px;
+margin:110px auto;
+background:linear-gradient(180deg,#2a0035,#190020);
+padding:32px;
+border-radius:34px;
 text-align:center;
-font-weight:bold;
-font-size:20px
+animation:fadeUp .6s ease;
+box-shadow:0 0 60px #ff6fb766
 }
-.container{padding:20px;max-width:1200px;margin:auto}
-.card{
-background:#16001d;
-border-radius:16px;
-padding:18px;
-margin-bottom:22px;
-box-shadow:0 0 25px rgba(255,79,163,.25)
-}
-h3{color:#ff77b7;margin-top:0}
-table{width:100%;border-collapse:collapse}
-th,td{padding:10px;border-bottom:1px solid #333;text-align:center}
-th{color:#ff77b7}
-button{
-padding:8px 14px;
+.login h2{color:var(--pink2);margin-bottom:10px}
+.login p{opacity:.8;font-size:14px}
+input{
+width:100%;
+padding:15px;
+border-radius:20px;
 border:none;
-border-radius:10px;
+margin-top:14px;
+font-size:15px
+}
+button{
+width:100%;
+padding:15px;
+border:none;
+border-radius:999px;
+margin-top:18px;
+font-weight:900;
 cursor:pointer;
-font-weight:600
+background:linear-gradient(90deg,var(--pink),var(--pink2));
+color:#fff
+}
+button:hover{transform:scale(1.06)}
+
+/* 👑 HEADER */
+header{
+position:sticky;top:0;z-index:10;
+background:linear-gradient(90deg,var(--pink),var(--pink2));
+padding:20px;
+text-align:center;
+font-size:22px;
+font-weight:900;
+animation:glow 3s infinite
+}
+
+.container{max-width:1250px;margin:auto;padding:26px;overflow:auto;height:calc(100vh - 90px)}
+
+/* 🎀 CARD */
+.card{
+background:linear-gradient(180deg,#2c0038,#17001f);
+border-radius:34px;
+padding:26px;
+margin-bottom:30px;
+animation:fadeUp .5s ease;
+box-shadow:0 0 45px #ff6fb744
+}
+h3{color:var(--pink2);margin-top:0}
+
+/* 📊 TABLE */
+table{width:100%;border-collapse:collapse;text-align:center}
+th,td{padding:12px;border-bottom:1px solid #333}
+th{color:var(--pink2)}
+
+.btn{
+padding:7px 16px;
+border-radius:16px;
+border:none;
+cursor:pointer;
+font-weight:900;
+margin:2px
 }
 .ok{background:#2ecc71}
 .no{background:#e74c3c}
 .warn{background:#f1c40f;color:#000}
-input{
-padding:12px;
-border-radius:10px;
-border:none;
-width:100%;
-margin-top:10px
+</style></head><body><!-- 💕 HEARTS --><script>
+for(let i=0;i<15;i++){
+let h=document.createElement("div")
+h.className="heart"
+h.innerText=["💖","💗","💘","💕"][Math.floor(Math.random()*4)]
+h.style.left=Math.random()*100+"%"
+h.style.top=Math.random()*100+"%"
+h.style.animationDuration=3+Math.random()*5+"s"
+document.body.appendChild(h)
 }
-.login-box{
-max-width:360px;
-margin:120px auto;
-text-align:center
-}
-</style>
-</head>
+</script><!-- 🎵 MUSIC --><audio id="music" src="music.mp3" loop></audio>
 
-<body>
-
-<!-- 🔐 LOGIN ADMIN -->
-<div id="adminLogin" class="login-box card">
-<h2>🔐 ADMIN LOGIN</h2>
-<input id="adminUser" placeholder="Tài khoản admin">
-<input id="adminPass" type="password" placeholder="Mật khẩu">
-<button onclick="adminLogin()">Đăng nhập</button>
-</div>
-
-<!-- 🛠 ADMIN PANEL -->
-<div id="adminPanel" class="hidden">
-
-<header>🛠 ADMIN PANEL – NGỌC BECON SHOP</header>
-
-<div class="container">
-
-<div class="card">
-<h3>👤 Quản lý người dùng</h3>
+<!-- 👑 LOGIN --><div id="loginBox" class="login">
+<h2>👑 ADMIN CÔNG CHÚA</h2>
+<p>Quyền lực hoàng gia tuyệt đối</p>
+<input id="user" placeholder="Tên công chúa">
+<input id="pass" type="password" placeholder="Mật khẩu hoàng gia">
+<button onclick="login()">✨ Đăng nhập ✨</button>
+</div><!-- 🛠 PANEL --><div id="panel" class="hidden">
+<header>👑 ADMIN CÔNG CHÚA MAX – NGỌC BECON 👑</header>
+<div class="container"><div class="card">
+<h3>👤 Người dùng</h3>
 <table>
-<thead>
-<tr><th>User</th><th>Số dư</th><th>Cộng tiền</th></tr>
-</thead>
-<tbody id="userList"></tbody>
+<thead><tr><th>User</th><th>Số dư</th><th>Tiền</th><th>Xóa</th></tr></thead>
+<tbody id="users"></tbody>
 </table>
-</div>
-
-<div class="card">
-<h3>💳 Duyệt nạp tiền</h3>
+</div><div class="card">
+<h3>💳 Nạp tiền</h3>
 <table>
-<thead>
-<tr><th>Mã</th><th>User</th><th>Loại</th><th>Số tiền</th><th>Trạng thái</th><th>Hành động</th></tr>
-</thead>
-<tbody id="topupList"></tbody>
+<thead><tr><th>Mã</th><th>User</th><th>Tiền</th><th>Trạng thái</th><th>Xử lý</th></tr></thead>
+<tbody id="topups"></tbody>
 </table>
-</div>
-
-<div class="card">
-<h3>🔥 Đơn cày thuê</h3>
+</div><div class="card">
+<h3>🔥 Đơn cày</h3>
 <table>
-<thead>
-<tr><th>Mã</th><th>User</th><th>Loại</th><th>Tiền</th><th>Trạng thái</th><th>Xử lý</th></tr>
-</thead>
-<tbody id="orderList"></tbody>
+<thead><tr><th>Mã</th><th>User</th><th>Tiền</th><th>Trạng thái</th><th>Xử lý</th></tr></thead>
+<tbody id="orders"></tbody>
 </table>
-</div>
-
-</div>
-</div>
-
-<script>
-/* ==== ADMIN ACCOUNT ==== */
+</div></div>
+</div><script>
+/* 👑 ADMIN */
 const ADMIN_USER="Ngocbecon"
 const ADMIN_PASS="manhmanh"
 
-/* ==== LOGIN ==== */
-function adminLogin(){
-let u=adminUser.value.trim()
-let p=adminPass.value
-if(u===ADMIN_USER && p===ADMIN_PASS){
-adminLoginBox()
-}else{
-alert("❌ Sai tài khoản hoặc mật khẩu")
-}
-}
+/* 🎵 MUSIC */
+const music=document.getElementById("music")
+document.addEventListener("click",()=>music.play().catch(()=>{}),{once:true})
 
-function adminLoginBox(){
-adminLogin.classList.add("hidden")
-adminPanel.classList.remove("hidden")
-loadAll()
-}
+/* ✨ SPARKLE */
+document.addEventListener("mousemove",e=>{
+let s=document.createElement("div")
+s.className="sparkle"
+s.style.left=e.clientX+"px"
+s.style.top=e.clientY+"px"
+document.body.appendChild(s)
+setTimeout(()=>s.remove(),600)
+})
 
-/* ==== DATABASE ==== */
+/* 💾 DATABASE */
 let DB=JSON.parse(localStorage.getItem("VIP_SHOP"))||{users:{},topups:[],orders:[]}
 const save=()=>localStorage.setItem("VIP_SHOP",JSON.stringify(DB))
 
-/* ==== USERS ==== */
+/* 🔐 LOGIN */
+function login(){
+if(user.value===ADMIN_USER && pass.value===ADMIN_PASS){
+loginBox.classList.add("hidden")
+panel.classList.remove("hidden")
+music.volume=0.45
+loadAll()
+}else alert("❌ Sai mật khẩu công chúa")
+}
+
+/* 👤 USERS */
 function loadUsers(){
-userList.innerHTML=""
+users.innerHTML=""
 Object.keys(DB.users).forEach(u=>{
-userList.innerHTML+=`
+users.innerHTML+=`
 <tr>
 <td>${u}</td>
 <td>${DB.users[u].money.toLocaleString()}đ</td>
 <td>
-<input id="add_${u}" type="number" placeholder="Tiền">
-<button class="ok" onclick="addMoney('${u}')">+</button>
+<input id="m_${u}" type="number" placeholder="Tiền">
+<button class="btn ok" onclick="add('${u}')">+</button>
+<button class="btn warn" onclick="sub('${u}')">-</button>
 </td>
+<td><button class="btn no" onclick="del('${u}')">X</button></td>
 </tr>`
 })
 }
+function add(u){let v=+document.getElementById("m_"+u).value;if(v){DB.users[u].money+=v;save();loadUsers()}}
+function sub(u){let v=+document.getElementById("m_"+u).value;if(v){DB.users[u].money=Math.max(0,DB.users[u].money-v);save();loadUsers()}}
+function del(u){if(confirm("Xóa "+u+" ?")){delete DB.users[u];save();loadAll()}}
 
-function addMoney(u){
-let v=+document.getElementById("add_"+u).value
-if(!v) return
-DB.users[u].money+=v
-save();loadUsers()
-}
-
-/* ==== TOPUPS ==== */
+/* 💳 TOPUPS */
 function loadTopups(){
-topupList.innerHTML=""
+topups.innerHTML=""
 DB.topups.forEach((x,i)=>{
-topupList.innerHTML+=`
+topups.innerHTML+=`
 <tr>
 <td>${x.id}</td>
 <td>${x.user}</td>
-<td>${x.type}</td>
 <td>${x.money}</td>
 <td>${x.status}</td>
 <td>
-<button class="ok" onclick="approveTopup(${i})">✔</button>
-<button class="no" onclick="rejectTopup(${i})">✖</button>
+<button class="btn ok" onclick="okTopup(${i})">✔</button>
+<button class="btn no" onclick="noTopup(${i})">✖</button>
 </td>
 </tr>`
 })
 }
-
-function approveTopup(i){
+function okTopup(i){
 let x=DB.topups[i]
 if(x.status!=="Chờ duyệt") return
 DB.users[x.user].money+=x.money
 x.status="Đã duyệt"
 save();loadAll()
 }
+function noTopup(i){DB.topups[i].status="Hủy";save();loadTopups()}
 
-function rejectTopup(i){
-DB.topups[i].status="Hủy"
-save();loadAll()
-}
-
-/* ==== ORDERS ==== */
+/* 🔥 ORDERS */
 function loadOrders(){
-orderList.innerHTML=""
+orders.innerHTML=""
 DB.orders.forEach((x,i)=>{
-orderList.innerHTML+=`
+orders.innerHTML+=`
 <tr>
 <td>${x.id}</td>
 <td>${x.user}</td>
-<td>${x.type}</td>
 <td>${x.money}</td>
 <td>${x.status}</td>
 <td>
-<button class="warn" onclick="orderStatus(${i},'Đang xử lý')">⏳</button>
-<button class="ok" onclick="orderStatus(${i},'Hoàn thành')">✔</button>
-<button class="no" onclick="orderCancel(${i})">✖</button>
+<button class="btn ok" onclick="done(${i})">✔</button>
+<button class="btn no" onclick="cancel(${i})">✖</button>
 </td>
 </tr>`
 })
 }
-
-function orderStatus(i,s){
-DB.orders[i].status=s
-save();loadOrders()
-}
-
-function orderCancel(i){
+function done(i){DB.orders[i].status="Hoàn thành";save();loadOrders()}
+function cancel(i){
 let x=DB.orders[i]
 DB.users[x.user].money+=x.money
-x.status="Hủy (Hoàn tiền)"
+x.status="Hoàn tiền"
 save();loadAll()
 }
 
-/* ==== LOAD ALL ==== */
-function loadAll(){
-loadUsers()
-loadTopups()
-loadOrders()
-}
-</script>
-
-</body>
+/* 🚀 LOAD */
+function loadAll(){loadUsers();loadTopups();loadOrders()}
+</script></body>
 </html>
