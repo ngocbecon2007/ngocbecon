@@ -6,294 +6,218 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
-:root{
---pink:#ff4fa3;
---vip:#ff77ff;
-}
+:root{--pink:#ff4fa3}
 *{box-sizing:border-box;font-family:Segoe UI,Arial}
 body{
-margin:0;
-min-height:100vh;
-background:radial-gradient(circle at top,#3a0045,#0b0010 70%);
+margin:0;background:radial-gradient(circle,#3a0045,#0b0010);
 color:#fff
 }
 .hidden{display:none}
 
-@keyframes fadeUp{
-from{opacity:0;transform:translateY(30px)}
-to{opacity:1;transform:none}
+/* ===== LOGIN ===== */
+.auth{
+max-width:360px;margin:120px auto;
+background:#16001d;padding:24px;
+border-radius:20px;text-align:center
 }
-@keyframes glow{
-0%{box-shadow:0 0 15px var(--vip)}
-50%{box-shadow:0 0 40px var(--vip)}
-100%{box-shadow:0 0 15px var(--vip)}
+.auth h2{color:#ff77b7}
+.auth input{
+width:100%;padding:14px;margin-top:12px;
+border-radius:14px;border:none
+}
+.auth button{
+width:100%;padding:14px;margin-top:14px;
+border:none;border-radius:14px;
+background:linear-gradient(90deg,#ff4fa3,#ff77b7);
+color:#fff;font-weight:bold
 }
 
 /* ===== HEADER ===== */
 header{
-position:sticky;top:0;z-index:10;
+position:sticky;top:0;
 background:linear-gradient(90deg,#ff4fa3,#ff77b7);
-padding:14px 20px;
-display:flex;justify-content:space-between;align-items:center
-}
-header b{font-size:18px}
-.menu button{
-margin-left:6px;
-padding:8px 14px;
-border-radius:999px;
-border:none;
-font-weight:bold;
-cursor:pointer;
-background:#fff;
-color:#ff4fa3
+padding:14px;
+display:flex;justify-content:space-between
 }
 
-/* ===== LAYOUT ===== */
-.container{max-width:1100px;margin:auto;padding:22px}
+/* ===== CARD ===== */
+.container{max-width:1100px;margin:auto;padding:20px}
 .card{
-background:linear-gradient(180deg,#1f0026,#120015);
-border-radius:22px;
-padding:22px;
-margin-bottom:24px;
-animation:fadeUp .45s ease;
-box-shadow:0 0 30px rgba(255,79,163,.35)
+background:#16001d;padding:20px;
+border-radius:22px;margin-bottom:20px
 }
-.card.vip{animation:glow 3s infinite}
 
-input,select,button{
-width:100%;
-padding:13px;
-border-radius:14px;
-border:none;
-margin-top:12px;
-font-size:15px
+/* ===== CHAT ===== */
+#chatBtn{
+position:fixed;right:20px;bottom:20px;
+background:#ff4fa3;padding:14px 18px;
+border-radius:999px;cursor:pointer
 }
-button{
+#chatBox{
+position:fixed;right:20px;bottom:80px;
+width:340px;height:460px;
+background:#0f0014;border-radius:22px;
+display:flex;flex-direction:column
+}
+.chat-header{
 background:linear-gradient(90deg,#ff4fa3,#ff77b7);
-color:#fff;
-font-weight:700;
-cursor:pointer
+padding:12px;border-radius:22px 22px 0 0;
+font-weight:bold
 }
-
-/* ===== AUTH UI ===== */
-.auth-wrap{
-max-width:420px;
-margin:60px auto;
+#chatContent{flex:1;overflow:auto;padding:10px}
+.msg{margin-bottom:8px}
+.user{text-align:right}
+.bubble{
+display:inline-block;padding:10px 14px;
+border-radius:18px;max-width:75%
 }
-.auth-card{
-background:linear-gradient(180deg,#2a0033,#120015);
-border-radius:26px;
-padding:26px;
-box-shadow:0 0 40px rgba(255,79,163,.45);
-animation:fadeUp .6s ease;
+.user .bubble{background:#ff4fa3}
+.admin .bubble{background:#333}
+.chat-input{
+display:flex;gap:6px;padding:8px
 }
-.auth-toggle{
-text-align:center;
-margin-top:14px;
-color:#ff77b7;
-cursor:pointer;
-font-weight:600;
+.chat-input input{
+flex:1;padding:12px;border-radius:999px;border:none
 }
-.pass-wrap{position:relative}
-.pass-wrap span{
-position:absolute;
-right:14px;
-top:50%;
-transform:translateY(-50%);
-cursor:pointer;
-font-size:18px;
-opacity:.8;
+.chat-input button{
+border:none;border-radius:50%;
+width:38px;height:38px;
+background:#ff4fa3;color:#fff
 }
-
-/* ===== TEXT ===== */
-.badge{
-padding:6px 14px;
-border-radius:999px;
-background:linear-gradient(90deg,#ff4fa3,#ff77b7)
+.emoji-box,.sticker-box{
+position:absolute;bottom:70px;right:20px;
+background:#1a001f;border-radius:16px;
+padding:10px;display:grid;gap:6px
 }
-.price{color:#ff77b7;font-weight:bold}
-table{width:100%;border-collapse:collapse}
-th,td{padding:10px;border-bottom:1px solid #333}
-th{color:#ff77b7}
+.emoji-box{grid-template-columns:repeat(6,1fr)}
+.sticker-box{grid-template-columns:repeat(3,1fr)}
+.emoji-box span{cursor:pointer;font-size:22px}
+.sticker-box img{width:100%;border-radius:10px;cursor:pointer}
 </style>
 </head>
 
 <body>
 
-<!-- 🔊 NHẠC -->
-<audio id="bgMusic" src="music.mp3" loop></audio>
+<!-- LOGIN -->
+<div id="auth" class="auth">
+<h2>🐰 Ngọc Becon Shop</h2>
+<input id="user" placeholder="Tài khoản">
+<input id="pass" type="password" placeholder="Mật khẩu">
+<button onclick="login()">Đăng nhập / Đăng ký</button>
+</div>
 
 <header id="header" class="hidden">
 <b>💎 Ngọc Becon Shop</b>
-<div class="menu">
-<button onclick="show('home')">🏠</button>
-<button onclick="show('topup')">💳</button>
-<button onclick="show('boost')">🔥</button>
-<button onclick="show('history')">📜</button>
-<button onclick="logout()">🚪</button>
-</div>
+<span>Số dư: <b id="money">0đ</b></span>
 </header>
 
-<div class="container">
-
-<!-- ===== AUTH ===== -->
-<div id="authWrap" class="auth-wrap">
-<div class="auth-card">
-<h2 align="center" id="authTitle">🔐 Đăng nhập</h2>
-
-<input id="a_user" placeholder="Tên tài khoản">
-
-<div class="pass-wrap">
-<input id="a_pass" type="password" placeholder="Mật khẩu">
-<span id="eye" onclick="togglePass()">👁️</span>
-</div>
-
-<button onclick="authSubmit()">XÁC NHẬN</button>
-
-<div class="auth-toggle" onclick="toggleAuth()" id="authToggle">
-👉 Chưa có tài khoản? Đăng ký
-</div>
-</div>
-</div>
-
-<!-- ===== SHOP ===== -->
-<div id="home" class="card hidden">
+<div class="container hidden" id="shop">
+<div class="card">
 <h3>👋 Xin chào <span id="uname"></span></h3>
-<p>Số dư: <span class="price" id="money">0đ</span></p>
-<p>Hạng: <span class="badge" id="rank">Thành viên</span></p>
 </div>
 
-<div id="topup" class="card hidden">
+<div class="card">
 <h3>💳 Nạp tiền</h3>
-<select id="cardValue">
-<option value="10000">10.000đ</option>
-<option value="50000">50.000đ</option>
-<option value="100000">100.000đ</option>
-</select>
-<button onclick="sendCard()">Gửi thẻ</button>
+<p>⏱ Nếu thẻ chờ quá 10 phút chưa xử lý<br>
+👉 Liên hệ: <a style="color:#ff77b7"
+href="https://www.facebook.com/share/17kCiGf7xE/">Facebook</a></p>
+</div>
 </div>
 
-<div id="boost" class="card hidden">
-<h3>🔥 Cày thuê</h3>
-<select id="boostDetail">
-<option value="500">1 sao = 500đ</option>
-<option value="1000">VIP = 1.000đ</option>
-</select>
-<button onclick="sendBoost()">Đặt đơn</button>
+<!-- CHAT -->
+<div id="chatBtn" onclick="toggleChat()">🐰 CSKH</div>
+
+<div id="chatBox" class="hidden">
+<div class="chat-header">
+CSKH Ngọc Becon 🐰 <small id="cskhStatus">⚫ Offline</small>
 </div>
 
-<div id="history" class="card hidden">
-<h3>📜 Lịch sử</h3>
-<table>
-<thead><tr><th>Mã</th><th>Loại</th><th>Tiền</th><th>Trạng thái</th></tr></thead>
-<tbody id="hist"></tbody>
-</table>
+<div id="chatContent"></div>
+
+<div class="chat-input">
+<button onclick="toggleEmoji()">😊</button>
+<button onclick="toggleSticker()">🐰</button>
+<input id="chatMsg" placeholder="Nhắn tin">
+<input type="file" id="imgInput" hidden accept="image/*">
+<button onclick="imgInput.click()">🖼</button>
+<button onclick="sendText()">➤</button>
+</div>
 </div>
 
+<div id="emojiBox" class="emoji-box hidden">
+<span onclick="addEmoji('😀')">😀</span>
+<span onclick="addEmoji('😂')">😂</span>
+<span onclick="addEmoji('😍')">😍</span>
+<span onclick="addEmoji('😭')">😭</span>
+<span onclick="addEmoji('🔥')">🔥</span>
+<span onclick="addEmoji('🐰')">🐰</span>
+</div>
+
+<div id="stickerBox" class="sticker-box hidden">
+<img src="https://i.imgur.com/1X8FQzF.png" onclick="sendSticker(this.src)">
+<img src="https://i.imgur.com/Z6XQZ6Q.png" onclick="sendSticker(this.src)">
 </div>
 
 <script>
-let DB=JSON.parse(localStorage.getItem("VIP_SHOP"))||{users:{},topups:[],orders:[]}
-let user=localStorage.getItem("VIP_LOGIN")
-let isLogin=true
+let DB=JSON.parse(localStorage.getItem("SHOP"))||{users:{}}
+let cur=null
 
-const music=document.getElementById("bgMusic")
-music.volume=0.4
-document.addEventListener("click",()=>music.play().catch(()=>{}),{once:true})
+function save(){localStorage.setItem("SHOP",JSON.stringify(DB))}
 
-/* ==== LOCK SHOP ==== */
-if(user) enterShop()
-else lockShop()
-
-function lockShop(){
-authWrap.classList.remove("hidden")
-header.classList.add("hidden")
-}
-
-/* ==== AUTH ==== */
-function toggleAuth(){
-isLogin=!isLogin
-authTitle.innerText=isLogin?"🔐 Đăng nhập":"📝 Đăng ký"
-authToggle.innerText=isLogin
-?"👉 Chưa có tài khoản? Đăng ký"
-:"👉 Đã có tài khoản? Đăng nhập"
-}
-
-function authSubmit(){
-let u=a_user.value.trim()
-let p=a_pass.value
-if(!u||!p) return alert("Nhập đủ thông tin")
-
-if(isLogin){
-if(!DB.users[u]) return alert("Tài khoản không tồn tại")
-if(DB.users[u].pass!==p) return alert("Sai mật khẩu")
-user=u
-localStorage.setItem("VIP_LOGIN",u)
-enterShop()
-}else{
-if(DB.users[u]) return alert("Tài khoản đã tồn tại")
-DB.users[u]={pass:p,money:0}
-save()
-alert("✔ Đăng ký thành công")
-toggleAuth()
-}
-}
-
-function togglePass(){
-let p=a_pass
-p.type=p.type==="password"?"text":"password"
-eye.innerText=p.type==="password"?"👁️":"🙈"
-}
-
-/* ==== SHOP ==== */
-function enterShop(){
-authWrap.classList.add("hidden")
+function login(){
+let u=user.value.trim(),p=pass.value
+if(!u||!p)return alert("Nhập đủ thông tin")
+if(!DB.users[u])DB.users[u]={pass:p,money:0}
+if(DB.users[u].pass!==p)return alert("Sai mật khẩu")
+cur=u
+auth.classList.add("hidden")
 header.classList.remove("hidden")
-uname.innerText=user
-update()
-show("home")
+shop.classList.remove("hidden")
+uname.innerText=u
+money.innerText=DB.users[u].money+"đ"
 }
 
-function update(){
-let m=DB.users[user].money
-money.innerText=m.toLocaleString()+"đ"
-rank.innerText=m>=500000?"Đại lý":"Thành viên"
-loadHistory()
+function toggleChat(){
+chatBox.classList.toggle("hidden")
+loadChat()
+cskhStatus.innerText=localStorage.getItem("CSKH_ONLINE")=="1"?"🟢 Online":"⚫ Offline"
 }
 
-function show(id){
-document.querySelectorAll(".card").forEach(e=>e.classList.add("hidden"))
-document.getElementById(id).classList.remove("hidden")
-}
+function chatKey(){return "CHAT_"+cur}
 
-function sendCard(){
-DB.topups.push({id:Date.now(),user,type:"Nạp",money:+cardValue.value,status:"Chờ duyệt"})
-save();alert("✔ Đã gửi")
-}
-
-function sendBoost(){
-let price=+boostDetail.value
-if(DB.users[user].money<price) return alert("Không đủ tiền")
-DB.users[user].money-=price
-DB.orders.push({id:Date.now(),user,type:"Cày thuê",money:price,status:"Đang xử lý"})
-save();update()
-}
-
-function loadHistory(){
-hist.innerHTML=""
-DB.topups.concat(DB.orders).filter(x=>x.user==user).forEach(x=>{
-hist.innerHTML+=`<tr><td>${x.id}</td><td>${x.type}</td><td>${x.money}</td><td>${x.status}</td></tr>`
+function loadChat(){
+chatContent.innerHTML=""
+let c=JSON.parse(localStorage.getItem(chatKey()))||[]
+c.forEach(m=>{
+let d=m.type=="img"?`<img src="${m.data}" style="max-width:100%">`:`${m.text}`
+chatContent.innerHTML+=`<div class="msg ${m.from}"><div class="bubble">${d}</div></div>`
 })
+chatContent.scrollTop=9999
 }
 
-function save(){
-localStorage.setItem("VIP_SHOP",JSON.stringify(DB))
+function saveMsg(o){
+let c=JSON.parse(localStorage.getItem(chatKey()))||[]
+c.push(o)
+localStorage.setItem(chatKey(),JSON.stringify(c))
+loadChat()
 }
 
-function logout(){
-localStorage.removeItem("VIP_LOGIN")
-location.reload()
+function sendText(){
+if(!chatMsg.value)return
+saveMsg({from:"user",type:"text",text:chatMsg.value})
+chatMsg.value=""
 }
+
+imgInput.onchange=()=>{
+let r=new FileReader()
+r.onload=()=>saveMsg({from:"user",type:"img",data:r.result})
+r.readAsDataURL(imgInput.files[0])
+}
+
+function toggleEmoji(){emojiBox.classList.toggle("hidden");stickerBox.classList.add("hidden")}
+function toggleSticker(){stickerBox.classList.toggle("hidden");emojiBox.classList.add("hidden")}
+function addEmoji(e){chatMsg.value+=e}
+function sendSticker(s){saveMsg({from:"user",type:"img",data:s});stickerBox.classList.add("hidden")}
 </script>
 
 </body>
