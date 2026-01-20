@@ -1,14 +1,11 @@
-<!DOCTYPE html>
-<html lang="vi">
+<!DOCTYPE html><html lang="vi">
 <head>
 <meta charset="UTF-8">
 <title>Ngọc Becon Shop</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
-<style>
+<meta name="viewport" content="width=device-width, initial-scale=1"><style>
 :root{--pink:#ff4fa3}
 *{box-sizing:border-box;font-family:Segoe UI,Arial}
-body{margin:0;background:radial-gradient(circle,#3a0045,#0b0010);color:#fff}
+body{margin:0;background:radial-gradient(circle,#3a0045,#0b0010);color:#fff;overflow-x:hidden}
 .hidden{display:none}
 button{cursor:pointer}
 
@@ -52,46 +49,53 @@ background:#ff4fa3;color:#fff;
 display:flex;align-items:center;justify-content:center;
 font-size:22px;z-index:20
 }
-</style>
-</head>
 
-<body>
+/* ❤️ TIM RƠI */
+.heart{
+position:fixed;
+top:-20px;
+font-size:20px;
+animation:fall linear forwards;
+z-index:9999;
+pointer-events:none
+}
+@keyframes fall{
+to{transform:translateY(110vh) rotate(360deg);opacity:0}
+}
 
-<audio id="bgMusic" src="music.mp3" loop></audio>
+/* 🐱 MÈO CUTE */
+#cuteCat{
+position:fixed;
+bottom:10px;
+left:20px;
+width:90px;
+z-index:9999;
+animation:catFloat 2s ease-in-out infinite
+}
+@keyframes catFloat{
+0%{transform:translateY(0)}
+50%{transform:translateY(-15px)}
+100%{transform:translateY(0)}
+}
+</style></head><body><audio id="bgMusic" src="music.mp3" loop></audio>
 
-<!-- LOGIN -->
-<div id="auth" class="auth">
+<!-- LOGIN --><div id="auth" class="auth">
 <h2>🐰 Ngọc Becon Shop</h2>
 <input id="user" placeholder="Tài khoản">
 <input id="pass" type="password" placeholder="Mật khẩu">
 <button onclick="login()">Đăng nhập</button>
-</div>
-
-<header id="header" class="hidden">
+</div><header id="header" class="hidden">
 <div class="menu-btn" onclick="toggleMenu()">☰</div>
 <b>Số dư: <span id="money">0đ</span></b>
-</header>
-
-<!-- MENU -->
-<div id="sideMenu" class="hidden">
+</header><!-- MENU --><div id="sideMenu" class="hidden">
 <button onclick="showPage('nap')">💳 Nạp thẻ</button>
 <button onclick="showPage('momo')">📱 Nạp MoMo</button>
 <button onclick="showPage('blox')">🍏 Blox Fruit</button>
 <button onclick="showPage('ff')">🔥 Free Fire</button>
 <button onclick="showPage('lq')">⚔️ Liên Quân</button>
 <button onclick="toggleMenu()">❌ Đóng</button>
-</div>
-
-<div class="container hidden" id="shop">
-
-<!-- NẠP CARD -->
-<div id="nap" class="card hidden">
+</div><div class="container hidden" id="shop"><!-- NẠP CARD --><div id="nap" class="card hidden">
 <h3>💳 Nạp thẻ (trừ 17%)</h3>
-<select id="telco">
-<option>Viettel</option>
-<option>MobiFone</option>
-<option>VinaPhone</option>
-</select>
 <select id="amount">
 <option value="10000">10.000</option>
 <option value="20000">20.000</option>
@@ -104,21 +108,16 @@ font-size:22px;z-index:20
 <input placeholder="Số seri">
 <input placeholder="Mã thẻ">
 <button onclick="napCard()">NẠP NGAY</button>
-</div>
-
-<!-- NẠP MOMO -->
-<div id="momo" class="card hidden">
+</div><!-- NẠP MOMO --><div id="momo" class="card hidden">
 <h3>📱 Nạp MoMo (tự chọn)</h3>
 <img src="momo.jpg" style="width:100%;border-radius:16px;margin:10px 0">
 <input id="momoAmount" type="number" placeholder="Nhập số tiền (VD: 50000)">
 <p>Nội dung chuyển khoản:</p>
 <b style="color:#ff4fa3">NAP <span id="momoUser"></span></b>
 <button onclick="napMomo()">XÁC NHẬN ĐÃ CHUYỂN</button>
-</div>
-
-<div id="blox" class="card hidden">
+</div><div id="blox" class="card hidden">
 <h3>🍏 Blox Fruit</h3>
-<select id="bloxPack">
+<select>
 <option>Level 1–700 (10k)</option>
 <option>Level 700–1500 (10k)</option>
 <option>Mastery 1–300 (10k)</option>
@@ -126,9 +125,7 @@ font-size:22px;z-index:20
 <option>Gear V4 Full (40k)</option>
 </select>
 <button>ĐẶT ĐƠN</button>
-</div>
-
-<div id="ff" class="card hidden">
+</div><div id="ff" class="card hidden">
 <h3>🔥 Free Fire</h3>
 <select>
 <option>Đồng → Huyền Thoại (40k)</option>
@@ -136,9 +133,7 @@ font-size:22px;z-index:20
 <option>Cao Thủ 100⭐ (100k)</option>
 </select>
 <button>ĐẶT ĐƠN</button>
-</div>
-
-<div id="lq" class="card hidden">
+</div><div id="lq" class="card hidden">
 <h3>⚔️ Liên Quân</h3>
 <select>
 <option>Đồng → BK5 (250k)</option>
@@ -147,13 +142,7 @@ font-size:22px;z-index:20
 <option>TA5 → CT1⭐ (350k)</option>
 </select>
 <button>ĐẶT ĐƠN</button>
-</div>
-
-</div>
-
-<div id="musicBtn" onclick="toggleMusic()">🎵</div>
-
-<script>
+</div></div><!-- MÈO --><img id="cuteCat" src="https://i.imgur.com/4AiXzf8.png"><div id="musicBtn" onclick="toggleMusic()">🎵</div><script>
 let DB = JSON.parse(localStorage.getItem("SHOP")) || {users:{}}
 let cur = null
 const music = document.getElementById("bgMusic")
@@ -167,7 +156,7 @@ auth.classList.add("hidden")
 header.classList.remove("hidden")
 shop.classList.remove("hidden")
 money.innerText=DB.users[u].money+"đ"
-document.getElementById("momoUser").innerText=cur
+momoUser.innerText=cur
 music.play()
 }
 
@@ -178,19 +167,25 @@ document.getElementById(id).classList.remove("hidden")
 sideMenu.classList.add("hidden")
 }
 
-function napCard(){
-let m=amount.value
-alert("Đã gửi yêu cầu nạp thẻ: "+m+"đ")
-}
-
+function napCard(){alert("Đã gửi yêu cầu nạp thẻ")}
 function napMomo(){
 let m=momoAmount.value
 if(!m||m<1000)return alert("Số tiền không hợp lệ")
 alert("Đã gửi yêu cầu nạp MoMo: "+m+"đ")
 }
-
 function toggleMusic(){music.paused?music.play():music.pause()}
-</script>
 
-</body>
+/* TIM RƠI */
+const hearts=["💖","💗","💘","💕","💓","💞"]
+function createHeart(){
+const h=document.createElement("div")
+h.className="heart"
+h.innerText=hearts[Math.floor(Math.random()*hearts.length)]
+h.style.left=Math.random()*100+"vw"
+h.style.animationDuration=(2+Math.random()*3)+"s"
+document.body.appendChild(h)
+setTimeout(()=>h.remove(),5000)
+}
+setInterval(createHeart,120)
+</script></body>
 </html>
