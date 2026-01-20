@@ -2,278 +2,169 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<title>👑 Admin Công Chúa MAX</title>
+<title>Admin Ngọc Becon</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
 <style>
-:root{
---pink:#ff6fb7;
---pink2:#ff9ad5;
---bg:#140018;
-}
-*{box-sizing:border-box;font-family:"Segoe UI",Arial}
-body{
-margin:0;
-background:radial-gradient(circle at top,#5a0070,var(--bg) 70%);
-color:#fff;
-overflow:hidden
-}
+*{box-sizing:border-box;font-family:Segoe UI}
+body{margin:0;background:#0b0010;color:#fff;height:100vh;display:flex}
 .hidden{display:none}
-
-/* LOGIN */
-.login{
-max-width:380px;
-margin:120px auto;
-background:linear-gradient(180deg,#2a0035,#190020);
-padding:34px;
-border-radius:34px;
-text-align:center;
-box-shadow:0 0 60px #ff6fb766;
-animation:fade .6s
-}
-.login h2{color:var(--pink2)}
-input,button{
-width:100%;
-padding:14px;
-border:none;
-border-radius:999px;
-margin-top:14px;
-font-size:15px
-}
-button{
-background:linear-gradient(90deg,var(--pink),var(--pink2));
-color:#fff;
-font-weight:900;
-cursor:pointer
-}
-button:hover{transform:scale(1.05)}
-
-@keyframes fade{from{opacity:0;transform:translateY(30px)}to{opacity:1}}
-
-header{
-background:linear-gradient(90deg,var(--pink),var(--pink2));
-padding:16px;
-font-size:22px;
-font-weight:900;
-text-align:center
-}
-
-.container{
-display:flex;
-height:calc(100vh - 70px)
-}
-
-/* LEFT */
-.left{
-width:280px;
-background:#1c0025;
-padding:14px;
-overflow:auto
-}
-.left h3{color:var(--pink2)}
-.user{
-padding:10px;
-border-radius:14px;
-margin-bottom:6px;
-cursor:pointer;
-background:#2a0035
-}
-.user:hover{background:#ff6fb7}
-
-/* RIGHT CHAT */
-.chat{
-flex:1;
-display:flex;
-flex-direction:column;
-background:#120015
-}
-.messages{
-flex:1;
-padding:14px;
-overflow:auto
-}
-.msg{
-max-width:70%;
-padding:10px 14px;
-border-radius:18px;
-margin-bottom:8px
-}
-.admin{background:#ff6fb7;margin-left:auto}
-.userMsg{background:#333}
-
-.msg img{max-width:160px;border-radius:14px}
-.msg audio{width:200px}
-
-.input{
-display:flex;
-gap:6px;
-padding:10px;
-background:#1c0025
-}
-.input input{flex:1;border-radius:18px}
-
-/* STICKER */
-#stickers{
-position:absolute;
-bottom:80px;
-right:20px;
-background:#fff;
-padding:8px;
-border-radius:18px;
-display:flex;
-gap:6px
-}
-#stickers img{width:60px;cursor:pointer}
+.left{width:260px;background:#16001d;overflow:auto}
+.left h3{padding:12px;margin:0;border-bottom:1px solid #333}
+.left div{padding:10px;border-bottom:1px solid #333;cursor:pointer}
+.left div:hover{background:#22002b}
+.main{flex:1;display:flex;flex-direction:column}
+.header{padding:12px;background:linear-gradient(90deg,#ff4fa3,#ff77b7)}
+.content{flex:1;overflow:auto;padding:10px}
+.card{background:#16001d;padding:12px;border-radius:14px;margin-bottom:10px}
+.msg{margin:6px 0}
+.user{text-align:left}
+.admin{text-align:right}
+.bubble{display:inline-block;padding:8px 12px;border-radius:16px;max-width:70%}
+.user .bubble{background:#333}
+.admin .bubble{background:#ff4fa3}
+.input{display:flex;gap:6px;padding:8px}
+.input input{flex:1;padding:10px;border-radius:999px;border:none}
+.input button{border:none;border-radius:50%;width:36px;height:36px;background:#ff4fa3;color:#fff}
 </style>
 </head>
-
 <body>
 
-<!-- 🔐 LOGIN -->
-<div id="loginBox" class="login">
-<h2>👑 ADMIN CÔNG CHÚA</h2>
-<input id="user" placeholder="Tài khoản">
-<input id="pass" type="password" placeholder="Mật khẩu">
-<button onclick="login()">✨ Đăng nhập ✨</button>
+<!-- LOGIN -->
+<div id="login" class="main">
+<div class="header"><b>ADMIN LOGIN</b></div>
+<div class="content">
+<input id="u" placeholder="admin" style="width:100%;padding:12px">
+<input id="p" type="password" placeholder="mật khẩu" style="width:100%;padding:12px;margin-top:10px">
+<button style="width:100%;padding:12px;margin-top:10px"
+onclick="login()">Đăng nhập</button>
+</div>
 </div>
 
-<!-- 👑 PANEL -->
-<div id="panel" class="hidden">
-<header>👑 ADMIN CÔNG CHÚA MAX – CSKH NGỌC BECON</header>
-
-<div class="container">
-
-<!-- USER LIST -->
+<!-- ADMIN -->
+<div id="admin" class="hidden" style="width:100%;display:flex">
 <div class="left">
-<h3>💬 Khách hàng</h3>
-<div id="users"></div>
+<h3>👥 Người dùng</h3>
+<div id="userList"></div>
+
+<h3>💳 Nạp tiền</h3>
+<div id="napList"></div>
+
+<h3>📦 Đơn hàng</h3>
+<div id="orderList"></div>
 </div>
 
-<!-- CHAT -->
-<div class="chat">
-<div class="messages" id="chat"></div>
+<div class="main">
+<div class="header">
+CSKH Ngọc Becon 🐰 <span id="curUser"></span>
+</div>
+
+<div class="content" id="chatBox"></div>
 
 <div class="input">
-<input id="msg" placeholder="Nhập tin nhắn...">
+<input id="msg" placeholder="Nhắn admin...">
 <button onclick="send()">➤</button>
-<button onclick="stickers.classList.toggle('hidden')">🐰</button>
-<input type="file" id="img" hidden onchange="sendImg(this.files[0])">
-<button onclick="img.click()">🖼️</button>
-<input type="file" id="voice" accept="audio/*" hidden onchange="sendVoice(this.files[0])">
-<button onclick="voice.click()">🎤</button>
 </div>
 </div>
-
 </div>
-</div>
-
-<!-- STICKERS -->
-<div id="stickers" class="hidden">
-<img src="sticker/1.png" onclick="sendSticker(this.src)">
-<img src="sticker/2.png" onclick="sendSticker(this.src)">
-<img src="sticker/3.gif" onclick="sendSticker(this.src)">
-</div>
-
-<!-- 🔥 FIREBASE -->
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
 
 <script>
-/* 👑 ADMIN */
-const ADMIN_USER="Ngocbecon"
-const ADMIN_PASS="manhmanh"
-
-/* 🔥 FIREBASE CONFIG (THAY CỦA BẠN) */
-firebase.initializeApp({
- apiKey:"XXX",
- authDomain:"XXX.firebaseapp.com",
- projectId:"XXX",
- storageBucket:"XXX.appspot.com"
-})
-const db=firebase.firestore()
-const st=firebase.storage()
-
-let currentUser=null
+let ADMIN={u:"admin",p:"admin123"}
+let curUser=null
 
 function login(){
-if(user.value===ADMIN_USER && pass.value===ADMIN_PASS){
-loginBox.classList.add("hidden")
-panel.classList.remove("hidden")
-loadUsers()
-}else alert("Sai mật khẩu")
+if(u.value===ADMIN.u && p.value===ADMIN.p){
+ login.classList.add("hidden")
+ admin.classList.remove("hidden")
+ localStorage.setItem("CSKH_ONLINE","1")
+ loadUsers();loadNap();loadOrder()
+}else alert("Sai admin")
 }
 
-/* LOAD USERS */
+onbeforeunload=()=>localStorage.setItem("CSKH_ONLINE","0")
+
 function loadUsers(){
-db.collection("chats").onSnapshot(s=>{
-users.innerHTML=""
-s.forEach(d=>{
-users.innerHTML+=`<div class="user" onclick="openChat('${d.id}')">🐰 ${d.id}</div>`
-})
+userList.innerHTML=""
+Object.keys(localStorage).filter(k=>k.startsWith("CHAT_"))
+.forEach(k=>{
+let u=k.replace("CHAT_","")
+userList.innerHTML+=`<div onclick="openChat('${u}')">💬 ${u}</div>`
 })
 }
 
-/* OPEN CHAT */
 function openChat(u){
-currentUser=u
-db.collection("chats").doc(u).collection("messages")
-.orderBy("time")
-.onSnapshot(s=>{
-chat.innerHTML=""
-s.forEach(d=>{
-let m=d.data()
-chat.innerHTML+=`
-<div class="msg ${m.from==='admin'?'admin':'userMsg'}">
-${m.text||""}
-${m.img?`<img src="${m.img}">`:""}
-${m.voice?`<audio controls src="${m.voice}"></audio>`:""}
+curUser=u
+curUserSpan=curUser
+curUserLabel()
+loadChat()
+}
+
+function curUserLabel(){
+curUserSpan=document.getElementById("curUser")
+curUserSpan.innerText=curUser?`– ${curUser}`:""
+}
+
+function loadChat(){
+chatBox.innerHTML=""
+let c=JSON.parse(localStorage.getItem("CHAT_"+curUser))||[]
+c.forEach(m=>{
+let d=m.type=="img"?`<img src="${m.data}" style="max-width:150px">`:m.text
+chatBox.innerHTML+=`<div class="msg ${m.from}">
+<div class="bubble">${d}</div></div>`
+})
+chatBox.scrollTop=9999
+}
+
+function send(){
+if(!curUser||!msg.value)return
+let c=JSON.parse(localStorage.getItem("CHAT_"+curUser))||[]
+c.push({from:"admin",type:"text",text:msg.value})
+localStorage.setItem("CHAT_"+curUser,JSON.stringify(c))
+msg.value=""
+loadChat()
+}
+
+function loadNap(){
+napList.innerHTML=""
+let n=JSON.parse(localStorage.getItem("NAP"))||[]
+n.forEach((x,i)=>{
+napList.innerHTML+=`
+<div class="card">
+<b>${x.user}</b> – ${x.money}đ
+<button onclick="okNap(${i})">✔</button>
 </div>`
 })
-chat.scrollTop=chat.scrollHeight
+}
+
+function okNap(i){
+let n=JSON.parse(localStorage.getItem("NAP"))
+let u=n[i].user
+let db=JSON.parse(localStorage.getItem("SHOP"))
+db.users[u].money+=Number(n[i].money)
+localStorage.setItem("SHOP",JSON.stringify(db))
+n.splice(i,1)
+localStorage.setItem("NAP",JSON.stringify(n))
+loadNap()
+alert("Đã duyệt")
+}
+
+function loadOrder(){
+orderList.innerHTML=""
+let o=JSON.parse(localStorage.getItem("ORDER"))||[]
+o.forEach((x,i)=>{
+orderList.innerHTML+=`
+<div class="card">
+<b>${x.user}</b><br>${x.name}
+<button onclick="doneOrder(${i})">Hoàn thành</button>
+</div>`
 })
 }
 
-/* SEND TEXT */
-function send(){
-if(!msg.value||!currentUser) return
-db.collection("chats").doc(currentUser)
-.collection("messages").add({
-from:"admin",
-text:msg.value,
-time:Date.now()
-})
-msg.value=""
-}
-
-/* STICKER */
-function sendSticker(src){
-db.collection("chats").doc(currentUser)
-.collection("messages").add({
-from:"admin",
-img:src,
-time:Date.now()
-})
-}
-
-/* IMAGE */
-function sendImg(f){
-let ref=st.ref("img/"+Date.now())
-ref.put(f).then(()=>ref.getDownloadURL().then(url=>{
-db.collection("chats").doc(currentUser)
-.collection("messages").add({from:"admin",img:url,time:Date.now()})
-}))
-}
-
-/* VOICE */
-function sendVoice(f){
-let ref=st.ref("voice/"+Date.now())
-ref.put(f).then(()=>ref.getDownloadURL().then(url=>{
-db.collection("chats").doc(currentUser)
-.collection("messages").add({from:"admin",voice:url,time:Date.now()})
-}))
+function doneOrder(i){
+let o=JSON.parse(localStorage.getItem("ORDER"))
+o.splice(i,1)
+localStorage.setItem("ORDER",JSON.stringify(o))
+loadOrder()
 }
 </script>
-
 </body>
 </html>
