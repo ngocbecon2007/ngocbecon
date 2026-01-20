@@ -2,40 +2,230 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<title>Admin Panel</title>
+<title>Admin Panel - Ngọc Becon Shop</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
 <style>
-body{background:#0b0010;color:#fff;font-family:Segoe UI}
+body{
+margin:0;
+font-family:Segoe UI,Arial;
+background:#0b0010;
+color:#fff
+}
+.hidden{display:none}
+header{
+background:linear-gradient(90deg,#ff4fa3,#ff77b7);
+padding:16px;
+text-align:center;
+font-weight:bold;
+font-size:20px
+}
+.container{padding:20px;max-width:1200px;margin:auto}
+.card{
+background:#16001d;
+border-radius:16px;
+padding:18px;
+margin-bottom:22px;
+box-shadow:0 0 25px rgba(255,79,163,.25)
+}
+h3{color:#ff77b7;margin-top:0}
 table{width:100%;border-collapse:collapse}
-td,th{padding:10px;border-bottom:1px solid #333}
+th,td{padding:10px;border-bottom:1px solid #333;text-align:center}
+th{color:#ff77b7}
+button{
+padding:8px 14px;
+border:none;
+border-radius:10px;
+cursor:pointer;
+font-weight:600
+}
+.ok{background:#2ecc71}
+.no{background:#e74c3c}
+.warn{background:#f1c40f;color:#000}
+input{
+padding:12px;
+border-radius:10px;
+border:none;
+width:100%;
+margin-top:10px
+}
+.login-box{
+max-width:360px;
+margin:120px auto;
+text-align:center
+}
 </style>
 </head>
+
 <body>
 
-<h2>🛠 ADMIN SHOP</h2>
+<!-- 🔐 LOGIN ADMIN -->
+<div id="adminLogin" class="login-box card">
+<h2>🔐 ADMIN LOGIN</h2>
+<input id="adminUser" placeholder="Tài khoản admin">
+<input id="adminPass" type="password" placeholder="Mật khẩu">
+<button onclick="adminLogin()">Đăng nhập</button>
+</div>
+
+<!-- 🛠 ADMIN PANEL -->
+<div id="adminPanel" class="hidden">
+
+<header>🛠 ADMIN PANEL – NGỌC BECON SHOP</header>
+
+<div class="container">
+
+<div class="card">
+<h3>👤 Quản lý người dùng</h3>
 <table>
-<thead><tr><th>User</th><th>Số dư</th><th>+</th><th>-</th></tr></thead>
-<tbody id="list"></tbody>
+<thead>
+<tr><th>User</th><th>Số dư</th><th>Cộng tiền</th></tr>
+</thead>
+<tbody id="userList"></tbody>
 </table>
+</div>
+
+<div class="card">
+<h3>💳 Duyệt nạp tiền</h3>
+<table>
+<thead>
+<tr><th>Mã</th><th>User</th><th>Loại</th><th>Số tiền</th><th>Trạng thái</th><th>Hành động</th></tr>
+</thead>
+<tbody id="topupList"></tbody>
+</table>
+</div>
+
+<div class="card">
+<h3>🔥 Đơn cày thuê</h3>
+<table>
+<thead>
+<tr><th>Mã</th><th>User</th><th>Loại</th><th>Tiền</th><th>Trạng thái</th><th>Xử lý</th></tr>
+</thead>
+<tbody id="orderList"></tbody>
+</table>
+</div>
+
+</div>
+</div>
 
 <script>
-let DB=JSON.parse(localStorage.getItem("SHOP_DB"))||{users:{}}
-function load(){
-list.innerHTML=""
-for(let u in DB.users){
-list.innerHTML+=`
+/* ==== ADMIN ACCOUNT ==== */
+const ADMIN_USER="Ngocbecon"
+const ADMIN_PASS="manhmanh"
+
+/* ==== LOGIN ==== */
+function adminLogin(){
+let u=adminUser.value.trim()
+let p=adminPass.value
+if(u===ADMIN_USER && p===ADMIN_PASS){
+adminLoginBox()
+}else{
+alert("❌ Sai tài khoản hoặc mật khẩu")
+}
+}
+
+function adminLoginBox(){
+adminLogin.classList.add("hidden")
+adminPanel.classList.remove("hidden")
+loadAll()
+}
+
+/* ==== DATABASE ==== */
+let DB=JSON.parse(localStorage.getItem("VIP_SHOP"))||{users:{},topups:[],orders:[]}
+const save=()=>localStorage.setItem("VIP_SHOP",JSON.stringify(DB))
+
+/* ==== USERS ==== */
+function loadUsers(){
+userList.innerHTML=""
+Object.keys(DB.users).forEach(u=>{
+userList.innerHTML+=`
 <tr>
 <td>${u}</td>
-<td>${DB.users[u].money}</td>
-<td><button onclick="add('${u}')">+</button></td>
-<td><button onclick="sub('${u}')">-</button></td>
+<td>${DB.users[u].money.toLocaleString()}đ</td>
+<td>
+<input id="add_${u}" type="number" placeholder="Tiền">
+<button class="ok" onclick="addMoney('${u}')">+</button>
+</td>
 </tr>`
+})
 }
+
+function addMoney(u){
+let v=+document.getElementById("add_"+u).value
+if(!v) return
+DB.users[u].money+=v
+save();loadUsers()
 }
-function add(u){DB.users[u].money+=100000;save()}
-function sub(u){DB.users[u].money-=100000;save()}
-function save(){localStorage.setItem("SHOP_DB",JSON.stringify(DB));load()}
-load()
+
+/* ==== TOPUPS ==== */
+function loadTopups(){
+topupList.innerHTML=""
+DB.topups.forEach((x,i)=>{
+topupList.innerHTML+=`
+<tr>
+<td>${x.id}</td>
+<td>${x.user}</td>
+<td>${x.type}</td>
+<td>${x.money}</td>
+<td>${x.status}</td>
+<td>
+<button class="ok" onclick="approveTopup(${i})">✔</button>
+<button class="no" onclick="rejectTopup(${i})">✖</button>
+</td>
+</tr>`
+})
+}
+
+function approveTopup(i){
+let x=DB.topups[i]
+if(x.status!=="Chờ duyệt") return
+DB.users[x.user].money+=x.money
+x.status="Đã duyệt"
+save();loadAll()
+}
+
+function rejectTopup(i){
+DB.topups[i].status="Hủy"
+save();loadAll()
+}
+
+/* ==== ORDERS ==== */
+function loadOrders(){
+orderList.innerHTML=""
+DB.orders.forEach((x,i)=>{
+orderList.innerHTML+=`
+<tr>
+<td>${x.id}</td>
+<td>${x.user}</td>
+<td>${x.type}</td>
+<td>${x.money}</td>
+<td>${x.status}</td>
+<td>
+<button class="warn" onclick="orderStatus(${i},'Đang xử lý')">⏳</button>
+<button class="ok" onclick="orderStatus(${i},'Hoàn thành')">✔</button>
+<button class="no" onclick="orderCancel(${i})">✖</button>
+</td>
+</tr>`
+})
+}
+
+function orderStatus(i,s){
+DB.orders[i].status=s
+save();loadOrders()
+}
+
+function orderCancel(i){
+let x=DB.orders[i]
+DB.users[x.user].money+=x.money
+x.status="Hủy (Hoàn tiền)"
+save();loadAll()
+}
+
+/* ==== LOAD ALL ==== */
+function loadAll(){
+loadUsers()
+loadTopups()
+loadOrders()
+}
 </script>
 
 </body>
