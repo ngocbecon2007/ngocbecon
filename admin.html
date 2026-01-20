@@ -1,180 +1,238 @@
 <!DOCTYPE html><html lang="vi">
 <head>
 <meta charset="UTF-8">
-<title>🎮 ADMIN GAME HUB</title>
+<title>👑 ADMIN – Ngọc Becon </title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
-:root{--pink:#ff4fa3}
+:root{
+--pink:#ff4fa3;
+--pink2:#ff8fd1;
+--dark:#08000d;
+}
 *{box-sizing:border-box;font-family:Segoe UI,Arial}
 body{
 margin:0;
-background:radial-gradient(circle at top,#ff5fa3,#120015);
+height:100vh;
+overflow:hidden;
+background:radial-gradient(circle at top,var(--pink2),var(--dark));
 color:#fff;
-overflow:hidden
+}/* ===== VŨ TRỤ ===== */
+body::before{
+content:"";
+position:fixed;
+inset:0;
+background:
+radial-gradient(circle at 15% 20%,#ff4fa344,transparent 40%),
+radial-gradient(circle at 85% 80%,#ff77b744,transparent 40%);
+animation:space 12s infinite alternate;
+z-index:0;
 }
-.hidden{display:none}/* ===== PARTICLE ===== */
-.fx{
-position:fixed;top:-40px;pointer-events:none;
-animation:fall linear infinite;z-index:0
+@keyframes space{to{filter:hue-rotate(50deg)}}
+
+/* ===== PARTICLE ===== */
+.p{
+position:fixed;
+top:-40px;
+pointer-events:none;
+animation:fall linear infinite;
+z-index:1;
 }
 @keyframes fall{to{transform:translateY(120vh) rotate(360deg)}}
 
 /* ===== LOGIN ===== */
-.login{
-position:absolute;top:50%;left:50%;
+#login{
+position:absolute;
+top:50%;left:50%;
 transform:translate(-50%,-50%);
-background:#16001d;
-padding:30px;border-radius:26px;
-width:90%;max-width:360px;
+width:90%;max-width:380px;
+background:linear-gradient(145deg,#1b0024,#09000f);
+border-radius:30px;
+padding:30px;
 text-align:center;
-box-shadow:0 0 60px #ff4fa3
+box-shadow:0 0 150px var(--pink);
+z-index:5;
+animation:float 4s ease-in-out infinite;
 }
-.login input,.login button{
-width:100%;padding:14px;margin:10px 0;
-border:none;border-radius:999px
+@keyframes float{50%{transform:translate(-50%,-55%)}}
+#login h2{margin-bottom:20px}
+#login input{
+width:100%;
+padding:14px;
+margin:8px 0;
+border:none;
+border-radius:999px;
 }
-.login button{
-background:linear-gradient(90deg,#ff4fa3,#ff77b7);
-color:#fff;font-weight:900
+#login button{
+width:100%;
+padding:14px;
+margin-top:12px;
+border:none;
+border-radius:999px;
+background:linear-gradient(90deg,var(--pink),var(--pink2));
+color:#fff;
+font-weight:900;
+cursor:pointer;
+box-shadow:0 0 40px var(--pink);
 }
 
-/* ===== HUD ===== */
-#hub{position:relative;height:100vh;z-index:5}
-.topbar{
+/* ===== HUB ===== */
+#hub{display:none;position:relative;height:100vh;z-index:3}
+.top{
 height:64px;
-background:linear-gradient(90deg,#ff4fa3,#ff77b7);
-display:flex;align-items:center;
+display:flex;
+align-items:center;
 justify-content:space-between;
-padding:0 20px;font-weight:900
+padding:0 20px;
+background:linear-gradient(90deg,var(--pink),var(--pink2));
+font-weight:900;
 }
-.exp{
-height:6px;background:#30001a
-}
-.exp span{
-display:block;height:100%;
-background:#ff4fa3;width:80%
+.badge{
+background:#00000055;
+padding:6px 14px;
+border-radius:999px;
+box-shadow:0 0 20px var(--pink);
 }
 
-/* ===== GRID ===== */
+/* ===== DASH ===== */
 .grid{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:20px;padding:20px
+grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+gap:22px;
+padding:22px;
 }
 .card{
-background:#16001d;
-border-radius:24px;
-padding:20px;
+background:linear-gradient(145deg,#1b0023,#0d0014);
+border-radius:26px;
+padding:26px;
 text-align:center;
 cursor:pointer;
-box-shadow:0 0 40px #ff4fa344;
-transition:.3s
+box-shadow:0 0 70px #ff4fa344;
+transition:.4s;
 }
 .card:hover{
-transform:scale(1.05);
-box-shadow:0 0 80px #ff4fa3
+transform:translateY(-10px) scale(1.1);
+box-shadow:0 0 160px var(--pink);
 }
-.card h3{margin:10px 0;color:#ff9ad5}
 
 /* ===== PANEL ===== */
 .panel{
-position:absolute;top:64px;left:0;
-width:100%;height:calc(100% - 64px);
-background:#0f0014;
-padding:20px;overflow:auto
+display:none;
+position:absolute;
+top:64px;left:0;
+width:100%;
+height:calc(100% - 64px);
+background:#08000f;
+padding:20px;
+overflow:auto;
+animation:fade .4s;
 }
-input,select,button{
-width:100%;padding:12px;
-margin:6px 0;border-radius:12px;border:none
-}
-button{
-background:#ff4fa3;color:#fff;font-weight:700
-}
+@keyframes fade{from{opacity:0;transform:scale(.95)}}
 table{width:100%;border-collapse:collapse}
-th,td{padding:10px;border-bottom:1px solid #333;text-align:center}
-th{color:#ff77b7}
+th,td{padding:12px;border-bottom:1px solid #333;text-align:center}
+th{color:var(--pink2)}
+input,button,select{
+width:100%;
+padding:12px;
+margin:6px 0;
+border:none;
+border-radius:14px;
+}
+button{background:var(--pink);color:#fff;font-weight:700}
+
+/* ===== GOD MODE ===== */
+.god{animation:god 0.12s infinite}
+@keyframes god{
+0%{filter:hue-rotate(0deg)}
+50%{filter:hue-rotate(60deg)}
+100%{filter:hue-rotate(0deg)}
+}
+.shake{animation:shake .12s infinite}
+@keyframes shake{50%{transform:translate(1px,-1px)}}
 </style>
 
 </head>
 <body><script>
-["💗","✨","🐱"].forEach(i=>{
-for(let n=0;n<18;n++){
-let e=document.createElement("div")
-e.className="fx";e.innerHTML=i
-e.style.left=Math.random()*100+"vw"
-e.style.fontSize=16+Math.random()*22+"px"
-e.style.animationDuration=5+Math.random()*6+"s"
-document.body.appendChild(e)
-}
-})
-</script><!-- LOGIN --><div id="login" class="login">
-<h2>🎮 ADMIN GAME HUB</h2>
-<input id="u" placeholder="Tài khoản">
+["💗","✨","⭐","🎮","🐱","🔥"].forEach((i)=>{
+for(let x=0;x<10;x++){
+let e=document.createElement("div");
+e.className="p";
+e.innerHTML=i;
+e.style.left=Math.random()*100+"vw";
+e.style.fontSize=14+Math.random()*28+"px";
+e.style.animationDuration=5+Math.random()*6+"s";
+document.body.appendChild(e);
+}});
+</script><div id="login">
+<h2>👑 ADMIN Ngọc Becon</h2>
+<input id="u" placeholder="Tài khoản admin">
 <input id="p" type="password" placeholder="Mật khẩu">
-<button onclick="login()">START</button>
-</div><!-- HUB --><div id="hub" class="hidden">
-<div class="topbar">
-<span>👑 NGỌC BECON – GOD</span>
-<span onclick="location.reload()" style="cursor:pointer">🚪</span>
-</div>
-<div class="exp"><span></span></div><div class="grid">
-<div class="card" onclick="openPanel('users')">👤 USER</div>
-<div class="card" onclick="openPanel('money')">💎 MONEY</div>
-<div class="card" onclick="openPanel('orders')">📦 ORDERS</div>
-<div class="card" onclick="godMode()">⚡ GOD MODE</div>
-</div><div id="users" class="panel hidden">
-<h3>👤 USER</h3>
-<table><thead><tr><th>User</th><th>Money</th><th>Del</th></tr></thead>
-<tbody id="uList"></tbody></table>
-</div><div id="money" class="panel hidden">
-<h3>💎 CỘNG / TRỪ</h3>
-<input id="mu" placeholder="User">
-<input id="mm" type="number" placeholder="Số tiền">
-<button onclick="addMoney()">XÁC NHẬN</button>
-</div><div id="orders" class="panel hidden">
-<h3>📦 ĐƠN CÀY</h3>
-<table><thead><tr><th>User</th><th>DV</th><th>STT</th></tr></thead>
-<tbody id="oList"></tbody></table>
+<button onclick="login()">BẮT ĐẦU</button>
+</div><div id="hub">
+<div class="top">
+<div>👑 THẦN ĐẾ <span class="badge" id="lv"></span></div>
+<div onclick="location.reload()">🚪</div>
+</div><div class="grid">
+<div class="card" onclick="openP('user')">👤 Người dùng</div>
+<div class="card" onclick="openP('money')">💎 Cộng tiền</div>
+<div class="card" onclick="openP('order')">📜 Đơn cày</div>
+<div class="card" onclick="god()">⚡ Chế độ Thần</div>
+</div><div id="user" class="panel">
+<h3>👤 DANH SÁCH USER</h3>
+<table><thead><tr><th>Tên</th><th>Số dư</th></tr></thead>
+<tbody id="ul"></tbody></table>
+</div><div id="money" class="panel">
+<h3>💎 CỘNG TIỀN</h3>
+<input id="mu" placeholder="Tên user">
+<input id="ma" type="number" placeholder="Số tiền">
+<button onclick="add()">XÁC NHẬN</button>
+</div><div id="order" class="panel">
+<h3>📜 LỊCH SỬ ĐƠN CÀY</h3>
+<table><thead>
+<tr><th>User</th><th>Dịch vụ</th><th>Trạng thái</th></tr>
+</thead><tbody id="ol"></tbody></table>
 </div>
 </div><script>
-const ADMIN="Ngocbecon",PASS="manhmanh"
-let DB=JSON.parse(localStorage.getItem("ADMIN_GAME"))||{users:{},orders:[]}
-const save=()=>localStorage.setItem("ADMIN_GAME",JSON.stringify(DB))
+const ADMIN="Ngocbecon",PASS="manhmanh";
+let DB=JSON.parse(localStorage.getItem("GOD_ADMIN"))||
+{users:{},orders:[{user:"test",name:"Blox Fruit",status:"Đang cày"}],exp:0,lv:1};
+const save=()=>localStorage.setItem("GOD_ADMIN",JSON.stringify(DB));
 
 function login(){
-if(u.value===ADMIN&&p.value===PASS){
-login.classList.add("hidden")
-hub.classList.remove("hidden")
-load()
-}else alert("Sai quyền")
+if(u.value===ADMIN && p.value===PASS){
+login.style.display="none";
+hub.style.display="block";
+gain(50);render();
+}else alert("❌ Sai thông tin");
 }
-
-function openPanel(id){
-document.querySelectorAll(".panel").forEach(p=>p.classList.add("hidden"))
-document.getElementById(id).classList.remove("hidden")
+function openP(id){
+document.querySelectorAll(".panel").forEach(p=>p.style.display="none");
+document.getElementById(id).style.display="block";
 }
-
-function load(){
-uList.innerHTML=""
-Object.keys(DB.users).forEach(u=>{
-uList.innerHTML+=`<tr>
-<td>${u}</td><td>${DB.users[u]}đ</td>
-<td><button onclick="delUser('${u}')">❌</button></td></tr>`
-})
-oList.innerHTML=""
+function render(){
+lv.innerText="Lv."+DB.lv;
+ul.innerHTML="";
+Object.keys(DB.users).forEach(x=>{
+ul.innerHTML+=`<tr><td>${x}</td><td>${DB.users[x]}đ</td></tr>`;
+});
+ol.innerHTML="";
 DB.orders.forEach(o=>{
-oList.innerHTML+=`<tr><td>${o.user}</td><td>${o.name}</td><td>${o.status}</td></tr>`
-})
+ol.innerHTML+=`<tr><td>${o.user}</td><td>${o.name}</td><td>${o.status}</td></tr>`;
+});
 }
-function delUser(u){delete DB.users[u];save();load()}
-function addMoney(){
-if(!DB.users[mu.value])DB.users[mu.value]=0
-DB.users[mu.value]+=Number(mm.value)
-save();load()
+function add(){
+if(!DB.users[mu.value])DB.users[mu.value]=0;
+DB.users[mu.value]+=Number(ma.value);
+gain(20);save();render();
 }
-function godMode(){
-document.body.style.animation="pulse 1s infinite"
-alert("⚡ GOD MODE ACTIVATED")
+function gain(x){
+DB.exp+=x;
+if(DB.exp>=100){DB.exp=0;DB.lv++}
+save();
+}
+function god(){
+document.body.classList.toggle("god");
+document.body.classList.toggle("shake");
+alert("⚡ ĐÃ KÍCH HOẠT CHẾ ĐỘ THẦN");
 }
 </script></body>
 </html>
