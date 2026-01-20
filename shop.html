@@ -10,142 +10,60 @@
 body{
 margin:0;
 background:radial-gradient(circle,#3a0045,#0b0010);
-color:#fff;
-overflow-x:hidden
+color:#fff
 }
 .hidden{display:none}
 button{cursor:pointer}
 
-/* HEART */
-.heart{
-position:fixed;
-top:-40px;
-font-size:18px;
-animation:fall linear infinite;
-opacity:.8;
-z-index:0
-}
-@keyframes fall{
-to{transform:translateY(120vh) rotate(360deg)}
-}
-
 /* AUTH */
 .auth{
-position:fixed;
-top:50%;left:50%;
+position:fixed;top:50%;left:50%;
 transform:translate(-50%,-50%);
 width:90%;max-width:360px;
 background:#16001d;
-padding:26px;
-border-radius:22px;
-text-align:center;
-z-index:10
+padding:24px;border-radius:20px;
+text-align:center
 }
-.auth input{
-width:100%;
-padding:14px;
-margin:10px 0;
-border:none;
-border-radius:14px
+.auth input,.auth button{
+width:100%;padding:12px;margin:8px 0;
+border:none;border-radius:14px
 }
-.auth button{
-width:100%;
-padding:14px;
-margin-top:10px;
-border:none;
-border-radius:999px;
-background:linear-gradient(90deg,#ff4fa3,#ff77b7);
-color:#fff;
-font-weight:700
-}
+.auth button{background:var(--pink);color:#fff;font-weight:700}
 
 /* HEADER */
 header{
-position:sticky;
-top:0;
-z-index:8;
 background:linear-gradient(90deg,#ff4fa3,#ff77b7);
 padding:12px;
-display:flex;
-justify-content:space-between;
-align-items:center
+display:flex;justify-content:space-between;align-items:center
 }
-.menu-btn{font-size:22px}
 
 /* MENU */
 #sideMenu{
-position:fixed;
-left:0;top:0;
-width:240px;height:100%;
-background:#16001d;
-padding:20px;
-z-index:9
+position:fixed;left:0;top:0;height:100%;width:240px;
+background:#16001d;padding:16px
 }
 #sideMenu button{
-width:100%;
-margin:8px 0;
-padding:12px;
-border:none;
-border-radius:14px;
-background:#ff4fa3;
-color:#fff;
-font-weight:700
+width:100%;margin:6px 0;padding:12px;
+border:none;border-radius:14px;
+background:#ff4fa3;color:#fff;font-weight:700
 }
 
 /* CONTENT */
-.container{padding:16px;position:relative;z-index:5}
+.container{padding:16px}
 .card{
 background:#16001d;
-padding:18px;
-border-radius:20px;
-margin-bottom:16px
+padding:16px;border-radius:18px;margin-bottom:14px
 }
 select,input{
-padding:12px;
-border-radius:12px;
-border:none;
-margin:6px 0;
-width:100%
+width:100%;padding:12px;margin:6px 0;
+border:none;border-radius:12px
 }
-
-/* MUSIC */
-#musicBtn{
-position:fixed;
-left:16px;
-bottom:16px;
-width:46px;height:46px;
-border-radius:50%;
-background:#ff4fa3;
-color:#fff;
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:22px;
-z-index:20;
-box-shadow:0 0 20px #ff4fa3
-}
-.momo-img{width:100%;border-radius:16px;margin:10px 0}
 </style>
 </head>
 
 <body>
 
-<audio id="bgMusic" loop>
-<source src="music.mp3" type="audio/mpeg">
-</audio>
-
-<script>
-for(let i=0;i<35;i++){
-let h=document.createElement("div")
-h.className="heart"
-h.innerHTML="💗"
-h.style.left=Math.random()*100+"vw"
-h.style.animationDuration=5+Math.random()*6+"s"
-h.style.fontSize=14+Math.random()*18+"px"
-document.body.appendChild(h)
-}
-</script>
-
+<!-- AUTH -->
 <div id="auth" class="auth">
 <h2>🐰 Ngọc Becon Shop</h2>
 <input id="authUser" placeholder="Tài khoản">
@@ -155,8 +73,8 @@ document.body.appendChild(h)
 </div>
 
 <header id="header" class="hidden">
-<div class="menu-btn" onclick="toggleMenu()">☰</div>
-<b>💖 Số dư: <span id="money">0</span></b>
+<b>💖 Số dư: <span id="money">0</span>đ</b>
+<button onclick="toggleMenu()">☰</button>
 </header>
 
 <div id="sideMenu" class="hidden">
@@ -165,6 +83,7 @@ document.body.appendChild(h)
 <button onclick="showPage('blox')">🍏 Blox Fruit</button>
 <button onclick="showPage('ff')">🔥 Free Fire</button>
 <button onclick="showPage('lq')">⚔️ Liên Quân</button>
+<button onclick="showPage('cay')">🛠️ Cày thuê</button>
 <button onclick="toggleMenu()">❌ Đóng</button>
 </div>
 
@@ -173,23 +92,18 @@ document.body.appendChild(h)
 <div id="nap" class="card hidden">
 <h3>💳 Nạp thẻ</h3>
 <select id="cardValue">
-<option value="1000">1k</option>
 <option value="10000">10k</option>
+<option value="20000">20k</option>
 <option value="50000">50k</option>
 <option value="100000">100k</option>
-<option value="500000">500k</option>
 </select>
-<input placeholder="Seri thẻ">
-<input placeholder="Mã thẻ">
-<button onclick="napThe()">NẠP THẺ</button>
+<button onclick="napThe()">Nạp</button>
 </div>
 
 <div id="momo" class="card hidden">
 <h3>📱 Nạp MoMo</h3>
-<img src="momo.jpg" class="momo-img">
-<input id="momoMoney" type="number" placeholder="Ví dụ: 10000 = 10k">
-<p>Nội dung: <b style="color:#ff4fa3">NAP <span id="momoUser"></span></b></p>
-<button onclick="napMoMo()">XÁC NHẬN</button>
+<input id="momoMoney" type="number" placeholder="Số tiền">
+<button onclick="napMoMo()">Xác nhận</button>
 </div>
 
 <div id="blox" class="card hidden">
@@ -197,105 +111,90 @@ document.body.appendChild(h)
 <select id="bloxPrice">
 <option value="30000">Level 1 → 2800 (30k)</option>
 <option value="15000">Triple Katana (15k)</option>
-<option value="10000">Mastery (10k)</option>
-<option value="20000">Haki 7 màu (20k)</option>
-<option value="40000">Gear V4 (40k)</option>
 </select>
-<button onclick="datDon('Blox Fruit',bloxPrice.value)">ĐẶT ĐƠN</button>
+<button onclick="datDon('Blox Fruit',bloxPrice.value)">Đặt đơn</button>
 </div>
 
 <div id="ff" class="card hidden">
 <h3>🔥 Free Fire</h3>
 <select id="ffPrice">
-<option value="40000">Đồng → Huyền Thoại (40k)</option>
-<option value="60000">Huyền Thoại → Cao Thủ (60k)</option>
-<option value="100000">Cao Thủ 100⭐ (100k)</option>
+<option value="40000">Đồng → Huyền Thoại</option>
+<option value="60000">Huyền Thoại → Cao Thủ</option>
 </select>
-<button onclick="datDon('Free Fire',ffPrice.value)">ĐẶT ĐƠN</button>
+<button onclick="datDon('Free Fire',ffPrice.value)">Đặt đơn</button>
 </div>
 
 <div id="lq" class="card hidden">
 <h3>⚔️ Liên Quân</h3>
 <select id="lqPrice">
-<option value="250000">Đồng → BK5 (250k)</option>
-<option value="300000">KC5 → TA5 (300k)</option>
-<option value="350000">TA5 → CT (350k)</option>
+<option value="250000">Đồng → BK5</option>
+<option value="300000">KC5 → TA5</option>
 </select>
-<button onclick="datDon('Liên Quân',lqPrice.value)">ĐẶT ĐƠN</button>
+<button onclick="datDon('Liên Quân',lqPrice.value)">Đặt đơn</button>
+</div>
+
+<div id="cay" class="card hidden">
+<h3>🛠️ Cày thuê</h3>
+<select id="cayGame" onchange="loadCay()">
+<option value="">Chọn game</option>
+<option value="blox">Blox Fruit</option>
+<option value="ff">Free Fire</option>
+<option value="lq">Liên Quân</option>
+</select>
+<select id="cayOpt"></select>
+<input id="cayAcc" placeholder="Tài khoản game">
+<input id="cayPass" placeholder="Mật khẩu game">
+<button onclick="datCay()">Tạo đơn (chờ duyệt)</button>
 </div>
 
 </div>
-
-<div id="musicBtn" onclick="toggleMusic()">🎵</div>
 
 <script>
-let DB=JSON.parse(localStorage.getItem("SHOP"))||{users:{}}
+let DB=JSON.parse(localStorage.getItem("SHOP"))||{users:{},orders:[]}
 let cur=null
-const music=document.getElementById("bgMusic")
-
 function save(){localStorage.setItem("SHOP",JSON.stringify(DB))}
 
-function formatMoney(v){
-if(v>=1e6) return (v/1e6)+"M"
-if(v>=1e3) return (v/1e3)+"k"
-return v
-}
-
 function register(){
-let u=authUser.value,p=authPass.value
-if(!u||!p)return alert("Nhập đủ thông tin")
-if(DB.users[u])return alert("Tài khoản tồn tại")
-DB.users[u]={pass:p,money:0}
-save();alert("Đăng ký thành công")
+if(DB.users[authUser.value])return alert("Tồn tại")
+DB.users[authUser.value]={pass:authPass.value,money:0}
+save();alert("OK")
 }
-
 function login(){
-let u=authUser.value,p=authPass.value
-if(!DB.users[u]||DB.users[u].pass!==p)return alert("Sai tài khoản")
+let u=authUser.value
+if(!DB.users[u]||DB.users[u].pass!==authPass.value)return alert("Sai")
 cur=u
 auth.classList.add("hidden")
 header.classList.remove("hidden")
 shop.classList.remove("hidden")
-money.innerText=formatMoney(DB.users[u].money)
-momoUser.innerText=cur
-music.play()
+money.innerText=DB.users[u].money
 }
-
 function toggleMenu(){sideMenu.classList.toggle("hidden")}
 function showPage(id){
 document.querySelectorAll(".card").forEach(c=>c.classList.add("hidden"))
 document.getElementById(id).classList.remove("hidden")
 sideMenu.classList.add("hidden")
 }
-
-function toggleMusic(){music.paused?music.play():music.pause()}
-
-function napThe(){
-let v=+cardValue.value
-DB.users[cur].money+=v
-money.innerText=formatMoney(DB.users[cur].money)
-save()
-alert("Nạp thẻ +" + formatMoney(v))
-}
-
-function napMoMo(){
-let v=+momoMoney.value
-if(v<=0)return alert("Nhập số tiền")
-DB.users[cur].money+=v
-money.innerText=formatMoney(DB.users[cur].money)
-save()
-alert("Nạp MoMo +" + formatMoney(v))
-}
-
+function napThe(){DB.users[cur].money+=+cardValue.value;money.innerText=DB.users[cur].money;save()}
+function napMoMo(){DB.users[cur].money+=+momoMoney.value;money.innerText=DB.users[cur].money;save()}
 function datDon(game,price){
-price=+price
-if(DB.users[cur].money<price)return alert("Không đủ tiền")
-DB.users[cur].money-=price
-money.innerText=formatMoney(DB.users[cur].money)
-save()
-alert("Đặt đơn "+game+" thành công!")
+if(DB.users[cur].money<price)return alert("Thiếu tiền")
+DB.users[cur].money-=price;money.innerText=DB.users[cur].money
+DB.orders.push({user:cur,game,price,status:"CHỜ DUYỆT"})
+save();alert("Đã tạo đơn")
+}
+function loadCay(){
+cayOpt.innerHTML=""
+if(cayGame.value=="blox")cayOpt.innerHTML+=`<option value="30000">Level 1 → 2800</option>`
+if(cayGame.value=="ff")cayOpt.innerHTML+=`<option value="40000">Đồng → Huyền Thoại</option>`
+if(cayGame.value=="lq")cayOpt.innerHTML+=`<option value="250000">Đồng → BK5</option>`
+}
+function datCay(){
+let p=+cayOpt.value
+if(DB.users[cur].money<p)return alert("Thiếu tiền")
+DB.users[cur].money-=p;money.innerText=DB.users[cur].money
+DB.orders.push({user:cur,type:"Cày",game:cayGame.value,price:p,status:"CHỜ DUYỆT"})
+save();alert("Đã tạo đơn cày")
 }
 </script>
-
 </body>
 </html>
