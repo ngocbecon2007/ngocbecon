@@ -29,6 +29,7 @@ to{opacity:1;transform:none}
 100%{box-shadow:0 0 15px var(--vip)}
 }
 
+/* ===== HEADER ===== */
 header{
 position:sticky;top:0;z-index:10;
 background:linear-gradient(90deg,#ff4fa3,#ff77b7);
@@ -47,6 +48,7 @@ background:#fff;
 color:#ff4fa3
 }
 
+/* ===== LAYOUT ===== */
 .container{max-width:1100px;margin:auto;padding:22px}
 .card{
 background:linear-gradient(180deg,#1f0026,#120015);
@@ -73,13 +75,43 @@ font-weight:700;
 cursor:pointer
 }
 
+/* ===== AUTH UI ===== */
+.auth-wrap{
+max-width:420px;
+margin:60px auto;
+}
+.auth-card{
+background:linear-gradient(180deg,#2a0033,#120015);
+border-radius:26px;
+padding:26px;
+box-shadow:0 0 40px rgba(255,79,163,.45);
+animation:fadeUp .6s ease;
+}
+.auth-toggle{
+text-align:center;
+margin-top:14px;
+color:#ff77b7;
+cursor:pointer;
+font-weight:600;
+}
+.pass-wrap{position:relative}
+.pass-wrap span{
+position:absolute;
+right:14px;
+top:50%;
+transform:translateY(-50%);
+cursor:pointer;
+font-size:18px;
+opacity:.8;
+}
+
+/* ===== TEXT ===== */
 .badge{
 padding:6px 14px;
 border-radius:999px;
 background:linear-gradient(90deg,#ff4fa3,#ff77b7)
 }
 .price{color:#ff77b7;font-weight:bold}
-
 table{width:100%;border-collapse:collapse}
 th,td{padding:10px;border-bottom:1px solid #333}
 th{color:#ff77b7}
@@ -88,7 +120,7 @@ th{color:#ff77b7}
 
 <body>
 
-<!-- 🔊 Nhạc nền tự phát -->
+<!-- 🔊 NHẠC -->
 <audio id="bgMusic" src="music.mp3" loop></audio>
 
 <header id="header" class="hidden">
@@ -104,13 +136,27 @@ th{color:#ff77b7}
 
 <div class="container">
 
-<div id="login" class="card">
-<h2 align="center">🔐 Đăng nhập</h2>
-<input id="l_user" placeholder="Tên tài khoản">
-<input id="l_pass" type="password" placeholder="Mật khẩu">
-<button onclick="login()">Vào shop</button>
+<!-- ===== AUTH ===== -->
+<div id="authWrap" class="auth-wrap">
+<div class="auth-card">
+<h2 align="center" id="authTitle">🔐 Đăng nhập</h2>
+
+<input id="a_user" placeholder="Tên tài khoản">
+
+<div class="pass-wrap">
+<input id="a_pass" type="password" placeholder="Mật khẩu">
+<span id="eye" onclick="togglePass()">👁️</span>
 </div>
 
+<button onclick="authSubmit()">XÁC NHẬN</button>
+
+<div class="auth-toggle" onclick="toggleAuth()" id="authToggle">
+👉 Chưa có tài khoản? Đăng ký
+</div>
+</div>
+</div>
+
+<!-- ===== SHOP ===== -->
 <div id="home" class="card hidden">
 <h3>👋 Xin chào <span id="uname"></span></h3>
 <p>Số dư: <span class="price" id="money">0đ</span></p>
@@ -119,47 +165,25 @@ th{color:#ff77b7}
 
 <div id="topup" class="card hidden">
 <h3>💳 Nạp tiền</h3>
-
-<h4>🔸 Nạp thẻ cào</h4>
-<select id="cardType">
-<option>Viettel</option>
-<option>Mobifone</option>
-<option>Vinaphone</option>
-</select>
 <select id="cardValue">
 <option value="10000">10.000đ</option>
-<option value="20000">20.000đ</option>
 <option value="50000">50.000đ</option>
 <option value="100000">100.000đ</option>
-<option value="500000">500.000đ</option>
-<option value="1000000">1.000.000đ</option>
 </select>
-<input id="cardSerial" placeholder="Số seri">
-<input id="cardCode" placeholder="Mã thẻ">
 <button onclick="sendCard()">Gửi thẻ</button>
-
-<hr style="opacity:.2;margin:20px 0">
-
-<h4>🔸 Chuyển khoản / QR</h4>
-<p>Nội dung: <b>NAP_<span id="uname2"></span></b></p>
-<input id="bankMoney" placeholder="Số tiền đã chuyển">
-<button onclick="sendBank()">Gửi yêu cầu</button>
 </div>
 
 <div id="boost" class="card hidden">
 <h3>🔥 Cày thuê</h3>
-<select id="boostGame" onchange="changeBoost()">
-<option value="">-- Chọn game --</option>
-<option value="Free Fire">Free Fire</option>
-<option value="Liên Quân">Liên Quân</option>
+<select id="boostDetail">
+<option value="500">1 sao = 500đ</option>
+<option value="1000">VIP = 1.000đ</option>
 </select>
-<select id="boostDetail"></select>
-<input id="boostNote" placeholder="UID / Rank / Ghi chú">
-<button onclick="sendBoost()">Đặt đơn (trừ tiền)</button>
+<button onclick="sendBoost()">Đặt đơn</button>
 </div>
 
 <div id="history" class="card hidden">
-<h3>📜 Lịch sử & Bill</h3>
+<h3>📜 Lịch sử</h3>
 <table>
 <thead><tr><th>Mã</th><th>Loại</th><th>Tiền</th><th>Trạng thái</th></tr></thead>
 <tbody id="hist"></tbody>
@@ -170,45 +194,70 @@ th{color:#ff77b7}
 
 <script>
 let DB=JSON.parse(localStorage.getItem("VIP_SHOP"))||{users:{},topups:[],orders:[]}
-let user=null
+let user=localStorage.getItem("VIP_LOGIN")
+let isLogin=true
+
 const music=document.getElementById("bgMusic")
 music.volume=0.4
+document.addEventListener("click",()=>music.play().catch(()=>{}),{once:true})
 
-// 👉 Tự phát nhạc khi có tương tác đầu tiên
-document.addEventListener("click", autoPlayMusic, { once:true })
-document.addEventListener("touchstart", autoPlayMusic, { once:true })
+/* ==== LOCK SHOP ==== */
+if(user) enterShop()
+else lockShop()
 
-function autoPlayMusic(){
-  music.play().catch(()=>{})
+function lockShop(){
+authWrap.classList.remove("hidden")
+header.classList.add("hidden")
 }
 
-const save=()=>localStorage.setItem("VIP_SHOP",JSON.stringify(DB))
-const bill=()=>`NB-${Math.random().toString(36).substr(2,6).toUpperCase()}`
+/* ==== AUTH ==== */
+function toggleAuth(){
+isLogin=!isLogin
+authTitle.innerText=isLogin?"🔐 Đăng nhập":"📝 Đăng ký"
+authToggle.innerText=isLogin
+?"👉 Chưa có tài khoản? Đăng ký"
+:"👉 Đã có tài khoản? Đăng nhập"
+}
 
-function login(){
-let u=l_user.value.trim(),p=l_pass.value
+function authSubmit(){
+let u=a_user.value.trim()
+let p=a_pass.value
 if(!u||!p) return alert("Nhập đủ thông tin")
-if(!DB.users[u]) DB.users[u]={pass:p,money:0}
+
+if(isLogin){
+if(!DB.users[u]) return alert("Tài khoản không tồn tại")
 if(DB.users[u].pass!==p) return alert("Sai mật khẩu")
 user=u
-loginBox()
+localStorage.setItem("VIP_LOGIN",u)
+enterShop()
+}else{
+if(DB.users[u]) return alert("Tài khoản đã tồn tại")
+DB.users[u]={pass:p,money:0}
+save()
+alert("✔ Đăng ký thành công")
+toggleAuth()
+}
 }
 
-function loginBox(){
-login.classList.add("hidden")
+function togglePass(){
+let p=a_pass
+p.type=p.type==="password"?"text":"password"
+eye.innerText=p.type==="password"?"👁️":"🙈"
+}
+
+/* ==== SHOP ==== */
+function enterShop(){
+authWrap.classList.add("hidden")
 header.classList.remove("hidden")
 uname.innerText=user
-uname2.innerText=user
 update()
 show("home")
-music.play().catch(()=>{})
 }
 
 function update(){
 let m=DB.users[user].money
 money.innerText=m.toLocaleString()+"đ"
-rank.innerText=m>=1000000?"CTV":m>=500000?"Đại lý":"Thành viên"
-home.classList.toggle("vip",m>=1000000)
+rank.innerText=m>=500000?"Đại lý":"Thành viên"
 loadHistory()
 }
 
@@ -218,46 +267,31 @@ document.getElementById(id).classList.remove("hidden")
 }
 
 function sendCard(){
-DB.topups.push({id:bill(),user,type:"Card",money:+cardValue.value,status:"Chờ duyệt"})
-save();alert("✔ Đã gửi thẻ")
-}
-
-function sendBank(){
-DB.topups.push({id:bill(),user,type:"Chuyển khoản",money:+bankMoney.value,status:"Chờ duyệt"})
-save();alert("✔ Đã gửi yêu cầu")
-}
-
-function changeBoost(){
-boostDetail.innerHTML=""
-if(boostGame.value=="Free Fire"){
-boostDetail.innerHTML=`<option value="500">1 sao = 500đ</option>
-<option value="1000">1 sao VIP = 1.000đ</option>`
-}
-if(boostGame.value=="Liên Quân"){
-boostDetail.innerHTML=`<option value="1000">1 win = 1.000đ</option>`
-}
+DB.topups.push({id:Date.now(),user,type:"Nạp",money:+cardValue.value,status:"Chờ duyệt"})
+save();alert("✔ Đã gửi")
 }
 
 function sendBoost(){
 let price=+boostDetail.value
 if(DB.users[user].money<price) return alert("Không đủ tiền")
 DB.users[user].money-=price
-DB.orders.push({id:bill(),user,type:"Cày thuê",money:price,status:"Đang xử lý"})
-save();update();alert("✔ Đã đặt đơn")
+DB.orders.push({id:Date.now(),user,type:"Cày thuê",money:price,status:"Đang xử lý"})
+save();update()
 }
 
 function loadHistory(){
 hist.innerHTML=""
-DB.topups.filter(x=>x.user==user).forEach(x=>{
-hist.innerHTML+=`<tr><td>${x.id}</td><td>${x.type}</td><td>${x.money}</td><td>${x.status}</td></tr>`
-})
-DB.orders.filter(x=>x.user==user).forEach(x=>{
+DB.topups.concat(DB.orders).filter(x=>x.user==user).forEach(x=>{
 hist.innerHTML+=`<tr><td>${x.id}</td><td>${x.type}</td><td>${x.money}</td><td>${x.status}</td></tr>`
 })
 }
 
+function save(){
+localStorage.setItem("VIP_SHOP",JSON.stringify(DB))
+}
+
 function logout(){
-music.pause()
+localStorage.removeItem("VIP_LOGIN")
 location.reload()
 }
 </script>
