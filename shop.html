@@ -11,79 +11,57 @@
 --vip:#ff77ff;
 --bg:#0b0010;
 }
-*{box-sizing:border-box;font-family:'Segoe UI',Arial}
-
+*{box-sizing:border-box;font-family:Segoe UI,Arial}
 body{
 margin:0;
 background:radial-gradient(circle at top,#3a0045,#0b0010 70%);
-color:#fff;
-overflow-x:hidden
-}
-
-/* ===== ANIMATION ===== */
-@keyframes fadeUp{
-from{opacity:0;transform:translateY(20px)}
-to{opacity:1;transform:none}
-}
-@keyframes glow{
-0%{box-shadow:0 0 10px var(--vip)}
-50%{box-shadow:0 0 35px var(--vip)}
-100%{box-shadow:0 0 10px var(--vip)}
-}
-@keyframes textGlow{
-0%{text-shadow:0 0 6px var(--vip)}
-50%{text-shadow:0 0 18px var(--vip)}
-100%{text-shadow:0 0 6px var(--vip)}
-}
-
-/* ===== HEADER ===== */
-header{
-position:sticky;top:0;z-index:10;
-background:linear-gradient(90deg,#ff4fa3,#ff77b7);
-padding:16px 30px;
-display:flex;
-justify-content:space-between;
-align-items:center
-}
-.menu-btn{font-size:22px;cursor:pointer}
-
-/* ===== MENU ===== */
-.dropdown{
-position:absolute;
-top:70px;right:20px;
-background:#18001e;
-border-radius:18px;
-display:none;
-min-width:220px;
-box-shadow:0 0 35px rgba(255,79,163,.7)
-}
-.dropdown a{
-display:block;
-padding:14px 20px;
-cursor:pointer;
-font-weight:600
-}
-.dropdown a:hover{
-background:linear-gradient(90deg,#ff4fa3,#ff77b7)
-}
-
-/* ===== LAYOUT ===== */
-.container{max-width:1200px;margin:auto;padding:30px}
-
-.card{
-background:linear-gradient(180deg,#200025,#120015);
-border-radius:22px;
-padding:26px;
-margin-bottom:30px;
-box-shadow:0 0 35px rgba(255,79,163,.35);
-animation:fadeUp .5s ease
+color:#fff
 }
 .hidden{display:none}
 
-/* VIP */
-.card.vip{animation:glow 2.5s infinite}
-.name.vip{animation:textGlow 2s infinite;color:var(--vip)}
+/* ANIMATION */
+@keyframes fadeUp{
+from{opacity:0;transform:translateY(25px) scale(.97)}
+to{opacity:1;transform:none}
+}
+@keyframes glow{
+0%{box-shadow:0 0 15px var(--vip)}
+50%{box-shadow:0 0 40px var(--vip)}
+100%{box-shadow:0 0 15px var(--vip)}
+}
 
+/* HEADER */
+header{
+position:sticky;top:0;z-index:10;
+background:linear-gradient(90deg,#ff4fa3,#ff77b7);
+padding:14px 26px;
+display:flex;justify-content:space-between;align-items:center
+}
+.menu button{
+margin-left:6px;
+padding:8px 14px;
+border-radius:999px;
+border:none;
+cursor:pointer;
+font-weight:bold;
+background:#fff;
+color:#ff4fa3
+}
+.menu button:hover{transform:scale(1.08)}
+
+/* LAYOUT */
+.container{max-width:1100px;margin:auto;padding:24px}
+.card{
+background:linear-gradient(180deg,#1f0026,#120015);
+border-radius:22px;
+padding:24px;
+margin-bottom:26px;
+animation:fadeUp .5s ease;
+box-shadow:0 0 35px rgba(255,79,163,.35)
+}
+.card.vip{animation:glow 3s infinite}
+
+/* FORM */
 input,select,button{
 width:100%;
 padding:13px;
@@ -94,120 +72,103 @@ font-size:15px
 }
 button{
 background:linear-gradient(90deg,#ff4fa3,#ff77b7);
-color:#fff;
-font-weight:700;
-cursor:pointer
+color:#fff;font-weight:700;cursor:pointer
 }
 button:hover{transform:scale(1.04)}
 
-.auth-link{
-margin-top:14px;
-background:transparent;
-border:2px solid #ff77b7;
-color:#ff77b7
-}
-.auth-link:hover{
-background:#ff77b7;
-color:#000
-}
-
-.price{color:#ff77b7;font-weight:bold}
 .badge{
 padding:6px 14px;
 border-radius:999px;
 background:linear-gradient(90deg,#ff4fa3,#ff77b7)
 }
+.price{color:#ff77b7;font-weight:bold}
 
+/* TABLE */
 table{width:100%;border-collapse:collapse}
 th,td{padding:10px;border-bottom:1px solid #333}
 th{color:#ff77b7}
-
-.center{text-align:center}
 </style>
 </head>
 
 <body>
 
-<audio id="music" src="music.mp3" loop></audio>
+<!-- 🎵 NHẠC NỀN -->
+<audio id="bgMusic" src="music.mp3" loop></audio>
 
-<header class="hidden" id="header">
+<header id="header" class="hidden">
 <b>💎 Ngọc Becon Shop</b>
-<div class="menu-btn" onclick="toggleMenu()">☰</div>
-<div class="dropdown" id="menu">
-<a onclick="show('home')">🏠 Trang chủ</a>
-<a onclick="show('service')">🎮 Dịch vụ</a>
-<a onclick="show('order')">📦 Đặt đơn</a>
-<a onclick="show('topup')">💰 Nạp tiền</a>
-<a onclick="show('history')">📜 Lịch sử</a>
-<a onclick="logout()">🚪 Đăng xuất</a>
+<div class="menu">
+<button onclick="show('home')">🏠</button>
+<button onclick="show('topup')">💳</button>
+<button onclick="show('boost')">🔥</button>
+<button onclick="show('history')">📜</button>
+<button id="musicBtn" onclick="toggleMusic()">🔊</button>
+<button onclick="logout()">🚪</button>
 </div>
 </header>
 
 <div class="container">
 
 <!-- LOGIN -->
-<div id="login" class="card center">
-<h2>🔐 Đăng nhập</h2>
+<div id="login" class="card">
+<h2 align="center">🔐 Đăng nhập</h2>
 <input id="l_user" placeholder="Tên tài khoản">
 <input id="l_pass" type="password" placeholder="Mật khẩu">
 <button onclick="login()">Vào shop</button>
-<button class="auth-link" onclick="goRegister()">Đăng ký</button>
-</div>
-
-<!-- REGISTER -->
-<div id="register" class="card hidden center">
-<h2>📝 Đăng ký</h2>
-<input id="r_user" placeholder="Tên tài khoản">
-<input id="r_pass" type="password" placeholder="Mật khẩu">
-<button onclick="register()">Tạo tài khoản</button>
-<button class="auth-link" onclick="goLogin()">Quay lại đăng nhập</button>
 </div>
 
 <!-- HOME -->
 <div id="home" class="card hidden">
-<h2>👋 Xin chào <span id="name" class="name"></span></h2>
+<h3>👋 Xin chào <span id="uname"></span></h3>
 <p>Số dư: <span class="price" id="money">0đ</span></p>
 <p>Hạng: <span class="badge" id="rank">Thành viên</span></p>
 </div>
 
-<!-- SERVICE -->
-<div id="service" class="card hidden">
-<h3>🎮 Dịch vụ cày thuê</h3>
-<p>🔥 Free Fire: TCXH 1 sao <span class="price">500 – 1.000đ</span></p>
-<p>🔥 Liên Quân: 1 win <span class="price">1.000đ</span> (thua không tính)</p>
-<p>🟦 Roblox: Trừ tiền trực tiếp từ số dư</p>
-</div>
-
-<!-- ORDER -->
-<div id="order" class="card hidden">
-<h3>📦 Đặt đơn</h3>
-<select id="game">
-<option>Free Fire</option>
-<option>Liên Quân</option>
-<option>Roblox</option>
-</select>
-<input id="detail" placeholder="Chi tiết đơn">
-<input id="price" placeholder="Giá tiền">
-<button onclick="createOrder()">Gửi đơn</button>
-</div>
-
 <!-- TOPUP -->
 <div id="topup" class="card hidden">
-<h3>💰 Nạp tiền</h3>
-<p>Nội dung:</p>
-<b class="price">NAP_<span id="napUser"></span></b><br><br>
-<img src="momo.jpg" width="220" style="border-radius:16px"><br>
-<input id="topMoney" placeholder="Số tiền đã chuyển">
-<button onclick="sendTopup()">Gửi yêu cầu</button>
-<p>500k → Đại lý | 1tr → CTV</p>
+<h3>💳 Nạp thẻ cào</h3>
+<select id="cardType">
+<option>Viettel</option>
+<option>Mobifone</option>
+<option>Vinaphone</option>
+</select>
+<select id="cardValue">
+<option value="10000">10.000đ</option>
+<option value="20000">20.000đ</option>
+<option value="50000">50.000đ</option>
+<option value="100000">100.000đ</option>
+<option value="500000">500.000đ</option>
+<option value="1000000">1.000.000đ</option>
+</select>
+<input id="cardSerial" placeholder="Số seri">
+<input id="cardCode" placeholder="Mã thẻ">
+<button onclick="sendCard()">Gửi thẻ</button>
+</div>
+
+<!-- BOOST -->
+<div id="boost" class="card hidden">
+<h3>🔥 Cày thuê</h3>
+<select id="boostGame" onchange="changeBoost()">
+<option value="">-- Chọn game --</option>
+<option value="Free Fire">Free Fire</option>
+<option value="Liên Quân">Liên Quân</option>
+</select>
+<select id="boostDetail"></select>
+<input id="boostNote" placeholder="UID / Rank / Ghi chú">
+<button onclick="sendBoost()">Đặt đơn (trừ tiền ngay)</button>
 </div>
 
 <!-- HISTORY -->
 <div id="history" class="card hidden">
-<h3>📜 Lịch sử</h3>
+<h3>📜 Lịch sử & Bill</h3>
 <table>
 <thead>
-<tr><th>Mã</th><th>Loại</th><th>Số tiền</th><th>Trạng thái</th></tr>
+<tr>
+<th>Mã bill</th>
+<th>Loại</th>
+<th>Số tiền</th>
+<th>Trạng thái</th>
+</tr>
 </thead>
 <tbody id="hist"></tbody>
 </table>
@@ -216,98 +177,102 @@ th{color:#ff77b7}
 </div>
 
 <script>
-/* ===== SHA-256 ===== */
-async function sha256(text){
-const enc=new TextEncoder().encode(text)
-const buf=await crypto.subtle.digest("SHA-256",enc)
-return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,"0")).join("")
-}
-
-/* ===== DB ===== */
-let DB=JSON.parse(localStorage.getItem("VIP_SHOP"))||{users:{},orders:[],topups:[]}
+let DB=JSON.parse(localStorage.getItem("VIP_SHOP_PRO"))||{users:{},topups:[],orders:[]}
 let user=null
-const save=()=>localStorage.setItem("VIP_SHOP",JSON.stringify(DB))
-const bill=()=>`NB-${Math.random().toString(36).substr(2,6).toUpperCase()}`
 
-function goRegister(){loginDiv().classList.add("hidden");registerDiv().classList.remove("hidden")}
-function goLogin(){registerDiv().classList.add("hidden");loginDiv().classList.remove("hidden")}
+const music=document.getElementById("bgMusic")
+const musicBtn=document.getElementById("musicBtn")
+music.volume=0.4
+let musicOn=localStorage.getItem("music")!=="off"
 
-const loginDiv=()=>document.getElementById("login")
-const registerDiv=()=>document.getElementById("register")
+if(!musicOn) musicBtn.innerText="🔇"
 
-async function register(){
-let u=r_user.value.trim(),p=r_pass.value
-if(!u||!p)return alert("Nhập đủ thông tin")
-if(DB.users[u])return alert("Tài khoản đã tồn tại")
-DB.users[u]={pass:await sha256(p),money:0}
-save();alert("✔ Đăng ký thành công");goLogin()
+const save=()=>localStorage.setItem("VIP_SHOP_PRO",JSON.stringify(DB))
+const bill=()=>`NB-${Date.now().toString().slice(-6)}`
+
+function toggleMusic(){
+if(musicOn){
+music.pause()
+musicBtn.innerText="🔇"
+localStorage.setItem("music","off")
+}else{
+music.play().catch(()=>{})
+musicBtn.innerText="🔊"
+localStorage.setItem("music","on")
+}
+musicOn=!musicOn
 }
 
-async function login(){
+function login(){
 let u=l_user.value.trim(),p=l_pass.value
-let d=DB.users[u]
-if(!d||d.pass!==await sha256(p))return alert("Sai thông tin")
-user=u;start()
+if(!u||!p) return alert("Nhập đủ thông tin")
+if(!DB.users[u]) DB.users[u]={pass:p,money:0}
+user=u
+start()
 }
 
 function start(){
-loginDiv().classList.add("hidden")
-registerDiv().classList.add("hidden")
+login.classList.add("hidden")
 header.classList.remove("hidden")
-show("home")
-name.innerText=user
-napUser.innerText=user
+uname.innerText=user
 update()
-
-let m=document.getElementById("music")
-m.volume=0.4
-m.play().catch(()=>{})
+show("home")
+if(musicOn) music.play().catch(()=>{})
 }
 
 function update(){
-let d=DB.users[user]
-money.innerText=d.money.toLocaleString()+"đ"
-home.classList.remove("vip")
-name.classList.remove("vip")
-
-if(d.money>=1000000){
-rank.innerText="Cộng tác viên"
-home.classList.add("vip")
-name.classList.add("vip")
-}
-else if(d.money>=500000){
-rank.innerText="Đại lý"
-}
-else rank.innerText="Thành viên"
-
+let m=DB.users[user].money
+money.innerText=m.toLocaleString()+"đ"
+rank.innerText=m>=1000000?"CTV":m>=500000?"Đại lý":"Thành viên"
+home.classList.toggle("vip",m>=1000000)
 loadHistory()
 }
 
-function toggleMenu(){
-menu.style.display=menu.style.display=="block"?"none":"block"
-}
 function show(id){
 document.querySelectorAll(".card").forEach(e=>e.classList.add("hidden"))
 document.getElementById(id).classList.remove("hidden")
-menu.style.display="none"
 }
 
-function createOrder(){
-DB.orders.push({user,price:price.value,status:"Chờ duyệt"})
-save();alert("📦 Đã gửi đơn");update()
+function sendCard(){
+DB.topups.push({
+id:bill(),user,
+type:"Nạp "+cardType.value,
+money:Number(cardValue.value),
+status:"Chờ duyệt"
+})
+save();alert("✔ Đã gửi thẻ")
 }
-function sendTopup(){
-DB.topups.push({user,money:topMoney.value,status:"Chờ duyệt"})
-save();alert("💰 Đã gửi yêu cầu");update()
+
+function changeBoost(){
+boostDetail.innerHTML=""
+if(boostGame.value=="Free Fire"){
+boostDetail.innerHTML=`<option value="500">BK → HT: 1 sao = 500đ</option>
+<option value="1000">HT+: 1 sao = 1.000đ</option>`
+}
+if(boostGame.value=="Liên Quân"){
+boostDetail.innerHTML=`<option value="1000">1 trận win = 1.000đ</option>`
+}
+}
+
+function sendBoost(){
+let price=Number(boostDetail.value)
+if(DB.users[user].money<price) return alert("Không đủ số dư")
+DB.users[user].money-=price
+DB.orders.push({
+id:bill(),user,
+money:price,
+status:"Đang xử lý"
+})
+save();update();alert("✔ Đặt đơn thành công")
 }
 
 function loadHistory(){
 hist.innerHTML=""
 DB.topups.filter(t=>t.user==user).forEach(t=>{
-hist.innerHTML+=`<tr><td>${bill()}</td><td>Nạp</td><td>${t.money}</td><td>${t.status}</td></tr>`
+hist.innerHTML+=`<tr><td>${t.id}</td><td>${t.type}</td><td>${t.money}</td><td>${t.status}</td></tr>`
 })
 DB.orders.filter(o=>o.user==user).forEach(o=>{
-hist.innerHTML+=`<tr><td>${bill()}</td><td>Đơn</td><td>${o.price}</td><td>${o.status}</td></tr>`
+hist.innerHTML+=`<tr><td>${o.id}</td><td>Cày thuê</td><td>${o.money}</td><td>${o.status}</td></tr>`
 })
 }
 
