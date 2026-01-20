@@ -7,27 +7,21 @@
 <style>
 :root{--pink:#ff5fa8}
 *{box-sizing:border-box;font-family:Segoe UI,Arial}
-body{
-margin:0;background:radial-gradient(circle,#4a005f,#120015);
-color:#fff
-}
+body{margin:0;background:radial-gradient(circle,#4a005f,#120015);color:#fff}
 .hidden{display:none}
 
 /* LOGIN */
 .login{
 max-width:380px;margin:120px auto;
 background:#1a001f;padding:30px;
-border-radius:26px;text-align:center;
-animation:fade .6s
+border-radius:26px;text-align:center
 }
 .login h2{color:#ff9ad5}
-.login input{
+.login input,.login button{
 width:100%;padding:14px;margin-top:14px;
 border-radius:14px;border:none
 }
 .login button{
-width:100%;padding:14px;margin-top:18px;
-border:none;border-radius:999px;
 background:linear-gradient(90deg,#ff5fa8,#ff9ad5);
 color:#fff;font-weight:800
 }
@@ -42,9 +36,7 @@ display:flex;justify-content:space-between
 
 /* LAYOUT */
 .main{display:flex;height:calc(100vh - 64px)}
-.sidebar{
-width:260px;background:#1a001f;padding:16px
-}
+.sidebar{width:260px;background:#1a001f;padding:16px}
 .sidebar button{
 width:100%;padding:12px;margin-bottom:10px;
 border:none;border-radius:14px;
@@ -55,106 +47,16 @@ background:#ff5fa8;color:#fff;font-weight:700
 /* CARD */
 .card{
 background:#1a001f;padding:20px;
-border-radius:24px;margin-bottom:20px;
-animation:fade .4s
+border-radius:24px;margin-bottom:20px
 }
-
-/* TABLE */
+input,button{padding:12px;border-radius:12px;border:none}
 table{width:100%;border-collapse:collapse}
 th,td{padding:10px;border-bottom:1px solid #333;text-align:center}
 th{color:#ff9ad5}
-
-/* CHAT */
-.chat-wrap{
-position:fixed;right:20px;bottom:90px;
-width:360px;height:520px;
-background:#120015;border-radius:24px;
-display:flex;flex-direction:column;
-box-shadow:0 0 40px #ff5fa855;
-z-index:20
-}
-.chat-header{
-background:linear-gradient(90deg,#ff5fa8,#ff9ad5);
-padding:14px;border-radius:24px 24px 0 0;
-font-weight:900
-}
-.chat-users{
-display:flex;overflow:auto;padding:8px;gap:6px
-}
-.chat-users button{
-padding:8px 14px;border:none;border-radius:999px;
-background:#2a002f;color:#fff;white-space:nowrap
-}
-.chat-users .active{background:#ff5fa8}
-.chat-body{flex:1;overflow:auto;padding:12px}
-.msg{margin-bottom:8px}
-.admin{text-align:right}
-.bubble{
-display:inline-block;padding:10px 14px;
-border-radius:18px;max-width:75%
-}
-.admin .bubble{background:#ff5fa8}
-.user .bubble{background:#333}
-.chat-input{
-display:flex;gap:6px;padding:10px
-}
-.chat-input input{
-flex:1;padding:12px;border-radius:999px;border:none
-}
-.chat-input button{
-width:40px;height:40px;
-border:none;border-radius:50%;
-background:#ff5fa8;color:#fff
-}
-
-/* CSKH BUBBLE */
-#cskhBubble{
-position:fixed;
-right:20px;
-bottom:20px;
-background:linear-gradient(90deg,#ff5fa8,#ff9ad5);
-padding:14px 18px;
-border-radius:999px;
-font-weight:800;
-cursor:pointer;
-box-shadow:0 0 20px #ff5fa8;
-z-index:30;
-animation:pulse 1.6s infinite
-}
-
-/* MUSIC BUTTON */
-#musicBtn{
-position:fixed;
-left:20px;
-bottom:20px;
-background:#ff5fa8;
-width:48px;height:48px;
-border-radius:50%;
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:22px;
-cursor:pointer;
-box-shadow:0 0 20px #ff5fa8;
-z-index:30
-}
-
-@keyframes fade{
-from{opacity:0;transform:translateY(20px)}
-to{opacity:1}
-}
-@keyframes pulse{
-0%{box-shadow:0 0 10px #ff5fa8}
-50%{box-shadow:0 0 30px #ff9ad5}
-100%{box-shadow:0 0 10px #ff5fa8}
-}
 </style>
 </head>
 
 <body>
-
-<!-- MUSIC -->
-<audio id="bgMusic" src="music.mp3" loop></audio>
 
 <!-- LOGIN -->
 <div id="loginBox" class="login">
@@ -164,7 +66,6 @@ to{opacity:1}
 <button onclick="login()">Đăng nhập</button>
 </div>
 
-<!-- PANEL -->
 <div id="panel" class="hidden">
 <header>
 <span>👑 ADMIN PANEL</span>
@@ -174,19 +75,31 @@ to{opacity:1}
 <div class="main">
 <div class="sidebar">
 <button onclick="show('users')">👤 User</button>
+<button onclick="show('addmoney')">💰 Cộng tiền</button>
 <button onclick="show('topups')">💳 Nạp tiền</button>
 <button onclick="show('orders')">🔥 Đơn cày</button>
 </div>
 
 <div class="content">
+
+<!-- USERS -->
 <div id="users" class="card hidden">
-<h3>👤 Người dùng</h3>
+<h3>👤 Danh sách user</h3>
 <table>
 <thead><tr><th>User</th><th>Số dư</th></tr></thead>
 <tbody id="uList"></tbody>
 </table>
 </div>
 
+<!-- ADD MONEY -->
+<div id="addmoney" class="card hidden">
+<h3>💰 Cộng tiền thủ công</h3>
+<input id="addUser" placeholder="Tên user">
+<input id="addAmount" type="number" placeholder="Số tiền">
+<button onclick="addMoney()">CỘNG TIỀN</button>
+</div>
+
+<!-- TOPUPS -->
 <div id="topups" class="card hidden">
 <h3>💳 Duyệt nạp tiền</h3>
 <table>
@@ -195,33 +108,18 @@ to{opacity:1}
 </table>
 </div>
 
+<!-- ORDERS -->
 <div id="orders" class="card hidden">
-<h3>🔥 Duyệt đơn cày</h3>
+<h3>🔥 Đơn cày</h3>
 <table>
 <thead><tr><th>Mã</th><th>User</th><th>Tiền</th><th>Trạng thái</th><th>Xử lý</th></tr></thead>
 <tbody id="oList"></tbody>
 </table>
 </div>
-</div>
-</div>
-</div>
 
-<!-- CHAT -->
-<div id="chatBox" class="chat-wrap hidden">
-<div class="chat-header">💬 CSKH SHOP</div>
-<div class="chat-users" id="chatUsers"></div>
-<div class="chat-body" id="chatBody"></div>
-<div class="chat-input">
-<input id="chatMsg" placeholder="Nhắn tin...">
-<button onclick="sendMsg()">➤</button>
 </div>
 </div>
-
-<!-- CSKH BUBBLE -->
-<div id="cskhBubble" onclick="toggleChat()">💬 CSKH</div>
-
-<!-- MUSIC BTN -->
-<div id="musicBtn" onclick="toggleMusic()">🎵</div>
+</div>
 
 <script>
 const ADMIN_USER="Ngocbecon"
@@ -233,13 +131,12 @@ function login(){
 if(l_user.value===ADMIN_USER && l_pass.value===ADMIN_PASS){
 loginBox.classList.add("hidden")
 panel.classList.remove("hidden")
-document.getElementById("bgMusic").play()
 loadAll()
 }else alert("Sai tài khoản admin")
 }
 
 function show(id){
-["users","topups","orders"].forEach(x=>document.getElementById(x).classList.add("hidden"))
+["users","addmoney","topups","orders"].forEach(x=>document.getElementById(x).classList.add("hidden"))
 document.getElementById(id).classList.remove("hidden")
 }
 
@@ -249,12 +146,26 @@ Object.keys(DB.users).forEach(u=>{
 uList.innerHTML+=`<tr><td>${u}</td><td>${DB.users[u].money}đ</td></tr>`
 })
 }
+
+/* CỘNG TIỀN */
+function addMoney(){
+let u=addUser.value
+let m=Number(addAmount.value)
+if(!DB.users[u]) return alert("User không tồn tại")
+if(m<=0) return alert("Số tiền không hợp lệ")
+DB.users[u].money+=m
+save();loadUsers()
+alert("Đã cộng "+m+"đ cho "+u)
+}
+
+/* TOPUPS */
 function loadTopups(){
 tList.innerHTML=""
 DB.topups.forEach((x,i)=>{
 tList.innerHTML+=`
 <tr>
-<td>${x.id}</td><td>${x.user}</td><td>${x.money}</td><td>${x.status}</td>
+<td>${x.id}</td><td>${x.user}</td><td>${x.money}</td>
+<td>${x.status}</td>
 <td>
 <button onclick="okTopup(${i})">✔</button>
 <button onclick="noTopup(${i})">✖</button>
@@ -271,12 +182,14 @@ save();loadAll()
 }
 function noTopup(i){DB.topups[i].status="Hủy";save();loadTopups()}
 
+/* ORDERS */
 function loadOrders(){
 oList.innerHTML=""
 DB.orders.forEach((x,i)=>{
 oList.innerHTML+=`
 <tr>
-<td>${x.id}</td><td>${x.user}</td><td>${x.money}</td><td>${x.status}</td>
+<td>${x.id}</td><td>${x.user}</td><td>${x.money}</td>
+<td>${x.status}</td>
 <td>
 <button onclick="done(${i})">✔</button>
 <button onclick="cancel(${i})">✖</button>
@@ -292,53 +205,7 @@ x.status="Hoàn tiền"
 save();loadAll()
 }
 
-/* CHAT */
-let curUser=null
-function loadChatUsers(){
-chatUsers.innerHTML=""
-Object.keys(DB.users).forEach(u=>{
-chatUsers.innerHTML+=`<button onclick="openChat('${u}',this)">${u}</button>`
-})
-}
-function openChat(u,btn){
-curUser=u
-[...chatUsers.children].forEach(b=>b.classList.remove("active"))
-btn.classList.add("active")
-loadChat()
-}
-function chatKey(){return "CHAT_"+curUser}
-function loadChat(){
-chatBody.innerHTML=""
-let c=JSON.parse(localStorage.getItem(chatKey()))||[]
-c.forEach(m=>{
-chatBody.innerHTML+=`<div class="msg ${m.from}"><div class="bubble">${m.text}</div></div>`
-})
-chatBody.scrollTop=9999
-}
-function sendMsg(){
-if(!curUser||!chatMsg.value)return
-let c=JSON.parse(localStorage.getItem(chatKey()))||[]
-c.push({from:"admin",text:chatMsg.value})
-localStorage.setItem(chatKey(),JSON.stringify(c))
-chatMsg.value=""
-loadChat()
-}
-function toggleChat(){
-chatBox.classList.toggle("hidden")
-loadChatUsers()
-}
-
-/* MUSIC */
-let musicOn=true
-function toggleMusic(){
-let m=document.getElementById("bgMusic")
-musicOn=!musicOn
-musicOn?m.play():m.pause()
-}
-
-function loadAll(){
-loadUsers();loadTopups();loadOrders();loadChatUsers()
-}
+function loadAll(){loadUsers();loadTopups();loadOrders()}
 </script>
 
 </body>
