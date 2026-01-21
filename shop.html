@@ -15,12 +15,11 @@ button{cursor:pointer}
 header{
 position:sticky;top:0;z-index:5;
 background:linear-gradient(90deg,#ff4fa3,#ff77b7);
-padding:12px;
-display:flex;align-items:center;justify-content:space-between
+padding:12px;display:flex;justify-content:space-between;align-items:center
 }
 .menu-btn{font-size:22px}
 
-/* SIDE MENU */
+/* MENU */
 #sideMenu{
 position:fixed;left:0;top:0;width:260px;height:100%;
 background:#16001d;padding:20px;z-index:10
@@ -34,77 +33,35 @@ background:#ff4fa3;color:#fff;font-weight:bold
 /* CONTENT */
 .container{max-width:1100px;margin:auto;padding:20px}
 .card{background:#16001d;padding:20px;border-radius:20px;margin-bottom:20px}
-select,input{padding:10px;border-radius:10px;border:none;margin:6px 0;width:100%}
+select,input{width:100%;padding:10px;border-radius:10px;border:none;margin:6px 0}
 
 /* LOGIN */
 .auth{max-width:360px;margin:120px auto;background:#16001d;padding:24px;border-radius:20px;text-align:center}
-.auth input,.auth button{
-width:100%;padding:14px;margin-top:12px;border-radius:14px;border:none
-}
 .auth button{background:linear-gradient(90deg,#ff4fa3,#ff77b7);color:#fff}
 
 /* CHAT */
-#chatBtn{
-position:fixed;right:20px;bottom:20px;
-background:#ff4fa3;padding:14px 18px;
-border-radius:999px;z-index:20
-}
+#chatBtn{position:fixed;right:20px;bottom:20px;background:#ff4fa3;padding:14px 18px;border-radius:999px}
 #chatBox{
-position:fixed;right:20px;bottom:80px;
-width:340px;height:460px;background:#0f0014;
-border-radius:20px;display:flex;flex-direction:column;z-index:20
+position:fixed;right:20px;bottom:80px;width:340px;height:460px;
+background:#0f0014;border-radius:20px;display:flex;flex-direction:column
 }
-.chat-header{
-background:#ff4fa3;
-padding:10px;
-display:flex;
-align-items:center;
-gap:10px
-}
+.chat-header{background:#ff4fa3;padding:10px;display:flex;gap:10px}
 .cskh-avatar{
-width:36px;height:36px;
-border-radius:50%;
-background:#fff;
-color:#ff4fa3;
-display:flex;
-align-items:center;
-justify-content:center;
-font-weight:bold
+width:36px;height:36px;border-radius:50%;
+background:#fff;color:#ff4fa3;
+display:flex;align-items:center;justify-content:center;font-weight:bold
 }
-.typing{font-size:12px;opacity:.7}
 #chatContent{flex:1;overflow:auto;padding:10px}
 .msg{margin:6px 0}
 .user{text-align:right}
-.bubble{
-display:inline-block;
-padding:10px 14px;
-border-radius:18px;
-background:#333;
-max-width:75%
-}
+.bubble{display:inline-block;padding:10px 14px;border-radius:18px;background:#333;max-width:75%}
 .user .bubble{background:#ff4fa3}
-.chat-input{display:flex;gap:6px;padding:8px}
-.chat-input input{
-flex:1;
-padding:10px;
-border-radius:20px;
-border:none
-}
 
 /* MUSIC */
 #musicBtn{
 position:fixed;left:20px;bottom:20px;
-width:48px;height:48px;
-border-radius:50%;
-background:#ff4fa3;color:#fff;
-display:flex;align-items:center;justify-content:center;
-font-size:22px;z-index:20
-}
-
-/* PC đẹp hơn */
-@media(min-width:768px){
-#chatBox{width:380px;height:520px}
-.bubble{font-size:15px}
+width:48px;height:48px;border-radius:50%;
+background:#ff4fa3;display:flex;align-items:center;justify-content:center
 }
 </style>
 </head>
@@ -123,34 +80,33 @@ font-size:22px;z-index:20
 
 <header id="header" class="hidden">
 <div class="menu-btn" onclick="toggleMenu()">☰</div>
-<b>Số dư: <span id="money">0đ</span></b>
+<b>Số dư: <span id="money">0</span>đ</b>
 </header>
 
+<!-- MENU -->
 <div id="sideMenu" class="hidden">
 <button onclick="showPage('nap')">💳 Nạp thẻ</button>
 <button onclick="showPage('blox')">🍏 Cày Blox Fruit</button>
 <button onclick="showPage('ff')">🔥 Cày Free Fire</button>
 <button onclick="showPage('lq')">⚔️ Cày Liên Quân</button>
 <button onclick="showPage('orders')">📦 Đơn của tôi</button>
+<button id="adminBtn" class="hidden" onclick="showPage('admin')">🛠 ADMIN</button>
 <button onclick="toggleMenu()">❌ Đóng</button>
 </div>
 
-<div class="container hidden" id="shop">
+<div id="shop" class="container hidden">
 
+<!-- NẠP -->
 <div id="nap" class="card hidden">
-<h3>💳 Nạp thẻ cào (trừ 17%)</h3>
+<h3>💳 Nạp thẻ (chờ duyệt)</h3>
 <select id="amount">
-<option value="10000">10.000</option>
-<option value="20000">20.000</option>
-<option value="50000">50.000</option>
-<option value="100000">100.000</option>
-<option value="200000">200.000</option>
-<option value="500000">500.000</option>
-<option value="1000000">1.000.000</option>
+<option>10000</option><option>20000</option><option>50000</option>
+<option>100000</option><option>200000</option><option>500000</option><option>1000000</option>
 </select>
-<button onclick="napCard()">NẠP NGAY</button>
+<button onclick="sendNap()">Gửi yêu cầu nạp</button>
 </div>
 
+<!-- BLOX -->
 <div id="blox" class="card hidden">
 <h3>🍏 Blox Fruit</h3>
 <select id="bloxPack">
@@ -159,9 +115,10 @@ font-size:22px;z-index:20
 <option>Haki 7 màu (20k)</option>
 <option>Gear V4 Full (40k)</option>
 </select>
-<button onclick="order('Blox Fruit',bloxPack.value)">ĐẶT ĐƠN</button>
+<button onclick="order('Blox Fruit',bloxPack.value)">Đặt đơn</button>
 </div>
 
+<!-- FF -->
 <div id="ff" class="card hidden">
 <h3>🔥 Free Fire</h3>
 <select id="ffPack">
@@ -169,9 +126,10 @@ font-size:22px;z-index:20
 <option>Huyền Thoại → Cao Thủ (60k)</option>
 <option>Cao Thủ 100⭐ (100k)</option>
 </select>
-<button onclick="order('Free Fire',ffPack.value)">ĐẶT ĐƠN</button>
+<button onclick="order('Free Fire',ffPack.value)">Đặt đơn</button>
 </div>
 
+<!-- LQ -->
 <div id="lq" class="card hidden">
 <h3>⚔️ Liên Quân</h3>
 <select id="lqPack">
@@ -180,56 +138,60 @@ font-size:22px;z-index:20
 <option>KC5 → TA5 (300k)</option>
 <option>TA5 → CT1⭐ (350k)</option>
 </select>
-<button onclick="order('Liên Quân',lqPack.value)">ĐẶT ĐƠN</button>
+<button onclick="order('Liên Quân',lqPack.value)">Đặt đơn</button>
 </div>
 
+<!-- USER ORDERS -->
 <div id="orders" class="card hidden">
 <h3>📦 Đơn của tôi</h3>
 <div id="orderList"></div>
 </div>
 
+<!-- ADMIN -->
+<div id="admin" class="card hidden">
+<h3>🛠 Duyệt nạp</h3>
+<div id="napList"></div>
+<hr>
+<h3>📦 Duyệt đơn cày thuê</h3>
+<div id="adminOrders"></div>
+</div>
+
 </div>
 
 <div id="chatBtn" onclick="toggleChat()">🐰 CSKH</div>
-
 <div id="chatBox" class="hidden">
 <div class="chat-header">
 <div class="cskh-avatar">🐰</div>
-<div>
 <div>CSKH Ngọc Becon</div>
-<div id="typing" class="typing hidden">CSKH đang nhập…</div>
-</div>
 </div>
 <div id="chatContent"></div>
-<div class="chat-input">
-<input id="chatMsg" placeholder="Nhắn tin CSKH">
-<button onclick="sendText()">➤</button>
-</div>
 </div>
 
 <div id="musicBtn" onclick="toggleMusic()">🎵</div>
 
 <script>
-let DB=JSON.parse(localStorage.getItem("SHOP"))||{users:{},orders:[]}
-let cur=null
-let music=document.getElementById("bgMusic")
+let DB=JSON.parse(localStorage.getItem("SHOP"))||{users:{},orders:[],naps:[]}
+let cur=null,isAdmin=false
+let music=bgMusic
 
 function save(){localStorage.setItem("SHOP",JSON.stringify(DB))}
-function chatKey(){return "CHAT_"+cur}
 
 /* LOGIN */
 function login(){
-let u=user.value,p=pass.value
-if(!DB.users[u]) DB.users[u]={pass:p,money:0}
-if(DB.users[u].pass!==p) return alert("Sai mật khẩu")
-cur=u
+if(user.value==="Ngocbecon" && pass.value==="manhmanh"){
+cur="admin";isAdmin=true
+}else{
+if(!DB.users[user.value]) DB.users[user.value]={pass:pass.value,money:0}
+if(DB.users[user.value].pass!==pass.value) return alert("Sai mật khẩu")
+cur=user.value
+}
 auth.classList.add("hidden")
 header.classList.remove("hidden")
 shop.classList.remove("hidden")
-money.innerText=DB.users[u].money+"đ"
+if(isAdmin) adminBtn.classList.remove("hidden")
+money.innerText=DB.users[cur]?.money||0
 music.play().catch(()=>{})
 showPage("nap")
-loadChat()
 }
 
 /* MENU */
@@ -238,78 +200,63 @@ function showPage(id){
 document.querySelectorAll(".card").forEach(c=>c.classList.add("hidden"))
 document.getElementById(id).classList.remove("hidden")
 sideMenu.classList.add("hidden")
-renderOrders()
+render()
 }
 
 /* NẠP */
-function napCard(){
-let m=parseInt(amount.value)
-let r=Math.floor(m*0.83)
-DB.users[cur].money+=r
-money.innerText=DB.users[cur].money+"đ"
-save()
-alert("Nạp thành công +" + r + "đ")
+function sendNap(){
+DB.naps.push({user:cur,amount:amount.value,done:false})
+save();alert("Đã gửi yêu cầu nạp, chờ admin duyệt")
 }
 
 /* ORDER */
 function order(game,pack){
-DB.orders.push({user:cur,game,pack,time:new Date().toLocaleString()})
-save()
-renderOrders()
-fakeCSKH()
+DB.orders.push({user:cur,game,pack,status:"Chờ duyệt",time:new Date().toLocaleString()})
+save();alert("Đã gửi đơn cày thuê")
 }
 
-/* ĐƠN */
-function renderOrders(){
+/* RENDER */
+function render(){
 orderList.innerHTML=""
 DB.orders.filter(o=>o.user===cur).forEach(o=>{
-orderList.innerHTML+=`
-<div class="bubble">
-<b>${o.game}</b><br>${o.pack}<br>🕒 ${o.time}
+orderList.innerHTML+=`<div class="bubble">
+<b>${o.game}</b><br>${o.pack}<br>${o.status}<br>${o.time}
+</div>`
+})
+
+napList.innerHTML=""
+adminOrders.innerHTML=""
+
+DB.naps.forEach((n,i)=>{
+if(!n.done)
+napList.innerHTML+=`<div class="bubble">
+${n.user} - ${n.amount}đ
+<button onclick="approveNap(${i})">Duyệt</button>
+</div>`
+})
+
+DB.orders.forEach((o,i)=>{
+adminOrders.innerHTML+=`<div class="bubble">
+${o.user} - ${o.game}<br>${o.pack}<br>${o.status}
+<button onclick="approveOrder(${i})">Hoàn thành</button>
 </div>`
 })
 }
 
-/* CHAT */
-function toggleChat(){
-chatBox.classList.toggle("hidden")
-if(!chatBox.classList.contains("hidden")) loadChat()
+/* ADMIN */
+function approveNap(i){
+let n=DB.naps[i]
+DB.users[n.user].money+=parseInt(n.amount)
+n.done=true;save();render()
 }
 
-function loadChat(){
-let d=JSON.parse(localStorage.getItem(chatKey())||"[]")
-chatContent.innerHTML=""
-d.forEach(m=>{
-chatContent.innerHTML+=`<div class="msg ${m.by}"><div class="bubble">${m.text}</div></div>`
-})
+function approveOrder(i){
+DB.orders[i].status="Hoàn thành"
+save();render()
 }
 
-function saveChat(by,text){
-let d=JSON.parse(localStorage.getItem(chatKey())||"[]")
-d.push({by,text})
-localStorage.setItem(chatKey(),JSON.stringify(d))
-}
-
-function sendText(){
-if(!chatMsg.value) return
-let t=chatMsg.value
-chatMsg.value=""
-chatContent.innerHTML+=`<div class="msg user"><div class="bubble">${t}</div></div>`
-saveChat("user",t)
-fakeCSKH()
-}
-
-function fakeCSKH(){
-typing.classList.remove("hidden")
-setTimeout(()=>{
-typing.classList.add("hidden")
-let r="CSKH đã nhận yêu cầu, vui lòng chờ xử lý 💗"
-chatContent.innerHTML+=`<div class="msg"><div class="bubble">${r}</div></div>`
-saveChat("",r)
-},1500)
-}
-
-/* MUSIC */
+/* CHAT + MUSIC */
+function toggleChat(){chatBox.classList.toggle("hidden")}
 function toggleMusic(){music.paused?music.play():music.pause()}
 </script>
 
