@@ -9,30 +9,18 @@
 *{box-sizing:border-box;font-family:Segoe UI,Arial}
 body{margin:0;background:radial-gradient(circle,#3a0045,#0b0010);color:#fff}
 h2{margin:10px 0}
-.card{
-background:#16001d;
-padding:20px;
-border-radius:20px;
-margin:20px
-}
+.card{background:#16001d;padding:20px;border-radius:20px;margin:20px}
 table{width:100%;border-collapse:collapse}
-th,td{padding:10px;border-bottom:1px solid #333;text-align:left}
+th,td{padding:10px;border-bottom:1px solid #333}
 button{
-padding:6px 12px;
-border:none;
-border-radius:10px;
-background:var(--pink);
-color:#fff;
-font-weight:bold;
-cursor:pointer
+padding:6px 12px;border:none;border-radius:10px;
+background:var(--pink);color:#fff;font-weight:bold;cursor:pointer
 }
 header{
 background:linear-gradient(90deg,#ff4fa3,#ff77b7);
-padding:14px;
-text-align:center;
-font-size:20px;
-font-weight:bold
+padding:14px;text-align:center;font-size:20px;font-weight:bold
 }
+.small{font-size:13px;color:#ffb6d9}
 </style>
 </head>
 
@@ -40,36 +28,33 @@ font-weight:bold
 
 <header>🔐 ADMIN NGỌC BECON</header>
 
+<!-- USERS -->
 <div class="card">
 <h2>👤 Người dùng</h2>
 <table>
-<thead>
 <tr><th>User</th><th>Số dư</th><th>Hành động</th></tr>
-</thead>
 <tbody id="userList"></tbody>
 </table>
 </div>
 
+<!-- TOPUP -->
 <div class="card">
 <h2>💳 Nạp tiền chờ duyệt</h2>
 <table>
-<thead>
 <tr>
 <th>User</th><th>Loại</th><th>Số tiền</th><th>Chi tiết</th><th></th>
 </tr>
-</thead>
 <tbody id="topupList"></tbody>
 </table>
 </div>
 
+<!-- ORDERS -->
 <div class="card">
 <h2>📦 Đơn cày thuê</h2>
 <table>
-<thead>
 <tr>
 <th>User</th><th>Game</th><th>Gói</th><th>Giá</th><th></th>
 </tr>
-</thead>
 <tbody id="orderList"></tbody>
 </table>
 </div>
@@ -84,7 +69,7 @@ function save(){
   render()
 }
 
-/* USER */
+/* USERS */
 function renderUsers(){
   userList.innerHTML=""
   Object.keys(DB.users).forEach(u=>{
@@ -102,20 +87,35 @@ function renderUsers(){
 
 function addMoney(user,amount){
   DB.users[user].money+=amount
-  notify(user,`💰 Số dư ${amount>0?'+' : ''}${amount}đ`)
+  notify(user,`💰 Số dư ${amount>0?'+':''}${amount}đ`)
   save()
 }
 
 /* TOPUP */
 function renderTopups(){
   topupList.innerHTML=""
-  DB.topups.filter(t=>t.status=="pending").forEach(t=>{
+  DB.topups.filter(t=>t.status==="pending").forEach(t=>{
+    let detailHTML=""
+
+    if(t.type==="CARD" && typeof t.detail==="object"){
+      detailHTML=`
+        <div class="small">
+        📶 ${t.detail.telco}<br>
+        🔢 Seri: ${t.detail.seri}<br>
+        🔐 Mã: ${t.detail.code}
+        </div>`
+    }else if(t.type==="MOMO"){
+      detailHTML=`<div class="small">💗 MoMo chuyển khoản</div>`
+    }else{
+      detailHTML="Không có"
+    }
+
     let tr=document.createElement("tr")
     tr.innerHTML=`
       <td>${t.user}</td>
       <td>${t.type}</td>
       <td>${t.amount}</td>
-      <td>${t.detail || "Không có"}</td>
+      <td>${detailHTML}</td>
       <td><button onclick="approveTopup(${t.id})">Duyệt</button></td>`
     topupList.appendChild(tr)
   })
@@ -130,10 +130,10 @@ function approveTopup(id){
   save()
 }
 
-/* ORDER */
+/* ORDERS */
 function renderOrders(){
   orderList.innerHTML=""
-  DB.orders.filter(o=>o.status=="pending").forEach(o=>{
+  DB.orders.filter(o=>o.status==="pending").forEach(o=>{
     let tr=document.createElement("tr")
     tr.innerHTML=`
       <td>${o.user}</td>
@@ -168,7 +168,6 @@ function render(){
   renderTopups()
   renderOrders()
 }
-
 render()
 </script>
 
