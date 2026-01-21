@@ -257,24 +257,45 @@ time:new Date().toLocaleString()
 })
 save();alert("Đã gửi đơn sang CSKH")
 }
-
+<script>
 function napCard(){
-let telco=telco.value
-let amount=+amount.value
-let seriVal=seri.value.trim()
-let codeVal=code.value.trim()
-if(!seriVal||!codeVal) return alert("Nhập đủ seri và mã thẻ")
-DB.topups.push({
-id:Date.now(),
-user:cur,
-type:"CARD",
-amount,
-status:"pending",
-detail:{telco,seri:seriVal,code:codeVal},
-time:new Date().toLocaleString()
-})
-save();alert("Đã gửi thẻ, chờ admin duyệt")
+  const telcoEl = document.getElementById("telco")
+  const amountEl = document.getElementById("amount")
+  const seriEl = document.getElementById("seri")
+  const codeEl = document.getElementById("code")
+
+  const telco = telcoEl.value
+  const amount = Number(amountEl.value)
+  const seri = seriEl.value.trim()
+  const code = codeEl.value.trim()
+
+  if(!seri || !code){
+    alert("❌ Nhập đầy đủ seri và mã thẻ")
+    return
+  }
+
+  DB.topups.push({
+    id: Date.now(),
+    user: cur,
+    type: "CARD",
+    amount: amount,
+    status: "pending",
+    detail: {
+      telco: telco,
+      seri: seri,
+      code: code
+    },
+    time: new Date().toLocaleString()
+  })
+
+  save()
+
+  seriEl.value = ""
+  codeEl.value = ""
+
+  alert("✅ Đã gửi thẻ, chờ admin duyệt")
 }
+</script>
 
 function napMoMo(){
 DB.topups.push({
