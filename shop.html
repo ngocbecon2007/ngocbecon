@@ -85,10 +85,8 @@ font-size:22px;z-index:20
 
 <body>
 
-<!-- MUSIC -->
 <audio id="bgMusic" src="music.mp3" loop></audio>
 
-<!-- LOGIN -->
 <div id="auth" class="auth">
 <h2>🐰 Ngọc Becon Shop</h2>
 <input id="user" placeholder="Tài khoản">
@@ -101,21 +99,17 @@ font-size:22px;z-index:20
 <b>Số dư: <span id="money">0đ</span></b>
 </header>
 
-<!-- MENU -->
 <div id="sideMenu" class="hidden">
-<button onclick="showPage('napcard')">💳 Nạp thẻ</button>
+<button onclick="showPage('nap')">💳 Nạp thẻ</button>
 <button onclick="showPage('napmomo')">💗 Nạp MoMo</button>
 <button onclick="showPage('blox')">🍏 Blox Fruit</button>
 <button onclick="showPage('ff')">🔥 Free Fire</button>
 <button onclick="showPage('lq')">⚔️ Liên Quân</button>
-<button onclick="showPage('orders')">📦 Đơn của tôi</button>
-<button id="adminBtn" class="hidden" onclick="showPage('admin')">🛠 ADMIN</button>
 <button onclick="toggleMenu()">❌ Đóng</button>
 </div>
 
 <div class="container hidden" id="shop">
 
-<!-- NẠP CARD -->
 <div id="nap" class="card hidden">
 <h3>💳 Nạp thẻ cào (trừ 17%)</h3>
 <select id="telco">
@@ -135,6 +129,15 @@ font-size:22px;z-index:20
 <input id="seri" placeholder="Số seri">
 <input id="code" placeholder="Mã thẻ">
 <button onclick="napCard()">NẠP NGAY</button>
+</div>
+
+<!-- NẠP MOMO -->
+<div id="napmomo" class="card hidden">
+<h3>💗 Nạp MoMo</h3>
+<img src="momo.jpg" style="width:100%;border-radius:16px">
+<input id="momoAmount" placeholder="Nhập số tiền">
+<input id="momoNote" readonly value="MOMO_NGOCBECON">
+<button onclick="napMoMo()">XÁC NHẬN ĐÃ CHUYỂN</button>
 </div>
 
 <div id="blox" class="card hidden">
@@ -172,26 +175,15 @@ font-size:22px;z-index:20
 
 </div>
 
-<!-- CHAT -->
 <div id="chatBtn" onclick="toggleChat()">🐰 CSKH</div>
 
 <div id="chatBox" class="hidden">
 <div class="chat-header">CSKH Ngọc Becon</div>
 <div id="chatContent"></div>
 <div class="chat-input">
-<button onclick="toggleEmoji()">😊</button>
 <input id="chatMsg" placeholder="Nhắn tin">
 <button onclick="sendText()">➤</button>
 </div>
-</div>
-
-<div id="emojiBox" class="emoji-box hidden">
-<span onclick="addEmoji('😀')">😀</span>
-<span onclick="addEmoji('😂')">😂</span>
-<span onclick="addEmoji('😍')">😍</span>
-<span onclick="addEmoji('😭')">😭</span>
-<span onclick="addEmoji('🔥')">🔥</span>
-<span onclick="addEmoji('🐰')">🐰</span>
 </div>
 
 <div id="musicBtn" onclick="toggleMusic()">🎵</div>
@@ -206,7 +198,7 @@ function save(){localStorage.setItem("SHOP",JSON.stringify(DB))}
 
 function login(){
 let u=user.value,p=pass.value
-if(!DB.users[u])DB.users[u]={pass:p,money:0,history:[]}
+if(!DB.users[u])DB.users[u]={pass:p,money:0}
 if(DB.users[u].pass!==p)return alert("Sai mật khẩu")
 cur=u
 auth.classList.add("hidden")
@@ -223,30 +215,29 @@ document.getElementById(id).classList.remove("hidden")
 sideMenu.classList.add("hidden")
 }
 
-function toggleChat(){chatBox.classList.toggle("hidden");emojiBox.classList.add("hidden")}
+function toggleChat(){chatBox.classList.toggle("hidden")}
 function sendText(){
 if(!chatMsg.value)return
 chatContent.innerHTML+=`<div class="msg user"><div class="bubble">${chatMsg.value}</div></div>`
 chatMsg.value=""
 }
 
-function toggleEmoji(){emojiBox.classList.toggle("hidden")}
-function addEmoji(e){chatMsg.value+=e;emojiBox.classList.add("hidden")}
-
 function order(game,pack){
 let msg=`📦 ĐẶT ĐƠN ${game}\n➡️ ${pack}`
 chatContent.innerHTML+=`<div class="msg user"><div class="bubble">${msg}</div></div>`
-save()
 alert("Đã gửi đơn sang CSKH")
 }
 
 function napCard(){
-let m=amount.value
-let receive=Math.floor(m*0.83)
-let msg=`💳 NẠP THẺ ${telco.value}\nMệnh giá: ${m}\nNhận: ${receive}đ`
+let msg=`💳 NẠP THẺ\n${telco.value}\nMệnh giá: ${amount.value}\nSeri: ${seri.value}\nMã: ${code.value}`
 chatContent.innerHTML+=`<div class="msg user"><div class="bubble">${msg}</div></div>`
-save()
 alert("Đã gửi yêu cầu nạp")
+}
+
+function napMoMo(){
+let msg=`💗 NẠP MOMO\nSố tiền: ${momoAmount.value}\nNội dung: ${momoNote.value}`
+chatContent.innerHTML+=`<div class="msg user"><div class="bubble">${msg}</div></div>`
+alert("Đã gửi xác nhận MoMo")
 }
 
 function toggleMusic(){
