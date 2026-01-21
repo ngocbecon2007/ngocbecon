@@ -47,33 +47,28 @@ width:100%;padding:14px;margin-top:12px;border-radius:14px;border:none
 table{width:100%;border-collapse:collapse}
 th,td{padding:10px;border-bottom:1px solid #333;text-align:left;font-size:14px}
 
-/* CHAT */
-#chatBtn{
-position:fixed;right:20px;bottom:20px;
-background:#ff4fa3;padding:14px 18px;
-border-radius:999px;z-index:20
-}
-#chatBox{
-position:fixed;
-right:14px;
-bottom:80px;
-width:280px;
-height:360px;
-background:#0f0014;
-border-radius:18px;
-display:flex;
-flex-direction:column;
-z-index:20;
-box-shadow:0 0 20px rgba(255,79,163,.35);
-}
-.chat-header{background:#ff4fa3;padding:12px;font-weight:bold}
-#chatContent{flex:1;overflow:auto;padding:10px}
-.msg{margin:6px 0}
-.user{text-align:right}
-.bubble{display:inline-block;padding:10px 14px;border-radius:18px;background:#333;max-width:75%}
-.user .bubble{background:#ff4fa3}
-.chat-input{display:flex;gap:6px;padding:8px}
-.chat-input input{flex:1;padding:10px;border-radius:20px;border:none}
+<!-- CHAT -->
+<div id="chatBtn" class="hidden" onclick="toggleChat()">💬</div>
+
+<div id="chatBox" class="hidden">
+  <div class="chat-header">
+    CSKH Ngọc Becon
+    <span onclick="toggleChat()">✖</span>
+  </div>
+
+  <div id="chatContent">
+    <div class="msg">
+      <div class="bubble">
+        👋 Xin chào bạn, shop hỗ trợ nạp & cày thuê 24/7 nha 💗
+      </div>
+    </div>
+  </div>
+
+  <div class="chat-input">
+    <input id="chatMsg" placeholder="Nhắn cho CSKH">
+    <button onclick="sendText()">➤</button>
+  </div>
+</div>
 </style>
 </head>
 
@@ -238,11 +233,95 @@ if(id==="historyTopup") loadTopup()
 if(id==="historyOrder") loadOrder()
 }
 
-function toggleChat(){chatBox.classList.toggle("hidden")}
+function toggleChat(){
+  chatBox.classList.toggle("hidden")
+}
+
+/* REP THEO GAME */
+const gameReplies = [
+  {
+    keys:["blox","fruit"],
+    replies:[
+      "🍏 Blox Fruit shop làm nhanh trong ngày nha bạn",
+      "Blox Fruit bên shop bảo hành full gói luôn ạ 💗",
+      "Bạn chọn gói Blox Fruit xong shop xử lý liền nè 🐰"
+    ]
+  },
+  {
+    keys:["free fire","ff"],
+    replies:[
+      "🔥 Free Fire shop cày an toàn – không log nick ạ",
+      "Đơn Free Fire đang được xử lý cho bạn nha 💕",
+      "FF bên shop làm đúng rank cam kết nè ✨"
+    ]
+  },
+  {
+    keys:["liên quân","lq"],
+    replies:[
+      "⚔️ Liên Quân shop đánh tay 100% nha bạn",
+      "Đơn Liên Quân thường xong trong 24h ạ 💖",
+      "Shop đang xử lý rank Liên Quân cho bạn rồi nè 🐰"
+    ]
+  },
+  {
+    keys:["nạp","nap","thẻ","card","momo"],
+    replies:[
+      "💳 Nạp xong bạn chờ admin duyệt giúp mình nha",
+      "Shop đã nhận thông tin nạp của bạn rồi ạ 💗",
+      "MoMo shop kiểm tra liền cho bạn nè ✨"
+    ]
+  }
+]
+
+const defaultReplies = [
+  "Dạ CSKH đã nhận tin nhắn của bạn rồi ạ 💕",
+  "Bạn chờ shop xử lý giúp mình nha 🐰",
+  "Shop phản hồi sớm nhất cho bạn nè ✨"
+]
+
 function sendText(){
-if(!chatMsg.value)return
-chatContent.innerHTML+=`<div class="msg user"><div class="bubble">${chatMsg.value}</div></div>`
-chatMsg.value=""
+  let text = chatMsg.value.trim()
+  if(!text) return
+
+  chatContent.innerHTML += `
+    <div class="msg user">
+      <div class="bubble">${text}</div>
+    </div>
+  `
+  chatMsg.value=""
+  chatContent.scrollTop=chatContent.scrollHeight
+
+  // typing
+  let typing=document.createElement("div")
+  typing.id="typing"
+  typing.className="msg"
+  typing.innerHTML=`<div class="bubble">CSKH đang nhập...</div>`
+  chatContent.appendChild(typing)
+
+  let reply=null
+  let lower=text.toLowerCase()
+
+  for(let g of gameReplies){
+    if(g.keys.some(k=>lower.includes(k))){
+      reply=g.replies[Math.floor(Math.random()*g.replies.length)]
+      break
+    }
+  }
+
+  if(!reply){
+    reply=defaultReplies[Math.floor(Math.random()*defaultReplies.length)]
+  }
+
+  setTimeout(()=>{
+    let t=document.getElementById("typing")
+    if(t) t.remove()
+    chatContent.innerHTML+=`
+      <div class="msg">
+        <div class="bubble">${reply}</div>
+      </div>
+    `
+    chatContent.scrollTop=chatContent.scrollHeight
+  },1000+Math.random()*1500)
 }
 
 function order(game,sel){
