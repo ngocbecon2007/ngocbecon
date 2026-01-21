@@ -2,277 +2,111 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<title>👑 Admin Công Chúa MAX</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
+<title>ADMIN – Ngọc Becon Shop</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <style>
-:root{
---pink:#ff6fb7;
---pink2:#ff9ad5;
---bg:#140018;
-}
-*{box-sizing:border-box;font-family:"Segoe UI",Arial}
-body{
-margin:0;
-background:radial-gradient(circle at top,#5a0070,var(--bg) 70%);
-color:#fff;
-overflow:hidden
-}
-.hidden{display:none}
-
-/* LOGIN */
-.login{
-max-width:380px;
-margin:120px auto;
-background:linear-gradient(180deg,#2a0035,#190020);
-padding:34px;
-border-radius:34px;
-text-align:center;
-box-shadow:0 0 60px #ff6fb766;
-animation:fade .6s
-}
-.login h2{color:var(--pink2)}
-input,button{
-width:100%;
-padding:14px;
-border:none;
-border-radius:999px;
-margin-top:14px;
-font-size:15px
-}
-button{
-background:linear-gradient(90deg,var(--pink),var(--pink2));
-color:#fff;
-font-weight:900;
-cursor:pointer
-}
-button:hover{transform:scale(1.05)}
-
-@keyframes fade{from{opacity:0;transform:translateY(30px)}to{opacity:1}}
-
-header{
-background:linear-gradient(90deg,var(--pink),var(--pink2));
-padding:16px;
-font-size:22px;
-font-weight:900;
-text-align:center
-}
-
-.container{
-display:flex;
-height:calc(100vh - 70px)
-}
-
-/* LEFT */
-.left{
-width:280px;
-background:#1c0025;
-padding:14px;
-overflow:auto
-}
-.left h3{color:var(--pink2)}
-.user{
-padding:10px;
-border-radius:14px;
-margin-bottom:6px;
-cursor:pointer;
-background:#2a0035
-}
-.user:hover{background:#ff6fb7}
-
-/* RIGHT CHAT */
-.chat{
-flex:1;
-display:flex;
-flex-direction:column;
-background:#120015
-}
-.messages{
-flex:1;
-padding:14px;
-overflow:auto
-}
-.msg{
-max-width:70%;
-padding:10px 14px;
-border-radius:18px;
-margin-bottom:8px
-}
-.admin{background:#ff6fb7;margin-left:auto}
-.userMsg{background:#333}
-
-.msg img{max-width:160px;border-radius:14px}
-.msg audio{width:200px}
-
-.input{
-display:flex;
-gap:6px;
-padding:10px;
-background:#1c0025
-}
-.input input{flex:1;border-radius:18px}
-
-/* STICKER */
-#stickers{
-position:absolute;
-bottom:80px;
-right:20px;
-background:#fff;
-padding:8px;
-border-radius:18px;
-display:flex;
-gap:6px
-}
-#stickers img{width:60px;cursor:pointer}
+body{margin:0;font-family:Arial;background:#160018;color:#fff}
+h2{margin-top:30px}
+.card{background:#26002e;padding:15px;border-radius:12px;margin:15px}
+button{padding:6px 12px;border:none;border-radius:6px;background:#ff4fa3;color:#fff;cursor:pointer}
+table{width:100%;border-collapse:collapse}
+td,th{border-bottom:1px solid #444;padding:6px;text-align:left}
 </style>
 </head>
-
 <body>
 
-<!-- 🔐 LOGIN -->
-<div id="loginBox" class="login">
-<h2>👑 ADMIN CÔNG CHÚA</h2>
-<input id="user" placeholder="Tài khoản">
-<input id="pass" type="password" placeholder="Mật khẩu">
-<button onclick="login()">✨ Đăng nhập ✨</button>
+<h1 style="padding:15px;background:#ff4fa3">👑 ADMIN NGỌC BECON</h1>
+
+<div class="card">
+<h2>👤 Người dùng</h2>
+<table id="userTable"></table>
 </div>
 
-<!-- 👑 PANEL -->
-<div id="panel" class="hidden">
-<header>👑 ADMIN CÔNG CHÚA MAX – CSKH NGỌC BECON</header>
-
-<div class="container">
-
-<!-- USER LIST -->
-<div class="left">
-<h3>💬 Khách hàng</h3>
-<div id="users"></div>
+<div class="card">
+<h2>💳 Duyệt nạp</h2>
+<table id="napTable"></table>
 </div>
 
-<!-- CHAT -->
-<div class="chat">
-<div class="messages" id="chat"></div>
-
-<div class="input">
-<input id="msg" placeholder="Nhập tin nhắn...">
-<button onclick="send()">➤</button>
-<button onclick="stickers.classList.toggle('hidden')">🐰</button>
-<input type="file" id="img" hidden onchange="sendImg(this.files[0])">
-<button onclick="img.click()">🖼️</button>
-<input type="file" id="voice" accept="audio/*" hidden onchange="sendVoice(this.files[0])">
-<button onclick="voice.click()">🎤</button>
+<div class="card">
+<h2>📦 Duyệt đơn</h2>
+<table id="orderTable"></table>
 </div>
-</div>
-
-</div>
-</div>
-
-<!-- STICKERS -->
-<div id="stickers" class="hidden">
-<img src="sticker/1.png" onclick="sendSticker(this.src)">
-<img src="sticker/2.png" onclick="sendSticker(this.src)">
-<img src="sticker/3.gif" onclick="sendSticker(this.src)">
-</div>
-
-<!-- 🔥 FIREBASE -->
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
 
 <script>
-/* 👑 ADMIN */
-const ADMIN_USER="Ngocbecon"
-const ADMIN_PASS="manhmanh"
+const DB = JSON.parse(localStorage.shopDB||'{"users":{},"orders":[],"naps":[],"notifications":{}}')
 
-/* 🔥 FIREBASE CONFIG (THAY CỦA BẠN) */
-firebase.initializeApp({
- apiKey:"XXX",
- authDomain:"XXX.firebaseapp.com",
- projectId:"XXX",
- storageBucket:"XXX.appspot.com"
+function save(){localStorage.shopDB=JSON.stringify(DB)}
+
+function notify(user,text){
+DB.notifications[user]=DB.notifications[user]||[]
+DB.notifications[user].unshift({
+text,
+time:new Date().toLocaleString(),
+read:false
 })
-const db=firebase.firestore()
-const st=firebase.storage()
-
-let currentUser=null
-
-function login(){
-if(user.value===ADMIN_USER && pass.value===ADMIN_PASS){
-loginBox.classList.add("hidden")
-panel.classList.remove("hidden")
-loadUsers()
-}else alert("Sai mật khẩu")
+save()
 }
 
-/* LOAD USERS */
-function loadUsers(){
-db.collection("chats").onSnapshot(s=>{
-users.innerHTML=""
-s.forEach(d=>{
-users.innerHTML+=`<div class="user" onclick="openChat('${d.id}')">🐰 ${d.id}</div>`
+function renderUsers(){
+let h="<tr><th>User</th><th>Số dư</th></tr>"
+Object.keys(DB.users).forEach(u=>{
+h+=`<tr><td>${u}</td><td>${DB.users[u].money||0}đ</td></tr>`
 })
-})
+userTable.innerHTML=h
 }
 
-/* OPEN CHAT */
-function openChat(u){
-currentUser=u
-db.collection("chats").doc(u).collection("messages")
-.orderBy("time")
-.onSnapshot(s=>{
-chat.innerHTML=""
-s.forEach(d=>{
-let m=d.data()
-chat.innerHTML+=`
-<div class="msg ${m.from==='admin'?'admin':'userMsg'}">
-${m.text||""}
-${m.img?`<img src="${m.img}">`:""}
-${m.voice?`<audio controls src="${m.voice}"></audio>`:""}
-</div>`
+function renderNaps(){
+let h="<tr><th>User</th><th>Loại</th><th>Tiền</th><th>Thông tin</th><th></th></tr>"
+DB.naps.forEach((n,i)=>{
+if(n.done) return
+h+=`
+<tr>
+<td>${n.user}</td>
+<td>${n.type}</td>
+<td>${n.amount}</td>
+<td>${n.info||""}</td>
+<td><button onclick="approveNap(${i})">Duyệt</button></td>
+</tr>`
 })
-chat.scrollTop=chat.scrollHeight
-})
+napTable.innerHTML=h
 }
 
-/* SEND TEXT */
-function send(){
-if(!msg.value||!currentUser) return
-db.collection("chats").doc(currentUser)
-.collection("messages").add({
-from:"admin",
-text:msg.value,
-time:Date.now()
+function approveNap(i){
+let n=DB.naps[i]
+DB.users[n.user].money+=Number(n.amount)
+n.done=true
+notify(n.user,`💰 Nạp ${n.amount}đ đã được duyệt`)
+save();render()
+}
+
+function renderOrders(){
+let h="<tr><th>User</th><th>Game</th><th>Gói</th><th>Trạng thái</th><th></th></tr>"
+DB.orders.forEach((o,i)=>{
+h+=`
+<tr>
+<td>${o.user}</td>
+<td>${o.game}</td>
+<td>${o.pack}</td>
+<td>${o.status||"Chờ duyệt"}</td>
+<td>${o.status!=="Hoàn thành"?`<button onclick="doneOrder(${i})">Hoàn thành</button>`:""}</td>
+</tr>`
 })
-msg.value=""
+orderTable.innerHTML=h
 }
 
-/* STICKER */
-function sendSticker(src){
-db.collection("chats").doc(currentUser)
-.collection("messages").add({
-from:"admin",
-img:src,
-time:Date.now()
-})
+function doneOrder(i){
+let o=DB.orders[i]
+o.status="Hoàn thành"
+notify(o.user,`📦 Đơn ${o.game} – ${o.pack} đã hoàn thành`)
+save();render()
 }
 
-/* IMAGE */
-function sendImg(f){
-let ref=st.ref("img/"+Date.now())
-ref.put(f).then(()=>ref.getDownloadURL().then(url=>{
-db.collection("chats").doc(currentUser)
-.collection("messages").add({from:"admin",img:url,time:Date.now()})
-}))
+function render(){
+renderUsers()
+renderNaps()
+renderOrders()
 }
-
-/* VOICE */
-function sendVoice(f){
-let ref=st.ref("voice/"+Date.now())
-ref.put(f).then(()=>ref.getDownloadURL().then(url=>{
-db.collection("chats").doc(currentUser)
-.collection("messages").add({from:"admin",voice:url,time:Date.now()})
-}))
-}
+render()
 </script>
 
 </body>
