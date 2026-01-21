@@ -246,13 +246,30 @@ save();alert("Đã gửi đơn sang CSKH")
 }
 
 function napCard(){
-DB.topups.push({
-id:Date.now(),user:cur,type:"CARD",
-amount:+amount.value,status:"pending",
-time:new Date().toLocaleString()
-})
-save();alert("Đã gửi yêu cầu nạp")
-}
+  let user=currentUser
+  let telco=document.getElementById("telco").value
+  let amount=+document.getElementById("amount").value
+  let seri=document.getElementById("seri").value
+  let code=document.getElementById("code").value
+
+  if(!seri||!code) return alert("Nhập đủ seri & mã thẻ")
+
+  DB.topups.push({
+    id:Date.now(),
+    user,
+    type:"CARD",
+    amount,
+    status:"pending",
+    detail:{
+      telco,
+      seri,
+      code
+    }
+  })
+
+  save()
+  alert("Đã gửi thẻ, chờ admin duyệt")
+  }
 
 function napMoMo(){
 DB.topups.push({
