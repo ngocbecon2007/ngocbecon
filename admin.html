@@ -2,111 +2,204 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<title>ADMIN – Ngọc Becon Shop</title>
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Admin – Ngọc Becon</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
-body{margin:0;font-family:Arial;background:#160018;color:#fff}
-h2{margin-top:30px}
-.card{background:#26002e;padding:15px;border-radius:12px;margin:15px}
-button{padding:6px 12px;border:none;border-radius:6px;background:#ff4fa3;color:#fff;cursor:pointer}
-table{width:100%;border-collapse:collapse}
-td,th{border-bottom:1px solid #444;padding:6px;text-align:left}
+:root{--pink:#ff4fa3}
+*{box-sizing:border-box;font-family:Segoe UI,Arial}
+body{margin:0;background:#0b0010;color:#fff}
+
+.hidden{display:none}
+button{cursor:pointer}
+
+header{
+background:linear-gradient(90deg,#ff4fa3,#ff77b7);
+padding:14px;text-align:center;font-size:18px;font-weight:bold
+}
+
+.box{
+max-width:1100px;margin:20px auto;padding:20px
+}
+
+.card{
+background:#16001d;padding:16px;border-radius:16px;margin-bottom:16px
+}
+
+input,select{
+width:100%;padding:10px;margin:6px 0;
+border:none;border-radius:10px
+}
+
+button{
+background:#ff4fa3;color:#fff;
+border:none;padding:10px 14px;
+border-radius:10px;margin-top:6px
+}
+
+table{
+width:100%;border-collapse:collapse;margin-top:10px;font-size:14px
+}
+th,td{
+border-bottom:1px solid #333;
+padding:8px;text-align:left
+}
+th{color:#ff77b7}
 </style>
 </head>
+
 <body>
 
-<h1 style="padding:15px;background:#ff4fa3">👑 ADMIN NGỌC BECON</h1>
+<header>🔐 ADMIN NGỌC BECON</header>
 
+<!-- LOGIN -->
+<div id="loginBox" class="box">
 <div class="card">
-<h2>👤 Người dùng</h2>
+<h3>Đăng nhập Admin</h3>
+<input id="adminUser" placeholder="Tài khoản">
+<input id="adminPass" type="password" placeholder="Mật khẩu">
+<button onclick="loginAdmin()">Đăng nhập</button>
+</div>
+</div>
+
+<!-- ADMIN PANEL -->
+<div id="adminPanel" class="box hidden">
+
+<!-- USERS -->
+<div class="card">
+<h3>👤 Người dùng</h3>
 <table id="userTable"></table>
 </div>
 
+<!-- TOPUP -->
 <div class="card">
-<h2>💳 Duyệt nạp</h2>
-<table id="napTable"></table>
+<h3>💳 Nạp tiền chờ duyệt</h3>
+<table id="topupTable"></table>
 </div>
 
+<!-- ORDERS -->
 <div class="card">
-<h2>📦 Duyệt đơn</h2>
+<h3>📦 Đơn cày thuê</h3>
 <table id="orderTable"></table>
 </div>
 
+</div>
+
 <script>
-const DB = JSON.parse(localStorage.shopDB||'{"users":{},"orders":[],"naps":[],"notifications":{}}')
+const ADMIN_USER="Ngocbecon"
+const ADMIN_PASS="manhmanh"
 
-function save(){localStorage.shopDB=JSON.stringify(DB)}
-
-function notify(user,text){
-DB.notifications[user]=DB.notifications[user]||[]
-DB.notifications[user].unshift({
-text,
-time:new Date().toLocaleString(),
-read:false
-})
-save()
+let DB=JSON.parse(localStorage.getItem("SHOP_DB"))||{
+  users:{},orders:[],topups:[]
 }
 
+function save(){
+  localStorage.setItem("SHOP_DB",JSON.stringify(DB))
+}
+
+/* LOGIN */
+function loginAdmin(){
+  if(adminUser.value!==ADMIN_USER||adminPass.value!==ADMIN_PASS)
+    return alert("Sai tài khoản admin")
+  loginBox.classList.add("hidden")
+  adminPanel.classList.remove("hidden")
+  renderAll()
+}
+
+/* RENDER */
+function renderAll(){
+  renderUsers()
+  renderTopups()
+  renderOrders()
+}
+
+/* USERS */
 function renderUsers(){
-let h="<tr><th>User</th><th>Số dư</th></tr>"
-Object.keys(DB.users).forEach(u=>{
-h+=`<tr><td>${u}</td><td>${DB.users[u].money||0}đ</td></tr>`
-})
-userTable.innerHTML=h
+  let html="<tr><th>User</th><th>Số dư</th><th>Hành động</th></tr>"
+  for(let u in DB.users){
+    html+=`
+    <tr>
+      <td>${u}</td>
+      <td>${DB.users[u].money}đ</td>
+      <td>
+        <button onclick="changeMoney('${u}',10000)">+10k</button>
+        <button onclick="changeMoney('${u}',-10000)">-10k</button>
+      </td>
+    </tr>`
+  }
+  userTable.innerHTML=html
 }
 
-function renderNaps(){
-let h="<tr><th>User</th><th>Loại</th><th>Tiền</th><th>Thông tin</th><th></th></tr>"
-DB.naps.forEach((n,i)=>{
-if(n.done) return
-h+=`
-<tr>
-<td>${n.user}</td>
-<td>${n.type}</td>
-<td>${n.amount}</td>
-<td>${n.info||""}</td>
-<td><button onclick="approveNap(${i})">Duyệt</button></td>
-</tr>`
-})
-napTable.innerHTML=h
+function changeMoney(u,amt){
+  DB.users[u].money+=amt
+  DB.users[u].notifications=DB.users[u].notifications||[]
+  DB.users[u].notifications.push({
+    text:(amt>0?"➕":"➖")+" "+Math.abs(amt)+"đ",
+    time:new Date().toLocaleString(),
+    read:false
+  })
+  save();renderUsers()
 }
 
-function approveNap(i){
-let n=DB.naps[i]
-DB.users[n.user].money+=Number(n.amount)
-n.done=true
-notify(n.user,`💰 Nạp ${n.amount}đ đã được duyệt`)
-save();render()
+/* TOPUP */
+function renderTopups(){
+  let html="<tr><th>User</th><th>Loại</th><th>Số tiền</th><th>Chi tiết</th><th></th></tr>"
+  DB.topups.filter(t=>t.status==="pending").forEach(t=>{
+    html+=`
+    <tr>
+      <td>${t.user}</td>
+      <td>${t.type}</td>
+      <td>${t.amount}</td>
+      <td>${t.detail}</td>
+      <td>
+        <button onclick="approveTopup(${t.id})">Duyệt</button>
+      </td>
+    </tr>`
+  })
+  topupTable.innerHTML=html
 }
 
+function approveTopup(id){
+  let t=DB.topups.find(x=>x.id===id)
+  if(!t)return
+  t.status="done"
+  DB.users[t.user].money+=t.amount
+  DB.users[t.user].notifications.push({
+    text:"💰 Nạp thành công "+t.amount+"đ",
+    time:new Date().toLocaleString(),
+    read:false
+  })
+  save();renderAll()
+}
+
+/* ORDERS */
 function renderOrders(){
-let h="<tr><th>User</th><th>Game</th><th>Gói</th><th>Trạng thái</th><th></th></tr>"
-DB.orders.forEach((o,i)=>{
-h+=`
-<tr>
-<td>${o.user}</td>
-<td>${o.game}</td>
-<td>${o.pack}</td>
-<td>${o.status||"Chờ duyệt"}</td>
-<td>${o.status!=="Hoàn thành"?`<button onclick="doneOrder(${i})">Hoàn thành</button>`:""}</td>
-</tr>`
-})
-orderTable.innerHTML=h
+  let html="<tr><th>User</th><th>Game</th><th>Gói</th><th>Giá</th><th></th></tr>"
+  DB.orders.filter(o=>o.status==="pending").forEach(o=>{
+    html+=`
+    <tr>
+      <td>${o.user}</td>
+      <td>${o.game}</td>
+      <td>${o.pack}</td>
+      <td>${o.price}</td>
+      <td>
+        <button onclick="approveOrder(${o.id})">Hoàn thành</button>
+      </td>
+    </tr>`
+  })
+  orderTable.innerHTML=html
 }
 
-function doneOrder(i){
-let o=DB.orders[i]
-o.status="Hoàn thành"
-notify(o.user,`📦 Đơn ${o.game} – ${o.pack} đã hoàn thành`)
-save();render()
+function approveOrder(id){
+  let o=DB.orders.find(x=>x.id===id)
+  if(!o)return
+  o.status="done"
+  DB.users[o.user].notifications.push({
+    text:"✅ Đơn "+o.game+" đã hoàn thành",
+    time:new Date().toLocaleString(),
+    read:false
+  })
+  save();renderOrders()
 }
-
-function render(){
-renderUsers()
-renderNaps()
-renderOrders()
-}
-render()
 </script>
 
 </body>
