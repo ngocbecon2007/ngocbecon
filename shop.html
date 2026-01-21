@@ -47,28 +47,85 @@ width:100%;padding:14px;margin-top:12px;border-radius:14px;border:none
 table{width:100%;border-collapse:collapse}
 th,td{padding:10px;border-bottom:1px solid #333;text-align:left;font-size:14px}
 
-<!-- CHAT -->
-<div id="chatBtn" class="hidden" onclick="toggleChat()">💬</div>
+/* CHAT BUBBLE ICON */
+#chatBtn{
+position:fixed;
+right:18px;
+bottom:18px;
+width:56px;
+height:56px;
+background:#ff4fa3;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:26px;
+z-index:20;
+box-shadow:0 0 18px rgba(255,79,163,.6);
+}
 
-<div id="chatBox" class="hidden">
-  <div class="chat-header">
-    CSKH Ngọc Becon
-    <span onclick="toggleChat()">✖</span>
-  </div>
+/* CHAT BOX */
+#chatBox{
+position:fixed;
+right:16px;
+bottom:86px;
+width:260px;
+height:340px;
+background:#0f0014;
+border-radius:18px;
+display:flex;
+flex-direction:column;
+z-index:20;
+box-shadow:0 0 20px rgba(255,79,163,.35);
+}
 
-  <div id="chatContent">
-    <div class="msg">
-      <div class="bubble">
-        👋 Xin chào bạn, shop hỗ trợ nạp & cày thuê 24/7 nha 💗
-      </div>
-    </div>
-  </div>
+.chat-header{
+background:#ff4fa3;
+padding:10px;
+font-weight:bold;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
 
-  <div class="chat-input">
-    <input id="chatMsg" placeholder="Nhắn cho CSKH">
-    <button onclick="sendText()">➤</button>
-  </div>
-</div>
+.chat-header span{
+cursor:pointer;
+font-size:14px;
+}
+
+#chatContent{
+flex:1;
+overflow:auto;
+padding:10px;
+font-size:14px;
+}
+
+.msg{margin:6px 0}
+.user{text-align:right}
+
+.bubble{
+display:inline-block;
+padding:8px 12px;
+border-radius:16px;
+background:#333;
+max-width:75%;
+}
+
+.user .bubble{background:#ff4fa3}
+
+.chat-input{
+display:flex;
+gap:6px;
+padding:8px;
+}
+
+.chat-input input{
+flex:1;
+padding:8px;
+border-radius:20px;
+border:none;
+font-size:13px;
+}
 </style>
 </head>
 
