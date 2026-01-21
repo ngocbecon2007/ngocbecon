@@ -8,19 +8,20 @@
 :root{--pink:#ff4fa3}
 *{box-sizing:border-box;font-family:Segoe UI,Arial}
 body{margin:0;background:radial-gradient(circle,#3a0045,#0b0010);color:#fff}
-h2{margin:10px 0}
+header{
+background:linear-gradient(90deg,#ff4fa3,#ff77b7);
+padding:16px;text-align:center;font-size:20px;font-weight:bold
+}
 .card{background:#16001d;padding:20px;border-radius:20px;margin:20px}
+h2{margin:0 0 10px}
 table{width:100%;border-collapse:collapse}
-th,td{padding:10px;border-bottom:1px solid #333}
+th,td{padding:10px;border-bottom:1px solid #333;font-size:14px}
 button{
 padding:6px 12px;border:none;border-radius:10px;
 background:var(--pink);color:#fff;font-weight:bold;cursor:pointer
 }
-header{
-background:linear-gradient(90deg,#ff4fa3,#ff77b7);
-padding:14px;text-align:center;font-size:20px;font-weight:bold
-}
-.small{font-size:13px;color:#ffb6d9}
+.danger{background:#ff3b3b}
+.small{font-size:12px;color:#ffb6d9}
 </style>
 </head>
 
@@ -42,7 +43,7 @@ padding:14px;text-align:center;font-size:20px;font-weight:bold
 <h2>💳 Nạp tiền chờ duyệt</h2>
 <table>
 <tr>
-<th>User</th><th>Loại</th><th>Số tiền</th><th>Chi tiết</th><th></th>
+<th>User</th><th>Loại</th><th>Số tiền</th><th>Chi tiết</th><th>Hành động</th>
 </tr>
 <tbody id="topupList"></tbody>
 </table>
@@ -53,7 +54,7 @@ padding:14px;text-align:center;font-size:20px;font-weight:bold
 <h2>📦 Đơn cày thuê</h2>
 <table>
 <tr>
-<th>User</th><th>Game</th><th>Gói</th><th>Giá</th><th></th>
+<th>User</th><th>Game</th><th>Gói</th><th>Giá</th><th>Hành động</th>
 </tr>
 <tbody id="orderList"></tbody>
 </table>
@@ -69,7 +70,7 @@ function save(){
   render()
 }
 
-/* USERS */
+/* ========== USERS ========== */
 function renderUsers(){
   userList.innerHTML=""
   Object.keys(DB.users).forEach(u=>{
@@ -91,23 +92,23 @@ function addMoney(user,amount){
   save()
 }
 
-/* TOPUP */
+/* ========== TOPUP ========== */
 function renderTopups(){
   topupList.innerHTML=""
   DB.topups.filter(t=>t.status==="pending").forEach(t=>{
-    let detailHTML=""
+    let detail="Không có"
 
-    if(t.type==="CARD" && typeof t.detail==="object"){
-      detailHTML=`
-        <div class="small">
+    if(t.type==="CARD" && t.detail){
+      detail=`
+      <div class="small">
         📶 ${t.detail.telco}<br>
         🔢 Seri: ${t.detail.seri}<br>
         🔐 Mã: ${t.detail.code}
-        </div>`
-    }else if(t.type==="MOMO"){
-      detailHTML=`<div class="small">💗 MoMo chuyển khoản</div>`
-    }else{
-      detailHTML="Không có"
+      </div>`
+    }
+
+    if(t.type==="MOMO"){
+      detail=`<div class="small">💗 MoMo chuyển khoản</div>`
     }
 
     let tr=document.createElement("tr")
@@ -115,8 +116,11 @@ function renderTopups(){
       <td>${t.user}</td>
       <td>${t.type}</td>
       <td>${t.amount}</td>
-      <td>${detailHTML}</td>
-      <td><button onclick="approveTopup(${t.id})">Duyệt</button></td>`
+      <td>${detail}</td>
+      <td>
+        <button onclick="approveTopup(${t.id})">Duyệt</button>
+        <button class="danger" onclick="rejectTopup(${t.id})">Từ chối</button>
+      </td>`
     topupList.appendChild(tr)
   })
 }
@@ -130,7 +134,15 @@ function approveTopup(id){
   save()
 }
 
-/* ORDERS */
+function rejectTopup(id){
+  let t=DB.topups.find(x=>x.id===id)
+  if(!t)return
+  t.status="reject"
+  notify(t.user,`❌ Nạp ${t.type} ${t.amount}đ bị từ chối`)
+  save()
+}
+
+/* ========== ORDERS ========== */
 function renderOrders(){
   orderList.innerHTML=""
   DB.orders.filter(o=>o.status==="pending").forEach(o=>{
@@ -140,7 +152,10 @@ function renderOrders(){
       <td>${o.game}</td>
       <td>${o.pack}</td>
       <td>${o.price}</td>
-      <td><button onclick="approveOrder(${o.id})">Xong</button></td>`
+      <td>
+        <button onclick="approveOrder(${o.id})">Hoàn thành</button>
+        <button class="danger" onclick="rejectOrder(${o.id})">Hủy</button>
+      </td>`
     orderList.appendChild(tr)
   })
 }
@@ -153,16 +168,26 @@ function approveOrder(id){
   save()
 }
 
-/* NOTIFY */
+function rejectOrder(id){
+  let o=DB.orders.find(x=>x.id===id)
+  if(!o)return
+  o.status="reject"
+  notify(o.user,`❌ Đơn ${o.game} đã bị hủy`)
+  save()
+}
+
+/* ========== NOTIFY ========== */
 function notify(user,text){
   if(!DB.users[user].notifications)
     DB.users[user].notifications=[]
   DB.users[user].notifications.push({
-    text,time:new Date().toLocaleString(),read:false
+    text,
+    time:new Date().toLocaleString(),
+    read:false
   })
 }
 
-/* RENDER */
+/* ========== RENDER ========== */
 function render(){
   renderUsers()
   renderTopups()
