@@ -3,315 +3,117 @@
 <head>
 <meta charset="UTF-8">
 <title>Ngọc Becon Shop</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <style>
-:root{--pink:#ff4fa3}
-*{box-sizing:border-box;font-family:Segoe UI,Arial}
-body{margin:0;background:radial-gradient(circle,#3a0045,#0b0010);color:#fff}
-.hidden{display:none}
-button{cursor:pointer}
-
-/* HEADER */
-header{
-position:sticky;top:0;z-index:5;
-background:linear-gradient(90deg,#ff4fa3,#ff77b7);
-padding:12px;
-display:flex;align-items:center;justify-content:space-between
-}
-.menu-btn{font-size:22px}
-
-/* SIDE MENU */
-#sideMenu{
-position:fixed;left:0;top:0;width:260px;height:100%;
-background:#16001d;padding:20px;z-index:10
-}
-#sideMenu button{
-width:100%;margin:8px 0;padding:12px;
-border:none;border-radius:12px;
-background:#ff4fa3;color:#fff;font-weight:bold
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif}
+body{
+  height:100vh;
+  background:radial-gradient(circle at top,#5a006f,#0a0012);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  overflow:hidden;
+  color:#fff;
 }
 
-/* CONTENT */
-.container{max-width:1100px;margin:auto;padding:20px}
-.card{background:#16001d;padding:20px;border-radius:20px;margin-bottom:20px}
-select,input{padding:10px;border-radius:10px;border:none;margin:6px 0;width:100%}
-
-/* LOGIN */
-.auth{max-width:360px;margin:120px auto;background:#16001d;padding:24px;border-radius:20px;text-align:center}
-.auth input,.auth button{
-width:100%;padding:14px;margin-top:12px;border-radius:14px;border:none
+/* BACKGROUND GLOW */
+.bg-glow{
+  position:absolute;
+  width:500px;height:500px;
+  background:#ff4fa3;
+  filter:blur(200px);
+  opacity:.35;
+  animation:pulse 6s infinite alternate;
 }
-.auth button{background:linear-gradient(90deg,#ff4fa3,#ff77b7);color:#fff}
-
-/* CHAT */
-#chatBtn{
-position:fixed;right:20px;bottom:20px;
-background:#ff4fa3;padding:14px 18px;
-border-radius:999px;z-index:20
-}
-#chatBox{
-position:fixed;right:20px;bottom:80px;
-width:340px;height:460px;background:#0f0014;
-border-radius:20px;display:flex;flex-direction:column;z-index:20
-}
-.chat-header{
-background:#ff4fa3;
-padding:10px;
-display:flex;
-align-items:center;
-gap:10px
-}
-.cskh-avatar{
-width:36px;height:36px;
-border-radius:50%;
-background:#fff;
-color:#ff4fa3;
-display:flex;
-align-items:center;
-justify-content:center;
-font-weight:bold
-}
-.typing{font-size:12px;opacity:.7}
-#chatContent{flex:1;overflow:auto;padding:10px}
-.msg{margin:6px 0}
-.user{text-align:right}
-.bubble{
-display:inline-block;
-padding:10px 14px;
-border-radius:18px;
-background:#333;
-max-width:75%
-}
-.user .bubble{background:#ff4fa3}
-.chat-input{display:flex;gap:6px;padding:8px}
-.chat-input input{
-flex:1;
-padding:10px;
-border-radius:20px;
-border:none
+@keyframes pulse{
+  from{transform:scale(1)}
+  to{transform:scale(1.3)}
 }
 
-/* MUSIC */
-#musicBtn{
-position:fixed;left:20px;bottom:20px;
-width:48px;height:48px;
-border-radius:50%;
-background:#ff4fa3;color:#fff;
-display:flex;align-items:center;justify-content:center;
-font-size:22px;z-index:20
+/* INTRO BOX */
+.intro{
+  position:relative;
+  text-align:center;
+  animation:fadeIn 1.6s ease forwards;
+}
+@keyframes fadeIn{
+  from{opacity:0;transform:scale(.9)}
+  to{opacity:1;transform:scale(1)}
 }
 
-/* PC đẹp hơn */
-@media(min-width:768px){
-#chatBox{width:380px;height:520px}
-.bubble{font-size:15px}
+/* LOGO */
+.logo{
+  font-size:28px;
+  font-weight:700;
+  letter-spacing:1px;
+  text-shadow:0 0 25px #ff77c8;
+}
+.logo span{
+  color:#ff77c8;
+}
+
+/* SLOGAN */
+.slogan{
+  margin-top:10px;
+  font-size:14px;
+  opacity:.85;
+}
+
+/* BUTTON */
+.btn{
+  margin-top:30px;
+  padding:14px 38px;
+  border:none;
+  border-radius:999px;
+  background:linear-gradient(135deg,#ff4fa3,#ff85c2);
+  color:#fff;
+  font-size:15px;
+  font-weight:600;
+  cursor:pointer;
+  box-shadow:0 0 25px #ff4fa3;
+  transition:.3s;
+}
+.btn:hover{
+  transform:scale(1.07);
+  box-shadow:0 0 40px #ff85c2;
+}
+
+/* MUSIC TEXT */
+.music{
+  margin-top:14px;
+  font-size:12px;
+  opacity:.6;
 }
 </style>
 </head>
 
 <body>
+<div class="bg-glow"></div>
 
-<audio id="bgMusic" src="music.mp3" loop></audio>
+<div class="intro">
+  <div class="logo">💎 <span>NGỌC BECON</span> SHOP</div>
+  <div class="slogan">Shop dịch vụ game uy tín – nhanh – an toàn</div>
 
-<!-- LOGIN -->
-<div id="auth" class="auth">
-<h2>🐰 Ngọc Becon Shop</h2>
-<input id="user" placeholder="Tài khoản">
-<input id="pass" type="password" placeholder="Mật khẩu">
-<button onclick="login()">Đăng nhập</button>
+  <button class="btn" onclick="enterShop()">🚀 VÀO SHOP</button>
+  <div class="music">🎵 Nhạc nền tự động</div>
 </div>
 
-<header id="header" class="hidden">
-<div class="menu-btn" onclick="toggleMenu()">☰</div>
-<b>Số dư: <span id="money">0đ</span></b>
-</header>
-
-<div id="sideMenu" class="hidden">
-<button onclick="showPage('nap')">💳 Nạp thẻ</button>
-<button onclick="showPage('blox')">🍏 Cày Blox Fruit</button>
-<button onclick="showPage('ff')">🔥 Cày Free Fire</button>
-<button onclick="showPage('lq')">⚔️ Cày Liên Quân</button>
-<button onclick="showPage('orders')">📦 Đơn của tôi</button>
-<button onclick="toggleMenu()">❌ Đóng</button>
-</div>
-
-<div class="container hidden" id="shop">
-
-<div id="nap" class="card hidden">
-<h3>💳 Nạp thẻ cào (trừ 17%)</h3>
-<select id="amount">
-<option value="10000">10.000</option>
-<option value="20000">20.000</option>
-<option value="50000">50.000</option>
-<option value="100000">100.000</option>
-<option value="200000">200.000</option>
-<option value="500000">500.000</option>
-<option value="1000000">1.000.000</option>
-</select>
-<button onclick="napCard()">NẠP NGAY</button>
-</div>
-
-<div id="blox" class="card hidden">
-<h3>🍏 Blox Fruit</h3>
-<select id="bloxPack">
-<option>Level 1–700 (10k)</option>
-<option>Level 700–1500 (10k)</option>
-<option>Haki 7 màu (20k)</option>
-<option>Gear V4 Full (40k)</option>
-</select>
-<button onclick="order('Blox Fruit',bloxPack.value)">ĐẶT ĐƠN</button>
-</div>
-
-<div id="ff" class="card hidden">
-<h3>🔥 Free Fire</h3>
-<select id="ffPack">
-<option>Đồng → Huyền Thoại (40k)</option>
-<option>Huyền Thoại → Cao Thủ (60k)</option>
-<option>Cao Thủ 100⭐ (100k)</option>
-</select>
-<button onclick="order('Free Fire',ffPack.value)">ĐẶT ĐƠN</button>
-</div>
-
-<div id="lq" class="card hidden">
-<h3>⚔️ Liên Quân</h3>
-<select id="lqPack">
-<option>Đồng → BK5 (250k)</option>
-<option>BK5 → KC5 (250k)</option>
-<option>KC5 → TA5 (300k)</option>
-<option>TA5 → CT1⭐ (350k)</option>
-</select>
-<button onclick="order('Liên Quân',lqPack.value)">ĐẶT ĐƠN</button>
-</div>
-
-<div id="orders" class="card hidden">
-<h3>📦 Đơn của tôi</h3>
-<div id="orderList"></div>
-</div>
-
-</div>
-
-<div id="chatBtn" onclick="toggleChat()">🐰 CSKH</div>
-
-<div id="chatBox" class="hidden">
-<div class="chat-header">
-<div class="cskh-avatar">🐰</div>
-<div>
-<div>CSKH Ngọc Becon</div>
-<div id="typing" class="typing hidden">CSKH đang nhập…</div>
-</div>
-</div>
-<div id="chatContent"></div>
-<div class="chat-input">
-<input id="chatMsg" placeholder="Nhắn tin CSKH">
-<button onclick="sendText()">➤</button>
-</div>
-</div>
-
-<div id="musicBtn" onclick="toggleMusic()">🎵</div>
+<audio id="bgm" autoplay loop>
+  <source src="music.mp3" type="audio/mpeg">
+</audio>
 
 <script>
-let DB=JSON.parse(localStorage.getItem("SHOP"))||{users:{},orders:[]}
-let cur=null
-let music=document.getElementById("bgMusic")
+const audio = document.getElementById("bgm");
 
-function save(){localStorage.setItem("SHOP",JSON.stringify(DB))}
-function chatKey(){return "CHAT_"+cur}
+// fix auto play mobile
+document.addEventListener("click",()=>{
+  if(audio.paused) audio.play();
+},{once:true});
 
-/* LOGIN */
-function login(){
-let u=user.value,p=pass.value
-if(!DB.users[u]) DB.users[u]={pass:p,money:0}
-if(DB.users[u].pass!==p) return alert("Sai mật khẩu")
-cur=u
-auth.classList.add("hidden")
-header.classList.remove("hidden")
-shop.classList.remove("hidden")
-money.innerText=DB.users[u].money+"đ"
-music.play().catch(()=>{})
-showPage("nap")
-loadChat()
+function enterShop(){
+  window.location.href="shop.html";
 }
-
-/* MENU */
-function toggleMenu(){sideMenu.classList.toggle("hidden")}
-function showPage(id){
-document.querySelectorAll(".card").forEach(c=>c.classList.add("hidden"))
-document.getElementById(id).classList.remove("hidden")
-sideMenu.classList.add("hidden")
-renderOrders()
-}
-
-/* NẠP */
-function napCard(){
-let m=parseInt(amount.value)
-let r=Math.floor(m*0.83)
-DB.users[cur].money+=r
-money.innerText=DB.users[cur].money+"đ"
-save()
-alert("Nạp thành công +" + r + "đ")
-}
-
-/* ORDER */
-function order(game,pack){
-DB.orders.push({user:cur,game,pack,time:new Date().toLocaleString()})
-save()
-renderOrders()
-fakeCSKH()
-}
-
-/* ĐƠN */
-function renderOrders(){
-orderList.innerHTML=""
-DB.orders.filter(o=>o.user===cur).forEach(o=>{
-orderList.innerHTML+=`
-<div class="bubble">
-<b>${o.game}</b><br>${o.pack}<br>🕒 ${o.time}
-</div>`
-})
-}
-
-/* CHAT */
-function toggleChat(){
-chatBox.classList.toggle("hidden")
-if(!chatBox.classList.contains("hidden")) loadChat()
-}
-
-function loadChat(){
-let d=JSON.parse(localStorage.getItem(chatKey())||"[]")
-chatContent.innerHTML=""
-d.forEach(m=>{
-chatContent.innerHTML+=`<div class="msg ${m.by}"><div class="bubble">${m.text}</div></div>`
-})
-}
-
-function saveChat(by,text){
-let d=JSON.parse(localStorage.getItem(chatKey())||"[]")
-d.push({by,text})
-localStorage.setItem(chatKey(),JSON.stringify(d))
-}
-
-function sendText(){
-if(!chatMsg.value) return
-let t=chatMsg.value
-chatMsg.value=""
-chatContent.innerHTML+=`<div class="msg user"><div class="bubble">${t}</div></div>`
-saveChat("user",t)
-fakeCSKH()
-}
-
-function fakeCSKH(){
-typing.classList.remove("hidden")
-setTimeout(()=>{
-typing.classList.add("hidden")
-let r="CSKH đã nhận yêu cầu, vui lòng chờ xử lý 💗"
-chatContent.innerHTML+=`<div class="msg"><div class="bubble">${r}</div></div>`
-saveChat("",r)
-},1500)
-}
-
-/* MUSIC */
-function toggleMusic(){music.paused?music.play():music.pause()}
 </script>
-
 </body>
 </html>
