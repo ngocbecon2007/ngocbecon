@@ -214,18 +214,15 @@ let DB=JSON.parse(localStorage.getItem("SHOP_DB"))||{users:{},orders:[],topups:[
 let cur=null
 function save(){localStorage.setItem("SHOP_DB",JSON.stringify(DB))}
 
-/* LOGIN */
 function login(){
-if(!DB.users[user.value]||DB.users[user.value].pass!==pass.value) return alert("Sai tài khoản")
+if(!DB.users[user.value]||DB.users[user.value].pass!==pass.value) return alert("Sai tài khoản hoặc mật khẩu")
 cur=user.value
 auth.classList.add("hidden")
 header.classList.remove("hidden")
 shop.classList.remove("hidden")
-chatBtn.classList.remove("hidden")
 money.innerText=DB.users[cur].money+"đ"
 }
 
-/* REGISTER */
 function register(){
 if(DB.users[regUser.value]) return alert("Tài khoản đã tồn tại")
 DB.users[regUser.value]={pass:regPass.value,money:0}
@@ -237,39 +234,72 @@ function showPage(id){
 document.querySelectorAll(".card").forEach(c=>c.classList.add("hidden"))
 document.getElementById(id).classList.remove("hidden")
 sideMenu.classList.add("hidden")
-chatBox.classList.add("hidden")
+if(id==="historyTopup") loadTopup()
+if(id==="historyOrder") loadOrder()
 }
 
 function toggleChat(){chatBox.classList.toggle("hidden")}
-
-/* BOT CSKH GIẢ */
-const botReplies=[
-"💗 CSKH đã nhận thông tin, bạn chờ mình chút nhé~",
-"⏳ Đơn đang được xử lý, mình phản hồi sớm!",
-"🐰 Ngọc Becon Shop xin chào, mình hỗ trợ bạn đây",
-"📦 Đơn cày thuê đang chờ xử lý",
-"💳 Nạp tiền cần admin duyệt giúp bạn nha",
-"🌸 Cảm ơn bạn đã ủng hộ shop"
-];
-
 function sendText(){
-if(!chatMsg.value.trim())return;
-chatContent.innerHTML+=`<div class="msg user"><div class="bubble">${chatMsg.value}</div></div>`;
-chatMsg.value="";
-chatContent.scrollTop=99999;
+if(!chatMsg.value)return
+chatContent.innerHTML+=`<div class="msg user"><div class="bubble">${chatMsg.value}</div></div>`
+chatMsg.value=""
+}
 
-let typingId="t"+Date.now();
-setTimeout(()=>{
-chatContent.innerHTML+=`<div class="msg" id="${typingId}"><div class="bubble">⏳ CSKH đang nhập...</div></div>`;
-chatContent.scrollTop=99999;
-},400);
+function order(game,sel){
+DB.orders.push({
+id:Date.now(),
+user:cur,
+game,
+pack:sel.options[sel.selectedIndex].text,
+price:+sel.value,
+status:"pending",
+time:new Date().toLocaleString()
+})
+save();alert("Đã gửi đơn sang CSKH")
+}
 
-setTimeout(()=>{
-document.getElementById(typingId)?.remove();
-let r=botReplies[Math.floor(Math.random()*botReplies.length)];
-chatContent.innerHTML+=`<div class="msg"><div class="bubble">${r}</div></div>`;
-chatContent.scrollTop=99999;
-},1500);
+function napCard(){
+let telco=telco.value
+let amount=+amount.value
+let seriVal=seri.value.trim()
+let codeVal=code.value.trim()
+if(!seriVal||!codeVal) return alert("Nhập đủ seri và mã thẻ")
+DB.topups.push({
+id:Date.now(),
+user:cur,
+type:"CARD",
+amount,
+status:"pending",
+detail:{telco,seri:seriVal,code:codeVal},
+time:new Date().toLocaleString()
+})
+save();alert("Đã gửi thẻ, chờ admin duyệt")
+}
+
+function napMoMo(){
+DB.topups.push({
+id:Date.now(),
+user:cur,
+type:"MOMO",
+amount:+momoAmount.value,
+status:"pending",
+time:new Date().toLocaleString()
+})
+save();alert("Đã gửi xác nhận MoMo")
+}
+
+function loadTopup(){
+topupTable.innerHTML="<tr><th>Thời gian</th><th>Loại</th><th>Số tiền</th><th>Trạng thái</th></tr>"
+DB.topups.filter(t=>t.user===cur).forEach(t=>{
+topupTable.innerHTML+=`<tr><td>${t.time}</td><td>${t.type}</td><td>${t.amount}</td><td>${t.status}</td></tr>`
+})
+}
+
+function loadOrder(){
+orderTable.innerHTML="<tr><th>Thời gian</th><th>Game</th><th>Gói</th><th>Giá</th><th>Trạng thái</th></tr>"
+DB.orders.filter(o=>o.user===cur).forEach(o=>{
+orderTable.innerHTML+=`<tr><td>${o.time}</td><td>${o.game}</td><td>${o.pack}</td><td>${o.price}</td><td>${o.status}</td></tr>`
+})
 }
 </script>
 
