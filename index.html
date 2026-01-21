@@ -2,34 +2,118 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<title>🌸 Shop Cày Thuê</title>
+<title>Ngọc Becon Shop</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <style>
-*{box-sizing:border-box;font-family:Arial}
-body{margin:0;background:linear-gradient(135deg,#ff4fa3,#ff9ad5);color:#fff;text-align:center}
-.box{background:rgba(255,255,255,.2);margin:30px auto;padding:25px;max-width:420px;border-radius:22px}
-a{color:#fff;text-decoration:none;margin:0 10px}
-button{background:#fff;color:#ff4fa3;border:none;padding:10px 22px;border-radius:20px;font-weight:bold}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif}
+body{
+  height:100vh;
+  background:radial-gradient(circle at top,#5a006f,#0a0012);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  overflow:hidden;
+  color:#fff;
+}
+
+/* BACKGROUND GLOW */
+.bg-glow{
+  position:absolute;
+  width:500px;height:500px;
+  background:#ff4fa3;
+  filter:blur(200px);
+  opacity:.35;
+  animation:pulse 6s infinite alternate;
+}
+@keyframes pulse{
+  from{transform:scale(1)}
+  to{transform:scale(1.3)}
+}
+
+/* INTRO BOX */
+.intro{
+  position:relative;
+  text-align:center;
+  animation:fadeIn 1.6s ease forwards;
+}
+@keyframes fadeIn{
+  from{opacity:0;transform:scale(.9)}
+  to{opacity:1;transform:scale(1)}
+}
+
+/* LOGO */
+.logo{
+  font-size:28px;
+  font-weight:700;
+  letter-spacing:1px;
+  text-shadow:0 0 25px #ff77c8;
+}
+.logo span{
+  color:#ff77c8;
+}
+
+/* SLOGAN */
+.slogan{
+  margin-top:10px;
+  font-size:14px;
+  opacity:.85;
+}
+
+/* BUTTON */
+.btn{
+  margin-top:30px;
+  padding:14px 38px;
+  border:none;
+  border-radius:999px;
+  background:linear-gradient(135deg,#ff4fa3,#ff85c2);
+  color:#fff;
+  font-size:15px;
+  font-weight:600;
+  cursor:pointer;
+  box-shadow:0 0 25px #ff4fa3;
+  transition:.3s;
+}
+.btn:hover{
+  transform:scale(1.07);
+  box-shadow:0 0 40px #ff85c2;
+}
+
+/* MUSIC TEXT */
+.music{
+  margin-top:14px;
+  font-size:12px;
+  opacity:.6;
+}
 </style>
 </head>
+
 <body>
+<div class="bg-glow"></div>
 
-<h1>🌸 SHOP CÀY THUÊ</h1>
-<a href="index.html">Trang chủ</a>
-<a href="shop.html">Shop</a>
-<a href="admin.html">Admin</a>
+<div class="intro">
+  <div class="logo">💎 <span>NGỌC BECON</span> SHOP</div>
+  <div class="slogan">Shop dịch vụ game uy tín – nhanh – an toàn</div>
 
-<div class="box">
-<h2>Số dư</h2>
-<p id="money"></p>
+  <button class="btn" onclick="enterShop()">🚀 VÀO SHOP</button>
+  <div class="music">🎵 Nhạc nền tự động</div>
 </div>
 
-<script>
-let user = JSON.parse(localStorage.getItem("user")) 
-|| {money:100000, role:"user"};
-localStorage.setItem("user",JSON.stringify(user));
-document.getElementById("money").innerText =
-user.money.toLocaleString()+" VNĐ";
-</script>
+<audio id="bgm" autoplay loop>
+  <source src="music.mp3" type="audio/mpeg">
+</audio>
 
+<script>
+const audio = document.getElementById("bgm");
+
+// fix auto play mobile
+document.addEventListener("click",()=>{
+  if(audio.paused) audio.play();
+},{once:true});
+
+function enterShop(){
+  window.location.href="shop.html";
+}
+</script>
 </body>
 </html>
