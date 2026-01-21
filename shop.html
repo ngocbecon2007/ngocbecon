@@ -47,30 +47,18 @@ width:100%;padding:14px;margin-top:12px;border-radius:14px;border:none
 table{width:100%;border-collapse:collapse}
 th,td{padding:10px;border-bottom:1px solid #333;text-align:left;font-size:14px}
 
-/* CHAT BUBBLE ICON */
+/* CHAT */
 #chatBtn{
-position:fixed;
-right:18px;
-bottom:18px;
-width:56px;
-height:56px;
-background:#ff4fa3;
-border-radius:50%;
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:26px;
-z-index:20;
-box-shadow:0 0 18px rgba(255,79,163,.6);
+position:fixed;right:20px;bottom:20px;
+background:#ff4fa3;padding:14px 18px;
+border-radius:999px;z-index:20
 }
-
-/* CHAT BOX */
 #chatBox{
 position:fixed;
-right:16px;
-bottom:86px;
-width:260px;
-height:340px;
+right:14px;
+bottom:80px;
+width:280px;
+height:360px;
 background:#0f0014;
 border-radius:18px;
 display:flex;
@@ -78,54 +66,14 @@ flex-direction:column;
 z-index:20;
 box-shadow:0 0 20px rgba(255,79,163,.35);
 }
-
-.chat-header{
-background:#ff4fa3;
-padding:10px;
-font-weight:bold;
-display:flex;
-justify-content:space-between;
-align-items:center;
-}
-
-.chat-header span{
-cursor:pointer;
-font-size:14px;
-}
-
-#chatContent{
-flex:1;
-overflow:auto;
-padding:10px;
-font-size:14px;
-}
-
+.chat-header{background:#ff4fa3;padding:12px;font-weight:bold}
+#chatContent{flex:1;overflow:auto;padding:10px}
 .msg{margin:6px 0}
 .user{text-align:right}
-
-.bubble{
-display:inline-block;
-padding:8px 12px;
-border-radius:16px;
-background:#333;
-max-width:75%;
-}
-
+.bubble{display:inline-block;padding:10px 14px;border-radius:18px;background:#333;max-width:75%}
 .user .bubble{background:#ff4fa3}
-
-.chat-input{
-display:flex;
-gap:6px;
-padding:8px;
-}
-
-.chat-input input{
-flex:1;
-padding:8px;
-border-radius:20px;
-border:none;
-font-size:13px;
-}
+.chat-input{display:flex;gap:6px;padding:8px}
+.chat-input input{flex:1;padding:10px;border-radius:20px;border:none}
 </style>
 </head>
 
@@ -290,12 +238,8 @@ if(id==="historyTopup") loadTopup()
 if(id==="historyOrder") loadOrder()
 }
 
-function toggleChat(){
-  chatBox.classList.toggle("hidden")
-}
-
-/* REP THEO GAME */
-const gameReplies = [
+function toggleChat(){chatBox.classList.toggle("hidden")}
+  const gameReplies = [
   {
     keys:["blox","fruit"],
     replies:[
@@ -337,48 +281,9 @@ const defaultReplies = [
 ]
 
 function sendText(){
-  let text = chatMsg.value.trim()
-  if(!text) return
-
-  chatContent.innerHTML += `
-    <div class="msg user">
-      <div class="bubble">${text}</div>
-    </div>
-  `
-  chatMsg.value=""
-  chatContent.scrollTop=chatContent.scrollHeight
-
-  // typing
-  let typing=document.createElement("div")
-  typing.id="typing"
-  typing.className="msg"
-  typing.innerHTML=`<div class="bubble">CSKH đang nhập...</div>`
-  chatContent.appendChild(typing)
-
-  let reply=null
-  let lower=text.toLowerCase()
-
-  for(let g of gameReplies){
-    if(g.keys.some(k=>lower.includes(k))){
-      reply=g.replies[Math.floor(Math.random()*g.replies.length)]
-      break
-    }
-  }
-
-  if(!reply){
-    reply=defaultReplies[Math.floor(Math.random()*defaultReplies.length)]
-  }
-
-  setTimeout(()=>{
-    let t=document.getElementById("typing")
-    if(t) t.remove()
-    chatContent.innerHTML+=`
-      <div class="msg">
-        <div class="bubble">${reply}</div>
-      </div>
-    `
-    chatContent.scrollTop=chatContent.scrollHeight
-  },1000+Math.random()*1500)
+if(!chatMsg.value)return
+chatContent.innerHTML+=`<div class="msg user"><div class="bubble">${chatMsg.value}</div></div>`
+chatMsg.value=""
 }
 
 function order(game,sel){
