@@ -37,7 +37,10 @@ background:#ff4fa3;color:#fff;font-weight:bold
 select,input{padding:10px;border-radius:10px;border:none;margin:6px 0;width:100%}
 
 /* LOGIN */
-.auth{max-width:360px;margin:120px auto;background:#16001d;padding:24px;border-radius:20px;text-align:center}
+.auth{
+max-width:360px;margin:120px auto;background:#16001d;
+padding:24px;border-radius:20px;text-align:center
+}
 .auth input,.auth button{
 width:100%;padding:14px;margin-top:12px;border-radius:14px;border:none
 }
@@ -58,21 +61,17 @@ border-radius:20px;display:flex;flex-direction:column;z-index:20
 #chatContent{flex:1;overflow:auto;padding:10px}
 .msg{margin:6px 0}
 .user{text-align:right}
-.bubble{display:inline-block;padding:10px 14px;border-radius:18px;background:#333;max-width:75%}
+.bubble{
+display:inline-block;padding:10px 14px;
+border-radius:18px;background:#333;max-width:75%
+}
 .user .bubble{background:#ff4fa3}
 .chat-input{display:flex;gap:6px;padding:8px}
-.chat-input input{flex:1;padding:10px;border-radius:20px;border:none}
-
-/* EMOJI */
-.emoji-box{
-position:absolute;bottom:140px;right:20px;
-background:#1a001f;border-radius:16px;
-padding:10px;display:grid;
-grid-template-columns:repeat(6,1fr);gap:6px;z-index:25
+.chat-input input{
+flex:1;padding:10px;border-radius:20px;border:none
 }
-.emoji-box span{cursor:pointer;font-size:22px}
 
-/* MUSIC BTN */
+/* MUSIC */
 #musicBtn{
 position:fixed;left:20px;bottom:20px;
 width:48px;height:48px;border-radius:50%;
@@ -85,13 +84,14 @@ font-size:22px;z-index:20
 
 <body>
 
-<audio id="bgMusic" src="music.mp3" loop></audio>
+<audio id="bgMusic" src="music.mp3" loop autoplay></audio>
 
+<!-- LOGIN -->
 <div id="auth" class="auth">
 <h2>🐰 Ngọc Becon Shop</h2>
 <input id="user" placeholder="Tài khoản">
 <input id="pass" type="password" placeholder="Mật khẩu">
-<button onclick="login()">Đăng nhập</button>
+<button onclick="login()">Đăng nhập / Đăng ký</button>
 </div>
 
 <header id="header" class="hidden">
@@ -102,14 +102,15 @@ font-size:22px;z-index:20
 <div id="sideMenu" class="hidden">
 <button onclick="showPage('nap')">💳 Nạp thẻ</button>
 <button onclick="showPage('napmomo')">💗 Nạp MoMo</button>
-<button onclick="showPage('blox')">🍏 Blox Fruit</button>
-<button onclick="showPage('ff')">🔥 Free Fire</button>
-<button onclick="showPage('lq')">⚔️ Liên Quân</button>
+<button onclick="showPage('ff')">🔥 Cày thuê Free Fire</button>
+<button onclick="showPage('lq')">⚔️ Cày thuê Liên Quân</button>
+<button onclick="showPage('blox')">🍏 Roblox</button>
 <button onclick="toggleMenu()">❌ Đóng</button>
 </div>
 
 <div class="container hidden" id="shop">
 
+<!-- NẠP THẺ -->
 <div id="nap" class="card hidden">
 <h3>💳 Nạp thẻ cào (trừ 17%)</h3>
 <select id="telco">
@@ -122,25 +123,26 @@ font-size:22px;z-index:20
 <option value="20000">20.000</option>
 <option value="50000">50.000</option>
 <option value="100000">100.000</option>
-<option value="200000">200.000</option>
 <option value="500000">500.000</option>
 <option value="1000000">1.000.000</option>
 </select>
 <input id="seri" placeholder="Số seri">
 <input id="code" placeholder="Mã thẻ">
-<button onclick="napCard()">NẠP NGAY</button>
+<button onclick="napCard()">GỬI THẺ QUA CSKH</button>
 </div>
 
 <!-- NẠP MOMO -->
 <div id="napmomo" class="card hidden">
 <h3>💗 Nạp MoMo</h3>
 <img src="momo.jpg" style="width:100%;border-radius:16px">
-<input id="momoAmount" placeholder="Nhập số tiền">
-<input id="momoNote" readonly value="MOMO_NGOCBECON">
+<p>📌 Nội dung chuyển khoản:</p>
+<input readonly value="MOMO_NGOCBECON">
+<input id="momoAmount" placeholder="Số tiền đã chuyển">
 <button onclick="napMoMo()">XÁC NHẬN ĐÃ CHUYỂN</button>
-</div>
 
+<div id="ff" class="card hidden">
 <div id="blox" class="card hidden">
+  
 <h3>🍏 Blox Fruit</h3>
 <select id="bloxPack">
 <option value="Level 1-700 - 10k">Level 1–700 (10k)</option>
@@ -173,8 +175,6 @@ font-size:22px;z-index:20
 <button onclick="order('Liên Quân',lqPack.value)">ĐẶT ĐƠN</button>
 </div>
 
-</div>
-
 <div id="chatBtn" onclick="toggleChat()">🐰 CSKH</div>
 
 <div id="chatBox" class="hidden">
@@ -198,8 +198,8 @@ function save(){localStorage.setItem("SHOP",JSON.stringify(DB))}
 
 function login(){
 let u=user.value,p=pass.value
-if(!DB.users[u])DB.users[u]={pass:p,money:0}
-if(DB.users[u].pass!==p)return alert("Sai mật khẩu")
+if(!DB.users[u]) DB.users[u]={pass:p,money:0}
+if(DB.users[u].pass!==p) return alert("Sai mật khẩu")
 cur=u
 auth.classList.add("hidden")
 header.classList.remove("hidden")
@@ -216,28 +216,38 @@ sideMenu.classList.add("hidden")
 }
 
 function toggleChat(){chatBox.classList.toggle("hidden")}
+
 function sendText(){
-if(!chatMsg.value)return
+if(!chatMsg.value) return
 chatContent.innerHTML+=`<div class="msg user"><div class="bubble">${chatMsg.value}</div></div>`
 chatMsg.value=""
 }
 
 function order(game,pack){
-let msg=`📦 ĐẶT ĐƠN ${game}\n➡️ ${pack}`
-chatContent.innerHTML+=`<div class="msg user"><div class="bubble">${msg}</div></div>`
+chatContent.innerHTML+=
+`<div class="msg user"><div class="bubble">📦 ${game}<br>${pack}</div></div>`
 alert("Đã gửi đơn sang CSKH")
 }
 
 function napCard(){
-let msg=`💳 NẠP THẺ\n${telco.value}\nMệnh giá: ${amount.value}\nSeri: ${seri.value}\nMã: ${code.value}`
-chatContent.innerHTML+=`<div class="msg user"><div class="bubble">${msg}</div></div>`
-alert("Đã gửi yêu cầu nạp")
+chatContent.innerHTML+=
+`<div class="msg user"><div class="bubble">
+💳 ${telco.value}<br>
+Mệnh giá: ${amount.value}<br>
+Seri: ${seri.value}<br>
+Mã: ${code.value}
+</div></div>`
+alert("Đã gửi thẻ sang CSKH")
 }
 
 function napMoMo(){
-let msg=`💗 NẠP MOMO\nSố tiền: ${momoAmount.value}\nNội dung: ${momoNote.value}`
-chatContent.innerHTML+=`<div class="msg user"><div class="bubble">${msg}</div></div>`
-alert("Đã gửi xác nhận MoMo")
+chatContent.innerHTML+=
+`<div class="msg user"><div class="bubble">
+💗 MoMo<br>
+Số tiền: ${momoAmount.value}<br>
+Nội dung: MOMO_NGOCBECON
+</div></div>`
+alert("Đã xác nhận chuyển MoMo")
 }
 
 function toggleMusic(){
