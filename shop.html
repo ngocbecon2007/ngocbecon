@@ -246,30 +246,38 @@ save();alert("Đã gửi đơn sang CSKH")
 }
 
 function napCard(){
-  let user=currentUser
-  let telco=document.getElementById("telco").value
-  let amount=+document.getElementById("amount").value
-  let seri=document.getElementById("seri").value
-  let code=document.getElementById("code").value
+  if(!cur) return alert("Vui lòng đăng nhập")
 
-  if(!seri||!code) return alert("Nhập đủ seri & mã thẻ")
+  let telco = document.getElementById("telco").value
+  let amount = +document.getElementById("amount").value
+  let seri = document.getElementById("seri").value.trim()
+  let code = document.getElementById("code").value.trim()
+
+  if(!seri || !code){
+    alert("Nhập đầy đủ seri và mã thẻ")
+    return
+  }
 
   DB.topups.push({
-    id:Date.now(),
-    user,
-    type:"CARD",
-    amount,
-    status:"pending",
-    detail:{
-      telco,
-      seri,
-      code
-    }
+    id: Date.now(),
+    user: cur,
+    type: "CARD",
+    amount: amount,
+    telco: telco,
+    seri: seri,
+    code: code,
+    status: "pending",
+    time: new Date().toLocaleString()
   })
 
   save()
-  alert("Đã gửi thẻ, chờ admin duyệt")
-  }
+
+  // clear input
+  document.getElementById("seri").value=""
+  document.getElementById("code").value=""
+
+  alert("✅ Đã gửi thẻ, chờ admin duyệt")
+}
 
 function napMoMo(){
 DB.topups.push({
