@@ -63,15 +63,6 @@ border-radius:20px;display:flex;flex-direction:column;z-index:20
 .chat-input{display:flex;gap:6px;padding:8px}
 .chat-input input{flex:1;padding:10px;border-radius:20px;border:none}
 
-/* EMOJI */
-.emoji-box{
-position:absolute;bottom:140px;right:20px;
-background:#1a001f;border-radius:16px;
-padding:10px;display:grid;
-grid-template-columns:repeat(6,1fr);gap:6px;z-index:25
-}
-.emoji-box span{cursor:pointer;font-size:22px}
-
 /* MUSIC BTN */
 #musicBtn{
 position:fixed;left:20px;bottom:20px;
@@ -85,7 +76,6 @@ font-size:22px;z-index:20
 
 <body>
 
-<!-- MUSIC -->
 <audio id="bgMusic" src="music.mp3" loop></audio>
 
 <!-- LOGIN -->
@@ -107,6 +97,7 @@ font-size:22px;z-index:20
 <button onclick="showPage('blox')">🍏 Cày Blox Fruit</button>
 <button onclick="showPage('ff')">🔥 Cày Free Fire</button>
 <button onclick="showPage('lq')">⚔️ Cày Liên Quân</button>
+<button onclick="showPage('orders')">📦 Đơn của tôi</button>
 <button onclick="toggleMenu()">❌ Đóng</button>
 </div>
 
@@ -137,11 +128,10 @@ font-size:22px;z-index:20
 <div id="blox" class="card hidden">
 <h3>🍏 Blox Fruit</h3>
 <select id="bloxPack">
-<option value="Level 1-700 - 10k">Level 1–700 (10k)</option>
-<option value="Level 700-1500 - 10k">Level 700–1500 (10k)</option>
-<option value="Mastery 1-300 - 10k">Mastery 1–300 (10k)</option>
-<option value="Haki 7 màu - 20k">Haki 7 màu (20k)</option>
-<option value="Gear V4 Full - 40k">Gear V4 Full (40k)</option>
+<option>Level 1–700 (10k)</option>
+<option>Level 700–1500 (10k)</option>
+<option>Haki 7 màu (20k)</option>
+<option>Gear V4 Full (40k)</option>
 </select>
 <button onclick="order('Blox Fruit',bloxPack.value)">ĐẶT ĐƠN</button>
 </div>
@@ -149,9 +139,9 @@ font-size:22px;z-index:20
 <div id="ff" class="card hidden">
 <h3>🔥 Free Fire</h3>
 <select id="ffPack">
-<option value="Đồng → Huyền Thoại - 40k">Đồng → Huyền Thoại (40k)</option>
-<option value="Huyền Thoại → Cao Thủ - 60k">Huyền Thoại → Cao Thủ (60k)</option>
-<option value="Cao Thủ 100⭐ - 100k">Cao Thủ 100⭐ (100k)</option>
+<option>Đồng → Huyền Thoại (40k)</option>
+<option>Huyền Thoại → Cao Thủ (60k)</option>
+<option>Cao Thủ 100⭐ (100k)</option>
 </select>
 <button onclick="order('Free Fire',ffPack.value)">ĐẶT ĐƠN</button>
 </div>
@@ -159,58 +149,52 @@ font-size:22px;z-index:20
 <div id="lq" class="card hidden">
 <h3>⚔️ Liên Quân</h3>
 <select id="lqPack">
-<option value="Đồng → BK5 - 250k">Đồng → BK5 (250k)</option>
-<option value="BK5 → KC5 - 250k">BK5 → KC5 (250k)</option>
-<option value="KC5 → TA5 - 300k">KC5 → TA5 (300k)</option>
-<option value="TA5 → CT1⭐ - 350k">TA5 → CT1⭐ (350k)</option>
+<option>Đồng → BK5 (250k)</option>
+<option>BK5 → KC5 (250k)</option>
+<option>KC5 → TA5 (300k)</option>
+<option>TA5 → CT1⭐ (350k)</option>
 </select>
 <button onclick="order('Liên Quân',lqPack.value)">ĐẶT ĐƠN</button>
 </div>
 
+<div id="orders" class="card hidden">
+<h3>📦 Đơn của tôi</h3>
+<div id="orderList"></div>
 </div>
 
-<!-- CHAT -->
+</div>
+
 <div id="chatBtn" onclick="toggleChat()">🐰 CSKH</div>
 
 <div id="chatBox" class="hidden">
 <div class="chat-header">CSKH Ngọc Becon</div>
 <div id="chatContent"></div>
 <div class="chat-input">
-<button onclick="toggleEmoji()">😊</button>
 <input id="chatMsg" placeholder="Nhắn tin">
 <button onclick="sendText()">➤</button>
 </div>
 </div>
 
-<div id="emojiBox" class="emoji-box hidden">
-<span onclick="addEmoji('😀')">😀</span>
-<span onclick="addEmoji('😂')">😂</span>
-<span onclick="addEmoji('😍')">😍</span>
-<span onclick="addEmoji('😭')">😭</span>
-<span onclick="addEmoji('🔥')">🔥</span>
-<span onclick="addEmoji('🐰')">🐰</span>
-</div>
-
 <div id="musicBtn" onclick="toggleMusic()">🎵</div>
 
 <script>
-let DB=JSON.parse(localStorage.getItem("SHOP"))||{users:{}}
+let DB=JSON.parse(localStorage.getItem("SHOP"))||{users:{},orders:[]}
 let cur=null
-let musicOn=true
-const music=document.getElementById("bgMusic")
+let music=document.getElementById("bgMusic")
 
 function save(){localStorage.setItem("SHOP",JSON.stringify(DB))}
 
 function login(){
 let u=user.value,p=pass.value
-if(!DB.users[u])DB.users[u]={pass:p,money:0,history:[]}
-if(DB.users[u].pass!==p)return alert("Sai mật khẩu")
+if(!DB.users[u]) DB.users[u]={pass:p,money:0}
+if(DB.users[u].pass!==p) return alert("Sai mật khẩu")
 cur=u
 auth.classList.add("hidden")
 header.classList.remove("hidden")
 shop.classList.remove("hidden")
 money.innerText=DB.users[u].money+"đ"
-music.play()
+music.play().catch(()=>{})
+showPage("nap")
 }
 
 function toggleMenu(){sideMenu.classList.toggle("hidden")}
@@ -218,38 +202,47 @@ function showPage(id){
 document.querySelectorAll(".card").forEach(c=>c.classList.add("hidden"))
 document.getElementById(id).classList.remove("hidden")
 sideMenu.classList.add("hidden")
-}
-
-function toggleChat(){chatBox.classList.toggle("hidden");emojiBox.classList.add("hidden")}
-function sendText(){
-if(!chatMsg.value)return
-chatContent.innerHTML+=`<div class="msg user"><div class="bubble">${chatMsg.value}</div></div>`
-chatMsg.value=""
-}
-
-function toggleEmoji(){emojiBox.classList.toggle("hidden")}
-function addEmoji(e){chatMsg.value+=e;emojiBox.classList.add("hidden")}
-
-function order(game,pack){
-let msg=`📦 ĐẶT ĐƠN ${game}\n➡️ ${pack}`
-chatContent.innerHTML+=`<div class="msg user"><div class="bubble">${msg}</div></div>`
-save()
-alert("Đã gửi đơn sang CSKH")
+renderOrders()
 }
 
 function napCard(){
-let m=amount.value
+let m=parseInt(amount.value)
 let receive=Math.floor(m*0.83)
-let msg=`💳 NẠP THẺ ${telco.value}\nMệnh giá: ${m}\nNhận: ${receive}đ`
-chatContent.innerHTML+=`<div class="msg user"><div class="bubble">${msg}</div></div>`
+DB.users[cur].money+=receive
+money.innerText=DB.users[cur].money+"đ"
 save()
-alert("Đã gửi yêu cầu nạp")
+alert("Nạp thành công +" + receive + "đ")
 }
 
-function toggleMusic(){
-musicOn=!musicOn
-musicOn?music.play():music.pause()
+function order(game,pack){
+DB.orders.push({
+user:cur,game,pack,
+time:new Date().toLocaleString()
+})
+save()
+alert("Đã đặt đơn")
+renderOrders()
 }
+
+function renderOrders(){
+let box=document.getElementById("orderList")
+if(!box) return
+box.innerHTML=""
+DB.orders.filter(o=>o.user===cur).forEach(o=>{
+box.innerHTML+=`
+<div class="bubble">
+<b>${o.game}</b><br>${o.pack}<br>🕒 ${o.time}
+</div>`
+})
+}
+
+function toggleChat(){chatBox.classList.toggle("hidden")}
+function sendText(){
+if(!chatMsg.value) return
+chatContent.innerHTML+=`<div class="msg user"><div class="bubble">${chatMsg.value}</div></div>`
+chatMsg.value=""
+}
+function toggleMusic(){music.paused?music.play():music.pause()}
 </script>
 
 </body>
