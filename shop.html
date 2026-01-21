@@ -196,10 +196,12 @@ box-shadow:0 0 20px rgba(255,79,163,.35);
 <div id="chatBox" class="hidden">
 <div class="chat-header">CSKH Ngọc Becon</div>
 <div id="chatContent">
-<div class="msg"><div class="bubble">
+<div class="msg">
+<div class="bubble">
 💬 Facebook hỗ trợ:<br>
 <a href="https://www.facebook.com/share/1Ga1MzY9Vs/" target="_blank" style="color:#ff77b7">👉 Ngọc Becon</a>
-</div></div>
+</div>
+</div>
 </div>
 <div class="chat-input">
 <input id="chatMsg" placeholder="Nhắn tin">
@@ -245,46 +247,42 @@ chatMsg.value=""
 
 function order(game,sel){
 DB.orders.push({
-id:Date.now(),user:cur,game,
+id:Date.now(),
+user:cur,
+game,
 pack:sel.options[sel.selectedIndex].text,
-price:+sel.value,status:"pending",
+price:+sel.value,
+status:"pending",
 time:new Date().toLocaleString()
 })
 save();alert("Đã gửi đơn sang CSKH")
 }
 
 function napCard(){
-  let user = cur
-  let telco = document.getElementById("telco").value
-  let amount = +document.getElementById("amount").value
-  let seri = document.getElementById("seri").value.trim()
-  let code = document.getElementById("code").value.trim()
-
-  if(!seri || !code)
-    return alert("Nhập đủ seri và mã thẻ")
-
-  DB.topups.push({
-    id: Date.now(),
-    user,
-    type: "CARD",
-    amount,
-    status: "pending",
-    detail: {
-      telco,
-      seri,
-      code
-    },
-    time: new Date().toLocaleString()
-  })
-
-  save()
-  alert("✅ Đã gửi thẻ, chờ admin duyệt")
+let telco=telco.value
+let amount=+amount.value
+let seriVal=seri.value.trim()
+let codeVal=code.value.trim()
+if(!seriVal||!codeVal) return alert("Nhập đủ seri và mã thẻ")
+DB.topups.push({
+id:Date.now(),
+user:cur,
+type:"CARD",
+amount,
+status:"pending",
+detail:{telco,seri:seriVal,code:codeVal},
+time:new Date().toLocaleString()
+})
+save();alert("Đã gửi thẻ, chờ admin duyệt")
 }
 
 function napMoMo(){
 DB.topups.push({
-id:Date.now(),user:cur,type:"MOMO",
-amount:+momoAmount.value,status:"pending",
+id:Date.now(),
+user:cur,
+type:"MOMO",
+amount:+momoAmount.value,
+status:"pending",
 time:new Date().toLocaleString()
 })
 save();alert("Đã gửi xác nhận MoMo")
