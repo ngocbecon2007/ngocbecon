@@ -36,7 +36,7 @@ background:#ff4fa3;color:#fff;font-weight:bold
 .card{background:#16001d;padding:20px;border-radius:20px;margin-bottom:20px}
 select,input{padding:10px;border-radius:10px;border:none;margin:6px 0;width:100%}
 
-/* LOGIN */
+/* AUTH */
 .auth{max-width:360px;margin:120px auto;background:#16001d;padding:24px;border-radius:20px;text-align:center}
 .auth input,.auth button{
 width:100%;padding:14px;margin-top:12px;border-radius:14px;border:none
@@ -69,12 +69,19 @@ border-radius:20px;display:flex;flex-direction:column;z-index:20
 
 <audio src="music.mp3" autoplay loop></audio>
 
-<!-- LOGIN -->
+<!-- AUTH -->
 <div id="auth" class="auth">
 <h2>🐰 Ngọc Becon Shop</h2>
+
 <input id="user" placeholder="Tài khoản">
 <input id="pass" type="password" placeholder="Mật khẩu">
-<button onclick="login()">Đăng nhập</button>
+<button onclick="login()">🔐 Đăng nhập</button>
+
+<hr style="margin:16px 0;border:1px solid #333">
+
+<input id="regUser" placeholder="Tài khoản mới">
+<input id="regPass" type="password" placeholder="Mật khẩu mới">
+<button onclick="register()">📝 Đăng ký</button>
 </div>
 
 <header id="header" class="hidden">
@@ -93,7 +100,6 @@ border-radius:20px;display:flex;flex-direction:column;z-index:20
 
 <div class="container hidden" id="shop">
 
-<!-- NẠP THẺ -->
 <div id="nap" class="card hidden">
 <h3>💳 Nạp thẻ cào (trừ 17%)</h3>
 <select id="telco">
@@ -115,16 +121,14 @@ border-radius:20px;display:flex;flex-direction:column;z-index:20
 <button onclick="napCard()">NẠP NGAY</button>
 </div>
 
-<!-- NẠP MOMO -->
 <div id="napmomo" class="card hidden">
 <h3>💗 Nạp MoMo</h3>
 <img src="momo.jpg" style="width:100%;border-radius:16px">
-<input placeholder="Nội dung chuyển khoản" value="MOMO_NGOCBECON" readonly>
+<input value="MOMO_NGOCBECON" readonly>
 <input id="momoAmount" placeholder="Nhập số tiền">
 <button onclick="napMoMo()">XÁC NHẬN ĐÃ CHUYỂN</button>
 </div>
 
-<!-- BLOX -->
 <div id="blox" class="card hidden">
 <h3>🍏 Blox Fruit</h3>
 <select id="bloxPack">
@@ -137,7 +141,6 @@ border-radius:20px;display:flex;flex-direction:column;z-index:20
 <button onclick="order('Blox Fruit',bloxPack.value)">ĐẶT ĐƠN</button>
 </div>
 
-<!-- FREE FIRE -->
 <div id="ff" class="card hidden">
 <h3>🔥 Free Fire</h3>
 <select id="ffPack">
@@ -148,7 +151,6 @@ border-radius:20px;display:flex;flex-direction:column;z-index:20
 <button onclick="order('Free Fire',ffPack.value)">ĐẶT ĐƠN</button>
 </div>
 
-<!-- LIÊN QUÂN -->
 <div id="lq" class="card hidden">
 <h3>⚔️ Liên Quân</h3>
 <select id="lqPack">
@@ -167,7 +169,16 @@ border-radius:20px;display:flex;flex-direction:column;z-index:20
 
 <div id="chatBox" class="hidden">
 <div class="chat-header">CSKH Ngọc Becon</div>
-<div id="chatContent"></div>
+<div id="chatContent">
+<div class="msg">
+<div class="bubble">
+💬 Bạn có thể liên hệ Facebook:<br>
+<a href="https://www.facebook.com/share/1Ga1MzY9Vs/" target="_blank" style="color:#ff77b7">
+👉 Facebook Ngọc Becon
+</a>
+</div>
+</div>
+</div>
 <div class="chat-input">
 <input id="chatMsg" placeholder="Nhắn tin">
 <button onclick="sendText()">➤</button>
@@ -177,17 +188,28 @@ border-radius:20px;display:flex;flex-direction:column;z-index:20
 <script>
 let DB=JSON.parse(localStorage.getItem("SHOP"))||{users:{}}
 let cur=null
-
 function save(){localStorage.setItem("SHOP",JSON.stringify(DB))}
 
 function login(){
-if(!DB.users[user.value])DB.users[user.value]={pass:pass.value,money:0}
-if(DB.users[user.value].pass!==pass.value)return alert("Sai mật khẩu")
+if(!DB.users[user.value]) return alert("Tài khoản không tồn tại")
+if(DB.users[user.value].pass!==pass.value) return alert("Sai mật khẩu")
 cur=user.value
 auth.classList.add("hidden")
 header.classList.remove("hidden")
 shop.classList.remove("hidden")
 money.innerText=DB.users[cur].money+"đ"
+}
+
+function register(){
+let u=regUser.value.trim()
+let p=regPass.value.trim()
+if(!u||!p) return alert("Nhập đầy đủ thông tin")
+if(DB.users[u]) return alert("Tài khoản đã tồn tại")
+DB.users[u]={pass:p,money:0}
+save()
+alert("Đăng ký thành công – hãy đăng nhập")
+regUser.value=""
+regPass.value=""
 }
 
 function toggleMenu(){sideMenu.classList.toggle("hidden")}
@@ -198,7 +220,6 @@ sideMenu.classList.add("hidden")
 }
 
 function toggleChat(){chatBox.classList.toggle("hidden")}
-
 function sendText(){
 if(!chatMsg.value)return
 chatContent.innerHTML+=`<div class="msg user"><div class="bubble">${chatMsg.value}</div></div>`
