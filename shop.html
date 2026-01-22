@@ -47,33 +47,83 @@ width:100%;padding:14px;margin-top:12px;border-radius:14px;border:none
 table{width:100%;border-collapse:collapse}
 th,td{padding:10px;border-bottom:1px solid #333;text-align:left;font-size:14px}
 
-/* CHAT */
+/* ===== CHAT CSKH (BẤM NÚT MỚI MỞ) ===== */
 #chatBtn{
-position:fixed;right:20px;bottom:20px;
-background:#ff4fa3;padding:14px 18px;
-border-radius:999px;z-index:20
+  position:fixed;
+  right:16px;
+  bottom:16px;
+  background:#ff4fa3;
+  color:#fff;
+  padding:14px 18px;
+  border-radius:999px;
+  z-index:30;
+  cursor:pointer;
+  box-shadow:0 0 16px rgba(255,79,163,.5);
 }
+
 #chatBox{
-position:fixed;
-right:14px;
-bottom:80px;
-width:280px;
-height:360px;
-background:#0f0014;
-border-radius:18px;
-display:flex;
-flex-direction:column;
-z-index:20;
-box-shadow:0 0 20px rgba(255,79,163,.35);
+  position:fixed;
+  right:10px;
+  bottom:70px;
+  width:220px;
+  height:300px;
+  background:#0f0014;
+  border-radius:16px;
+  display:none;
+  flex-direction:column;
+  z-index:30;
+  box-shadow:0 0 16px rgba(255,79,163,.35);
+  transform:scale(0.9);
+  transform-origin:bottom right;
 }
-.chat-header{background:#ff4fa3;padding:12px;font-weight:bold}
-#chatContent{flex:1;overflow:auto;padding:10px}
-.msg{margin:6px 0}
-.user{text-align:right}
-.bubble{display:inline-block;padding:10px 14px;border-radius:18px;background:#333;max-width:75%}
-.user .bubble{background:#ff4fa3}
-.chat-input{display:flex;gap:6px;padding:8px}
-.chat-input input{flex:1;padding:10px;border-radius:20px;border:none}
+
+.chat-header{
+  background:#ff4fa3;
+  padding:10px;
+  font-weight:bold;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+#chatContent{
+  flex:1;
+  overflow:auto;
+  padding:8px;
+  font-size:13px;
+}
+
+.chat-input{
+  display:flex;
+  gap:6px;
+  padding:8px;
+}
+
+.chat-input input{
+  flex:1;
+  padding:8px;
+  border-radius:20px;
+  border:none;
+}
+
+.chat-input button{
+  width:34px;
+  height:34px;
+  border-radius:50%;
+  border:none;
+  background:#ff4fa3;
+  color:#fff;
+}
+
+@media (max-width:768px){
+  #chatBox{
+    width:210px;
+    height:280px;
+    right:8px;
+    bottom:65px;
+    transform:scale(0.88);
+  }
+}
 </style>
 </head>
 
