@@ -4,180 +4,178 @@
 <meta charset="UTF-8">
 <title>Ngọc Becon Shop</title>
 
-<!-- 🔒 KHÓA ZOOM / XOAY -->
 <meta name="viewport"
-content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 
 <style>
-*{
-  margin:0;padding:0;box-sizing:border-box;
-  font-family:'Segoe UI',sans-serif;
-  -webkit-tap-highlight-color:transparent;
+*{margin:0;padding:0;box-sizing:border-box;font-family:Segoe UI,sans-serif}
+html,body{width:100%;height:100%;overflow:hidden;background:#0e0014}
+body{display:flex;justify-content:center;align-items:center;color:#fff}
+
+/* ❄️ CANVAS TUYẾT */
+#fx{position:fixed;inset:0;z-index:-2}
+
+/* 🎬 INTRO VIDEO */
+#intro{
+  position:fixed;inset:0;
+  background:#000;
+  z-index:99;
 }
-html,body{
-  height:100%;
-  overscroll-behavior:none;
-  touch-action:manipulation;
-}
-body{
-  background:radial-gradient(circle at top,#6a007a,#120016);
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  overflow:hidden;
-  color:#fff;
+#intro video{
+  width:100%;height:100%;
+  object-fit:cover;
 }
 
-/* 🌫️ GLASS CARD */
+/* 🌫️ BLUR TRANSITION */
+.fade{
+  position:fixed;inset:0;
+  backdrop-filter:blur(30px);
+  background:rgba(0,0,0,.4);
+  z-index:50;
+  opacity:0;
+  pointer-events:none;
+  transition:.6s;
+}
+
+/* 💎 CARD */
 .card{
   background:rgba(255,255,255,.08);
-  backdrop-filter:blur(18px);
-  -webkit-backdrop-filter:blur(18px);
-  padding:40px 32px;
-  border-radius:28px;
+  backdrop-filter:blur(22px);
+  padding:44px 36px;
+  border-radius:30px;
   text-align:center;
-  box-shadow:0 30px 80px rgba(255,0,150,.35);
-  transform-style:preserve-3d;
+  box-shadow:0 40px 90px rgba(255,0,150,.45);
 }
 
-/* 🐰 AVATAR WRAP */
+/* 🐰 AVATAR */
 .avatar-wrap{
-  position:relative;
   width:160px;height:160px;
   margin:0 auto 22px;
-  border-radius:50%;
   padding:6px;
-  cursor:pointer;
+  border-radius:50%;
+  position:relative;
 }
-
-/* ✨ VIỀN NEON XOAY (CHỈ VIỀN) */
 .avatar-wrap::before{
   content:"";
   position:absolute;
   inset:0;
   border-radius:50%;
-  background:conic-gradient(
-    #ff4fa3,
-    #ff77ff,
-    #4fdcff,
-    #ff4fa3
-  );
-  filter:blur(8px);
+  filter:blur(10px);
+  background:conic-gradient(#ff4fa3,#ff77ff,#4fdcff,#ff4fa3);
   z-index:-1;
-  animation:ringSpin 7s linear infinite;
 }
-
-/* 🖼️ AVATAR KHÔNG XOAY */
 .avatar{
   width:100%;height:100%;
   border-radius:50%;
   background:url("avatar.jpg") center/cover no-repeat;
-  box-shadow:0 0 30px #ff4fa3;
-  transform:rotate(0deg)!important;
+  box-shadow:0 0 40px #ff4fa3;
 }
 
-/* 💎 LOGO */
-.logo{
-  font-size:24px;
-  font-weight:700;
-  letter-spacing:1px;
-  margin-bottom:6px;
-}
+/* TEXT */
+.logo{font-size:24px;font-weight:700}
 .logo span{color:#ff77c8}
+.slogan{font-size:13px;opacity:.85;margin:8px 0 28px}
 
-/* ✨ SLOGAN */
-.slogan{
-  font-size:13px;
-  opacity:.8;
-  margin-bottom:26px;
-}
-
-/* 🚀 BUTTON */
+/* BUTTON */
 .btn{
-  padding:14px 40px;
+  padding:14px 42px;
   border:none;
   border-radius:999px;
   background:linear-gradient(135deg,#ff4fa3,#ff8ad1);
   color:#fff;
   font-weight:600;
-  cursor:pointer;
   box-shadow:0 0 35px #ff4fa3;
-  transition:.35s;
+  transition:.4s cubic-bezier(.25,1.6,.4,1);
 }
-.btn:hover{
-  transform:scale(1.08);
-  box-shadow:0 0 60px #ff8ad1;
-}
-
-/* 💥 PARTICLE */
-.particle{
-  position:fixed;
-  width:8px;height:8px;
-  background:#ff77ff;
-  border-radius:50%;
-  pointer-events:none;
-  animation:particle 700ms linear forwards;
-}
-
-@keyframes particle{
-  to{
-    transform:translate(var(--x),var(--y)) scale(0);
-    opacity:0;
-  }
-}
-@keyframes ringSpin{
-  from{transform:rotate(0deg)}
-  to{transform:rotate(360deg)}
-}
+.btn:hover{transform:scale(1.1)}
 </style>
 </head>
 
 <body>
 
-<div class="card" id="card">
-  <div class="avatar-wrap" id="avatar">
+<canvas id="fx"></canvas>
+
+<!-- INTRO -->
+<div id="intro">
+  <video src="video.mp4" autoplay muted playsinline></video>
+</div>
+
+<div class="fade" id="fade"></div>
+
+<div class="card" id="card" style="display:none">
+  <div class="avatar-wrap" id="avatarWrap">
     <div class="avatar"></div>
   </div>
-
   <div class="logo">💎 <span>NGỌC BECON</span> SHOP</div>
   <div class="slogan">Shop dịch vụ game uy tín – nhanh – an toàn</div>
-  <button class="btn" onclick="location.href='shop.html'">🚀 VÀO SHOP</button>
+  <button class="btn" id="enter">🚀 VÀO SHOP</button>
 </div>
+
+<audio id="music" src="music.mp3" autoplay loop></audio>
 
 <script>
 /* 🚫 CHẶN ZOOM */
 document.addEventListener('gesturestart',e=>e.preventDefault());
 document.addEventListener('dblclick',e=>e.preventDefault());
 
-/* 🧊 3D TILT */
-const card=document.getElementById("card");
-document.addEventListener("mousemove",e=>{
-  const x=(window.innerWidth/2-e.clientX)/25;
-  const y=(window.innerHeight/2-e.clientY)/25;
-  card.style.transform=`rotateY(${x}deg) rotateX(${y}deg)`;
-});
+/* 🎬 INTRO AUTO OFF */
+const intro=document.getElementById("intro");
+setTimeout(()=>{
+  intro.style.opacity=0;
+  setTimeout(()=>intro.remove(),600);
+  document.getElementById("card").style.display="block";
+},4000);
 
-/* 💥 CLICK AVATAR: RUNG + HẠT */
-const avatar=document.getElementById("avatar");
-avatar.addEventListener("click",e=>{
-  avatar.animate([
-    {transform:"translateX(0)"},
-    {transform:"translateX(-4px)"},
-    {transform:"translateX(4px)"},
-    {transform:"translateX(0)"}
-  ],{duration:300});
+/* ❄️ TUYẾT / MƯA SAO */
+const c=document.getElementById("fx"),ctx=c.getContext("2d");
+let w,h,p=[];
+function resize(){w=c.width=innerWidth;h=c.height=innerHeight}
+resize();onresize=resize;
+for(let i=0;i<120;i++)p.push({x:Math.random()*w,y:Math.random()*h,s:Math.random()*2});
+function draw(){
+  ctx.clearRect(0,0,w,h);
+  ctx.fillStyle="white";
+  p.forEach(f=>{
+    ctx.globalAlpha=Math.random();
+    ctx.fillRect(f.x,f.y,f.s,f.s);
+    f.y+=0.4;
+    if(f.y>h){f.y=0;f.x=Math.random()*w}
+  });
+  requestAnimationFrame(draw);
+}
+draw();
 
-  for(let i=0;i<14;i++){
-    const p=document.createElement("div");
-    p.className="particle";
-    p.style.left=e.clientX+"px";
-    p.style.top=e.clientY+"px";
-    p.style.setProperty("--x",(Math.random()*120-60)+"px");
-    p.style.setProperty("--y",(Math.random()*120-60)+"px");
-    document.body.appendChild(p);
-    setTimeout(()=>p.remove(),700);
-  }
-});
+/* 🎵 BPM / BEAT SYNC */
+const audio=document.getElementById("music");
+const AC=new (window.AudioContext||webkitAudioContext)();
+const src=AC.createMediaElementSource(audio);
+const analyser=AC.createAnalyser();
+src.connect(analyser);analyser.connect(AC.destination);
+analyser.fftSize=64;
+const data=new Uint8Array(analyser.frequencyBinCount);
+const ring=document.querySelector(".avatar-wrap");
+
+function beat(){
+  analyser.getByteFrequencyData(data);
+  let v=data[5]*2;
+  ring.style.boxShadow=`0 0 ${v}px hsl(${v*2},100%,70%)`;
+  requestAnimationFrame(beat);
+}
+document.body.addEventListener("click",()=>AC.resume(),{once:true});
+beat();
+
+/* 💥 CLICK AVATAR */
+const avatar=document.getElementById("avatarWrap");
+avatar.onclick=e=>{
+  avatar.animate([{transform:"scale(1)"},{transform:"scale(.94)"},{transform:"scale(1)"}],{duration:260});
+};
+
+/* 📱 iOS BLUR TRANSITION */
+document.getElementById("enter").onclick=()=>{
+  const fade=document.getElementById("fade");
+  fade.style.opacity=1;
+  setTimeout(()=>location.href="shop.html",600);
+};
 </script>
 
 </body>
