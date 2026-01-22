@@ -3,100 +3,122 @@
 <head>
 <meta charset="UTF-8">
 <title>Ngọc Becon Shop</title>
-
-<meta name="viewport"
-content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Segoe UI,sans-serif}
-html,body{width:100%;height:100%;overflow:hidden;background:#0e0014}
-body{display:flex;justify-content:center;align-items:center;color:#fff}
+html,body{width:100%;height:100%;overflow:hidden}
 
-/* ❄️ CANVAS TUYẾT */
-#fx{position:fixed;inset:0;z-index:-2}
+body{
+display:flex;
+justify-content:center;
+align-items:center;
+background:
+radial-gradient(circle at top,#ff2f92 0%,#8a009f 35%,#120018 80%);
+color:#fff;
+}
 
-/* 🎬 INTRO */
+/* 🌌 STAR */
+#fx{position:fixed;inset:0;z-index:-3}
+
+/* 🌫️ BLUR */
+.blur{
+position:fixed;inset:0;
+backdrop-filter:blur(45px);
+background:rgba(0,0,0,.4);
+z-index:5;
+opacity:0;
+pointer-events:none;
+transition:.9s;
+}
+
+/* 🔥 INTRO */
 #intro{
-  position:fixed;inset:0;
-  background:radial-gradient(circle,#6a007a,#120016);
-  z-index:99;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-#intro video{
-  position:absolute;
-  inset:0;
-  width:100%;height:100%;
-  object-fit:cover;
-  opacity:0;
-  transition:.6s;
-}
-#loading{
-  text-align:center;
-  z-index:2;
-}
-#percent{
-  font-size:46px;
-  font-weight:700;
-  color:#ff77c8;
-  text-shadow:0 0 25px #ff4fa3;
-}
-#start{
-  margin-top:18px;
-  padding:12px 36px;
-  border:none;
-  border-radius:999px;
-  background:linear-gradient(135deg,#ff4fa3,#ff8ad1);
-  color:#fff;
-  font-weight:600;
-  box-shadow:0 0 30px #ff4fa3;
+position:fixed;inset:0;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+z-index:10;
 }
 
-/* 🌫️ BLUR TRANSITION */
-.fade{
-  position:fixed;inset:0;
-  backdrop-filter:blur(30px);
-  background:rgba(0,0,0,.45);
-  z-index:50;
-  opacity:0;
-  pointer-events:none;
-  transition:.6s;
+/* 🎧 SPOTIFY TEXT */
+#brand{
+display:flex;
+gap:6px;
+margin-bottom:24px;
+}
+#brand span{
+font-size:38px;
+font-weight:800;
+color:#ff77c8;
+text-shadow:0 0 30px #ff2f92;
+animation:wave 1.6s infinite ease-in-out;
+}
+#brand span:nth-child(n){animation-delay:calc(var(--i)*0.12s)}
+
+@keyframes wave{
+0%,100%{transform:translateY(0);opacity:.6}
+50%{transform:translateY(-10px);opacity:1}
+}
+
+/* % */
+#percent{
+font-size:42px;
+font-weight:700;
+color:#ff9bd6;
+text-shadow:0 0 35px #ff2f92;
+}
+
+/* BAR */
+#loading-bar{
+margin-top:18px;
+width:180px;height:6px;
+border-radius:99px;
+background:rgba(255,255,255,.15);
+overflow:hidden;
+}
+#loading-bar span{
+display:block;height:100%;
+width:0%;
+background:linear-gradient(90deg,#ff2f92,#ff9bd6);
+transition:.25s;
 }
 
 /* 💎 CARD */
 .card{
-  background:rgba(255,255,255,.08);
-  backdrop-filter:blur(22px);
-  padding:44px 36px;
-  border-radius:30px;
-  text-align:center;
-  box-shadow:0 40px 90px rgba(255,0,150,.45);
-  display:none;
+display:none;
+background:rgba(255,255,255,.1);
+backdrop-filter:blur(30px);
+padding:46px 38px;
+border-radius:36px;
+text-align:center;
+box-shadow:0 50px 120px rgba(255,0,150,.6);
+z-index:6;
 }
 
-/* 🐰 AVATAR */
+/* AVATAR */
 .avatar-wrap{
-  width:160px;height:160px;
-  margin:0 auto 22px;
-  padding:6px;
-  border-radius:50%;
-  position:relative;
+width:160px;height:160px;
+margin:0 auto 22px;
+padding:6px;
+border-radius:50%;
+position:relative;
 }
 .avatar-wrap::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  border-radius:50%;
-  filter:blur(10px);
-  background:conic-gradient(#ff4fa3,#ff77ff,#4fdcff,#ff4fa3);
-  z-index:-1;
+content:"";
+position:absolute;
+inset:0;
+border-radius:50%;
+background:conic-gradient(#ff2f92,#ff77ff,#4fdcff,#ff2f92);
+filter:blur(14px);
+z-index:-1;
 }
 .avatar{
-  width:100%;height:100%;
-  border-radius:50%;
-  background:url("avatar.jpg") center/cover no-repeat;
-  box-shadow:0 0 40px #ff4fa3;
+width:100%;height:100%;
+border-radius:50%;
+background:url("avatar.jpg") center/cover no-repeat;
+box-shadow:0 0 45px #ff2f92;
 }
 
 /* TEXT */
@@ -106,16 +128,16 @@ body{display:flex;justify-content:center;align-items:center;color:#fff}
 
 /* BUTTON */
 .btn{
-  padding:14px 42px;
-  border:none;
-  border-radius:999px;
-  background:linear-gradient(135deg,#ff4fa3,#ff8ad1);
-  color:#fff;
-  font-weight:600;
-  box-shadow:0 0 35px #ff4fa3;
-  transition:.4s cubic-bezier(.25,1.6,.4,1);
+padding:14px 42px;
+border:none;
+border-radius:999px;
+background:linear-gradient(135deg,#ff2f92,#ff8ad1);
+color:#fff;
+font-weight:600;
+box-shadow:0 0 40px #ff2f92;
+transition:.4s cubic-bezier(.25,1.6,.4,1);
 }
-.btn:hover{transform:scale(1.1)}
+.btn:hover{transform:scale(1.08)}
 </style>
 </head>
 
@@ -125,108 +147,75 @@ body{display:flex;justify-content:center;align-items:center;color:#fff}
 
 <!-- INTRO -->
 <div id="intro">
-  <div id="loading">
-    <div id="percent">0%</div>
-    <button id="start">CHẠM ĐỂ VÀO</button>
+  <div id="brand">
+    <span style="--i:1">N</span>
+    <span style="--i:2">G</span>
+    <span style="--i:3">Ọ</span>
+    <span style="--i:4">C</span>
+    <span style="--i:5">&nbsp;</span>
+    <span style="--i:6">B</span>
+    <span style="--i:7">E</span>
+    <span style="--i:8">C</span>
+    <span style="--i:9">O</span>
+    <span style="--i:10">N</span>
   </div>
-  <video id="introVideo" muted playsinline>
-    <source src="video.mp4" type="video/mp4">
-  </video>
+
+  <div id="percent">0%</div>
+  <div id="loading-bar"><span></span></div>
 </div>
 
-<div class="fade" id="fade"></div>
+<div class="blur" id="blur"></div>
 
+<!-- CARD -->
 <div class="card" id="card">
-  <div class="avatar-wrap" id="avatarWrap">
+  <div class="avatar-wrap" id="ring">
     <div class="avatar"></div>
   </div>
   <div class="logo">💎 <span>NGỌC BECON</span> SHOP</div>
   <div class="slogan">Shop dịch vụ game uy tín – nhanh – an toàn</div>
-  <button class="btn" id="enter">🚀 VÀO SHOP</button>
+  <button class="btn" onclick="location.href='shop.html'">🚀 VÀO SHOP</button>
 </div>
 
-<audio id="music" src="music.mp3" loop></audio>
+<audio id="music" src="music.mp3" autoplay loop></audio>
 
 <script>
-/* 🚫 CHẶN ZOOM */
-document.addEventListener('gesturestart',e=>e.preventDefault());
-document.addEventListener('dblclick',e=>e.preventDefault());
-
-/* 🔢 LOADING % */
-let p=0;
-const percent=document.getElementById("percent");
-const timer=setInterval(()=>{
-  if(p<100){p++;percent.innerText=p+"%";}
-},25);
-
-/* 🎬 START INTRO */
-const intro=document.getElementById("intro");
-const video=document.getElementById("introVideo");
-const card=document.getElementById("card");
-document.getElementById("start").onclick=()=>{
-  clearInterval(timer);
-  video.style.opacity=1;
-  video.play().catch(()=>{});
-  setTimeout(()=>{
-    intro.style.opacity=0;
-    setTimeout(()=>intro.remove(),600);
-    card.style.display="block";
-  },3000);
-};
-
-/* ❄️ TUYẾT / MƯA SAO */
+/* STAR */
 const c=document.getElementById("fx"),ctx=c.getContext("2d");
-let w,h,pf=[];
-function resize(){w=c.width=innerWidth;h=c.height=innerHeight}
-resize();onresize=resize;
-for(let i=0;i<120;i++)pf.push({x:Math.random()*w,y:Math.random()*h,s:Math.random()*2});
-(function draw(){
-  ctx.clearRect(0,0,w,h);
-  ctx.fillStyle="white";
-  pf.forEach(f=>{
-    ctx.globalAlpha=Math.random();
-    ctx.fillRect(f.x,f.y,f.s,f.s);
-    f.y+=0.4;
-    if(f.y>h){f.y=0;f.x=Math.random()*w}
-  });
-  requestAnimationFrame(draw);
+let w,h,s=[];
+function rs(){w=c.width=innerWidth;h=c.height=innerHeight}
+rs();onresize=rs;
+for(let i=0;i<120;i++)s.push({x:Math.random()*w,y:Math.random()*h,r:Math.random()*2});
+(function d(){
+ctx.clearRect(0,0,w,h);
+ctx.fillStyle="white";
+s.forEach(o=>{
+ctx.globalAlpha=Math.random();
+ctx.fillRect(o.x,o.y,o.r,o.r);
+o.y+=0.35;if(o.y>h){o.y=0;o.x=Math.random()*w}
+});
+requestAnimationFrame(d);
 })();
 
-/* 🎵 BPM SYNC */
-const audio=document.getElementById("music");
-const AC=new (window.AudioContext||webkitAudioContext)();
-const src=AC.createMediaElementSource(audio);
-const analyser=AC.createAnalyser();
-src.connect(analyser);analyser.connect(AC.destination);
-analyser.fftSize=64;
-const data=new Uint8Array(analyser.frequencyBinCount);
-const ring=document.querySelector(".avatar-wrap");
+/* LOAD DÀI HƠN */
+let p=0;
+const percent=document.getElementById("percent");
+const bar=document.querySelector("#loading-bar span");
+const speed=navigator.connection?(navigator.connection.downlink||1):1;
 
-function beat(){
-  analyser.getByteFrequencyData(data);
-  let v=data[6]*2;
-  ring.style.boxShadow=`0 0 ${v}px hsl(${v*2},100%,70%)`;
-  requestAnimationFrame(beat);
+const load=setInterval(()=>{
+p+=Math.random()*speed*1.4;
+if(p>=100){
+p=100;
+clearInterval(load);
+document.getElementById("blur").style.opacity=1;
+setTimeout(()=>{
+intro.remove();
+card.style.display="block";
+},800);
 }
-document.body.addEventListener("click",()=>{
-  AC.resume(); audio.play();
-},{once:true});
-beat();
-
-/* 💥 CLICK AVATAR */
-document.getElementById("avatarWrap").onclick=e=>{
-  e.currentTarget.animate(
-    [{transform:"scale(1)"},{transform:"scale(.94)"},{transform:"scale(1)"}],
-    {duration:260}
-  );
-};
-
-/* 📱 iOS BLUR TRANSITION */
-document.getElementById("enter").onclick=()=>{
-  const fade=document.getElementById("fade");
-  fade.style.opacity=1;
-  setTimeout(()=>location.href="shop.html",600);
-};
+percent.innerText=Math.floor(p)+"%";
+bar.style.width=p+"%";
+},90);
 </script>
 
 </body>
