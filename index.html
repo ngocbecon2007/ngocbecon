@@ -3,13 +3,24 @@
 <head>
 <meta charset="UTF-8">
 <title>Ngọc Becon Shop</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 🔒 KHÓA ZOOM / XOAY -->
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif}
+*{
+  margin:0;padding:0;box-sizing:border-box;
+  font-family:'Segoe UI',sans-serif;
+  -webkit-tap-highlight-color:transparent;
+}
+html,body{
+  height:100%;
+  overscroll-behavior:none;
+  touch-action:manipulation;
+}
 body{
-  height:100vh;
-  background:radial-gradient(circle at top,#5a006f,#0a0012);
+  background:radial-gradient(circle at top,#6a007a,#120016);
   display:flex;
   justify-content:center;
   align-items:center;
@@ -17,182 +28,156 @@ body{
   color:#fff;
 }
 
-/* BACKGROUND GLOW */
-.bg{
-  position:absolute;
-  inset:0;
-  background:radial-gradient(circle at center,#ff4fa330,transparent 70%);
-}
-
-/* INTRO */
-.intro{
-  position:relative;
+/* 🌫️ GLASS CARD */
+.card{
+  background:rgba(255,255,255,.08);
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+  padding:40px 32px;
+  border-radius:28px;
   text-align:center;
-  animation:fade 1.4s ease forwards;
-}
-@keyframes fade{
-  from{opacity:0;transform:scale(.9)}
-  to{opacity:1;transform:scale(1)}
+  box-shadow:0 30px 80px rgba(255,0,150,.35);
+  transform-style:preserve-3d;
 }
 
-/* AVATAR WRAP */
+/* 🐰 AVATAR WRAP */
 .avatar-wrap{
   position:relative;
   width:160px;height:160px;
-  margin:auto;
+  margin:0 auto 22px;
   border-radius:50%;
   padding:6px;
   cursor:pointer;
-  animation:ringSpin 6s linear infinite;
 }
 
-/* VIỀN NEON */
+/* ✨ VIỀN NEON XOAY (CHỈ VIỀN) */
 .avatar-wrap::before{
   content:"";
   position:absolute;
   inset:0;
   border-radius:50%;
-  background:conic-gradient(#ff4fa3,#ff77ff,#4fdcff,#ff4fa3);
-  filter:blur(6px);
+  background:conic-gradient(
+    #ff4fa3,
+    #ff77ff,
+    #4fdcff,
+    #ff4fa3
+  );
+  filter:blur(8px);
   z-index:-1;
-  transition:.3s;
+  animation:ringSpin 7s linear infinite;
 }
 
-/* AVATAR */
+/* 🖼️ AVATAR KHÔNG XOAY */
 .avatar{
   width:100%;height:100%;
   border-radius:50%;
   background:url("avatar.jpg") center/cover no-repeat;
-  box-shadow:0 0 25px #ff4fa3;
+  box-shadow:0 0 30px #ff4fa3;
+  transform:rotate(0deg)!important;
 }
 
-/* HOVER SÁNG MẠNH */
-.avatar-wrap:hover::before{
-  filter:blur(14px);
-  transform:scale(1.15);
-}
-.avatar-wrap:hover .avatar{
-  box-shadow:0 0 50px #ff77ff;
-}
-
-/* VIỀN XOAY – AVATAR KHÔNG XOAY */
-@keyframes ringSpin{
-  from{transform:rotate(0)}
-  to{transform:rotate(360deg)}
-}
-
-/* RUNG */
-.shake{
-  animation:shake .3s;
-}
-@keyframes shake{
-  0%{transform:translate(0)}
-  25%{transform:translate(-6px,4px)}
-  50%{transform:translate(6px,-4px)}
-  75%{transform:translate(-4px,6px)}
-  100%{transform:translate(0)}
-}
-
-/* LOGO */
+/* 💎 LOGO */
 .logo{
-  margin-top:16px;
-  font-size:26px;
+  font-size:24px;
   font-weight:700;
-  text-shadow:0 0 25px #ff77c8;
+  letter-spacing:1px;
+  margin-bottom:6px;
 }
 .logo span{color:#ff77c8}
 
-/* BUTTON */
+/* ✨ SLOGAN */
+.slogan{
+  font-size:13px;
+  opacity:.8;
+  margin-bottom:26px;
+}
+
+/* 🚀 BUTTON */
 .btn{
-  margin-top:26px;
   padding:14px 40px;
   border:none;
   border-radius:999px;
-  background:linear-gradient(135deg,#ff4fa3,#ff85c2);
+  background:linear-gradient(135deg,#ff4fa3,#ff8ad1);
   color:#fff;
   font-weight:600;
   cursor:pointer;
-  box-shadow:0 0 30px #ff4fa3;
-  transition:.25s;
+  box-shadow:0 0 35px #ff4fa3;
+  transition:.35s;
 }
 .btn:hover{
   transform:scale(1.08);
-  box-shadow:0 0 55px #ff85c2;
+  box-shadow:0 0 60px #ff8ad1;
 }
 
-/* PARTICLE */
+/* 💥 PARTICLE */
 .particle{
-  position:absolute;
-  width:6px;height:6px;
+  position:fixed;
+  width:8px;height:8px;
   background:#ff77ff;
   border-radius:50%;
   pointer-events:none;
-  animation:fly .8s linear forwards;
+  animation:particle 700ms linear forwards;
 }
-@keyframes fly{
+
+@keyframes particle{
   to{
     transform:translate(var(--x),var(--y)) scale(0);
     opacity:0;
   }
+}
+@keyframes ringSpin{
+  from{transform:rotate(0deg)}
+  to{transform:rotate(360deg)}
 }
 </style>
 </head>
 
 <body>
 
-<div class="bg"></div>
-
-<div class="intro">
+<div class="card" id="card">
   <div class="avatar-wrap" id="avatar">
     <div class="avatar"></div>
   </div>
 
   <div class="logo">💎 <span>NGỌC BECON</span> SHOP</div>
-
-  <button class="btn" onclick="enter()">🚀 VÀO SHOP</button>
+  <div class="slogan">Shop dịch vụ game uy tín – nhanh – an toàn</div>
+  <button class="btn" onclick="location.href='shop.html'">🚀 VÀO SHOP</button>
 </div>
 
-<audio id="music" autoplay loop>
-  <source src="music.mp3" type="audio/mpeg">
-</audio>
-
 <script>
-const avatar=document.getElementById("avatar")
-const music=document.getElementById("music")
+/* 🚫 CHẶN ZOOM */
+document.addEventListener('gesturestart',e=>e.preventDefault());
+document.addEventListener('dblclick',e=>e.preventDefault());
 
-/* FIX AUTOPLAY MOBILE */
-document.addEventListener("click",()=>{
-  if(music.paused) music.play()
-},{once:true})
+/* 🧊 3D TILT */
+const card=document.getElementById("card");
+document.addEventListener("mousemove",e=>{
+  const x=(window.innerWidth/2-e.clientX)/25;
+  const y=(window.innerHeight/2-e.clientY)/25;
+  card.style.transform=`rotateY(${x}deg) rotateX(${y}deg)`;
+});
 
-/* CLICK AVATAR → RUNG + HẠT */
-avatar.onclick=e=>{
-  avatar.classList.add("shake")
-  setTimeout(()=>avatar.classList.remove("shake"),300)
+/* 💥 CLICK AVATAR: RUNG + HẠT */
+const avatar=document.getElementById("avatar");
+avatar.addEventListener("click",e=>{
+  avatar.animate([
+    {transform:"translateX(0)"},
+    {transform:"translateX(-4px)"},
+    {transform:"translateX(4px)"},
+    {transform:"translateX(0)"}
+  ],{duration:300});
 
-  for(let i=0;i<20;i++){
-    const p=document.createElement("div")
-    p.className="particle"
-    p.style.left=e.clientX+"px"
-    p.style.top=e.clientY+"px"
-    p.style.setProperty("--x",(Math.random()*200-100)+"px")
-    p.style.setProperty("--y",(Math.random()*200-100)+"px")
-    document.body.appendChild(p)
-    setTimeout(()=>p.remove(),800)
+  for(let i=0;i<14;i++){
+    const p=document.createElement("div");
+    p.className="particle";
+    p.style.left=e.clientX+"px";
+    p.style.top=e.clientY+"px";
+    p.style.setProperty("--x",(Math.random()*120-60)+"px");
+    p.style.setProperty("--y",(Math.random()*120-60)+"px");
+    document.body.appendChild(p);
+    setTimeout(()=>p.remove(),700);
   }
-}
-
-/* VIỀN ĐỔI MÀU THEO NHẠC (GIẢ LẬP THEO NHỊP) */
-let hue=0
-setInterval(()=>{
-  hue=(hue+20)%360
-  avatar.style.filter=`hue-rotate(${hue}deg)`
-},300)
-
-/* ENTER */
-function enter(){
-  alert("👉 Kết nối shop thành công (demo)")
-}
+});
 </script>
 
 </body>
