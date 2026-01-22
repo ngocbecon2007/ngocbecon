@@ -371,6 +371,37 @@ orderTable.innerHTML+=`<tr><td>${o.time}</td><td>${o.game}</td><td>${o.pack}</td
 })
 }
 </script>
+<!-- Nút mở chat -->
+<div id="chatBtn" onclick="toggleChat()">💬 CSKH</div>
 
+<!-- Khung chat -->
+<div id="chatBox">
+  <div class="chat-header">
+    CSKH Ngọc Becon
+    <span style="cursor:pointer" onclick="toggleChat()">✖</span>
+  </div>
+
+  <div id="chatContent">
+    <div class="bubble user">Chào shop 💗</div>
+  </div>
+
+  <div class="chat-input">
+    <input placeholder="Nhập tin nhắn...">
+    <button>➤</button>
+  </div>
+</div>
+
+<script>
+function toggleChat(){
+  const box = document.getElementById("chatBox");
+  if(box.style.display === "flex"){
+    box.style.opacity = 0;
+    setTimeout(()=>box.style.display="none",200);
+  }else{
+    box.style.display = "flex";
+    box.style.opacity = 1;
+  }
+}
+</script>
 </body>
 </html>
