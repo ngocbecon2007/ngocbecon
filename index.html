@@ -17,7 +17,7 @@ background:radial-gradient(circle at top,#ff2f92 0%,#8a009f 45%,#120018 90%);
 color:#fff;
 }
 
-/* 🌌 STAR + ❄️ SNOW */
+/* 🌌 FX */
 canvas{position:fixed;inset:0;z-index:-3}
 
 /* 🎥 INTRO */
@@ -28,7 +28,6 @@ flex-direction:column;
 justify-content:center;
 align-items:center;
 z-index:10;
-background:inherit;
 }
 
 #brand{display:flex;gap:4px;margin-bottom:16px}
@@ -46,11 +45,7 @@ animation:wave 1.6s infinite ease-in-out;
 50%{transform:translateY(-10px);opacity:1}
 }
 
-#percent{
-font-size:38px;
-font-weight:700;
-color:#ff9bd6;
-}
+#percent{font-size:38px;font-weight:700;color:#ff9bd6}
 
 #bar{
 margin-top:14px;
@@ -79,6 +74,11 @@ position:relative;
 animation:fadeUp .8s ease;
 }
 
+@keyframes fadeUp{
+from{opacity:0;transform:translateY(20px)}
+to{opacity:1;transform:none}
+}
+
 /* ✨ NEON BORDER */
 .card::before{
 content:"";
@@ -87,19 +87,14 @@ inset:-2px;
 border-radius:36px;
 background:linear-gradient(90deg,#ff2f92,#4fdcff,#ff77ff,#ff2f92);
 background-size:300% 300%;
-z-index:-1;
 animation:neon 5s linear infinite;
 filter:blur(6px);
+z-index:-1;
 }
 
 @keyframes neon{
 0%{background-position:0%}
 100%{background-position:300%}
-}
-
-@keyframes fadeUp{
-from{opacity:0;transform:translateY(20px)}
-to{opacity:1;transform:none}
 }
 
 /* 🖼 AVATAR */
@@ -117,7 +112,7 @@ border-radius:50%;
 object-fit:cover;
 }
 
-/* NAME + CHECK */
+/* NAME */
 .name{
 margin-bottom:18px;
 font-size:19px;
@@ -139,7 +134,7 @@ align-items:center;
 box-shadow:0 0 12px #1da1f2;
 }
 
-/* 🔘 BUBBLE BUTTON */
+/* 🔘 BUTTON */
 .link{
 display:flex;
 align-items:center;
@@ -161,10 +156,7 @@ box-shadow:0 0 30px #ff2f92;
 transform:translateY(-2px);
 }
 
-.link:active{
-animation:shake .25s;
-}
-
+.link:active{animation:shake .25s}
 @keyframes shake{
 0%{transform:translateX(0)}
 25%{transform:translateX(-3px)}
@@ -173,7 +165,7 @@ animation:shake .25s;
 100%{transform:translateX(0)}
 }
 
-/* 📱 PE (mobile) */
+/* 📱 PE */
 @media (max-width:480px){
 .card{padding:28px 22px}
 .avatar-wrap{width:130px;height:130px}
@@ -207,20 +199,19 @@ animation:shake .25s;
 
 <!-- MAIN -->
 <div class="card" id="main">
-
   <div class="avatar-wrap">
     <img src="avatar.jpg" class="avatar">
   </div>
 
-  <div class="name">
-    Ngọc Becon <span class="check">✓</span>
-  </div>
+  <div class="name">Ngọc Becon <span class="check">✓</span></div>
 
   <a class="link" href="https://www.tiktok.com/@ngocbecon" target="_blank">🎵 TikTok</a>
   <a class="link" href="https://www.facebook.com/share/18TVL9TCDZ/" target="_blank">📘 Facebook</a>
   <a class="link" href="https://discord.gg/dv2QAwssr" target="_blank">💬 Discord Group</a>
-
 </div>
+
+<!-- 🎵 MUSIC -->
+<audio id="bgm" src="music.mp3" loop></audio>
 
 <script>
 /* LOADING */
@@ -268,6 +259,12 @@ ctx.fill();
 requestAnimationFrame(draw);
 }
 draw();
+
+/* 🎵 MUSIC PLAY */
+const bgm=document.getElementById("bgm");
+bgm.volume=0.6;
+window.addEventListener("load",()=>{bgm.play().catch(()=>{})});
+document.addEventListener("click",()=>{if(bgm.paused) bgm.play()},{once:true});
 </script>
 
 </body>
