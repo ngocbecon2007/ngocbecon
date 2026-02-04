@@ -13,12 +13,12 @@ body{
 display:flex;
 justify-content:center;
 align-items:center;
-background:radial-gradient(circle at top,#ff2f92 0%,#8a009f 40%,#120018 85%);
+background:radial-gradient(circle at top,#ff2f92 0%,#8a009f 45%,#120018 90%);
 color:#fff;
 }
 
-/* 🌌 STAR */
-canvas{position:fixed;inset:0;z-index:-2}
+/* 🌌 STAR + ❄️ SNOW */
+canvas{position:fixed;inset:0;z-index:-3}
 
 /* 🎥 INTRO */
 #intro{
@@ -31,30 +31,29 @@ z-index:10;
 background:inherit;
 }
 
-#brand{display:flex;gap:5px;margin-bottom:20px}
+#brand{display:flex;gap:4px;margin-bottom:16px}
 #brand span{
 font-size:36px;
 font-weight:800;
 color:#ff77c8;
-text-shadow:0 0 25px #ff2f92;
+text-shadow:0 0 30px #ff2f92;
 animation:wave 1.6s infinite ease-in-out;
 }
 #brand span:nth-child(n){animation-delay:calc(var(--i)*0.1s)}
 
 @keyframes wave{
-0%,100%{transform:translateY(0);opacity:.5}
+0%,100%{transform:translateY(0);opacity:.6}
 50%{transform:translateY(-10px);opacity:1}
 }
 
 #percent{
-font-size:40px;
+font-size:38px;
 font-weight:700;
 color:#ff9bd6;
-text-shadow:0 0 25px #ff2f92;
 }
 
 #bar{
-margin-top:16px;
+margin-top:14px;
 width:180px;height:6px;
 background:rgba(255,255,255,.2);
 border-radius:99px;
@@ -69,100 +68,138 @@ background:linear-gradient(90deg,#ff2f92,#ff9bd6);
 .card{
 display:none;
 background:rgba(255,255,255,.12);
-backdrop-filter:blur(25px);
-padding:32px 26px;
-border-radius:30px;
+backdrop-filter:blur(30px);
+padding:34px 26px 30px;
+border-radius:34px;
 text-align:center;
-box-shadow:0 40px 120px rgba(255,0,150,.5);
 max-width:320px;
 width:90%;
 z-index:5;
+position:relative;
+animation:fadeUp .8s ease;
+}
+
+/* ✨ NEON BORDER */
+.card::before{
+content:"";
+position:absolute;
+inset:-2px;
+border-radius:36px;
+background:linear-gradient(90deg,#ff2f92,#4fdcff,#ff77ff,#ff2f92);
+background-size:300% 300%;
+z-index:-1;
+animation:neon 5s linear infinite;
+filter:blur(6px);
+}
+
+@keyframes neon{
+0%{background-position:0%}
+100%{background-position:300%}
+}
+
+@keyframes fadeUp{
+from{opacity:0;transform:translateY(20px)}
+to{opacity:1;transform:none}
 }
 
 /* 🖼 AVATAR */
 .avatar-wrap{
 width:140px;height:140px;
-margin:0 auto 14px;
+margin:0 auto 12px;
 border-radius:50%;
 padding:5px;
-background:conic-gradient(#ff2f92,#ff77ff,#4fdcff,#ff2f92);
-animation:spin 6s linear infinite;
-box-shadow:0 0 35px rgba(255,0,150,.8);
+background:linear-gradient(135deg,#ff2f92,#4fdcff,#ff77ff);
+box-shadow:0 0 35px rgba(255,0,150,.9);
 }
 .avatar{
 width:100%;height:100%;
 border-radius:50%;
 object-fit:cover;
-background:#000;
-}
-
-@keyframes spin{
-from{transform:rotate(0deg)}
-to{transform:rotate(360deg)}
 }
 
 /* NAME + CHECK */
 .name{
-margin-bottom:14px;
-font-size:18px;
+margin-bottom:18px;
+font-size:19px;
 font-weight:700;
 display:flex;
 justify-content:center;
 align-items:center;
 gap:6px;
-text-shadow:0 0 10px rgba(255,255,255,.4);
 }
 .check{
 width:18px;height:18px;
 border-radius:50%;
 background:#1da1f2;
-color:#fff;
 font-size:12px;
 font-weight:900;
 display:flex;
 justify-content:center;
 align-items:center;
-box-shadow:0 0 10px rgba(29,161,242,.9);
+box-shadow:0 0 12px #1da1f2;
 }
 
-/* LINKS */
+/* 🔘 BUBBLE BUTTON */
 .link{
-display:block;
-margin:10px 0;
-padding:14px;
-border-radius:18px;
-background:rgba(255,255,255,.15);
+display:flex;
+align-items:center;
+justify-content:center;
+gap:10px;
+margin:12px 0;
+padding:15px;
+border-radius:999px;
+background:rgba(255,255,255,.16);
 color:#fff;
 text-decoration:none;
 font-weight:600;
 transition:.25s;
-border:none;
-width:100%;
 }
+
 .link:hover{
 background:#ff2f92;
-box-shadow:0 0 25px #ff2f92;
+box-shadow:0 0 30px #ff2f92;
+transform:translateY(-2px);
+}
+
+.link:active{
+animation:shake .25s;
+}
+
+@keyframes shake{
+0%{transform:translateX(0)}
+25%{transform:translateX(-3px)}
+50%{transform:translateX(3px)}
+75%{transform:translateX(-2px)}
+100%{transform:translateX(0)}
+}
+
+/* 📱 PE (mobile) */
+@media (max-width:480px){
+.card{padding:28px 22px}
+.avatar-wrap{width:130px;height:130px}
+.name{font-size:18px}
+.link{padding:16px;font-size:15px}
+}
+
+/* 🖥 PC */
+@media (min-width:900px){
+.card{max-width:360px}
+.name{font-size:20px}
 }
 </style>
 </head>
 
 <body>
 
-<canvas id="star"></canvas>
+<canvas id="fx"></canvas>
 
 <!-- INTRO -->
 <div id="intro">
   <div id="brand">
-    <span style="--i:1">N</span>
-    <span style="--i:2">g</span>
-    <span style="--i:3">ọ</span>
-    <span style="--i:4">c</span>
-    <span style="--i:5"> </span>
-    <span style="--i:6">B</span>
-    <span style="--i:7">e</span>
-    <span style="--i:8">c</span>
-    <span style="--i:9">o</span>
-    <span style="--i:10">n</span>
+    <span style="--i:1">N</span><span style="--i:2">g</span><span style="--i:3">ọ</span>
+    <span style="--i:4">c</span><span style="--i:5"> </span>
+    <span style="--i:6">B</span><span style="--i:7">e</span>
+    <span style="--i:8">c</span><span style="--i:9">o</span><span style="--i:10">n</span>
   </div>
   <div id="percent">0%</div>
   <div id="bar"><span></span></div>
@@ -179,19 +216,14 @@ box-shadow:0 0 25px #ff2f92;
     Ngọc Becon <span class="check">✓</span>
   </div>
 
-  <button id="play" class="link">🎵 Play Music</button>
+  <a class="link" href="https://www.tiktok.com/@ngocbecon" target="_blank">🎵 TikTok</a>
+  <a class="link" href="https://www.facebook.com/share/18TVL9TCDZ/" target="_blank">📘 Facebook</a>
+  <a class="link" href="https://discord.gg/dv2QAwssr" target="_blank">💬 Discord Group</a>
 
-  <a class="link" href="https://www.facebook.com/share/18TVL9TCDZ/" target="_blank">
-    📘 Facebook
-  </a>
-
-  <a class="link" href="https://discord.gg/dv2QAwssr" target="_blank">
-    💬 Discord Group
-  </a>
 </div>
 
 <script>
-/* 🎥 LOADING */
+/* LOADING */
 let p=0;
 const percent=document.getElementById("percent");
 const bar=document.querySelector("#bar span");
@@ -199,52 +231,44 @@ const intro=document.getElementById("intro");
 const main=document.getElementById("main");
 
 const load=setInterval(()=>{
-  p++;
-  percent.innerText=p+"%";
-  bar.style.width=p+"%";
-  if(p>=100){
-    clearInterval(load);
-    intro.style.opacity=0;
-    setTimeout(()=>{
-      intro.style.display="none";
-      main.style.display="block";
-    },600);
-  }
-},25);
+p++;
+percent.innerText=p+"%";
+bar.style.width=p+"%";
+if(p>=100){
+clearInterval(load);
+intro.style.opacity=0;
+setTimeout(()=>{
+intro.style.display="none";
+main.style.display="block";
+},500);
+}
+},20);
 
-/* 🌌 STAR */
-const c=document.getElementById("star");
+/* ❄️ SNOW */
+const c=document.getElementById("fx");
 const ctx=c.getContext("2d");
-let w,h,stars=[];
+let w,h,particles=[];
 function resize(){w=c.width=innerWidth;h=c.height=innerHeight}
 window.onresize=resize;resize();
 
-for(let i=0;i<120;i++){
-stars.push({x:Math.random()*w,y:Math.random()*h,r:Math.random()*1.5,v:Math.random()*0.6+0.2})
+for(let i=0;i<160;i++){
+particles.push({x:Math.random()*w,y:Math.random()*h,r:Math.random()*2,v:Math.random()*0.8+0.3});
 }
 function draw(){
 ctx.clearRect(0,0,w,h);
 ctx.fillStyle="#fff";
-stars.forEach(s=>{
-s.y+=s.v;
-if(s.y>h){s.y=0;s.x=Math.random()*w}
+particles.forEach(p=>{
+p.y+=p.v;
+if(p.y>h){p.y=0;p.x=Math.random()*w}
 ctx.globalAlpha=Math.random();
 ctx.beginPath();
-ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
 ctx.fill();
 });
 requestAnimationFrame(draw);
 }
 draw();
-
-/* 🔊 MUSIC */
-const audio=new Audio("music.mp3");
-audio.loop=true;
-document.getElementById("play").onclick=()=>{
-audio.play();
-document.getElementById("play").innerText="🔊 Music Playing";
-};
 </script>
 
 </body>
-</html>
+</html> 
