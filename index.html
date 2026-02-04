@@ -2,8 +2,8 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<title>Ngọc Becon Shop</title>
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Ngọc Becon</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Segoe UI,sans-serif}
@@ -13,209 +13,189 @@ body{
 display:flex;
 justify-content:center;
 align-items:center;
-background:
-radial-gradient(circle at top,#ff2f92 0%,#8a009f 35%,#120018 80%);
+background:radial-gradient(circle at top,#ff2f92 0%,#8a009f 40%,#120018 85%);
 color:#fff;
 }
 
 /* 🌌 STAR */
-#fx{position:fixed;inset:0;z-index:-3}
-
-/* 🌫️ BLUR */
-.blur{
-position:fixed;inset:0;
-backdrop-filter:blur(45px);
-background:rgba(0,0,0,.4);
-z-index:5;
-opacity:0;
-pointer-events:none;
-transition:.9s;
+canvas{
+position:fixed;
+inset:0;
+z-index:-2;
 }
 
-/* 🔥 INTRO */
+/* 🎥 INTRO */
 #intro{
 position:fixed;inset:0;
 display:flex;
 flex-direction:column;
 justify-content:center;
 align-items:center;
+background:inherit;
 z-index:10;
 }
 
-/* 🎧 SPOTIFY TEXT */
-#brand{
-display:flex;
-gap:6px;
-margin-bottom:24px;
-}
 #brand span{
-font-size:38px;
+font-size:36px;
 font-weight:800;
 color:#ff77c8;
-text-shadow:0 0 30px #ff2f92;
+text-shadow:0 0 25px #ff2f92;
 animation:wave 1.6s infinite ease-in-out;
 }
-#brand span:nth-child(n){animation-delay:calc(var(--i)*0.12s)}
+#brand{display:flex;gap:5px;margin-bottom:20px}
+#brand span:nth-child(n){animation-delay:calc(var(--i)*0.1s)}
 
 @keyframes wave{
-0%,100%{transform:translateY(0);opacity:.6}
+0%,100%{transform:translateY(0);opacity:.5}
 50%{transform:translateY(-10px);opacity:1}
 }
 
-/* % */
 #percent{
-font-size:42px;
+font-size:40px;
 font-weight:700;
 color:#ff9bd6;
-text-shadow:0 0 35px #ff2f92;
+text-shadow:0 0 25px #ff2f92;
 }
 
-/* BAR */
-#loading-bar{
-margin-top:18px;
+#bar{
+margin-top:16px;
 width:180px;height:6px;
+background:rgba(255,255,255,.2);
 border-radius:99px;
-background:rgba(255,255,255,.15);
 overflow:hidden;
 }
-#loading-bar span{
-display:block;height:100%;
+#bar span{
+display:block;
+height:100%;
 width:0%;
 background:linear-gradient(90deg,#ff2f92,#ff9bd6);
-transition:.25s;
 }
 
 /* 💎 CARD */
 .card{
 display:none;
-background:rgba(255,255,255,.1);
-backdrop-filter:blur(30px);
-padding:46px 38px;
-border-radius:36px;
+background:rgba(255,255,255,.12);
+backdrop-filter:blur(25px);
+padding:36px 26px;
+border-radius:30px;
 text-align:center;
-box-shadow:0 50px 120px rgba(255,0,150,.6);
-z-index:6;
+box-shadow:0 40px 120px rgba(255,0,150,.5);
+z-index:5;
+max-width:320px;
+width:90%;
 }
 
-/* AVATAR */
-.avatar-wrap{
-width:160px;height:160px;
-margin:0 auto 22px;
-padding:6px;
-border-radius:50%;
-position:relative;
-}
-.avatar-wrap::before{
-content:"";
-position:absolute;
-inset:0;
-border-radius:50%;
-background:conic-gradient(#ff2f92,#ff77ff,#4fdcff,#ff2f92);
-filter:blur(14px);
-z-index:-1;
-}
-.avatar{
-width:100%;height:100%;
-border-radius:50%;
-background:url("avatar.jpg") center/cover no-repeat;
-box-shadow:0 0 45px #ff2f92;
-}
-
-/* TEXT */
-.logo{font-size:24px;font-weight:700}
-.logo span{color:#ff77c8}
-.slogan{font-size:13px;opacity:.85;margin:8px 0 28px}
-
-/* BUTTON */
-.btn{
-padding:14px 42px;
-border:none;
-border-radius:999px;
-background:linear-gradient(135deg,#ff2f92,#ff8ad1);
+.link{
+display:block;
+margin:12px 0;
+padding:14px;
+border-radius:18px;
+background:rgba(255,255,255,.15);
 color:#fff;
+text-decoration:none;
 font-weight:600;
-box-shadow:0 0 40px #ff2f92;
-transition:.4s cubic-bezier(.25,1.6,.4,1);
+transition:.25s;
 }
-.btn:hover{transform:scale(1.08)}
+.link:hover{
+background:#ff2f92;
+box-shadow:0 0 25px #ff2f92;
+}
 </style>
 </head>
 
 <body>
 
-<canvas id="fx"></canvas>
+<canvas id="star"></canvas>
 
 <!-- INTRO -->
 <div id="intro">
   <div id="brand">
     <span style="--i:1">N</span>
-    <span style="--i:2">G</span>
-    <span style="--i:3">Ọ</span>
-    <span style="--i:4">C</span>
-    <span style="--i:5">&nbsp;</span>
+    <span style="--i:2">g</span>
+    <span style="--i:3">ọ</span>
+    <span style="--i:4">c</span>
+    <span style="--i:5"> </span>
     <span style="--i:6">B</span>
-    <span style="--i:7">E</span>
-    <span style="--i:8">C</span>
-    <span style="--i:9">O</span>
-    <span style="--i:10">N</span>
+    <span style="--i:7">e</span>
+    <span style="--i:8">c</span>
+    <span style="--i:9">o</span>
+    <span style="--i:10">n</span>
   </div>
 
   <div id="percent">0%</div>
-  <div id="loading-bar"><span></span></div>
+  <div id="bar"><span></span></div>
 </div>
 
-<div class="blur" id="blur"></div>
+<!-- MAIN -->
+<div class="card" id="main">
+  🎧 <b>Music:</b> music.mp3
 
-<!-- CARD -->
-<div class="card" id="card">
-  <div class="avatar-wrap" id="ring">
-    <div class="avatar"></div>
-  </div>
-  <div class="logo">💎 <span>NGỌC BECON</span> SHOP</div>
-  <div class="slogan">Shop dịch vụ game uy tín – nhanh – an toàn</div>
-  <button class="btn" onclick="location.href='shop.html'">🚀 VÀO SHOP</button>
+  <a class="link" href="https://www.facebook.com/share/18TVL9TCDZ/" target="_blank">
+    📘 Facebook
+  </a>
+
+  <a class="link" href="https://discord.gg/dv2QAwssr" target="_blank">
+    💬 Discord Group
+  </a>
 </div>
 
-<audio id="music" src="music.mp3" autoplay loop></audio>
+<audio src="music.mp3" autoplay loop></audio>
 
 <script>
-/* STAR */
-const c=document.getElementById("fx"),ctx=c.getContext("2d");
-let w,h,s=[];
-function rs(){w=c.width=innerWidth;h=c.height=innerHeight}
-rs();onresize=rs;
-for(let i=0;i<120;i++)s.push({x:Math.random()*w,y:Math.random()*h,r:Math.random()*2});
-(function d(){
-ctx.clearRect(0,0,w,h);
-ctx.fillStyle="white";
-s.forEach(o=>{
-ctx.globalAlpha=Math.random();
-ctx.fillRect(o.x,o.y,o.r,o.r);
-o.y+=0.35;if(o.y>h){o.y=0;o.x=Math.random()*w}
-});
-requestAnimationFrame(d);
-})();
-
-/* LOAD DÀI HƠN */
+/* 🎥 LOADING */
 let p=0;
 const percent=document.getElementById("percent");
-const bar=document.querySelector("#loading-bar span");
-const speed=navigator.connection?(navigator.connection.downlink||1):1;
+const bar=document.querySelector("#bar span");
+const intro=document.getElementById("intro");
+const main=document.getElementById("main");
 
 const load=setInterval(()=>{
-p+=Math.random()*speed*1.4;
-if(p>=100){
-p=100;
-clearInterval(load);
-document.getElementById("blur").style.opacity=1;
-setTimeout(()=>{
-intro.remove();
-card.style.display="block";
-},800);
+  p++;
+  percent.innerText=p+"%";
+  bar.style.width=p+"%";
+  if(p>=100){
+    clearInterval(load);
+    intro.style.opacity=0;
+    setTimeout(()=>{
+      intro.style.display="none";
+      main.style.display="block";
+    },600);
+  }
+},25);
+
+/* 🌌 STAR EFFECT */
+const c=document.getElementById("star");
+const ctx=c.getContext("2d");
+let w,h,stars=[];
+function resize(){
+  w=c.width=innerWidth;
+  h=c.height=innerHeight;
 }
-percent.innerText=Math.floor(p)+"%";
-bar.style.width=p+"%";
-},90);
+window.onresize=resize;resize();
+
+for(let i=0;i<120;i++){
+  stars.push({
+    x:Math.random()*w,
+    y:Math.random()*h,
+    r:Math.random()*1.5,
+    v:Math.random()*0.6+0.2
+  });
+}
+
+function draw(){
+  ctx.clearRect(0,0,w,h);
+  ctx.fillStyle="#fff";
+  stars.forEach(s=>{
+    s.y+=s.v;
+    if(s.y>h){s.y=0;s.x=Math.random()*w}
+    ctx.globalAlpha=Math.random();
+    ctx.beginPath();
+    ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+    ctx.fill();
+  });
+  requestAnimationFrame(draw);
+}
+draw();
 </script>
 
 </body>
