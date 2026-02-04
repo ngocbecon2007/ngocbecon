@@ -18,11 +18,7 @@ color:#fff;
 }
 
 /* 🌌 STAR */
-canvas{
-position:fixed;
-inset:0;
-z-index:-2;
-}
+canvas{position:fixed;inset:0;z-index:-2}
 
 /* 🎥 INTRO */
 #intro{
@@ -31,10 +27,11 @@ display:flex;
 flex-direction:column;
 justify-content:center;
 align-items:center;
-background:inherit;
 z-index:10;
 }
 
+/* BRAND */
+#brand{display:flex;gap:5px;margin-bottom:20px}
 #brand span{
 font-size:36px;
 font-weight:800;
@@ -42,7 +39,6 @@ color:#ff77c8;
 text-shadow:0 0 25px #ff2f92;
 animation:wave 1.6s infinite ease-in-out;
 }
-#brand{display:flex;gap:5px;margin-bottom:20px}
 #brand span:nth-child(n){animation-delay:calc(var(--i)*0.1s)}
 
 @keyframes wave{
@@ -65,9 +61,7 @@ border-radius:99px;
 overflow:hidden;
 }
 #bar span{
-display:block;
-height:100%;
-width:0%;
+display:block;height:100%;width:0%;
 background:linear-gradient(90deg,#ff2f92,#ff9bd6);
 }
 
@@ -76,13 +70,34 @@ background:linear-gradient(90deg,#ff2f92,#ff9bd6);
 display:none;
 background:rgba(255,255,255,.12);
 backdrop-filter:blur(25px);
-padding:36px 26px;
+padding:32px 26px;
 border-radius:30px;
 text-align:center;
 box-shadow:0 40px 120px rgba(255,0,150,.5);
-z-index:5;
 max-width:320px;
 width:90%;
+z-index:5;
+}
+
+/* 🖼 AVATAR */
+.avatar-wrap{
+width:140px;height:140px;
+margin:0 auto 18px;
+border-radius:50%;
+padding:5px;
+background:conic-gradient(#ff2f92,#ff77ff,#4fdcff,#ff2f92);
+animation:spin 6s linear infinite;
+box-shadow:0 0 35px rgba(255,0,150,.8);
+}
+.avatar{
+width:100%;height:100%;
+border-radius:50%;
+object-fit:cover;
+background:#000;
+}
+
+@keyframes spin{
+to{transform:rotate(360deg)}
 }
 
 .link{
@@ -128,6 +143,11 @@ box-shadow:0 0 25px #ff2f92;
 
 <!-- MAIN -->
 <div class="card" id="main">
+
+  <div class="avatar-wrap">
+    <img src="avatar.jpg" class="avatar">
+  </div>
+
   🎧 <b>Music:</b> music.mp3
 
   <a class="link" href="https://www.facebook.com/share/18TVL9TCDZ/" target="_blank">
@@ -163,40 +183,31 @@ const load=setInterval(()=>{
   }
 },25);
 
-/* 🌌 STAR EFFECT */
+/* 🌌 STAR */
 const c=document.getElementById("star");
 const ctx=c.getContext("2d");
 let w,h,stars=[];
-function resize(){
-  w=c.width=innerWidth;
-  h=c.height=innerHeight;
-}
+function resize(){w=c.width=innerWidth;h=c.height=innerHeight}
 window.onresize=resize;resize();
 
 for(let i=0;i<120;i++){
-  stars.push({
-    x:Math.random()*w,
-    y:Math.random()*h,
-    r:Math.random()*1.5,
-    v:Math.random()*0.6+0.2
-  });
+stars.push({x:Math.random()*w,y:Math.random()*h,r:Math.random()*1.5,v:Math.random()*0.6+0.2})
 }
-
 function draw(){
-  ctx.clearRect(0,0,w,h);
-  ctx.fillStyle="#fff";
-  stars.forEach(s=>{
-    s.y+=s.v;
-    if(s.y>h){s.y=0;s.x=Math.random()*w}
-    ctx.globalAlpha=Math.random();
-    ctx.beginPath();
-    ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
-    ctx.fill();
-  });
-  requestAnimationFrame(draw);
+ctx.clearRect(0,0,w,h);
+ctx.fillStyle="#fff";
+stars.forEach(s=>{
+s.y+=s.v;
+if(s.y>h){s.y=0;s.x=Math.random()*w}
+ctx.globalAlpha=Math.random();
+ctx.beginPath();
+ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+ctx.fill();
+});
+requestAnimationFrame(draw);
 }
 draw();
 </script>
 
 </body>
-</html>
+</html> 
