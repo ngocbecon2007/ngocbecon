@@ -196,61 +196,7 @@ transform:translateY(-2px);
 100%{transform:translateX(0)}
 }
 </style>
-/* 🫧 BUBBLE TAP */
-.bubble{
-display:none;
-position:fixed;
-bottom:18%;
-width:90px;
-height:90px;
-border-radius:50%;
-background:
-radial-gradient(circle at top left,#fff,#ff77ff,#ff2f92);
-box-shadow:
-0 0 25px rgba(255,0,150,.9),
-inset 0 0 18px rgba(255,255,255,.6);
-display:flex;
-justify-content:center;
-align-items:center;
-cursor:pointer;
-animation:float 2s ease-in-out infinite;
-z-index:9;
-}
 
-.bubble span{
-font-size:15px;
-font-weight:700;
-color:#fff;
-text-shadow:0 0 8px rgba(0,0,0,.4);
-}
-
-/* bong bóng nổi */
-@keyframes float{
-0%{transform:translateY(0) scale(1)}
-50%{transform:translateY(-10px) scale(1.05)}
-100%{transform:translateY(0) scale(1)}
-}
-
-/* ripple khi click */
-.bubble::after{
-content:"";
-position:absolute;
-width:100%;
-height:100%;
-border-radius:50%;
-background:rgba(255,255,255,.5);
-opacity:0;
-transform:scale(.6);
-}
-
-.bubble:active::after{
-animation:ripple .4s ease-out;
-}
-
-@keyframes ripple{
-0%{opacity:.6;transform:scale(.6)}
-100%{opacity:0;transform:scale(1.4)}
-}
 </head>
 
 <body>
