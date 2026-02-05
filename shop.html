@@ -281,22 +281,24 @@ th,td{padding:10px;border-bottom:1px solid #333;text-align:left;font-size:14px}
 </div>
 
 </div>
+
 <!-- CHAT -->
 <div id="chatBtn" onclick="toggleChat()">🐰 CSKH</div>
-<div id="chatBox">
-<div class="chat-header">
-CSKH Ngọc Becon
-<span style="cursor:pointer" onclick="toggleChat()">✖</span>
-</div>
+<div id="chatBox" class="hidden">
+<div class="chat-header">CSKH Ngọc Becon</div>
 <div id="chatContent">
+<div class="msg">
+<div class="bubble">
 💬 Facebook hỗ trợ:<br>
 <a href="https://www.facebook.com/share/1Ga1MzY9Vs/" target="_blank" style="color:#ff77b7">👉 Ngọc Becon</a>
+</div>
+</div>
 </div>
 <div class="chat-input">
 <input id="chatMsg" placeholder="Nhắn tin">
 <button onclick="sendText()">➤</button>
 </div>
-
+</div>
 <script>
 function showRegister(){
   loginBox.classList.add("hidden")
