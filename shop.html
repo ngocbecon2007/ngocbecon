@@ -226,15 +226,12 @@ function showRegister(){loginBox.classList.add("hidden");registerBox.classList.r
 function showLogin(){registerBox.classList.add("hidden");loginBox.classList.remove("hidden")}
 
 function login(){
-if(!DB.users[user.value]||DB.users[user.value]!==pass.value) return alert("Sai")
-cur=user.value
+if(localStorage.getItem(user.value)===pass.value){
 loginBox.classList.add("hidden")
-registerBox.classList.add("hidden")
 pcMenu.classList.remove("hidden")
-header.classList.remove("hidden")
-shop.classList.remove("hidden")
-DB.money[cur]=DB.money[cur]||0
-money.innerText=moneyPC.innerText=DB.money[cur]
+content.classList.remove("hidden")
+showPage("nap")
+}else alert("Sai tài khoản hoặc mật khẩu")
 }
 
 function register(){
