@@ -90,20 +90,37 @@ header{display:flex;justify-content:space-between}
 
 <!-- LOGIN -->
 <div id="loginBox" class="auth">
-<h2>🐰 Ngọc Becon Shop</h2>
-<input id="user" placeholder="Tài khoản">
-<input id="pass" type="password" placeholder="Mật khẩu">
-<button onclick="login()">🔐 Đăng nhập</button>
-<hr style="margin:16px 0;border:1px solid #333">
-<p>Chưa có tài khoản? <span style="color:#ff77b7;cursor:pointer" onclick="showRegister()">Đăng ký</span></p>
+  <h2>🐰 Ngọc Becon Shop</h2>
+
+  <input id="user" placeholder="👤 Tài khoản">
+  <input id="pass" type="password" placeholder="🔑 Mật khẩu">
+
+  <button onclick="login()">🔐 Đăng nhập</button>
+
+  <hr style="margin:16px 0;border:1px solid #333">
+
+  <p>
+    Chưa có tài khoản?
+    <span style="color:#ff77b7;cursor:pointer" onclick="showRegister()">Đăng ký ngay</span>
+  </p>
 </div>
 
 <!-- REGISTER -->
 <div id="registerBox" class="auth hidden">
-<h2>🐰 Ngọc Becon Shop</h2>
-<input id="regUser" placeholder="Tài khoản mới">
-<input id="regPass" type="password" placeholder="Mật khẩu mới">
-<button onclick="register()">📝 Đăng ký</button>
+  <h2>🐰 Ngọc Becon Shop</h2>
+
+  <input id="regUser" placeholder="👤 Tài khoản mới">
+  <input id="regPass" type="password" placeholder="🔑 Mật khẩu mới">
+
+  <button onclick="register()">📝 Đăng ký</button>
+
+  <hr style="margin:16px 0;border:1px solid #333">
+
+  <p>
+    Đã có tài khoản?
+    <span style="color:#ff77b7;cursor:pointer" onclick="showLogin()">Đăng nhập</span>
+  </p>
+</div>
 <!-- PC MENU -->
 <div class="pc-menu hidden" id="pcMenu">
 <b>Ngọc Becon</b>
