@@ -335,25 +335,6 @@ function loadOrder(){
   })
 }
 </script>
-function toggleChat(){
-  document.getElementById("chatBox").classList.toggle("hidden")
-}
-
-function sendText(){
-  const chatMsg = document.getElementById("chatMsg")
-  const chatContent = document.getElementById("chatContent")
-  if(!chatMsg.value) return
-
-  chatContent.innerHTML += `
-    <div class="msg user">
-      <div class="bubble">${chatMsg.value}</div>
-    </div>
-  `
-  chatMsg.value = ""
-  chatContent.scrollTop = chatContent.scrollHeight
-}
-</script>
-
 <!-- CSKH -->
 <div id="chatBtn" onclick="toggleChat()">💬 CSKH</div>
 
