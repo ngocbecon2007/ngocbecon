@@ -71,14 +71,13 @@ display:block;height:100%;width:0%;
 background:linear-gradient(90deg,#ff2f92,#ff9bd6);
 }
 
-/* 👉 TAP */
-#tap{
+/* 👉 TEXT TAP */
+#tapText{
 display:none;
 position:fixed;
-bottom:18%;
+bottom:28%;
 font-size:16px;
 font-weight:600;
-color:#fff;
 opacity:.85;
 animation:tap 1.2s infinite;
 text-shadow:0 0 12px #ff2f92;
@@ -89,6 +88,54 @@ z-index:9;
 0%{transform:translateY(0);opacity:.4}
 50%{transform:translateY(-6px);opacity:1}
 100%{transform:translateY(0);opacity:.4}
+}
+
+/* 🫧 BUBBLE */
+.bubble{
+display:none;
+position:fixed;
+bottom:18%;
+left:50%;
+transform:translateX(-50%);
+width:90px;height:90px;
+border-radius:50%;
+background:radial-gradient(circle at top left,#fff,#ff77ff,#ff2f92);
+box-shadow:0 0 25px rgba(255,0,150,.9), inset 0 0 18px rgba(255,255,255,.6);
+display:flex;
+justify-content:center;
+align-items:center;
+cursor:pointer;
+z-index:9;
+animation:float 2s ease-in-out infinite;
+}
+.bubble span{
+font-size:15px;
+font-weight:700;
+text-shadow:0 0 8px rgba(0,0,0,.4);
+}
+
+@keyframes float{
+0%{transform:translate(-50%,0) scale(1)}
+50%{transform:translate(-50%,-10px) scale(1.05)}
+100%{transform:translate(-50%,0) scale(1)}
+}
+
+/* ripple */
+.bubble::after{
+content:"";
+position:absolute;
+width:100%;height:100%;
+border-radius:50%;
+background:rgba(255,255,255,.5);
+opacity:0;
+transform:scale(.6);
+}
+.bubble:active::after{
+animation:ripple .4s ease-out;
+}
+@keyframes ripple{
+0%{opacity:.6;transform:scale(.6)}
+100%{opacity:0;transform:scale(1.4)}
 }
 
 /* 💎 CARD */
@@ -123,13 +170,12 @@ animation:neon 5s linear infinite;
 filter:blur(6px);
 z-index:-1;
 }
-
 @keyframes neon{
 0%{background-position:0%}
 100%{background-position:300%}
 }
 
-/* 🖼 AVATAR */
+/* AVATAR */
 .avatar-wrap{
 width:140px;height:140px;
 margin:0 auto 12px;
@@ -138,47 +184,27 @@ padding:5px;
 background:linear-gradient(135deg,#ff2f92,#4fdcff,#ff77ff);
 box-shadow:0 0 35px rgba(255,0,150,.9);
 }
-.avatar{
-width:100%;height:100%;
-border-radius:50%;
-object-fit:cover;
-}
+.avatar{width:100%;height:100%;border-radius:50%;object-fit:cover}
 
 /* NAME */
 .name{
-font-size:19px;
-font-weight:700;
-margin-bottom:18px;
-display:flex;
-justify-content:center;
-align-items:center;
-gap:6px;
+font-size:19px;font-weight:700;margin-bottom:18px;
+display:flex;justify-content:center;align-items:center;gap:6px;
 }
 .check{
-width:18px;height:18px;
-border-radius:50%;
+width:18px;height:18px;border-radius:50%;
 background:#1da1f2;
-display:flex;
-justify-content:center;
-align-items:center;
-font-size:12px;
-font-weight:900;
+display:flex;justify-content:center;align-items:center;
+font-size:12px;font-weight:900;
 box-shadow:0 0 12px #1da1f2;
 }
 
-/* 🔘 LINK */
+/* LINKS */
 .link{
-display:flex;
-justify-content:center;
-align-items:center;
-gap:8px;
-margin:12px 0;
-padding:15px;
-border-radius:999px;
+display:flex;justify-content:center;align-items:center;gap:8px;
+margin:12px 0;padding:15px;border-radius:999px;
 background:rgba(255,255,255,.16);
-color:#fff;
-text-decoration:none;
-font-weight:600;
+color:#fff;text-decoration:none;font-weight:600;
 transition:.25s;
 }
 .link:hover{
@@ -186,24 +212,14 @@ background:#ff2f92;
 box-shadow:0 0 30px #ff2f92;
 transform:translateY(-2px);
 }
-.link:active{animation:shake .25s}
-
-@keyframes shake{
-0%{transform:translateX(0)}
-25%{transform:translateX(-3px)}
-50%{transform:translateX(3px)}
-75%{transform:translateX(-2px)}
-100%{transform:translateX(0)}
-}
 </style>
-
 </head>
 
 <body>
 
 <canvas id="fx"></canvas>
 
-<!-- 🎥 INTRO -->
+<!-- INTRO -->
 <div id="intro">
   <div id="brand">
     <span style="--i:1">N</span><span style="--i:2">g</span><span style="--i:3">ọ</span>
@@ -215,24 +231,20 @@ transform:translateY(-2px);
   <div id="bar"><span></span></div>
 </div>
 
-<!-- 👉 TAP -->
-<div id="tap" class="bubble">
-  <span>Ấn vào</span>
-</div>
-<!-- 💎 MAIN -->
+<div id="tapText">Ấn vào</div>
+<div class="bubble" id="tapBubble"><span>Ấn vào</span></div>
+
+<!-- MAIN -->
 <div class="card" id="main">
   <div class="avatar-wrap">
     <img src="avatar.jpg" class="avatar">
   </div>
-
   <div class="name">Ngọc Becon <span class="check">✓</span></div>
-
   <a class="link" href="https://www.tiktok.com/@ngocbecon" target="_blank"> TikTok</a>
   <a class="link" href="https://www.facebook.com/share/18TVL9TCDZ/" target="_blank"> Facebook</a>
   <a class="link" href="https://discord.gg/dv2QAwssr" target="_blank"> Discord Group</a>
 </div>
 
-<!-- 🎵 MUSIC -->
 <audio id="bgm" src="music.mp3" loop></audio>
 
 <script>
@@ -242,7 +254,9 @@ const percent=document.getElementById("percent");
 const bar=document.querySelector("#bar span");
 const intro=document.getElementById("intro");
 const main=document.getElementById("main");
-const tap=document.getElementById("tap");
+const bubble=document.getElementById("tapBubble");
+const tapText=document.getElementById("tapText");
+const bgm=document.getElementById("bgm");
 
 const load=setInterval(()=>{
 p++;
@@ -253,10 +267,20 @@ clearInterval(load);
 intro.style.opacity=0;
 setTimeout(()=>{
 intro.style.display="none";
-tap.style.display="block";
+bubble.style.display="flex";
+tapText.style.display="block";
 },500);
 }
 },20);
+
+/* CLICK ENTER */
+bubble.addEventListener("click",()=>{
+bubble.style.display="none";
+tapText.style.display="none";
+main.style.display="block";
+bgm.volume=0.6;
+bgm.play().catch(()=>{});
+});
 
 /* ❄️ SNOW */
 const c=document.getElementById("fx");
@@ -282,16 +306,6 @@ ctx.fill();
 requestAnimationFrame(draw);
 }
 draw();
-
-/* 🎵 MUSIC + TAP */
-const bgm=document.getElementById("bgm");
-bgm.volume=0.6;
-
-tap.addEventListener("click",()=>{
-tap.style.display="none";
-main.style.display="block";
-bgm.play().catch(()=>{});
-});
 </script>
 
 </body>
