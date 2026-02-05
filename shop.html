@@ -27,6 +27,53 @@ background:#16001d;padding:20px;z-index:10;overflow:auto
 }
 #sideMenu button{
 width:100%;margin:8px 0;padding:12px;
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Ngọc Becon Shop</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+:root{--pink:#ff4fa3}
+*{box-sizing:border-box;font-family:Segoe UI,Arial}
+.hidden{display:none}
+button{cursor:pointer}
+
+/* ===== NỀN PC ===== */
+body{
+margin:0;
+color:#fff;
+background:
+  url("bg-pc.jpg") center/cover no-repeat fixed,
+  radial-gradient(circle,#3a0045,#0b0010);
+}
+
+/* ===== NỀN ĐIỆN THOẠI (PE) ===== */
+@media(max-width:768px){
+body{
+background:
+  url("bg-mobile.jpg") center/cover no-repeat fixed,
+  radial-gradient(circle,#3a0045,#0b0010);
+}
+}
+
+/* HEADER */
+header{
+position:sticky;top:0;z-index:5;
+background:linear-gradient(90deg,#ff4fa3,#ff77b7);
+padding:12px;
+display:flex;align-items:center;justify-content:space-between
+}
+.menu-btn{font-size:22px}
+
+/* SIDE MENU */
+#sideMenu{
+position:fixed;left:0;top:0;width:260px;height:100%;
+background:#16001d;padding:20px;z-index:10;overflow:auto
+}
+#sideMenu button{
+width:100%;margin:8px 0;padding:12px;
 border:none;border-radius:12px;
 background:#ff4fa3;color:#fff;font-weight:bold
 }
@@ -37,42 +84,90 @@ background:#ff4fa3;color:#fff;font-weight:bold
 select,input{padding:10px;border-radius:10px;border:none;margin:6px 0;width:100%}
 
 /* AUTH */
-.auth{max-width:360px;margin:120px auto;background:#16001d;padding:24px;border-radius:20px;text-align:center}
-.auth input,.auth button{
-width:100%;padding:14px;margin-top:12px;border-radius:14px;border:none
+.auth{
+max-width:360px;
+margin:120px auto;
+background:#16001d;
+padding:24px;
+border-radius:20px;
+text-align:center
 }
-.auth button{background:linear-gradient(90deg,#ff4fa3,#ff77b7);color:#fff}
+.auth input,.auth button{
+width:100%;
+padding:14px;
+margin-top:12px;
+border-radius:14px;
+border:none
+}
+.auth button{
+background:linear-gradient(90deg,#ff4fa3,#ff77b7);
+color:#fff
+}
 
 /* TABLE */
 table{width:100%;border-collapse:collapse}
-th,td{padding:10px;border-bottom:1px solid #333;text-align:left;font-size:14px}
+th,td{
+padding:10px;
+border-bottom:1px solid #333;
+text-align:left;
+font-size:14px
+}
 
 /* CHAT */
 #chatBtn{
-position:fixed;right:16px;bottom:16px;
-background:#ff4fa3;color:#fff;
-padding:14px 18px;border-radius:999px;
-z-index:30;cursor:pointer
+position:fixed;
+right:16px;
+bottom:16px;
+background:#ff4fa3;
+color:#fff;
+padding:14px 18px;
+border-radius:999px;
+z-index:30;
+cursor:pointer
 }
 #chatBox{
-position:fixed;right:10px;bottom:70px;
-width:220px;height:300px;
-background:#0f0014;border-radius:16px;
-display:none;flex-direction:column;z-index:30
+position:fixed;
+right:10px;
+bottom:70px;
+width:220px;
+height:300px;
+background:#0f0014;
+border-radius:16px;
+display:none;
+flex-direction:column;
+z-index:30
 }
 .chat-header{
-background:#ff4fa3;padding:10px;
-font-weight:bold;display:flex;
+background:#ff4fa3;
+padding:10px;
+font-weight:bold;
+display:flex;
 justify-content:space-between
 }
-#chatContent{flex:1;overflow:auto;padding:8px;font-size:13px}
-.chat-input{display:flex;gap:6px;padding:8px}
+#chatContent{
+flex:1;
+overflow:auto;
+padding:8px;
+font-size:13px
+}
+.chat-input{
+display:flex;
+gap:6px;
+padding:8px
+}
 .chat-input input{
-flex:1;padding:8px;border-radius:20px;border:none
+flex:1;
+padding:8px;
+border-radius:20px;
+border:none
 }
 .chat-input button{
-width:34px;height:34px;border-radius:50%;
-border:none;background:#ff4fa3;color:#fff
+width:34px;
+height:34px;
+border-radius:50%;
+border:none;
+background:#ff4fa3;
+color:#fff
 }
 </style>
 </head>
@@ -228,7 +323,8 @@ function showRegister(){loginBox.classList.add("hidden");registerBox.classList.r
 function showLogin(){registerBox.classList.add("hidden");loginBox.classList.remove("hidden")}
 
 function login(){
-if(!DB.users[user.value]||DB.users[user.value].pass!==pass.value) return alert("Sai tài khoản hoặc mật khẩu")
+if(!DB.users[user.value]||DB.users[user.value].pass!==pass.value)
+return alert("Sai tài khoản hoặc mật khẩu")
 cur=user.value
 loginBox.classList.add("hidden")
 registerBox.classList.add("hidden")
@@ -252,7 +348,10 @@ if(id==="historyTopup") loadTopup()
 if(id==="historyOrder") loadOrder()
 }
 
-function toggleChat(){chatBox.style.display=chatBox.style.display==="flex"?"none":"flex"}
+function toggleChat(){
+chatBox.style.display=chatBox.style.display==="flex"?"none":"flex"
+}
+
 function sendText(){
 if(!chatMsg.value)return
 chatContent.innerHTML+=`<div>${chatMsg.value}</div>`
@@ -261,19 +360,25 @@ chatMsg.value=""
 
 function order(game,sel){
 DB.orders.push({
-id:Date.now(),user:cur,game,
+id:Date.now(),
+user:cur,
+game,
 pack:sel.options[sel.selectedIndex].text,
-price:+sel.value,status:"pending",
+price:+sel.value,
+status:"pending",
 time:new Date().toLocaleString()
 })
 save();alert("Đã gửi đơn sang CSKH")
 }
 
 function napCard(){
-if(!seri.value||!code.value)return alert("Nhập đủ thông tin")
+if(!seri.value||!code.value) return alert("Nhập đầy đủ thông tin")
 DB.topups.push({
-id:Date.now(),user:cur,type:"CARD",
-amount:+amount.value,status:"pending",
+id:Date.now(),
+user:cur,
+type:"CARD",
+amount:+amount.value,
+status:"pending",
 time:new Date().toLocaleString()
 })
 save();alert("Đã gửi thẻ")
@@ -281,8 +386,11 @@ save();alert("Đã gửi thẻ")
 
 function napMoMo(){
 DB.topups.push({
-id:Date.now(),user:cur,type:"MOMO",
-amount:+momoAmount.value,status:"pending",
+id:Date.now(),
+user:cur,
+type:"MOMO",
+amount:+momoAmount.value,
+status:"pending",
 time:new Date().toLocaleString()
 })
 save();alert("Đã gửi MoMo")
@@ -304,4 +412,4 @@ orderTable.innerHTML+=`<tr><td>${o.time}</td><td>${o.game}</td><td>${o.pack}</td
 </script>
 
 </body>
-</html> 
+</html>
