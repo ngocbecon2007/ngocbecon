@@ -93,19 +93,17 @@ header{display:flex;justify-content:space-between}
 <h2>🐰 Ngọc Becon Shop</h2>
 <input id="user" placeholder="Tài khoản">
 <input id="pass" type="password" placeholder="Mật khẩu">
-<button onclick="login()">Đăng nhập</button>
+<button onclick="login()">🔐 Đăng nhập</button>
+<hr style="margin:16px 0;border:1px solid #333">
 <p>Chưa có tài khoản? <span style="color:#ff77b7;cursor:pointer" onclick="showRegister()">Đăng ký</span></p>
 </div>
 
 <!-- REGISTER -->
 <div id="registerBox" class="auth hidden">
-<h2>📝 Đăng ký</h2>
-<input id="regUser" placeholder="Tài khoản">
-<input id="regPass" type="password" placeholder="Mật khẩu">
-<button onclick="register()">Tạo tài khoản</button>
-<p><span style="color:#ff77b7;cursor:pointer" onclick="showLogin()">Đăng nhập</span></p>
-</div>
-
+<h2>🐰 Ngọc Becon Shop</h2>
+<input id="regUser" placeholder="Tài khoản mới">
+<input id="regPass" type="password" placeholder="Mật khẩu mới">
+<button onclick="register()">📝 Đăng ký</button>
 <!-- PC MENU -->
 <div class="pc-menu hidden" id="pcMenu">
 <b>Ngọc Becon</b>
@@ -245,38 +243,6 @@ orderTable.innerHTML+=`<tr><td>${o.game}</td><td>${o.pack}</td></tr>`
 })
 }
 <script>
-function register(){
-  let user = regUser.value.trim();
-  let pass = regPass.value;
-
-  let users = JSON.parse(localStorage.getItem("users")) || {};
-
-  if(users[user]){
-    alert("❌ Tài khoản đã tồn tại");
-    return;
-  }
-
-  users[user] = pass;
-  localStorage.setItem("users", JSON.stringify(users));
-
-  alert("✅ Đăng ký thành công");
-  showLogin();
-}
-
-function login(){
-  let user = document.getElementById("user").value.trim();
-  let pass = document.getElementById("pass").value;
-
-  let users = JSON.parse(localStorage.getItem("users")) || {};
-
-  if(users[user] && users[user] === pass){
-    alert("✅ Đăng nhập thành công");
-    document.getElementById("loginBox").classList.add("hidden");
-    document.getElementById("pcMenu").classList.remove("hidden");
-  }else{
-    alert("❌ Sai tài khoản hoặc mật khẩu");
-  }
-}
 
 </body>
 </html> 
