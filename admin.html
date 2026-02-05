@@ -6,243 +6,249 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
-:root{--pink:#ffb300;--purple:#ff6a00}
+:root{--pink:#ff4fa3}
 *{box-sizing:border-box;font-family:Segoe UI,Arial}
+
+/* ===== BASE ===== */
 body{
- margin:0;color:#fff;
- background:radial-gradient(circle at top,#3a1c00,#0b0500);
- min-height:100vh;overflow-x:hidden
+  margin:0;
+  background:radial-gradient(circle,#3a0045,#0b0010);
+  color:#fff;
 }
-canvas#particles{position:fixed;inset:0;z-index:-1}
 
+/* ===== HEADER ===== */
 header{
- background:linear-gradient(90deg,var(--pink),var(--purple));
- padding:14px;text-align:center;
- font-size:18px;font-weight:bold;
- position:sticky;top:0;z-index:9
+  background:linear-gradient(90deg,#ff4fa3,#ff77b7);
+  padding:16px;
+  text-align:center;
+  font-size:20px;
+  font-weight:bold;
 }
 
+/* ===== CARD ===== */
 .card{
- background:rgba(30,10,0,.88);
- margin:16px;border-radius:20px;
- padding:16px
+  background:#16001d;
+  padding:20px;
+  border-radius:20px;
+  margin:20px;
 }
-h2{margin:0 0 10px}
+
+/* ===== TABLE ===== */
+.table-wrap{overflow-x:auto}
+table{
+  width:100%;
+  border-collapse:collapse;
+  min-width:520px;
+}
+th,td{
+  padding:10px;
+  border-bottom:1px solid #333;
+  font-size:14px;
+}
+
+/* ===== BUTTON ===== */
 button{
- background:var(--pink);border:none;
- border-radius:12px;
- padding:6px 12px;
- font-weight:bold;color:#000;
- cursor:pointer;margin:4px
+  padding:6px 12px;
+  border:none;
+  border-radius:10px;
+  background:var(--pink);
+  color:#fff;
+  font-weight:bold;
+  cursor:pointer;
 }
-button.danger{background:#ff4040;color:#fff}
-table{width:100%;border-collapse:collapse}
-th,td{padding:8px;border-bottom:1px solid #333;font-size:13px}
+.danger{background:#ff3b3b}
+.small{font-size:12px;color:#ffb6d9}
 
-input{
- width:100%;padding:10px;
- margin-bottom:10px;border-radius:10px;border:none
+/* ================== MOBILE / PE ================== */
+@media (max-width:768px){
+  header{font-size:18px;padding:14px}
+  .card{margin:12px;padding:16px}
+  button{
+    padding:10px 14px;
+    font-size:14px;
+  }
+  table{min-width:600px}
 }
 
-#popup{
- position:fixed;right:20px;bottom:20px;
- background:var(--pink);color:#000;
- padding:10px 14px;border-radius:14px;
- display:none;font-weight:bold
-}
-
-@media(max-width:768px){
- header{font-size:16px}
- .card{margin:12px}
+/* ================== PC ================== */
+@media (min-width:1024px){
+  body{
+    background:
+      radial-gradient(circle at top,#4a005a,#0b0010),
+      linear-gradient(180deg,#120018,#000);
+  }
 }
 </style>
 </head>
 
 <body>
-<canvas id="particles"></canvas>
-<div id="popup"></div>
 
-<div class="card" id="loginBox">
-<h2>🔐 Đăng nhập Admin</h2>
-<input id="lgUser" placeholder="Tài khoản">
-<input id="lgPass" type="password" placeholder="Mật khẩu">
-<button onclick="login()">Đăng nhập</button>
-<div id="lgErr"></div>
-</div>
+<header>🔐 ADMIN NGỌC BECON</header>
 
-<div id="adminBox" style="display:none">
-
-<header>
-🔥 ADMIN NGỌC BECON
-<button style="float:right" onclick="logout()">Đăng xuất</button>
-</header>
-
-<div class="card">
-<h2>🎮 Xem đơn theo game</h2>
-<button onclick="viewGame('ff')">🔥 Free Fire</button>
-<button onclick="viewGame('rbx')">🟦 Roblox</button>
-<button onclick="viewGame('lq')">⚔ Liên Quân</button>
-<table>
-<tr><th>Game</th><th>User</th><th>Giá</th><th>Thời gian</th></tr>
-<tbody id="orderList"></tbody>
-</table>
-</div>
-
-<div class="card">
-<h2>📈 Biểu đồ doanh thu</h2>
-<button onclick="mode='day';renderChart()">Theo ngày</button>
-<button onclick="mode='month';renderChart()">Theo tháng</button>
-<canvas id="chart" height="200"></canvas>
-</div>
-
-<div class="card">
-<h2>💳 Doanh thu theo nguồn</h2>
-<div id="splitRevenue"></div>
-</div>
-
+<!-- USERS -->
 <div class="card">
 <h2>👤 Người dùng</h2>
+<div class="table-wrap">
 <table>
 <tr><th>User</th><th>Số dư</th><th>Hành động</th></tr>
 <tbody id="userList"></tbody>
 </table>
 </div>
-
-<div class="card">
-<h2>📜 Lịch sử giao dịch</h2>
-<table>
-<tr><th>Thời gian</th><th>User</th><th>Số tiền</th><th>Loại</th></tr>
-<tbody id="history"></tbody>
-</table>
 </div>
 
+<!-- TOPUP -->
+<div class="card">
+<h2>💳 Nạp tiền chờ duyệt</h2>
+<div class="table-wrap">
+<table>
+<tr>
+<th>User</th><th>Loại</th><th>Số tiền</th><th>Chi tiết</th><th>Hành động</th>
+</tr>
+<tbody id="topupList"></tbody>
+</table>
+</div>
+</div>
+
+<!-- ORDERS -->
+<div class="card">
+<h2>📦 Đơn cày thuê</h2>
+<div class="table-wrap">
+<table>
+<tr>
+<th>User</th><th>Game</th><th>Gói</th><th>Giá</th><th>Hành động</th>
+</tr>
+<tbody id="orderList"></tbody>
+</table>
+</div>
 </div>
 
 <script>
-/* ===== LOGIN ===== */
-const ADMIN={user:"Ngocbecon",pass:"manhmanh"}
-function login(){
- if(lgUser.value===ADMIN.user && lgPass.value===ADMIN.pass){
-  localStorage.admin=1
-  loginBox.style.display="none"
-  adminBox.style.display="block"
+let DB = JSON.parse(localStorage.getItem("SHOP_DB")) || {
+  users:{}, orders:[], topups:[]
+}
+
+function save(){
+  localStorage.setItem("SHOP_DB",JSON.stringify(DB))
   render()
- }else lgErr.innerText="Sai tài khoản hoặc mật khẩu"
-}
-function logout(){localStorage.clear();location.reload()}
-if(localStorage.admin){loginBox.style.display="none";adminBox.style.display="block"}
-
-/* ===== DB ===== */
-let DB=JSON.parse(localStorage.DB||`{
- "users":{"Ngocbecon":{"money":100000}},
- "orders":[
-  {"game":"ff","user":"Ngocbecon","price":50000,"time":"2026-02-01"},
-  {"game":"rbx","user":"Ngocbecon","price":120000,"time":"2026-02-02"},
-  {"game":"lq","user":"Ngocbecon","price":80000,"time":"2026-02-03"}
- ],
- "topups":[
-  {"user":"Ngocbecon","amount":200000,"type":"MOMO","time":"2026-02-01"}
- ],
- "history":[]
-}`)
-function save(){localStorage.DB=JSON.stringify(DB);render()}
-
-/* ===== POPUP ===== */
-function popup(t){
- popup.innerText=t;popup.style.display="block"
- setTimeout(()=>popup.style.display="none",2000)
 }
 
-/* ===== USERS ===== */
+/* ========== USERS ========== */
 function renderUsers(){
- userList.innerHTML=""
- for(let u in DB.users){
-  userList.innerHTML+=`
-  <tr>
-   <td>${u}</td>
-   <td>${DB.users[u].money}đ</td>
-   <td>
-    <button onclick="money('${u}',100000)">+100k</button>
-    <button class="danger" onclick="money('${u}',-100000)">-100k</button>
-   </td>
-  </tr>`
- }
-}
-function money(u,a){
- DB.users[u].money+=a
- DB.history.push({time:new Date().toLocaleString(),user:u,amount:a,type:"ADMIN"})
- popup((a>0?"+":"")+a+"đ")
- save()
+  userList.innerHTML=""
+  Object.keys(DB.users).forEach(u=>{
+    let tr=document.createElement("tr")
+    tr.innerHTML=`
+      <td>${u}</td>
+      <td>${DB.users[u].money}đ</td>
+      <td>
+        <button onclick="addMoney('${u}',10000)">+10k</button>
+        <button class="danger" onclick="addMoney('${u}',-10000)">-10k</button>
+      </td>`
+    userList.appendChild(tr)
+  })
 }
 
-/* ===== ORDERS ===== */
-function viewGame(g){
- orderList.innerHTML=""
- DB.orders.filter(o=>o.game===g).forEach(o=>{
-  orderList.innerHTML+=`
-  <tr>
-   <td>${g.toUpperCase()}</td>
-   <td>${o.user}</td>
-   <td>${o.price}đ</td>
-   <td>${o.time}</td>
-  </tr>`
- })
+function addMoney(user,amount){
+  DB.users[user].money+=amount
+  notify(user,`💰 ${amount>0?'+':''}${amount}đ`)
+  save()
 }
 
-/* ===== HISTORY ===== */
-function renderHistory(){
- history.innerHTML=""
- DB.history.forEach(h=>{
-  history.innerHTML+=`
-  <tr>
-   <td>${h.time}</td>
-   <td>${h.user}</td>
-   <td>${h.amount}đ</td>
-   <td>${h.type}</td>
-  </tr>`
- })
+/* ========== TOPUP ========== */
+function renderTopups(){
+  topupList.innerHTML=""
+  DB.topups.filter(t=>t.status==="pending").forEach(t=>{
+    let detail="Không có"
+    if(t.type==="CARD" && t.detail){
+      detail=`
+      <div class="small">
+        📶 ${t.detail.telco}<br>
+        Seri: ${t.detail.seri}<br>
+        Mã: ${t.detail.code}
+      </div>`
+    }
+    if(t.type==="MOMO"){
+      detail=`<div class="small">💗 MoMo</div>`
+    }
+    let tr=document.createElement("tr")
+    tr.innerHTML=`
+      <td>${t.user}</td>
+      <td>${t.type}</td>
+      <td>${t.amount}</td>
+      <td>${detail}</td>
+      <td>
+        <button onclick="approveTopup(${t.id})">Duyệt</button>
+        <button class="danger" onclick="rejectTopup(${t.id})">Từ chối</button>
+      </td>`
+    topupList.appendChild(tr)
+  })
 }
 
-/* ===== SPLIT ===== */
-function renderSplit(){
- let momo=0,card=0
- DB.topups.forEach(t=>t.type==="MOMO"?momo+=t.amount:card+=t.amount)
- splitRevenue.innerHTML=`MoMo: ${momo}đ<br>Thẻ: ${card}đ`
+function approveTopup(id){
+  let t=DB.topups.find(x=>x.id===id)
+  if(!t)return
+  DB.users[t.user].money+=t.amount
+  t.status="done"
+  save()
 }
 
-/* ===== CHART ===== */
-let mode="day"
-function renderChart(){
- const c=chart,x=c.getContext("2d")
- let labels=mode==="day"?["01","02","03","04","05"]:["T1","T2","T3"]
- let data=labels.map((_,i)=>DB.orders[i]?DB.orders[i].price:0)
- let max=Math.max(...data,1)
- c.width=labels.length*70;x.clearRect(0,0,c.width,c.height)
- x.strokeStyle="orange";x.lineWidth=3;x.beginPath()
- data.forEach((v,i)=>{
-  let px=i*70+30
-  let py=c.height-(v/max)*(c.height-30)-10
-  i?x.lineTo(px,py):x.moveTo(px,py)
- })
- x.stroke()
+function rejectTopup(id){
+  let t=DB.topups.find(x=>x.id===id)
+  if(!t)return
+  t.status="reject"
+  save()
 }
 
-/* ===== PARTICLE ===== */
-const pc=document.getElementById("particles"),px=pc.getContext("2d")
-function rs(){pc.width=innerWidth;pc.height=innerHeight}
-rs();onresize=rs
-let dots=[...Array(60)].map(()=>({x:Math.random()*pc.width,y:Math.random()*pc.height,s:Math.random()+.3}))
-;(function ani(){
- px.clearRect(0,0,pc.width,pc.height)
- px.fillStyle="rgba(255,180,0,.8)"
- dots.forEach(d=>{d.y-=d.s;if(d.y<0)d.y=pc.height;px.fillRect(d.x,d.y,2,2)})
- requestAnimationFrame(ani)
-})()
+/* ========== ORDERS ========== */
+function renderOrders(){
+  orderList.innerHTML=""
+  DB.orders.filter(o=>o.status==="pending").forEach(o=>{
+    let tr=document.createElement("tr")
+    tr.innerHTML=`
+      <td>${o.user}</td>
+      <td>${o.game}</td>
+      <td>${o.pack}</td>
+      <td>${o.price}</td>
+      <td>
+        <button onclick="approveOrder(${o.id})">Hoàn thành</button>
+        <button class="danger" onclick="rejectOrder(${o.id})">Hủy</button>
+      </td>`
+    orderList.appendChild(tr)
+  })
+}
 
+function approveOrder(id){
+  let o=DB.orders.find(x=>x.id===id)
+  if(!o)return
+  o.status="done"
+  save()
+}
+
+function rejectOrder(id){
+  let o=DB.orders.find(x=>x.id===id)
+  if(!o)return
+  o.status="reject"
+  save()
+}
+
+/* ========== NOTIFY ========== */
+function notify(user,text){
+  if(!DB.users[user].notifications)
+    DB.users[user].notifications=[]
+  DB.users[user].notifications.push({
+    text,
+    time:new Date().toLocaleString()
+  })
+}
+
+/* ========== RENDER ========== */
 function render(){
- renderUsers();renderHistory();renderSplit();renderChart()
+  renderUsers()
+  renderTopups()
+  renderOrders()
 }
 render()
 </script>
+
 </body>
-</html> 
+</html>
