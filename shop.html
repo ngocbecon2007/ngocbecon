@@ -5,124 +5,87 @@
 <title>Ngọc Becon Shop</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
-:root{--pink:#ff4fa3}
-*{box-sizing:border-box;font-family:Segoe UI,Arial}
-body{margin:0;background:radial-gradient(circle,#3a0045,#0b0010);color:#fff}
-.hidden{display:none}
-button{cursor:pointer}
-
-/* HEADER */
-header{
-position:sticky;top:0;z-index:5;
-background:linear-gradient(90deg,#ff4fa3,#ff77b7);
-padding:12px;
-display:flex;align-items:center;justify-content:space-between
-}
-.menu-btn{font-size:22px}
-
-/* SIDE MENU */
-#sideMenu{
-position:fixed;left:0;top:0;width:260px;height:100%;
-background:#16001d;padding:20px;z-index:10;overflow:auto
-}
-#sideMenu button{
-width:100%;margin:8px 0;padding:12px;
-border:none;border-radius:12px;
-background:#ff4fa3;color:#fff;font-weight:bold
+.hidden {
+  display: none;
 }
 
-/* CONTENT */
-.container{max-width:1100px;margin:auto;padding:20px}
-.card{background:#16001d;padding:20px;border-radius:20px;margin-bottom:20px}
-select,input{padding:10px;border-radius:10px;border:none;margin:6px 0;width:100%}
-
-/* AUTH */
-.auth{max-width:360px;margin:120px auto;background:#16001d;padding:24px;border-radius:20px;text-align:center}
-.auth input,.auth button{
-width:100%;padding:14px;margin-top:12px;border-radius:14px;border:none
-}
-.auth button{background:linear-gradient(90deg,#ff4fa3,#ff77b7);color:#fff}
-
-/* TABLE */
-table{width:100%;border-collapse:collapse}
-th,td{padding:10px;border-bottom:1px solid #333;text-align:left;font-size:14px}
-
-/* ===== CHAT CSKH (BẤM NÚT MỚI MỞ) ===== */
-#chatBtn{
-  position:fixed;
-  right:16px;
-  bottom:16px;
-  background:#ff4fa3;
-  color:#fff;
-  padding:14px 18px;
-  border-radius:999px;
-  z-index:30;
-  cursor:pointer;
-  box-shadow:0 0 16px rgba(255,79,163,.5);
+/* Nút CSKH */
+#chatBtn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #ff5ca8;
+  color: #fff;
+  padding: 12px 16px;
+  border-radius: 30px;
+  cursor: pointer;
+  font-weight: bold;
+  z-index: 9999;
+  box-shadow: 0 4px 12px rgba(0,0,0,.3);
 }
 
-#chatBox{
-  position:fixed;
-  right:10px;
-  bottom:70px;
-  width:220px;
-  height:300px;
-  background:#0f0014;
-  border-radius:16px;
-  display:none;
-  flex-direction:column;
-  z-index:30;
-  box-shadow:0 0 16px rgba(255,79,163,.35);
-  transform:scale(0.9);
-  transform-origin:bottom right;
+/* Khung chat */
+#chatBox {
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  width: 280px;
+  background: #fff;
+  border-radius: 12px;
+  z-index: 9999;
+  box-shadow: 0 8px 20px rgba(0,0,0,.25);
+  overflow: hidden;
 }
 
-.chat-header{
-  background:#ff4fa3;
-  padding:10px;
-  font-weight:bold;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
+.chat-header {
+  background: #ff5ca8;
+  color: #fff;
+  padding: 10px;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
 }
 
-#chatContent{
-  flex:1;
-  overflow:auto;
-  padding:8px;
-  font-size:13px;
+#chatContent {
+  padding: 10px;
+  height: 200px;
+  overflow-y: auto;
 }
 
-.chat-input{
-  display:flex;
-  gap:6px;
-  padding:8px;
+.bubble {
+  background: #f1f1f1;
+  padding: 8px 12px;
+  border-radius: 12px;
+  margin-bottom: 6px;
+  display: inline-block;
 }
 
-.chat-input input{
-  flex:1;
-  padding:8px;
-  border-radius:20px;
-  border:none;
+.msg.user {
+  text-align: right;
 }
 
-.chat-input button{
-  width:34px;
-  height:34px;
-  border-radius:50%;
-  border:none;
-  background:#ff4fa3;
-  color:#fff;
+.msg.user .bubble {
+  background: #ffb3d9;
 }
 
-@media (max-width:768px){
-  #chatBox{
-    width:210px;
-    height:280px;
-    right:8px;
-    bottom:65px;
-    transform:scale(0.88);
-  }
+.chat-input {
+  display: flex;
+  border-top: 1px solid #ddd;
+}
+
+.chat-input input {
+  flex: 1;
+  border: none;
+  padding: 10px;
+  outline: none;
+}
+
+.chat-input button {
+  border: none;
+  background: #ff5ca8;
+  color: #fff;
+  padding: 0 14px;
+  cursor: pointer;
 }
 </style>
 </head>
@@ -260,136 +223,157 @@ th,td{padding:10px;border-bottom:1px solid #333;text-align:left;font-size:14px}
 </div>
 
 <script>
-let DB=JSON.parse(localStorage.getItem("SHOP_DB"))||{users:{},orders:[],topups:[]}
-let cur=null
-function save(){localStorage.setItem("SHOP_DB",JSON.stringify(DB))}
+let DB = JSON.parse(localStorage.getItem("SHOP_DB")) || {users:{},orders:[],topups:[]}
+let cur = null
+function save(){ localStorage.setItem("SHOP_DB", JSON.stringify(DB)) }
 
+/* ===== LOGIN ===== */
 function login(){
-if(!DB.users[user.value]||DB.users[user.value].pass!==pass.value) return alert("Sai tài khoản hoặc mật khẩu")
-cur=user.value
-auth.classList.add("hidden")
-header.classList.remove("hidden")
-shop.classList.remove("hidden")
-money.innerText=DB.users[cur].money+"đ"
+  if(!DB.users[user.value] || DB.users[user.value].pass !== pass.value)
+    return alert("Sai tài khoản hoặc mật khẩu")
+  cur = user.value
+  auth.classList.add("hidden")
+  header.classList.remove("hidden")
+  shop.classList.remove("hidden")
+  money.innerText = DB.users[cur].money + "đ"
 }
 
 function register(){
-if(DB.users[regUser.value]) return alert("Tài khoản đã tồn tại")
-DB.users[regUser.value]={pass:regPass.value,money:0}
-save();alert("Đăng ký thành công")
-}
-
-function toggleMenu(){sideMenu.classList.toggle("hidden")}
-function showPage(id){
-document.querySelectorAll(".card").forEach(c=>c.classList.add("hidden"))
-document.getElementById(id).classList.remove("hidden")
-sideMenu.classList.add("hidden")
-if(id==="historyTopup") loadTopup()
-if(id==="historyOrder") loadOrder()
-}
-
-function toggleChat(){chatBox.classList.toggle("hidden")}
-function sendText(){
-if(!chatMsg.value)return
-chatContent.innerHTML+=`<div class="msg user"><div class="bubble">${chatMsg.value}</div></div>`
-chatMsg.value=""
-}
-
-function order(game,sel){
-DB.orders.push({
-id:Date.now(),
-user:cur,
-game,
-pack:sel.options[sel.selectedIndex].text,
-price:+sel.value,
-status:"pending",
-time:new Date().toLocaleString()
-})
-save();alert("Đã gửi đơn sang CSKH")
-}
-function napCard(){
-  const telcoEl = document.getElementById("telco")
-  const amountEl = document.getElementById("amount")
-  const seriEl = document.getElementById("seri")
-  const codeEl = document.getElementById("code")
-
-  const telco = telcoEl.value
-  const amount = Number(amountEl.value)
-  const seri = seriEl.value.trim()
-  const code = codeEl.value.trim()
-
-  if(!seri || !code){
-    alert("❌ Nhập đầy đủ seri và mã thẻ")
-    return
-  }
-
-  DB.topups.push({
-    id: Date.now(),
-    user: cur,
-    type: "CARD",
-    amount: amount,
-    status: "pending",
-    detail: {
-      telco: telco,
-      seri: seri,
-      code: code
-    },
-    time: new Date().toLocaleString()
-  })
-
+  if(DB.users[regUser.value]) return alert("Tài khoản đã tồn tại")
+  DB.users[regUser.value] = {pass:regPass.value, money:0}
   save()
+  alert("Đăng ký thành công")
+}
 
-  seriEl.value = ""
-  codeEl.value = ""
+/* ===== MENU ===== */
+function toggleMenu(){ sideMenu.classList.toggle("hidden") }
+function showPage(id){
+  document.querySelectorAll(".card").forEach(c=>c.classList.add("hidden"))
+  document.getElementById(id).classList.remove("hidden")
+  sideMenu.classList.add("hidden")
+  if(id==="historyTopup") loadTopup()
+  if(id==="historyOrder") loadOrder()
+}
 
-  alert("✅ Đã gửi thẻ, chờ admin duyệt")
+/* ===== CHAT CSKH ===== */
+function toggleChat(){
+  document.getElementById("chatBox").classList.toggle("hidden")
+}
+
+function sendText(){
+  const chatMsg = document.getElementById("chatMsg")
+  const chatContent = document.getElementById("chatContent")
+  if(!chatMsg.value) return
+
+  chatContent.innerHTML += `
+    <div class="msg user">
+      <div class="bubble">${chatMsg.value}</div>
+    </div>`
+  chatMsg.value = ""
+  chatContent.scrollTop = chatContent.scrollHeight
+}
+
+/* ===== ORDER ===== */
+function order(game,sel){
+  DB.orders.push({
+    id:Date.now(),
+    user:cur,
+    game,
+    pack:sel.options[sel.selectedIndex].text,
+    price:+sel.value,
+    status:"pending",
+    time:new Date().toLocaleString()
+  })
+  save()
+  alert("Đã gửi đơn sang CSKH")
+}
+
+/* ===== NẠP ===== */
+function napCard(){
+  const telco = telco.value
+  const amount = Number(amount.value)
+  if(!seri.value || !code.value) return alert("Nhập đủ thông tin")
+  DB.topups.push({
+    id:Date.now(),
+    user:cur,
+    type:"CARD",
+    amount,
+    status:"pending",
+    detail:{telco,seri:seri.value,code:code.value},
+    time:new Date().toLocaleString()
+  })
+  save()
+  seri.value = code.value = ""
+  alert("Đã gửi thẻ")
 }
 
 function napMoMo(){
-DB.topups.push({
-id:Date.now(),
-user:cur,
-type:"MOMO",
-amount:+momoAmount.value,
-status:"pending",
-time:new Date().toLocaleString()
-})
-save();alert("Đã gửi xác nhận MoMo")
+  DB.topups.push({
+    id:Date.now(),
+    user:cur,
+    type:"MOMO",
+    amount:+momoAmount.value,
+    status:"pending",
+    time:new Date().toLocaleString()
+  })
+  save()
+  alert("Đã gửi MoMo")
 }
 
+/* ===== LOAD ===== */
 function loadTopup(){
-topupTable.innerHTML="<tr><th>Thời gian</th><th>Loại</th><th>Số tiền</th><th>Trạng thái</th></tr>"
-DB.topups.filter(t=>t.user===cur).forEach(t=>{
-topupTable.innerHTML+=`<tr><td>${t.time}</td><td>${t.type}</td><td>${t.amount}</td><td>${t.status}</td></tr>`
-})
+  topupTable.innerHTML="<tr><th>Thời gian</th><th>Loại</th><th>Số tiền</th><th>Trạng thái</th></tr>"
+  DB.topups.filter(t=>t.user===cur).forEach(t=>{
+    topupTable.innerHTML+=`<tr><td>${t.time}</td><td>${t.type}</td><td>${t.amount}</td><td>${t.status}</td></tr>`
+  })
 }
 
 function loadOrder(){
-orderTable.innerHTML="<tr><th>Thời gian</th><th>Game</th><th>Gói</th><th>Giá</th><th>Trạng thái</th></tr>"
-DB.orders.filter(o=>o.user===cur).forEach(o=>{
-orderTable.innerHTML+=`<tr><td>${o.time}</td><td>${o.game}</td><td>${o.pack}</td><td>${o.price}</td><td>${o.status}</td></tr>`
-})
+  orderTable.innerHTML="<tr><th>Thời gian</th><th>Game</th><th>Gói</th><th>Giá</th><th>Trạng thái</th></tr>"
+  DB.orders.filter(o=>o.user===cur).forEach(o=>{
+    orderTable.innerHTML+=`<tr><td>${o.time}</td><td>${o.game}</td><td>${o.pack}</td><td>${o.price}</td><td>${o.status}</td></tr>`
+  })
 }
 </script>
-<!-- Nút mở chat -->
+function toggleChat(){
+  document.getElementById("chatBox").classList.toggle("hidden")
+}
+
+function sendText(){
+  const chatMsg = document.getElementById("chatMsg")
+  const chatContent = document.getElementById("chatContent")
+  if(!chatMsg.value) return
+
+  chatContent.innerHTML += `
+    <div class="msg user">
+      <div class="bubble">${chatMsg.value}</div>
+    </div>
+  `
+  chatMsg.value = ""
+  chatContent.scrollTop = chatContent.scrollHeight
+}
+</script>
+
+<!-- CSKH -->
 <div id="chatBtn" onclick="toggleChat()">💬 CSKH</div>
 
-<!-- Khung chat -->
-<div id="chatBox">
+<div id="chatBox" class="hidden">
   <div class="chat-header">
     CSKH Ngọc Becon
     <span style="cursor:pointer" onclick="toggleChat()">✖</span>
   </div>
 
   <div id="chatContent">
-    <div class="bubble user">Chào shop 💗</div>
+    <div class="msg user">
+      <div class="bubble">Chào shop 💗</div>
+    </div>
   </div>
 
-    <div class="chat-input">
+  <div class="chat-input">
     <input id="chatMsg" placeholder="Nhắn tin">
     <button onclick="sendText()">➤</button>
   </div>
 </div>
-
+  
 </body>
 </html> 
