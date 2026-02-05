@@ -218,58 +218,70 @@ CSKH Ngọc Becon
 </div>
 
 <script>
-let DB=JSON.parse(localStorage.getItem("SHOP_DB"))||{users:{},orders:[],money:{}}
-let cur=null
-const save=()=>localStorage.setItem("SHOP_DB",JSON.stringify(DB))
+function showRegister(){
+  loginBox.classList.add("hidden")
+  registerBox.classList.remove("hidden")
+}
 
-function showRegister(){loginBox.classList.add("hidden");registerBox.classList.remove("hidden")}
-function showLogin(){registerBox.classList.add("hidden");loginBox.classList.remove("hidden")}
-
-function login(){
-if(localStorage.getItem(user.value)===pass.value){
-loginBox.classList.add("hidden")
-pcMenu.classList.remove("hidden")
-content.classList.remove("hidden")
-showPage("nap")
-}else alert("Sai tài khoản hoặc mật khẩu")
+function showLogin(){
+  registerBox.classList.add("hidden")
+  loginBox.classList.remove("hidden")
 }
 
 function register(){
-if(DB.users[regUser.value])return alert("Tồn tại")
-DB.users[regUser.value]=regPass.value
-DB.money[regUser.value]=0
-save();alert("OK");showLogin()
+  const u = regUser.value.trim()
+  const p = regPass.value.trim()
+
+  if(!u || !p){
+    alert("Vui lòng nhập đầy đủ thông tin")
+    return
+  }
+
+  if(localStorage.getItem("user_"+u)){
+    alert("❌ Tài khoản đã tồn tại")
+    return
+  }
+
+  localStorage.setItem("user_"+u, p)
+  alert("✅ Đăng ký thành công")
+  showLogin()
 }
 
-function toggleMenu(){sideMenu.classList.toggle("hidden")}
-function logout(){location.reload()}
+function login(){
+  const u = user.value.trim()
+  const p = pass.value.trim()
+
+  const savedPass = localStorage.getItem("user_"+u)
+
+  if(!savedPass){
+    alert("❌ Tài khoản không tồn tại")
+    return
+  }
+
+  if(savedPass !== p){
+    alert("❌ Sai mật khẩu")
+    return
+  }
+
+  // ĐÚNG
+  loginBox.classList.add("hidden")
+  pcMenu.classList.remove("hidden")
+  content.classList.remove("hidden")
+  showPage("nap")
+}
 
 function showPage(id){
-document.querySelectorAll(".card").forEach(c=>c.classList.add("hidden"))
-document.getElementById(id).classList.remove("hidden")
-sideMenu.classList.add("hidden")
-if(id==="historyOrder")loadOrder()
+  document.querySelectorAll(".card").forEach(c=>c.classList.add("hidden"))
+  document.getElementById(id).classList.remove("hidden")
+  sideMenu.style.left="-260px"
 }
 
-function napCard(){
-DB.money[cur]+=+amount.value
-save();money.innerText=moneyPC.innerText=DB.money[cur]
-alert("Đã nạp")
+function toggleMenu(){
+  sideMenu.style.left = sideMenu.style.left==="0px" ? "-260px":"0px"
 }
-function napMoMo(){
-DB.money[cur]+=+momoAmount.value
-save();money.innerText=moneyPC.innerText=DB.money[cur]
-alert("OK")
-}
-function order(game,sel){
-DB.orders.push({user:cur,game,pack:sel.options[sel.selectedIndex].text})
-save();alert("Đã gửi đơn")
-}
-function loadOrder(){
-orderTable.innerHTML="<tr><th>Game</th><th>Gói</th></tr>"
-DB.orders.filter(o=>o.user===cur).forEach(o=>{
-orderTable.innerHTML+=`<tr><td>${o.game}</td><td>${o.pack}</td></tr>`
-})
+
+function toggleChat(){
+  chatBox.style.display = chatBox.style.display==="flex"?"none":"flex"
 }
 </script>
 
