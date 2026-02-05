@@ -4,58 +4,24 @@
 <meta charset="UTF-8">
 <title>ADMIN – Ngọc Becon</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
 <style>
 :root{--pink:#ff4fa3}
 *{box-sizing:border-box;font-family:Segoe UI,Arial}
-
-body{
-  margin:0;
-  background:radial-gradient(circle,#3a0045,#0b0010);
-  color:#fff
-}
-
+body{margin:0;background:radial-gradient(circle,#3a0045,#0b0010);color:#fff}
 header{
-  background:linear-gradient(90deg,#ff4fa3,#ff77b7);
-  padding:16px;
-  text-align:center;
-  font-size:20px;
-  font-weight:bold
+background:linear-gradient(90deg,#ff4fa3,#ff77b7);
+padding:16px;text-align:center;font-size:20px;font-weight:bold
 }
-
-.card{
-  background:#16001d;
-  padding:20px;
-  border-radius:20px;
-  margin:20px
-}
-
+.card{background:#16001d;padding:20px;border-radius:20px;margin:20px}
 h2{margin:0 0 10px}
-
 table{width:100%;border-collapse:collapse}
 th,td{padding:10px;border-bottom:1px solid #333;font-size:14px}
-
 button{
-  padding:6px 12px;
-  border:none;
-  border-radius:10px;
-  background:var(--pink);
-  color:#fff;
-  font-weight:bold;
-  cursor:pointer
+padding:6px 12px;border:none;border-radius:10px;
+background:var(--pink);color:#fff;font-weight:bold;cursor:pointer
 }
 .danger{background:#ff3b3b}
-
 .small{font-size:12px;color:#ffb6d9}
-
-input,select{
-  width:100%;
-  padding:10px;
-  margin-bottom:10px;
-  border-radius:10px;
-  border:none;
-  font-size:14px
-}
 </style>
 </head>
 
@@ -63,29 +29,7 @@ input,select{
 
 <header>🔐 ADMIN NGỌC BECON</header>
 
-<!-- ===== FORM NẠP TIỀN (PC + PE) ===== -->
-<div class="card">
-<h2>💳 Nạp tiền</h2>
-
-<select id="topupType">
-  <option value="CARD">📶 Thẻ cào</option>
-  <option value="MOMO">💗 MoMo</option>
-</select>
-
-<input id="topupUser" placeholder="Tên tài khoản">
-<input id="topupAmount" type="number" placeholder="Số tiền">
-
-<div id="cardBox">
-  <input id="cardTelco" placeholder="Nhà mạng (Viettel / Vina / Mobi)">
-  <input id="cardSeri" placeholder="Seri thẻ">
-  <input id="cardCode" placeholder="Mã thẻ">
-</div>
-
-<button onclick="submitTopup()">Gửi nạp tiền</button>
-<div class="small" id="topupMsg"></div>
-</div>
-
-<!-- ===== USERS ===== -->
+<!-- USERS -->
 <div class="card">
 <h2>👤 Người dùng</h2>
 <table>
@@ -94,7 +38,7 @@ input,select{
 </table>
 </div>
 
-<!-- ===== TOPUP ADMIN ===== -->
+<!-- TOPUP -->
 <div class="card">
 <h2>💳 Nạp tiền chờ duyệt</h2>
 <table>
@@ -105,21 +49,20 @@ input,select{
 </table>
 </div>
 
-<!-- ===== ORDERS (để sẵn) ===== -->
+<!-- ORDERS -->
 <div class="card">
 <h2>📦 Đơn cày thuê</h2>
 <table>
-<tr><th>User</th><th>Game</th><th>Gói</th><th>Giá</th><th>Hành động</th></tr>
+<tr>
+<th>User</th><th>Game</th><th>Gói</th><th>Giá</th><th>Hành động</th>
+</tr>
 <tbody id="orderList"></tbody>
 </table>
 </div>
 
 <script>
-/* ===== DB ===== */
 let DB = JSON.parse(localStorage.getItem("SHOP_DB")) || {
-  users:{},
-  topups:[],
-  orders:[]
+  users:{}, orders:[], topups:[]
 }
 
 function save(){
@@ -127,76 +70,33 @@ function save(){
   render()
 }
 
-/* ===== FORM TOPUP ===== */
-topupType.onchange=()=>{
-  cardBox.style.display = topupType.value==="CARD" ? "block" : "none"
-}
-topupType.onchange()
-
-function submitTopup(){
-  let user=topupUser.value.trim()
-  let amount=parseInt(topupAmount.value)
-
-  if(!user||!amount){
-    topupMsg.innerText="❌ Thiếu user hoặc số tiền"
-    return
-  }
-
-  if(!DB.users[user])
-    DB.users[user]={money:0,notifications:[]}
-
-  let t={
-    id:Date.now(),
-    user,
-    amount,
-    type:topupType.value,
-    status:"pending",
-    time:new Date().toLocaleString()
-  }
-
-  if(topupType.value==="CARD"){
-    if(!cardTelco.value||!cardSeri.value||!cardCode.value){
-      topupMsg.innerText="❌ Thiếu thông tin thẻ"
-      return
-    }
-    t.detail={
-      telco:cardTelco.value,
-      seri:cardSeri.value,
-      code:cardCode.value
-    }
-  }
-
-  DB.topups.push(t)
-  save()
-  topupMsg.innerText="✅ Đã gửi nạp tiền – chờ admin duyệt"
-}
-
-/* ===== USERS ===== */
+/* ========== USERS ========== */
 function renderUsers(){
   userList.innerHTML=""
-  for(let u in DB.users){
-    userList.innerHTML+=`
-    <tr>
+  Object.keys(DB.users).forEach(u=>{
+    let tr=document.createElement("tr")
+    tr.innerHTML=`
       <td>${u}</td>
       <td>${DB.users[u].money}đ</td>
       <td>
         <button onclick="addMoney('${u}',10000)">+10k</button>
-        <button class="danger" onclick="addMoney('${u}',-10000)">-10k</button>
-      </td>
-    </tr>`
-  }
+        <button onclick="addMoney('${u}',-10000)">-10k</button>
+      </td>`
+    userList.appendChild(tr)
+  })
 }
 
-function addMoney(u,a){
-  DB.users[u].money+=a
+function addMoney(user,amount){
+  DB.users[user].money+=amount
+  notify(user,`💰 Số dư ${amount>0?'+':''}${amount}đ`)
   save()
 }
 
-/* ===== TOPUP ADMIN ===== */
+/* ========== TOPUP ========== */
 function renderTopups(){
   topupList.innerHTML=""
   DB.topups.filter(t=>t.status==="pending").forEach(t=>{
-    let detail=`<div class="small">Không có</div>`
+    let detail="Không có"
 
     if(t.type==="CARD" && t.detail){
       detail=`
@@ -211,17 +111,17 @@ function renderTopups(){
       detail=`<div class="small">💗 MoMo chuyển khoản</div>`
     }
 
-    topupList.innerHTML+=`
-    <tr>
+    let tr=document.createElement("tr")
+    tr.innerHTML=`
       <td>${t.user}</td>
       <td>${t.type}</td>
-      <td>${t.amount}đ</td>
+      <td>${t.amount}</td>
       <td>${detail}</td>
       <td>
         <button onclick="approveTopup(${t.id})">Duyệt</button>
         <button class="danger" onclick="rejectTopup(${t.id})">Từ chối</button>
-      </td>
-    </tr>`
+      </td>`
+    topupList.appendChild(tr)
   })
 }
 
@@ -230,6 +130,7 @@ function approveTopup(id){
   if(!t)return
   DB.users[t.user].money+=t.amount
   t.status="done"
+  notify(t.user,`💳 Nạp ${t.type} +${t.amount}đ thành công`)
   save()
 }
 
@@ -237,15 +138,56 @@ function rejectTopup(id){
   let t=DB.topups.find(x=>x.id===id)
   if(!t)return
   t.status="reject"
+  notify(t.user,`❌ Nạp ${t.type} ${t.amount}đ bị từ chối`)
   save()
 }
 
-/* ===== ORDERS (để sẵn) ===== */
+/* ========== ORDERS ========== */
 function renderOrders(){
   orderList.innerHTML=""
+  DB.orders.filter(o=>o.status==="pending").forEach(o=>{
+    let tr=document.createElement("tr")
+    tr.innerHTML=`
+      <td>${o.user}</td>
+      <td>${o.game}</td>
+      <td>${o.pack}</td>
+      <td>${o.price}</td>
+      <td>
+        <button onclick="approveOrder(${o.id})">Hoàn thành</button>
+        <button class="danger" onclick="rejectOrder(${o.id})">Hủy</button>
+      </td>`
+    orderList.appendChild(tr)
+  })
 }
 
-/* ===== RENDER ===== */
+function approveOrder(id){
+  let o=DB.orders.find(x=>x.id===id)
+  if(!o)return
+  o.status="done"
+  notify(o.user,`📦 Đơn ${o.game} đã hoàn thành`)
+  save()
+}
+
+function rejectOrder(id){
+  let o=DB.orders.find(x=>x.id===id)
+  if(!o)return
+  o.status="reject"
+  notify(o.user,`❌ Đơn ${o.game} đã bị hủy`)
+  save()
+}
+
+/* ========== NOTIFY ========== */
+function notify(user,text){
+  if(!DB.users[user].notifications)
+    DB.users[user].notifications=[]
+  DB.users[user].notifications.push({
+    text,
+    time:new Date().toLocaleString(),
+    read:false
+  })
+}
+
+/* ========== RENDER ========== */
 function render(){
   renderUsers()
   renderTopups()
@@ -255,4 +197,4 @@ render()
 </script>
 
 </body>
-</html> 
+</html>
