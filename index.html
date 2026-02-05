@@ -71,6 +71,26 @@ display:block;height:100%;width:0%;
 background:linear-gradient(90deg,#ff2f92,#ff9bd6);
 }
 
+/* 👉 TAP */
+#tap{
+display:none;
+position:fixed;
+bottom:18%;
+font-size:16px;
+font-weight:600;
+color:#fff;
+opacity:.85;
+animation:tap 1.2s infinite;
+text-shadow:0 0 12px #ff2f92;
+z-index:9;
+}
+
+@keyframes tap{
+0%{transform:translateY(0);opacity:.4}
+50%{transform:translateY(-6px);opacity:1}
+100%{transform:translateY(0);opacity:.4}
+}
+
 /* 💎 CARD */
 .card{
 display:none;
@@ -194,6 +214,9 @@ transform:translateY(-2px);
   <div id="bar"><span></span></div>
 </div>
 
+<!-- 👉 TAP -->
+<div id="tap">👉 Ấn vào để tiếp tục</div>
+
 <!-- 💎 MAIN -->
 <div class="card" id="main">
   <div class="avatar-wrap">
@@ -202,9 +225,9 @@ transform:translateY(-2px);
 
   <div class="name">Ngọc Becon <span class="check">✓</span></div>
 
-  <a class="link" href="https://www.tiktok.com/@ngocbecon" target="_blank"> TikTok</a>
-  <a class="link" href="https://www.facebook.com/share/18TVL9TCDZ/" target="_blank"> Facebook</a>
-  <a class="link" href="https://discord.gg/dv2QAwssr" target="_blank"> Discord Group</a>
+  <a class="link" href="https://www.tiktok.com/@ngocbecon" target="_blank">🎵 TikTok</a>
+  <a class="link" href="https://www.facebook.com/share/18TVL9TCDZ/" target="_blank">📘 Facebook</a>
+  <a class="link" href="https://discord.gg/dv2QAwssr" target="_blank">💬 Discord Group</a>
 </div>
 
 <!-- 🎵 MUSIC -->
@@ -217,6 +240,7 @@ const percent=document.getElementById("percent");
 const bar=document.querySelector("#bar span");
 const intro=document.getElementById("intro");
 const main=document.getElementById("main");
+const tap=document.getElementById("tap");
 
 const load=setInterval(()=>{
 p++;
@@ -227,7 +251,7 @@ clearInterval(load);
 intro.style.opacity=0;
 setTimeout(()=>{
 intro.style.display="none";
-main.style.display="block";
+tap.style.display="block";
 },500);
 }
 },20);
@@ -257,12 +281,16 @@ requestAnimationFrame(draw);
 }
 draw();
 
-/* 🎵 MUSIC AUTOPLAY */
+/* 🎵 MUSIC + TAP */
 const bgm=document.getElementById("bgm");
 bgm.volume=0.6;
-window.addEventListener("load",()=>{bgm.play().catch(()=>{})});
-document.addEventListener("click",()=>{if(bgm.paused)bgm.play()},{once:true});
+
+tap.addEventListener("click",()=>{
+tap.style.display="none";
+main.style.display="block";
+bgm.play().catch(()=>{});
+});
 </script>
 
 </body>
-</html>
+</html> 
