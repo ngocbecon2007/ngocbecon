@@ -132,29 +132,17 @@ th,td{padding:10px;border-bottom:1px solid #333;text-align:left;font-size:14px}
 <audio src="music.mp3" autoplay loop></audio>
 
 <!-- AUTH -->
-<div id="loginBox" class="auth">
+<div id="auth" class="auth">
 <h2>🐰 Ngọc Becon Shop</h2>
-<input id="user" placeholder="👤 Tài khoản">
-<input id="pass" type="password" placeholder="🔑 Mật khẩu">
+<input id="user" placeholder="Tài khoản">
+<input id="pass" type="password" placeholder="Mật khẩu">
 <button onclick="login()">🔐 Đăng nhập</button>
 <hr style="margin:16px 0;border:1px solid #333">
-<p>Chưa có tài khoản?
-<span style="color:#ff77b7;cursor:pointer" onclick="showRegister()">Đăng ký</span>
-</p>
+<input id="regUser" placeholder="Tài khoản mới">
+<input id="regPass" type="password" placeholder="Mật khẩu mới">
+<button onclick="register()">📝 Đăng ký</button>
 </div>
 
-<!-- REGISTER -->
-<div id="registerBox" class="auth hidden">
-<h2>🐰 Ngọc Becon Shop</h2>
-<input id="regUser" placeholder="👤 Tài khoản mới">
-<input id="regPass" type="password" placeholder="🔑 Mật khẩu mới">
-<button onclick="register()">📝 Đăng ký</button>
-<hr style="margin:16px 0;border:1px solid #333">
-<p>Đã có tài khoản?
-<span style="color:#ff77b7;cursor:pointer" onclick="showLogin()">Đăng nhập</span>
-</p>
-</div>
-  
 <header id="header" class="hidden">
 <div class="menu-btn" onclick="toggleMenu()">☰</div>
 <b>Số dư: <span id="money">0đ</span></b>
@@ -397,7 +385,6 @@ orderTable.innerHTML+=`<tr><td>${o.time}</td><td>${o.game}</td><td>${o.pack}</td
     <div class="bubble user">Chào shop 💗</div>
   </div>
 
-  <div class="chat-input">
     <div class="chat-input">
     <input id="chatMsg" placeholder="Nhắn tin">
     <button onclick="sendText()">➤</button>
@@ -405,4 +392,4 @@ orderTable.innerHTML+=`<tr><td>${o.time}</td><td>${o.game}</td><td>${o.pack}</td
 </div>
 
 </body>
-</html>
+</html> 
