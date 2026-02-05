@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>ADMIN – Ngọc Becon</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+:root{--pink:#ff4fa3;--purple:#ff77b7}
+*{box-sizing:border-box;font-family:Segoe UI,Arial}
+body{margin:0;color:#fff;background:radial-gradient(circle,#3a0045,#0b0010);transition:.5s}
+#particles{position:fixed;inset:0;z-index:-1}
+header{background:linear-gradient(90deg,var(--pink),var(--purple));padding:16px;text-align:center;font-size:20px;font-weight:bold;box-shadow:0 0 20px var(--pink)}
+#gameIcon{margin-right:6px;filter:drop-shadow(0 0 6px currentColor)}
+.card{background:rgba(22,0,29,.9);padding:20px;border-radius:20px;margin:20px}
+h2{margin:0 0 10px}
+table{width:100%;border-collapse:collapse}
+th,td{padding:10px;border-bottom:1px solid #333;font-size:14px}
+input{width:100%;padding:10px;margin-bottom:10px;border-radius:10px;border:none}
+button{padding:6px 12px;border:none;border-radius:10px;background:var(--pink);color:#fff;font-weight:bold;cursor:pointer}
+button:hover{box-shadow:0 0 10px var(--pink)}
+.danger{background:#ff3b3b}
+.small{font-size:12px;color:#ffb6d9}
+#popup{position:fixed;right:20px;bottom:20px;background:var(--pink);padding:12px 16px;border-radius:14px;display:none;box-shadow:0 0 20px var(--pink)}
+.theme-ff{--pink:#ffb300;--purple:#ff5e00;background:radial-gradient(circle,#ffb300,#1a0000)}
+.theme-rbx{--pink:#00c8ff;--purple:#005eff;background:radial-gradient(circle,#00c8ff,#000814)}
+.theme-lq{--pink:#2eff9a;--purple:#00b37e;background:radial-gradient(circle,#9affd1,#00140a)}
+</style>
+</head>
+
+<body>
+
+<canvas id="particles"></canvas>
+<div id="popup"></div>
+
+<!-- LOGIN -->
+<div class="card" id="loginBox">
+  <h2>🔐 Đăng nhập Admin</h2>
+  <input id="lgUser" placeholder="Tài khoản">
+  <input id="lgPass" type="password" placeholder="Mật khẩu">
+  <button onclick="login()">Đăng nhập</button>
+  <div class="small" id="lgErr"></div>
+</div>
+
+<!-- ADMIN -->
+<div id="adminBox" style="display:none">
+
+<header>
+  <span id="gameIcon">🎮</span> ADMIN NGỌC BECON
+  <button style="float:right" onclick="logout()">Đăng xuất</button>
+</header>
+
+<div class="card">
+<h2>🎮 Chọn giao diện</h2>
+<button onclick="setTheme('ff')">🔥 Free Fire</button>
+<button onclick="setTheme('rbx')">🟦 Roblox</button>
+<button onclick="setTheme('lq')">⚔ Liên Quân</button>
+</div>
+
+<div class="card">
+<h2>📊 Biểu đồ doanh thu</h2>
+<button onclick="mode='day';renderChart()">Theo ngày</button>
+<button onclick="mode='month';renderChart()">Theo tháng</button>
+<canvas id="chart" height="220"></canvas>
+<div class="small" id="revenueText"></div>
+<button onclick="exportExcel()">📤 Xuất Excel</button>
+</div>
+
+<div class="card">
+<h2>💳 Doanh thu theo nguồn</h2>
+<div class="small" id="splitRevenue"></div>
+</div>
+
+<div class="card">
+<h2>👤 Người dùng</h2>
+<table>
+<tr><th>User</th><th>Số dư</th><th>Hành động</th></tr>
+<tbody id="userList"></tbody>
+</table>
+</div>
+
+<div class="card">
+<h2>📜 Lịch sử cộng / trừ tiền</h2>
+<table>
+<tr><th>Thời gian</th><th>User</th><th>Số tiền</th><th>Admin</th></tr>
+<tbody id="historyList"></tbody>
+</table>
+</div>
+
+</div>
+
+<script>
+/* ADMIN */
+const ADMIN={user:"Ngocbecon",pass:"manhmanh"}
+
+/* LOGIN */
+function login(){
+  if(lgUser.value===ADMIN.user && lgPass.value===ADMIN.pass){
+    localStorage.admin=1
+    loginBox.style.display="none"
+    adminBox.style.display="block"
+    render()
+  }else lgErr.innerText="❌ Sai tài khoản hoặc mật khẩu"
+}
+function logout(){localStorage.removeItem("admin");location.reload()}
+if(localStorage.admin){loginBox.style.display="none";adminBox.style.display="block"}
+
+/* DB */
+let DB=JSON.parse(localStorage.SHOP_DB||'{"users":{},"topups":[],"orders":[],"history":[]}')
+function save(){localStorage.SHOP_DB=JSON.stringify(DB);render()}
+
+/* POPUP */
+function popupMsg(t){
+  popup.innerText=t
+  popup.style.display="block"
+  setTimeout(()=>popup.style.display="none",2500)
+}
+
+/* USERS */
+function renderUsers(){
+  userList.innerHTML=""
+  for(let u in DB.users){
+    userList.innerHTML+=`
+    <tr>
+      <td>${u}</td>
+      <td>${DB.users[u].money||0}đ</td>
+      <td>
+        <button onclick="money('${u}',100000)">+100k</button>
+        <button class="danger" onclick="money('${u}',-100000)">-100k</button>
+      </td>
+    </tr>`
+  }
+}
+function money(u,a){
+  DB.users[u].money=(DB.users[u].money||0)+a
+  DB.history.unshift({
+    user:u,
+    amount:a,
+    admin:ADMIN.user,
+    time:new Date().toLocaleString()
+  })
+  popupMsg("💰 "+(a>0?"+":"")+a+"đ cho "+u)
+  save()
+}
+
+/* HISTORY */
+function renderHistory(){
+  historyList.innerHTML=""
+  DB.history.forEach(h=>{
+    historyList.innerHTML+=`
+    <tr>
+      <td>${h.time}</td>
+      <td>${h.user}</td>
+      <td style="color:${h.amount>0?'#2eff9a':'#ff6b6b'}">
+        ${h.amount>0?'+':''}${h.amount}đ
+      </td>
+      <td>${h.admin}</td>
+    </tr>`
+  })
+}
+
+/* THEME */
+function setTheme(t){
+  document.body.className="theme-"+t
+  localStorage.theme=t
+  gameIcon.innerText=t==="ff"?"🔥":t==="rbx"?"🟦":"⚔"
+}
+if(localStorage.theme)setTheme(localStorage.theme)
+
+/* PARTICLE */
+const cvs=document.getElementById("particles"),ctx=cvs.getContext("2d")
+function resize(){cvs.width=innerWidth;cvs.height=innerHeight}
+resize();onresize=resize
+let p=[...Array(60)].map(()=>({x:Math.random()*cvs.width,y:Math.random()*cvs.height,r:Math.random()*2+1,s:Math.random()*.5+.1}))
+;(function draw(){
+  ctx.clearRect(0,0,cvs.width,cvs.height)
+  ctx.fillStyle=getComputedStyle(document.body).getPropertyValue("--pink")
+  p.forEach(o=>{o.y-=o.s;if(o.y<0)o.y=cvs.height;ctx.beginPath();ctx.arc(o.x,o.y,o.r,0,6.28);ctx.fill()})
+  requestAnimationFrame(draw)
+})()
+
+/* CHART */
+let mode="day"
+function renderChart(){
+  const c=document.getElementById("chart"),x=c.getContext("2d")
+  let labels=mode==="day"?["T2","T3","T4","T5","T6","T7","CN"]:["T1","T2","T3","T4","T5","T6","T7","T8","T9","T10","T11","T12"]
+  let data=labels.map(()=>Math.floor(Math.random()*500000))
+  let max=Math.max(...data,1)
+  c.width=labels.length*70
+  x.clearRect(0,0,c.width,c.height)
+  data.forEach((v,i)=>{
+    let h=(v/max)*(c.height-40)
+    x.fillStyle=getComputedStyle(document.body).getPropertyValue("--pink")
+    x.fillRect(i*70+20,c.height-h-20,40,h)
+    x.fillStyle="#fff"
+    x.fillText(labels[i],i*70+25,c.height-5)
+  })
+  revenueText.innerText="📈 Doanh thu theo "+(mode==="day"?"ngày":"tháng")
+}
+
+/* SPLIT */
+function renderSplit(){
+  let momo=0,card=0
+  DB.topups.filter(t=>t.status==="done").forEach(t=>{
+    t.type==="MOMO"?momo+=t.amount:card+=t.amount
+  })
+  splitRevenue.innerHTML=`💗 MoMo: ${momo.toLocaleString()}đ<br>📶 Thẻ cào: ${card.toLocaleString()}đ`
+}
+
+/* EXPORT */
+function exportExcel(){
+  let csv="User,Amount,Admin,Time\n"
+  DB.history.forEach(h=>{
+    csv+=`${h.user},${h.amount},${h.admin},${h.time}\n`
+  })
+  let a=document.createElement("a")
+  a.href=URL.createObjectURL(new Blob([csv]))
+  a.download="lich_su_cong_tru_tien.csv"
+  a.click()
+}
+
+/* RENDER */
+function render(){
+  renderUsers()
+  renderHistory()
+  renderChart()
+  renderSplit()
+}
+render()
+</script>
+
+</body>
+</html> 
