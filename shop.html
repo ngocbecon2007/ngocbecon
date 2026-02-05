@@ -244,7 +244,39 @@ DB.orders.filter(o=>o.user===cur).forEach(o=>{
 orderTable.innerHTML+=`<tr><td>${o.game}</td><td>${o.pack}</td></tr>`
 })
 }
-</script>
+<script>
+function register(){
+  let user = regUser.value.trim();
+  let pass = regPass.value;
+
+  let users = JSON.parse(localStorage.getItem("users")) || {};
+
+  if(users[user]){
+    alert("❌ Tài khoản đã tồn tại");
+    return;
+  }
+
+  users[user] = pass;
+  localStorage.setItem("users", JSON.stringify(users));
+
+  alert("✅ Đăng ký thành công");
+  showLogin();
+}
+
+function login(){
+  let user = document.getElementById("user").value.trim();
+  let pass = document.getElementById("pass").value;
+
+  let users = JSON.parse(localStorage.getItem("users")) || {};
+
+  if(users[user] && users[user] === pass){
+    alert("✅ Đăng nhập thành công");
+    document.getElementById("loginBox").classList.add("hidden");
+    document.getElementById("pcMenu").classList.remove("hidden");
+  }else{
+    alert("❌ Sai tài khoản hoặc mật khẩu");
+  }
+}
 
 </body>
 </html> 
