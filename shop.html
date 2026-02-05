@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <title>Ngọc Becon Shop</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
 <style>
 :root{--pink:#ff4fa3}
 *{box-sizing:border-box;font-family:Segoe UI,Arial}
@@ -21,7 +22,10 @@ border-radius:20px;text-align:center
 width:100%;padding:14px;margin-top:12px;
 border-radius:14px;border:none
 }
-.auth button{background:linear-gradient(90deg,#ff4fa3,#ff77b7);color:#fff;font-weight:bold}
+.auth button{
+background:linear-gradient(90deg,#ff4fa3,#ff77b7);
+color:#fff;font-weight:bold
+}
 
 /* PC MENU */
 .pc-menu{
@@ -42,14 +46,24 @@ pointer-events:none;transition:.25s
 }
 .dropdown a{display:block;padding:10px 14px;color:#000}
 .dropdown a:hover{background:#ffe1ef;color:#ff4fa3}
-.nav-item:hover .dropdown{opacity:1;transform:translateY(0);pointer-events:auto}
+.nav-item:hover .dropdown{
+opacity:1;transform:translateY(0);pointer-events:auto
+}
 
 /* MOBILE */
-header{display:none;background:linear-gradient(90deg,#ff4fa3,#ff77b7);padding:12px}
+header{
+display:none;
+background:linear-gradient(90deg,#ff4fa3,#ff77b7);
+padding:12px;
+justify-content:space-between;
+align-items:center
+}
 .menu-btn{font-size:22px}
+
 #sideMenu{
-position:fixed;left:0;top:0;width:260px;height:100%;
-background:#16001d;padding:20px;z-index:30
+position:fixed;left:-260px;top:0;width:260px;height:100%;
+background:#16001d;padding:20px;z-index:30;
+transition:.3s
 }
 #sideMenu button{
 width:100%;margin:8px 0;padding:12px;
@@ -59,12 +73,12 @@ background:#ff4fa3;color:#fff;font-weight:bold
 
 /* CONTENT */
 .container{max-width:1100px;margin:auto;padding:20px}
-.card{background:#16001d;padding:20px;border-radius:20px;margin-bottom:20px}
-select,input{width:100%;padding:10px;border-radius:10px;border:none;margin:6px 0}
-
-/* TABLE */
-table{width:100%;border-collapse:collapse}
-th,td{padding:10px;border-bottom:1px solid #333}
+.card{
+background:#16001d;
+padding:20px;
+border-radius:20px;
+margin-bottom:20px
+}
 
 /* CHAT */
 #chatBtn{
@@ -76,51 +90,59 @@ border-radius:999px;z-index:40
 position:fixed;right:10px;bottom:70px;
 width:230px;height:300px;
 background:#0f0014;border-radius:16px;
-display:none;flex-direction:column
+display:none;flex-direction:column;
+padding:10px
 }
 
 @media(max-width:768px){
 .pc-menu{display:none}
-header{display:flex;justify-content:space-between}
+header{display:flex}
 }
 </style>
 </head>
 
 <body>
 
+<!-- MOBILE HEADER -->
+<header>
+<b>Ngọc Becon</b>
+<div class="menu-btn" onclick="toggleMenu()">☰</div>
+</header>
+
+<!-- SIDE MENU -->
+<div id="sideMenu">
+<button onclick="showPage('nap')">Nạp thẻ</button>
+<button onclick="showPage('napmomo')">MoMo</button>
+<button onclick="showPage('blox')">Blox Fruit</button>
+<button onclick="showPage('ff')">Free Fire</button>
+<button onclick="showPage('lq')">Liên Quân</button>
+<button onclick="toggleMenu()">Đóng</button>
+</div>
+
 <!-- LOGIN -->
 <div id="loginBox" class="auth">
-  <h2>🐰 Ngọc Becon Shop</h2>
-
-  <input id="user" placeholder="👤 Tài khoản">
-  <input id="pass" type="password" placeholder="🔑 Mật khẩu">
-
-  <button onclick="login()">🔐 Đăng nhập</button>
-
-  <hr style="margin:16px 0;border:1px solid #333">
-
-  <p>
-    Chưa có tài khoản?
-    <span style="color:#ff77b7;cursor:pointer" onclick="showRegister()">Đăng ký ngay</span>
-  </p>
+<h2>🐰 Ngọc Becon Shop</h2>
+<input id="user" placeholder="👤 Tài khoản">
+<input id="pass" type="password" placeholder="🔑 Mật khẩu">
+<button onclick="login()">🔐 Đăng nhập</button>
+<hr style="margin:16px 0;border:1px solid #333">
+<p>Chưa có tài khoản?
+<span style="color:#ff77b7;cursor:pointer" onclick="showRegister()">Đăng ký</span>
+</p>
 </div>
 
 <!-- REGISTER -->
 <div id="registerBox" class="auth hidden">
-  <h2>🐰 Ngọc Becon Shop</h2>
-
-  <input id="regUser" placeholder="👤 Tài khoản mới">
-  <input id="regPass" type="password" placeholder="🔑 Mật khẩu mới">
-
-  <button onclick="register()">📝 Đăng ký</button>
-
-  <hr style="margin:16px 0;border:1px solid #333">
-
-  <p>
-    Đã có tài khoản?
-    <span style="color:#ff77b7;cursor:pointer" onclick="showLogin()">Đăng nhập</span>
-  </p>
+<h2>🐰 Ngọc Becon Shop</h2>
+<input id="regUser" placeholder="👤 Tài khoản mới">
+<input id="regPass" type="password" placeholder="🔑 Mật khẩu mới">
+<button onclick="register()">📝 Đăng ký</button>
+<hr style="margin:16px 0;border:1px solid #333">
+<p>Đã có tài khoản?
+<span style="color:#ff77b7;cursor:pointer" onclick="showLogin()">Đăng nhập</span>
+</p>
 </div>
+
 <!-- PC MENU -->
 <div class="pc-menu hidden" id="pcMenu">
 <b>Ngọc Becon</b>
@@ -135,17 +157,10 @@ header{display:flex;justify-content:space-between}
 <a onclick="showPage('lq')">Liên Quân</a>
 </div>
 </div>
-<a onclick="showPage('historyOrder')">Lịch sử</a>
 </div>
-<div>💰 <span id="moneyPC">0</span>đ</div>
 </div>
 
-<!-- MOBILE -->
-<header id="header" class="hidden">
-<div class="menu-btn" onclick="toggleMenu()">☰</div>
-<b>💰 <span id="money">0</span>đ</b>
-</header>
-
+<!-- CONTENT -->
 <div id="sideMenu" class="hidden">
 <button onclick="showPage('nap')">💳 Nạp thẻ</button>
 <button onclick="showPage('napmomo')">💗 MoMo</button>
@@ -259,7 +274,7 @@ DB.orders.filter(o=>o.user===cur).forEach(o=>{
 orderTable.innerHTML+=`<tr><td>${o.game}</td><td>${o.pack}</td></tr>`
 })
 }
-<script>
+</script>
 
 </body>
 </html> 
