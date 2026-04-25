@@ -9,7 +9,7 @@
 
         :root {
             --pink: #ff69b4;
-            --lightpink: #ffb6c1;
+            --deeppink: #ff1493;
         }
 
         * {
@@ -40,17 +40,17 @@
             justify-content: center;
             z-index: 9999;
             color: white;
-            transition: opacity 1.2s ease;
+            transition: opacity 1s ease;
         }
 
         .loader {
-            width: 80px;
-            height: 80px;
-            border: 6px solid rgba(255,255,255,0.3);
-            border-top: 6px solid white;
+            width: 85px;
+            height: 85px;
+            border: 7px solid rgba(255,255,255,0.3);
+            border-top: 7px solid white;
             border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin-bottom: 20px;
+            animation: spin 1.1s linear infinite;
+            margin-bottom: 25px;
         }
 
         @keyframes spin {
@@ -59,18 +59,38 @@
         }
 
         .loading-text {
-            font-size: 1.4rem;
+            font-size: 1.5rem;
             font-weight: 600;
-            text-shadow: 0 3px 10px rgba(0,0,0,0.2);
+            margin-bottom: 40px;
+            text-shadow: 0 4px 12px rgba(0,0,0,0.25);
         }
 
-        /* Main Content */
-        .container {
+        .enter-btn {
+            padding: 18px 50px;
+            font-size: 1.45rem;
+            font-weight: 600;
+            background: white;
+            color: var(--deeppink);
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(255, 20, 147, 0.4);
+            transition: all 0.4s ease;
+        }
+
+        .enter-btn:hover {
+            transform: scale(1.08) translateY(-5px);
+            box-shadow: 0 15px 35px rgba(255, 20, 147, 0.5);
+        }
+
+        /* Main Content (ẩn ban đầu) */
+        #mainContent {
             max-width: 620px;
             margin: 0 auto;
             padding: 40px 20px;
             opacity: 0;
-            transition: opacity 1.5s ease;
+            transition: opacity 1.2s ease;
+            display: none;
         }
 
         .avatar {
@@ -100,7 +120,6 @@
             font-size: 1.35rem;
             color: #c05a8a;
             margin-bottom: 35px;
-            font-weight: 400;
         }
 
         .bio {
@@ -152,7 +171,7 @@
             color: white;
         }
 
-        /* Bong bóng hồng tự động */
+        /* Bong bóng hồng */
         .bubble {
             position: absolute;
             bottom: -60px;
@@ -193,10 +212,11 @@
 </head>
 <body>
 
-    <!-- Loading Screen -->
+    <!-- Loading + Enter Screen -->
     <div id="loading">
         <div class="loader"></div>
         <div class="loading-text">Ngọc Becon ♡</div>
+        <button class="enter-btn" onclick="enterWebsite()"> Ngọc Becon ♡</button>
     </div>
 
     <!-- Main Content -->
@@ -206,8 +226,8 @@
         <h1>Ngọc Becon ♡</h1>
         <p class="subtitle">Cosplayer • Content Creator</p>
 
-        <div class="bio">
-            Xin chào 💕<br>
+        <div class="bio">         
+           Xin chào 💕<br>
         </div>
 
         <div class="social-links">
@@ -217,31 +237,46 @@
         </div>
     </div>
 
-    <footer>
+    <footer id="footer" style="display: none;">
         Made with lots of ♡ by Ngọc Becon
     </footer>
 
-    <audio id="bgMusic" loop autoplay>
+    <audio id="bgMusic" loop>
         <source src="music.mp3" type="audio/mpeg">
     </audio>
 
     <script>
-        // Tự động ẩn loading và hiện nội dung
-        window.addEventListener('load', () => {
-            const loading = document.getElementById('loading');
-            const mainContent = document.getElementById('mainContent');
+        const music = document.getElementById('bgMusic');
+        const loadingScreen = document.getElementById('loading');
+        const mainContent = document.getElementById('mainContent');
+        const footer = document.getElementById('footer');
 
+        function enterWebsite() {
+            // Ẩn màn hình loading
+            loadingScreen.style.opacity = '0';
+            
             setTimeout(() => {
-                loading.style.opacity = '0';
+                loadingScreen.style.display = 'none';
                 
+                // Hiện nội dung chính
+                mainContent.style.display = 'block';
                 setTimeout(() => {
-                    loading.style.display = 'none';
                     mainContent.style.opacity = '1';
-                }, 1200);
-            }, 1800); // Thời gian loading khoảng 1.8 giây
-        });
+                }, 50);
 
-        // Tạo bong bóng hồng tự động liên tục
+                footer.style.display = 'block';
+
+                // Tự động phát nhạc
+                music.play().catch(err => {
+                    console.log("Nhạc phát khi có tương tác");
+                });
+
+                // Bắt đầu thả bong bóng hồng
+                startBubbles();
+            }, 800);
+        }
+
+        // Tạo bong bóng hồng
         function createBubble() {
             const bubble = document.createElement('div');
             bubble.classList.add('bubble');
@@ -258,20 +293,14 @@
             setTimeout(() => bubble.remove(), 16000);
         }
 
-        // Thả bong bóng liên tục khi vào web
-        setInterval(() => {
-            if (Math.random() > 0.3) {
-                createBubble();
-            }
-        }, 600);
-
-        // Tự động phát nhạc (autoplay)
-        const music = document.getElementById('bgMusic');
-        
-        // Một số trình duyệt chặn autoplay, nên thêm fallback
-        music.play().catch(() => {
-            console.log("Nhạc sẽ phát khi có tương tác");
-        });
+        function startBubbles() {
+            // Thả bong bóng liên tục
+            setInterval(() => {
+                if (Math.random() > 0.28) {
+                    createBubble();
+                }
+            }, 550);
+        }
     </script>
 </body>
 </html> 
