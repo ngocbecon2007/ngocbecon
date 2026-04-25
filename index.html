@@ -28,7 +28,7 @@
             position: relative;
         }
 
-        /* Loading Screen */
+        /* Loading Screen - Chỉ còn nút */
         #loading {
             position: fixed;
             top: 0; left: 0;
@@ -43,53 +43,31 @@
             transition: opacity 1s ease;
         }
 
-        .loader {
-            width: 85px;
-            height: 85px;
-            border: 7px solid rgba(255,255,255,0.3);
-            border-top: 7px solid white;
-            border-radius: 50%;
-            animation: spin 1.1s linear infinite;
-            margin-bottom: 25px;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .loading-text {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-bottom: 40px;
-            text-shadow: 0 4px 12px rgba(0,0,0,0.25);
-        }
-
         .enter-btn {
-            padding: 18px 50px;
-            font-size: 1.45rem;
+            padding: 20px 60px;
+            font-size: 1.55rem;
             font-weight: 600;
             background: white;
             color: var(--deeppink);
             border: none;
             border-radius: 50px;
             cursor: pointer;
-            box-shadow: 0 10px 30px rgba(255, 20, 147, 0.4);
+            box-shadow: 0 12px 35px rgba(255, 20, 147, 0.45);
             transition: all 0.4s ease;
         }
 
         .enter-btn:hover {
-            transform: scale(1.08) translateY(-5px);
-            box-shadow: 0 15px 35px rgba(255, 20, 147, 0.5);
+            transform: scale(1.12) translateY(-8px);
+            box-shadow: 0 20px 45px rgba(255, 20, 147, 0.6);
         }
 
-        /* Main Content (ẩn ban đầu) */
+        /* Main Content */
         #mainContent {
             max-width: 620px;
             margin: 0 auto;
             padding: 40px 20px;
             opacity: 0;
-            transition: opacity 1.2s ease;
+            transition: opacity 1.5s ease;
             display: none;
         }
 
@@ -212,11 +190,11 @@
 </head>
 <body>
 
-    <!-- Loading + Enter Screen -->
+    <!-- Loading Screen - Chỉ còn nút -->
     <div id="loading">
-        <div class="loader"></div>
-        <div class="loading-text">Ngọc Becon ♡</div>
-        <button class="enter-btn" onclick="enterWebsite()"> Ngọc Becon ♡</button>
+        <button class="enter-btn" onclick="enterWebsite()">
+                             Ngọc Becon ♡
+        </button>
     </div>
 
     <!-- Main Content -->
@@ -226,8 +204,8 @@
         <h1>Ngọc Becon ♡</h1>
         <p class="subtitle">Cosplayer • Content Creator</p>
 
-        <div class="bio">         
-           Xin chào 💕<br>
+        <div class="bio">
+            Xin chào 💕<br>
         </div>
 
         <div class="social-links">
@@ -252,24 +230,20 @@
         const footer = document.getElementById('footer');
 
         function enterWebsite() {
-            // Ẩn màn hình loading
             loadingScreen.style.opacity = '0';
             
             setTimeout(() => {
                 loadingScreen.style.display = 'none';
                 
-                // Hiện nội dung chính
                 mainContent.style.display = 'block';
                 setTimeout(() => {
                     mainContent.style.opacity = '1';
-                }, 50);
+                }, 100);
 
                 footer.style.display = 'block';
 
                 // Tự động phát nhạc
-                music.play().catch(err => {
-                    console.log("Nhạc phát khi có tương tác");
-                });
+                music.play().catch(() => {});
 
                 // Bắt đầu thả bong bóng hồng
                 startBubbles();
@@ -281,12 +255,12 @@
             const bubble = document.createElement('div');
             bubble.classList.add('bubble');
             
-            const size = Math.random() * 38 + 20;
+            const size = Math.random() * 38 + 22;
             bubble.style.width = `${size}px`;
             bubble.style.height = `${size}px`;
             bubble.style.left = `${Math.random() * 100}vw`;
             bubble.style.animationDuration = `${Math.random() * 8 + 7}s`;
-            bubble.style.opacity = Math.random() * 0.7 + 0.55;
+            bubble.style.opacity = Math.random() * 0.75 + 0.55;
             
             document.body.appendChild(bubble);
             
@@ -294,12 +268,11 @@
         }
 
         function startBubbles() {
-            // Thả bong bóng liên tục
             setInterval(() => {
-                if (Math.random() > 0.28) {
+                if (Math.random() > 0.3) {
                     createBubble();
                 }
-            }, 550);
+            }, 600);
         }
     </script>
 </body>
