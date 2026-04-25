@@ -2,7 +2,7 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Ngọc Becon ♡</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Playfair+Display:wght@700&display=swap');
@@ -26,9 +26,10 @@
             overflow-x: hidden;
             text-align: center;
             position: relative;
+            touch-action: manipulation; /* Ngăn zoom khi chạm */
         }
 
-        /* Loading Screen - Chỉ còn nút */
+        /* Loading Screen */
         #loading {
             position: fixed;
             top: 0; left: 0;
@@ -57,8 +58,8 @@
         }
 
         .enter-btn:hover {
-            transform: scale(1.12) translateY(-8px);
-            box-shadow: 0 20px 45px rgba(255, 20, 147, 0.6);
+            transform: scale(1.08) translateY(-5px);
+            box-shadow: 0 18px 40px rgba(255, 20, 147, 0.55);
         }
 
         /* Main Content */
@@ -83,7 +84,7 @@
         }
 
         .avatar:hover {
-            transform: scale(1.08) rotate(8deg);
+            transform: scale(1.05);
         }
 
         h1 {
@@ -190,10 +191,10 @@
 </head>
 <body>
 
-    <!-- Loading Screen - Chỉ còn nút -->
+    <!-- Loading Screen -->
     <div id="loading">
         <button class="enter-btn" onclick="enterWebsite()">
-                             Ngọc Becon ♡
+                            Ngọc Becon ♡
         </button>
     </div>
 
@@ -242,15 +243,12 @@
 
                 footer.style.display = 'block';
 
-                // Tự động phát nhạc
                 music.play().catch(() => {});
 
-                // Bắt đầu thả bong bóng hồng
                 startBubbles();
             }, 800);
         }
 
-        // Tạo bong bóng hồng
         function createBubble() {
             const bubble = document.createElement('div');
             bubble.classList.add('bubble');
@@ -269,9 +267,7 @@
 
         function startBubbles() {
             setInterval(() => {
-                if (Math.random() > 0.3) {
-                    createBubble();
-                }
+                if (Math.random() > 0.3) createBubble();
             }, 600);
         }
     </script>
