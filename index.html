@@ -28,10 +28,49 @@
             position: relative;
         }
 
+        /* Loading Screen */
+        #loading {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: linear-gradient(135deg, #ff8fab, #ff4d94, #ff69b4);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            color: white;
+            transition: opacity 1.2s ease;
+        }
+
+        .loader {
+            width: 80px;
+            height: 80px;
+            border: 6px solid rgba(255,255,255,0.3);
+            border-top: 6px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            font-size: 1.4rem;
+            font-weight: 600;
+            text-shadow: 0 3px 10px rgba(0,0,0,0.2);
+        }
+
+        /* Main Content */
         .container {
             max-width: 620px;
             margin: 0 auto;
             padding: 40px 20px;
+            opacity: 0;
+            transition: opacity 1.5s ease;
         }
 
         .avatar {
@@ -65,7 +104,7 @@
         }
 
         .bio {
-            background: rgba(255, 255, 255, 0.75);
+            background: rgba(255, 255, 255, 0.78);
             padding: 28px;
             border-radius: 30px;
             margin: 30px auto;
@@ -113,26 +152,19 @@
             color: white;
         }
 
-        .music-control {
-            margin: 25px 0;
-            font-size: 1.6rem;
-            cursor: pointer;
-            user-select: none;
-        }
-
-        /* Bong bóng hồng */
+        /* Bong bóng hồng tự động */
         .bubble {
             position: absolute;
             bottom: -60px;
-            width: 32px;
-            height: 32px;
+            width: 28px;
+            height: 28px;
             background: radial-gradient(circle at 35% 35%, #fff, #ff69b4);
             border-radius: 50%;
-            opacity: 0.9;
+            opacity: 0.85;
             pointer-events: none;
             box-shadow: 0 0 18px #ff1493;
             animation: floatUp linear forwards;
-            z-index: 999;
+            z-index: 10;
         }
 
         .bubble::after {
@@ -141,9 +173,8 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 20px;
+            font-size: 18px;
             color: white;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
 
         @keyframes floatUp {
@@ -161,91 +192,86 @@
     </style>
 </head>
 <body>
-    <div class="container">
+
+    <!-- Loading Screen -->
+    <div id="loading">
+        <div class="loader"></div>
+        <div class="loading-text">Ngọc Becon ♡</div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container" id="mainContent">
         <img src="avatar.jpg" alt="Ngọc Becon" class="avatar">
 
         <h1>Ngọc Becon ♡</h1>
-        <p class="subtitle">Cosplayer • Content Creator • Bé con dễ thương của mọi người</p>
+        <p class="subtitle">Cosplayer • Content Creator • Bé con dễ thương</p>
 
         <div class="bio">
-            Xin chào mọi người! 💕<br>
-            Mình là Ngọc Becon nè~<br>
-            Thích cosplay, chụp ảnh xinh, và làm mấy thứ cute cute.<br>
-            Cảm ơn bạn đã ghé thăm trang của mình nhé!
+            Xin chào 💕<br>
         </div>
-
-        <div class="music-control" id="musicBtn">🎵 Phát nhạc ♫</div>
 
         <div class="social-links">
             <a href="https://www.facebook.com/share/1DxsNV1a7k/" target="_blank" class="btn btn-pink">Facebook</a>
             <a href="https://discord.com/users/ngocbecon" target="_blank" class="btn btn-pink">Discord @ngocbecon</a>
             <a href="https://zyo.lol/ngocbecon" target="_blank" class="btn btn-outline">Trang chính</a>
         </div>
-
-        <button onclick="createBubbles(90)" class="btn btn-pink" style="font-size: 1.35rem; padding: 18px 45px;">
-            💖 Thả bong bóng hồng 💖
-        </button>
     </div>
 
     <footer>
         Made with lots of ♡ by Ngọc Becon
     </footer>
 
-    <audio id="bgMusic" loop>
+    <audio id="bgMusic" loop autoplay>
         <source src="music.mp3" type="audio/mpeg">
     </audio>
 
     <script>
-        const music = document.getElementById('bgMusic');
-        const musicBtn = document.getElementById('musicBtn');
-        let isPlaying = false;
+        // Tự động ẩn loading và hiện nội dung
+        window.addEventListener('load', () => {
+            const loading = document.getElementById('loading');
+            const mainContent = document.getElementById('mainContent');
 
-        musicBtn.addEventListener('click', () => {
-            if (isPlaying) {
-                music.pause();
-                musicBtn.textContent = '🎵 Phát nhạc ♫';
-            } else {
-                music.play().catch(() => {});
-                musicBtn.textContent = '⏸ Tạm dừng nhạc';
-            }
-            isPlaying = !isPlaying;
+            setTimeout(() => {
+                loading.style.opacity = '0';
+                
+                setTimeout(() => {
+                    loading.style.display = 'none';
+                    mainContent.style.opacity = '1';
+                }, 1200);
+            }, 1800); // Thời gian loading khoảng 1.8 giây
         });
 
+        // Tạo bong bóng hồng tự động liên tục
         function createBubble() {
             const bubble = document.createElement('div');
             bubble.classList.add('bubble');
             
-            const size = Math.random() * 40 + 22;
+            const size = Math.random() * 38 + 20;
             bubble.style.width = `${size}px`;
             bubble.style.height = `${size}px`;
             bubble.style.left = `${Math.random() * 100}vw`;
-            bubble.style.animationDuration = `${Math.random() * 7 + 6}s`;
-            bubble.style.opacity = Math.random() * 0.7 + 0.5;
+            bubble.style.animationDuration = `${Math.random() * 8 + 7}s`;
+            bubble.style.opacity = Math.random() * 0.7 + 0.55;
             
             document.body.appendChild(bubble);
             
-            setTimeout(() => bubble.remove(), 15000);
+            setTimeout(() => bubble.remove(), 16000);
         }
 
-        function createBubbles(count) {
-            for (let i = 0; i < count; i++) {
-                setTimeout(createBubble, i * 25);
-            }
-        }
-
-        // Bong bóng nhẹ tự động
+        // Thả bong bóng liên tục khi vào web
         setInterval(() => {
-            if (Math.random() > 0.35) createBubble();
-        }, 700);
-
-        // Tự động phát nhạc khi click lần đầu (do policy trình duyệt)
-        document.body.addEventListener('click', () => {
-            if (!isPlaying) {
-                music.play().catch(() => {});
-                isPlaying = true;
-                musicBtn.textContent = '⏸ Tạm dừng nhạc';
+            if (Math.random() > 0.3) {
+                createBubble();
             }
-        }, { once: true });
+        }, 600);
+
+        // Tự động phát nhạc (autoplay)
+        const music = document.getElementById('bgMusic');
+        
+        // Một số trình duyệt chặn autoplay, nên thêm fallback
+        music.play().catch(() => {
+            console.log("Nhạc sẽ phát khi có tương tác");
+        });
     </script>
 </body>
 </html> 
