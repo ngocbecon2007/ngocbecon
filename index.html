@@ -1,313 +1,251 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="UTF-8">
-<title>Ngọc Becon</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ngọc Becon ♡</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Playfair+Display:wght@700&display=swap');
 
-<style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Segoe UI,sans-serif}
-html,body{width:100%;height:100%;overflow:hidden}
+        :root {
+            --pink: #ff69b4;
+            --lightpink: #ffb6c1;
+        }
 
-/* 🌐 BACKGROUND PC */
-body{
-display:flex;
-justify-content:center;
-align-items:center;
-background:
-linear-gradient(rgba(0,0,0,.45),rgba(0,0,0,.6)),
-url("bg-pc.jpg") center/cover no-repeat fixed;
-color:#fff;
-}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-/* 📱 BACKGROUND PE */
-@media (max-width:768px){
-body{
-background:
-linear-gradient(rgba(0,0,0,.35),rgba(0,0,0,.55)),
-url("bg-mobile.jpg") center/cover no-repeat fixed;
-}
-}
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #ffe4f3 0%, #ffc2d9 50%, #f8a8ff 100%);
+            min-height: 100vh;
+            color: #4a2c4a;
+            overflow-x: hidden;
+            text-align: center;
+            position: relative;
+        }
 
-/* 🌌 FX */
-canvas{position:fixed;inset:0;z-index:-3}
+        .container {
+            max-width: 620px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
 
-/* 🎥 INTRO */
-#intro{
-position:fixed;inset:0;
-display:flex;
-flex-direction:column;
-justify-content:center;
-align-items:center;
-z-index:10;
-}
+        .avatar {
+            width: 190px;
+            height: 190px;
+            border-radius: 50%;
+            border: 8px solid #fff;
+            box-shadow: 0 15px 35px rgba(255, 105, 180, 0.5);
+            object-fit: cover;
+            margin: 25px auto;
+            transition: transform 0.4s;
+        }
 
-#brand{display:flex;gap:4px;margin-bottom:16px}
-#brand span{
-font-size:36px;
-font-weight:800;
-color:#ff77c8;
-text-shadow:0 0 30px #ff2f92;
-animation:wave 1.6s infinite ease-in-out;
-}
-#brand span:nth-child(n){animation-delay:calc(var(--i)*0.1s)}
+        .avatar:hover {
+            transform: scale(1.08) rotate(8deg);
+        }
 
-@keyframes wave{
-0%,100%{transform:translateY(0);opacity:.6}
-50%{transform:translateY(-10px);opacity:1}
-}
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.2rem;
+            margin-bottom: 8px;
+            color: #ff1493;
+            text-shadow: 0 5px 15px rgba(255, 20, 147, 0.3);
+        }
 
-#percent{font-size:38px;font-weight:700;color:#ff9bd6}
+        .subtitle {
+            font-size: 1.35rem;
+            color: #c05a8a;
+            margin-bottom: 35px;
+            font-weight: 400;
+        }
 
-#bar{
-margin-top:14px;
-width:180px;height:6px;
-background:rgba(255,255,255,.2);
-border-radius:99px;
-overflow:hidden;
-}
-#bar span{
-display:block;height:100%;width:0%;
-background:linear-gradient(90deg,#ff2f92,#ff9bd6);
-}
+        .bio {
+            background: rgba(255, 255, 255, 0.75);
+            padding: 28px;
+            border-radius: 30px;
+            margin: 30px auto;
+            box-shadow: 0 10px 30px rgba(255, 105, 180, 0.25);
+            font-size: 1.15rem;
+            line-height: 1.7;
+        }
 
-/* 👉 TEXT TAP */
-#tapText{
-display:none;
-position:fixed;
-bottom:28%;
-font-size:16px;
-font-weight:600;
-opacity:.85;
-animation:tap 1.2s infinite;
-text-shadow:0 0 12px #ff2f92;
-z-index:9;
-}
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 18px;
+            flex-wrap: wrap;
+            margin: 35px 0;
+        }
 
-@keyframes tap{
-0%{transform:translateY(0);opacity:.4}
-50%{transform:translateY(-6px);opacity:1}
-100%{transform:translateY(0);opacity:.4}
-}
+        .btn {
+            display: inline-block;
+            padding: 15px 32px;
+            margin: 8px;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 1.15rem;
+        }
 
-/* 🫧 BUBBLE */
-.bubble{
-display:none;
-position:fixed;
-bottom:18%;
-left:50%;
-transform:translateX(-50%);
-width:90px;height:90px;
-border-radius:50%;
-background:radial-gradient(circle at top left,#fff,#ff77ff,#ff2f92);
-box-shadow:0 0 25px rgba(255,0,150,.9), inset 0 0 18px rgba(255,255,255,.6);
-display:flex;
-justify-content:center;
-align-items:center;
-cursor:pointer;
-z-index:9;
-animation:float 2s ease-in-out infinite;
-}
-.bubble span{
-font-size:15px;
-font-weight:700;
-text-shadow:0 0 8px rgba(0,0,0,.4);
-}
+        .btn-pink {
+            background: linear-gradient(45deg, #ff69b4, #ff1493);
+            color: white;
+        }
 
-@keyframes float{
-0%{transform:translate(-50%,0) scale(1)}
-50%{transform:translate(-50%,-10px) scale(1.05)}
-100%{transform:translate(-50%,0) scale(1)}
-}
+        .btn-pink:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 12px 25px rgba(255, 20, 147, 0.45);
+        }
 
-/* ripple */
-.bubble::after{
-content:"";
-position:absolute;
-width:100%;height:100%;
-border-radius:50%;
-background:rgba(255,255,255,.5);
-opacity:0;
-transform:scale(.6);
-}
-.bubble:active::after{
-animation:ripple .4s ease-out;
-}
-@keyframes ripple{
-0%{opacity:.6;transform:scale(.6)}
-100%{opacity:0;transform:scale(1.4)}
-}
+        .btn-outline {
+            border: 3px solid #ff69b4;
+            color: #ff1493;
+        }
 
-/* 💎 CARD */
-.card{
-display:none;
-background:rgba(255,255,255,.12);
-backdrop-filter:blur(30px);
-padding:34px 26px 30px;
-border-radius:34px;
-text-align:center;
-max-width:320px;
-width:90%;
-z-index:5;
-position:relative;
-animation:fadeUp .8s ease;
-}
+        .btn-outline:hover {
+            background: #ff69b4;
+            color: white;
+        }
 
-@keyframes fadeUp{
-from{opacity:0;transform:translateY(20px)}
-to{opacity:1;transform:none}
-}
+        .music-control {
+            margin: 25px 0;
+            font-size: 1.6rem;
+            cursor: pointer;
+            user-select: none;
+        }
 
-/* ✨ NEON BORDER */
-.card::before{
-content:"";
-position:absolute;
-inset:-2px;
-border-radius:36px;
-background:linear-gradient(90deg,#ff2f92,#4fdcff,#ff77ff,#ff2f92);
-background-size:300% 300%;
-animation:neon 5s linear infinite;
-filter:blur(6px);
-z-index:-1;
-}
-@keyframes neon{
-0%{background-position:0%}
-100%{background-position:300%}
-}
+        /* Bong bóng hồng */
+        .bubble {
+            position: absolute;
+            bottom: -60px;
+            width: 32px;
+            height: 32px;
+            background: radial-gradient(circle at 35% 35%, #fff, #ff69b4);
+            border-radius: 50%;
+            opacity: 0.9;
+            pointer-events: none;
+            box-shadow: 0 0 18px #ff1493;
+            animation: floatUp linear forwards;
+            z-index: 999;
+        }
 
-/* AVATAR */
-.avatar-wrap{
-width:140px;height:140px;
-margin:0 auto 12px;
-border-radius:50%;
-padding:5px;
-background:linear-gradient(135deg,#ff2f92,#4fdcff,#ff77ff);
-box-shadow:0 0 35px rgba(255,0,150,.9);
-}
-.avatar{width:100%;height:100%;border-radius:50%;object-fit:cover}
+        .bubble::after {
+            content: '♡';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 20px;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
 
-/* NAME */
-.name{
-font-size:19px;font-weight:700;margin-bottom:18px;
-display:flex;justify-content:center;align-items:center;gap:6px;
-}
-.check{
-width:18px;height:18px;border-radius:50%;
-background:#1da1f2;
-display:flex;justify-content:center;align-items:center;
-font-size:12px;font-weight:900;
-box-shadow:0 0 12px #1da1f2;
-}
+        @keyframes floatUp {
+            to {
+                transform: translateY(-130vh) scale(0.5);
+                opacity: 0;
+            }
+        }
 
-/* LINKS */
-.link{
-display:flex;justify-content:center;align-items:center;gap:8px;
-margin:12px 0;padding:15px;border-radius:999px;
-background:rgba(255,255,255,.16);
-color:#fff;text-decoration:none;font-weight:600;
-transition:.25s;
-}
-.link:hover{
-background:#ff2f92;
-box-shadow:0 0 30px #ff2f92;
-transform:translateY(-2px);
-}
-</style>
+        footer {
+            margin-top: 60px;
+            font-size: 0.95rem;
+            color: #c05a8a;
+        }
+    </style>
 </head>
-
 <body>
+    <div class="container">
+        <img src="avatar.jpg" alt="Ngọc Becon" class="avatar">
 
-<canvas id="fx"></canvas>
+        <h1>Ngọc Becon ♡</h1>
+        <p class="subtitle">Cosplayer • Content Creator • Bé con dễ thương của mọi người</p>
 
-<!-- INTRO -->
-<div id="intro">
-  <div id="brand">
-    <span style="--i:1">N</span><span style="--i:2">g</span><span style="--i:3">ọ</span>
-    <span style="--i:4">c</span><span style="--i:5"> </span>
-    <span style="--i:6">B</span><span style="--i:7">e</span>
-    <span style="--i:8">c</span><span style="--i:9">o</span><span style="--i:10">n</span>
-  </div>
-  <div id="percent">0%</div>
-  <div id="bar"><span></span></div>
-</div>
+        <div class="bio">
+            Xin chào mọi người! 💕<br>
+            Mình là Ngọc Becon nè~<br>
+            Thích cosplay, chụp ảnh xinh, và làm mấy thứ cute cute.<br>
+            Cảm ơn bạn đã ghé thăm trang của mình nhé!
+        </div>
 
-<div id="tapText">Ấn vào</div>
-<div class="bubble" id="tapBubble"><span>Ấn vào</span></div>
+        <div class="music-control" id="musicBtn">🎵 Phát nhạc ♫</div>
 
-<!-- MAIN -->
-<div class="card" id="main">
-  <div class="avatar-wrap">
-    <img src="avatar.jpg" class="avatar">
-  </div>
-  <div class="name">Ngọc Becon <span class="check">✓</span></div>
-  <a class="link" href="https://www.tiktok.com/@ngocbecon" target="_blank"> TikTok</a>
-  <a class="link" href="https://www.facebook.com/share/18TVL9TCDZ/" target="_blank"> Facebook</a>
-  <a class="link" href="https://discord.gg/dv2QAwssr" target="_blank"> Discord Group</a>
-  <a class="link" href="https://zyo.lol/ngocbecon" target="_blank"> Wed Chính</a>
-</div>
+        <div class="social-links">
+            <a href="https://www.facebook.com/share/1DxsNV1a7k/" target="_blank" class="btn btn-pink">Facebook</a>
+            <a href="https://discord.com/users/ngocbecon" target="_blank" class="btn btn-pink">Discord @ngocbecon</a>
+            <a href="https://zyo.lol/ngocbecon" target="_blank" class="btn btn-outline">Trang chính</a>
+        </div>
 
-<audio id="bgm" src="music.mp3" loop></audio>
+        <button onclick="createBubbles(90)" class="btn btn-pink" style="font-size: 1.35rem; padding: 18px 45px;">
+            💖 Thả bong bóng hồng 💖
+        </button>
+    </div>
 
-<script>
-/* LOADING */
-let p=0;
-const percent=document.getElementById("percent");
-const bar=document.querySelector("#bar span");
-const intro=document.getElementById("intro");
-const main=document.getElementById("main");
-const bubble=document.getElementById("tapBubble");
-const tapText=document.getElementById("tapText");
-const bgm=document.getElementById("bgm");
+    <footer>
+        Made with lots of ♡ by Ngọc Becon
+    </footer>
 
-const load=setInterval(()=>{
-p++;
-percent.innerText=p+"%";
-bar.style.width=p+"%";
-if(p>=100){
-clearInterval(load);
-intro.style.opacity=0;
-setTimeout(()=>{
-intro.style.display="none";
-bubble.style.display="flex";
-tapText.style.display="block";
-},500);
-}
-},20);
+    <audio id="bgMusic" loop>
+        <source src="music.mp3" type="audio/mpeg">
+    </audio>
 
-/* CLICK ENTER */
-bubble.addEventListener("click",()=>{
-bubble.style.display="none";
-tapText.style.display="none";
-main.style.display="block";
-bgm.volume=0.6;
-bgm.play().catch(()=>{});
-});
+    <script>
+        const music = document.getElementById('bgMusic');
+        const musicBtn = document.getElementById('musicBtn');
+        let isPlaying = false;
 
-/* ❄️ SNOW */
-const c=document.getElementById("fx");
-const ctx=c.getContext("2d");
-let w,h,particles=[];
-function resize(){w=c.width=innerWidth;h=c.height=innerHeight}
-window.onresize=resize;resize();
+        musicBtn.addEventListener('click', () => {
+            if (isPlaying) {
+                music.pause();
+                musicBtn.textContent = '🎵 Phát nhạc ♫';
+            } else {
+                music.play().catch(() => {});
+                musicBtn.textContent = '⏸ Tạm dừng nhạc';
+            }
+            isPlaying = !isPlaying;
+        });
 
-for(let i=0;i<160;i++){
-particles.push({x:Math.random()*w,y:Math.random()*h,r:Math.random()*2,v:Math.random()*0.8+0.3});
-}
-function draw(){
-ctx.clearRect(0,0,w,h);
-ctx.fillStyle="#fff";
-particles.forEach(p=>{
-p.y+=p.v;
-if(p.y>h){p.y=0;p.x=Math.random()*w}
-ctx.globalAlpha=Math.random();
-ctx.beginPath();
-ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-ctx.fill();
-});
-requestAnimationFrame(draw);
-}
-draw();
-</script>
+        function createBubble() {
+            const bubble = document.createElement('div');
+            bubble.classList.add('bubble');
+            
+            const size = Math.random() * 40 + 22;
+            bubble.style.width = `${size}px`;
+            bubble.style.height = `${size}px`;
+            bubble.style.left = `${Math.random() * 100}vw`;
+            bubble.style.animationDuration = `${Math.random() * 7 + 6}s`;
+            bubble.style.opacity = Math.random() * 0.7 + 0.5;
+            
+            document.body.appendChild(bubble);
+            
+            setTimeout(() => bubble.remove(), 15000);
+        }
 
+        function createBubbles(count) {
+            for (let i = 0; i < count; i++) {
+                setTimeout(createBubble, i * 25);
+            }
+        }
+
+        // Bong bóng nhẹ tự động
+        setInterval(() => {
+            if (Math.random() > 0.35) createBubble();
+        }, 700);
+
+        // Tự động phát nhạc khi click lần đầu (do policy trình duyệt)
+        document.body.addEventListener('click', () => {
+            if (!isPlaying) {
+                music.play().catch(() => {});
+                isPlaying = true;
+                musicBtn.textContent = '⏸ Tạm dừng nhạc';
+            }
+        }, { once: true });
+    </script>
 </body>
-</html>
+</html> 
