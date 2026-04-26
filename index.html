@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>  Ngọc Becon ♡</title>
+    <title>Ngọc Becon ♡</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Playfair+Display:wght@700&display=swap');
 
@@ -26,7 +26,7 @@
             overflow-x: hidden;
             text-align: center;
             position: relative;
-            touch-action: manipulation; /* Ngăn zoom khi chạm */
+            touch-action: manipulation;
         }
 
         /* Loading Screen */
@@ -93,6 +93,25 @@
             margin-bottom: 8px;
             color: #ff1493;
             text-shadow: 0 5px 15px rgba(255, 20, 147, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .verified {
+            background: #20d5ff;
+            color: white;
+            font-size: 1.1rem;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 10px #20d5ff;
+            font-weight: bold;
         }
 
         .subtitle {
@@ -150,28 +169,23 @@
             color: white;
         }
 
-        /* Bong bóng hồng */
+        /* Bong bóng hồng + trái tim */
         .bubble {
             position: absolute;
             bottom: -60px;
-            width: 28px;
-            height: 28px;
+            width: 32px;
+            height: 32px;
             background: radial-gradient(circle at 35% 35%, #fff, #ff69b4);
             border-radius: 50%;
-            opacity: 0.85;
+            opacity: 0.88;
             pointer-events: none;
             box-shadow: 0 0 18px #ff1493;
             animation: floatUp linear forwards;
             z-index: 10;
-        }
-
-        .bubble::after {
-            content: '♡';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
             color: white;
         }
 
@@ -194,7 +208,7 @@
     <!-- Loading Screen -->
     <div id="loading">
         <button class="enter-btn" onclick="enterWebsite()">
-                            Ngọc Becon ♡
+                           Ngọc Becon ♡
         </button>
     </div>
 
@@ -202,7 +216,10 @@
     <div class="container" id="mainContent">
         <img src="avatar.jpg" alt="Ngọc Becon" class="avatar">
 
-        <h1>Ngọc Becon ♡</h1>
+        <h1>
+            Ngọc Becon 
+            <span class="verified">✔</span>
+        </h1>
         <p class="subtitle">Cosplayer • Content Creator</p>
 
         <div class="bio">
@@ -249,16 +266,18 @@
             }, 800);
         }
 
+        // Bong bóng hồng + trái tim
         function createBubble() {
             const bubble = document.createElement('div');
             bubble.classList.add('bubble');
+            bubble.textContent = '♡';
             
-            const size = Math.random() * 38 + 22;
+            const size = Math.random() * 38 + 24;
             bubble.style.width = `${size}px`;
             bubble.style.height = `${size}px`;
             bubble.style.left = `${Math.random() * 100}vw`;
             bubble.style.animationDuration = `${Math.random() * 8 + 7}s`;
-            bubble.style.opacity = Math.random() * 0.75 + 0.55;
+            bubble.style.opacity = Math.random() * 0.85 + 0.6;
             
             document.body.appendChild(bubble);
             
@@ -267,8 +286,10 @@
 
         function startBubbles() {
             setInterval(() => {
-                if (Math.random() > 0.3) createBubble();
-            }, 600);
+                if (Math.random() > 0.28) {
+                    createBubble();
+                }
+            }, 550);
         }
     </script>
 </body>
