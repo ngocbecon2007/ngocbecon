@@ -2,7 +2,7 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Ngọc Becon ♡</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&family=Playfair+Display:wght@700;900&display=swap');
@@ -58,7 +58,7 @@
             75% { transform: translateY(-150px) translateX(120px) rotate(540deg) scale(1.1); }
         }
 
-        /* ====== WELCOME SCREEN 3D ====== */
+        /* ====== WELCOME SCREEN ====== */
         #welcomeScreen {
             position: fixed;
             top: 0; left: 0;
@@ -93,8 +93,8 @@
         }
 
         .logo-3d {
-            width: 180px;
-            height: 180px;
+            width: 150px;
+            height: 150px;
             border-radius: 50%;
             background: linear-gradient(45deg, #ff69b4, #ff1493, #ff6b9d, #ff1493);
             background-size: 300% 300%;
@@ -102,7 +102,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 70px;
+            font-size: 60px;
             margin-bottom: 30px;
             box-shadow: 0 0 100px rgba(255, 20, 147, 0.6);
             transform-style: preserve-3d;
@@ -136,8 +136,8 @@
 
         .logo-rings {
             position: absolute;
-            width: 230px;
-            height: 230px;
+            width: 200px;
+            height: 200px;
             border-radius: 50%;
             border: 3px solid rgba(255, 105, 180, 0.3);
             animation: ringExpand 3s ease-out infinite;
@@ -154,7 +154,7 @@
 
         .welcome-title {
             font-family: 'Playfair Display', serif;
-            font-size: 3.5rem;
+            font-size: 3rem;
             color: #ff69b4;
             margin-bottom: 20px;
             animation: titleEntrance 2s ease-out 0.5s forwards;
@@ -183,7 +183,7 @@
         }
 
         .welcome-text {
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             color: rgba(255, 255, 255, 0.8);
             animation: textEntrance 2s ease-out 1s forwards;
             opacity: 0;
@@ -197,7 +197,7 @@
         }
 
         .loading-bar {
-            width: 350px;
+            width: 300px;
             height: 8px;
             background: rgba(255, 255, 255, 0.1);
             border-radius: 10px;
@@ -247,7 +247,7 @@
         }
 
         .welcome-emoji {
-            font-size: 50px;
+            font-size: 40px;
             animation: emojiFloat 3s ease-in-out infinite;
             margin-top: 20px;
             opacity: 0;
@@ -265,44 +265,44 @@
             50% { transform: translateY(-25px) rotateY(180deg); }
         }
 
-        /* ====== MAIN CONTENT 3D ====== */
+        /* ====== MAIN CONTENT ====== */
         #mainContent {
-            max-width: 900px;
+            max-width: 800px;
             margin: 0 auto;
-            padding: 50px 20px;
+            padding: 40px 20px;
             opacity: 0;
             transition: opacity 1.5s ease;
             display: none;
             transform-style: preserve-3d;
+            min-height: 100vh;
         }
 
         .avatar-container {
             perspective: 800px;
-            margin: 50px auto;
-            width: 240px;
-            height: 240px;
+            margin: 40px auto;
+            width: 200px;
+            height: 200px;
             position: relative;
             animation: avatarContainerFloat 6s ease-in-out infinite;
         }
 
         @keyframes avatarContainerFloat {
             0%, 100% { transform: translateY(0) rotateY(0deg); }
-            25% { transform: translateY(-25px) rotateY(10deg); }
+            25% { transform: translateY(-20px) rotateY(10deg); }
             50% { transform: translateY(0) rotateY(0deg); }
-            75% { transform: translateY(25px) rotateY(-10deg); }
+            75% { transform: translateY(20px) rotateY(-10deg); }
         }
 
         .avatar-3d {
-            width: 240px;
-            height: 240px;
+            width: 200px;
+            height: 200px;
             border-radius: 50%;
-            border: 6px solid #ff69b4;
-            box-shadow: 0 0 100px rgba(255, 20, 147, 0.6);
+            border: 5px solid #ff69b4;
+            box-shadow: 0 0 80px rgba(255, 20, 147, 0.6);
             object-fit: cover;
             transform-style: preserve-3d;
             animation: avatarEntrance 2s ease-out forwards;
             opacity: 0;
-            cursor: pointer;
             transition: all 0.5s;
             position: relative;
             z-index: 2;
@@ -338,18 +338,18 @@
         }
 
         .avatar-3d:hover {
-            transform: translateZ(100px) scale(1.15);
-            box-shadow: 0 0 150px rgba(255, 20, 147, 0.9);
+            transform: translateZ(80px) scale(1.1);
+            box-shadow: 0 0 120px rgba(255, 20, 147, 0.9);
             border-color: #fff;
             filter: brightness(1.3) contrast(1.1);
         }
 
         .avatar-glow {
             position: absolute;
-            top: -25px;
-            left: -25px;
-            width: 290px;
-            height: 290px;
+            top: -20px;
+            left: -20px;
+            width: 240px;
+            height: 240px;
             border-radius: 50%;
             background: radial-gradient(circle, rgba(255, 105, 180, 0.4), rgba(255, 20, 147, 0.2), transparent);
             animation: glowPulse 3s ease-in-out infinite;
@@ -363,10 +363,10 @@
 
         .avatar-rings {
             position: absolute;
-            top: -20px;
-            left: -20px;
-            width: 280px;
-            height: 280px;
+            top: -15px;
+            left: -15px;
+            width: 230px;
+            height: 230px;
             border-radius: 50%;
             border: 3px solid rgba(255, 105, 180, 0.4);
             animation: ringRotate 15s linear infinite;
@@ -384,7 +384,7 @@
             position: absolute;
             top: -15px;
             left: 50%;
-            font-size: 25px;
+            font-size: 20px;
             animation: sparkleRotate 3s linear infinite;
         }
 
@@ -398,19 +398,19 @@
             position: absolute;
             bottom: -10px;
             left: 20%;
-            font-size: 20px;
+            font-size: 18px;
             animation: sparkleRotate 3s linear infinite 1.5s;
         }
 
         .avatar-badge {
             position: absolute;
-            bottom: 10px;
-            right: 10px;
+            bottom: 5px;
+            right: 5px;
             background: linear-gradient(135deg, #ff69b4, #ff1493);
             color: white;
-            padding: 8px 15px;
+            padding: 6px 12px;
             border-radius: 20px;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             font-weight: 600;
             z-index: 3;
             box-shadow: 0 5px 20px rgba(255, 20, 147, 0.5);
@@ -434,7 +434,7 @@
 
         .name-3d {
             font-family: 'Playfair Display', serif;
-            font-size: 4.5rem;
+            font-size: 3.5rem;
             margin: 30px 0;
             background: linear-gradient(45deg, #ff69b4, #ff1493, #ff6b9d, #ff1493, #ff69b4);
             background-size: 300% 300%;
@@ -467,52 +467,8 @@
             }
         }
 
-        .verified-3d {
-            background: linear-gradient(135deg, #20d5ff, #0099ff);
-            color: white;
-            font-size: 1.4rem;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 0 40px #20d5ff;
-            margin-left: 15px;
-            animation: verifiedPop 1.5s ease-out 2s forwards;
-            opacity: 0;
-            transform: scale(0);
-            position: relative;
-            vertical-align: middle;
-            border: 2px solid rgba(255, 255, 255, 0.5);
-        }
-
-        @keyframes verifiedPop {
-            0% { opacity: 0; transform: scale(0) rotateY(180deg) translateZ(-150px); }
-            50% { opacity: 0.5; transform: scale(1.5) rotateY(90deg) translateZ(50px); }
-            75% { opacity: 0.8; transform: scale(0.9) rotateY(-30deg) translateZ(-30px); }
-            100% { opacity: 1; transform: scale(1) rotateY(0deg) translateZ(0); }
-        }
-
-        .verified-3d::after {
-            content: '';
-            position: absolute;
-            top: -5px;
-            left: -5px;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            border: 2px solid rgba(32, 213, 255, 0.5);
-            animation: verifiedRing 2s ease-out infinite;
-        }
-
-        @keyframes verifiedRing {
-            0% { transform: scale(1); opacity: 1; }
-            100% { transform: scale(1.5); opacity: 0; }
-        }
-
         .subtitle-3d {
-            font-size: 1.6rem;
+            font-size: 1.3rem;
             color: #ff69b4;
             margin-bottom: 30px;
             animation: subtitleEntrance 2s ease-out 0.8s forwards;
@@ -530,19 +486,19 @@
         .bio-3d {
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(20px);
-            padding: 40px;
-            border-radius: 30px;
+            padding: 30px;
+            border-radius: 25px;
             margin: 30px auto;
             border: 2px solid rgba(255, 105, 180, 0.3);
             box-shadow: 0 30px 100px rgba(0, 0, 0, 0.4);
-            font-size: 1.3rem;
+            font-size: 1.1rem;
             line-height: 1.8;
             animation: bioEntrance 2s ease-out 1.1s forwards;
             opacity: 0;
             transform-style: preserve-3d;
             position: relative;
             overflow: hidden;
-            max-width: 600px;
+            max-width: 500px;
         }
 
         .bio-3d::before {
@@ -590,23 +546,23 @@
             font-weight: 700;
         }
 
-        /* ====== SOCIAL LINKS 3D ====== */
+        /* ====== SOCIAL LINKS ====== */
         .social-links-3d {
             display: flex;
             justify-content: center;
-            gap: 25px;
+            gap: 15px;
             flex-wrap: wrap;
-            margin: 60px 0;
+            margin: 40px 0;
         }
 
         .btn-3d {
             display: inline-block;
-            padding: 18px 40px;
+            padding: 15px 30px;
             border-radius: 50px;
             font-weight: 700;
             text-decoration: none;
             transition: all 0.5s ease;
-            font-size: 1.2rem;
+            font-size: 1rem;
             opacity: 0;
             transform-style: preserve-3d;
             position: relative;
@@ -662,12 +618,12 @@
         }
 
         .btn-pink-3d:hover {
-            transform: translateY(-20px) translateZ(150px) scale(1.15);
-            box-shadow: 0 40px 100px rgba(255, 20, 147, 0.8);
+            transform: translateY(-15px) translateZ(100px) scale(1.1);
+            box-shadow: 0 30px 80px rgba(255, 20, 147, 0.8);
         }
 
         .btn-outline-3d {
-            border: 3px solid #ff69b4;
+            border: 2px solid #ff69b4;
             color: #ff69b4;
             background: rgba(255, 105, 180, 0.1);
             backdrop-filter: blur(10px);
@@ -676,8 +632,8 @@
         .btn-outline-3d:hover {
             background: linear-gradient(45deg, #ff69b4, #ff1493);
             color: white;
-            transform: translateY(-20px) translateZ(150px) scale(1.15);
-            box-shadow: 0 40px 100px rgba(255, 20, 147, 0.8);
+            transform: translateY(-15px) translateZ(100px) scale(1.1);
+            box-shadow: 0 30px 80px rgba(255, 20, 147, 0.8);
         }
 
         .btn-tiktok-3d {
@@ -687,13 +643,13 @@
         }
 
         .btn-tiktok-3d:hover {
-            transform: translateY(-20px) translateZ(150px) scale(1.15);
-            box-shadow: 0 40px 100px rgba(254, 44, 85, 0.8);
+            transform: translateY(-15px) translateZ(100px) scale(1.1);
+            box-shadow: 0 30px 80px rgba(254, 44, 85, 0.8);
         }
 
         .btn-icon {
             margin-right: 8px;
-            font-size: 1.3em;
+            font-size: 1.2em;
             display: inline-block;
             transition: transform 0.3s;
         }
@@ -705,7 +661,7 @@
         /* ====== FLOATING HEARTS ====== */
         .heart-3d {
             position: fixed;
-            font-size: 24px;
+            font-size: 20px;
             pointer-events: none;
             z-index: 100;
             animation: heartRise linear forwards;
@@ -736,8 +692,8 @@
 
         /* ====== FOOTER ====== */
         footer {
-            margin-top: 60px;
-            font-size: 1.2rem;
+            margin-top: 40px;
+            font-size: 1rem;
             color: rgba(255, 255, 255, 0.7);
             padding: 20px;
             animation: footerEntrance 2s ease-out 2.5s forwards;
@@ -753,15 +709,28 @@
 
         /* ====== RESPONSIVE ====== */
         @media (max-width: 768px) {
-            .name-3d { font-size: 3rem; }
-            .avatar-container { width: 180px; height: 180px; }
-            .avatar-3d { width: 180px; height: 180px; }
-            .avatar-glow { width: 230px; height: 230px; }
-            .avatar-rings { width: 220px; height: 220px; }
-            .btn-3d { padding: 15px 30px; font-size: 1rem; }
-            .welcome-title { font-size: 2.5rem; }
-            .loading-bar { width: 280px; }
-            .bio-3d { font-size: 1.1rem; padding: 30px; }
+            .name-3d { font-size: 2.5rem; }
+            .avatar-container { width: 160px; height: 160px; }
+            .avatar-3d { width: 160px; height: 160px; }
+            .avatar-glow { width: 200px; height: 200px; }
+            .avatar-rings { width: 190px; height: 190px; }
+            .btn-3d { padding: 12px 20px; font-size: 0.9rem; }
+            .welcome-title { font-size: 2rem; }
+            .loading-bar { width: 250px; }
+            .bio-3d { font-size: 1rem; padding: 20px; }
+            .subtitle-3d { font-size: 1.1rem; }
+            .welcome-text { font-size: 1rem; }
+            .logo-3d { width: 120px; height: 120px; font-size: 50px; }
+        }
+
+        @media (max-width: 480px) {
+            .name-3d { font-size: 2rem; }
+            .avatar-container { width: 140px; height: 140px; }
+            .avatar-3d { width: 140px; height: 140px; }
+            .avatar-glow { width: 180px; height: 180px; }
+            .avatar-rings { width: 170px; height: 170px; }
+            .btn-3d { padding: 10px 15px; font-size: 0.8rem; }
+            .social-links-3d { gap: 10px; }
         }
     </style>
 </head>
@@ -794,15 +763,15 @@
         </div>
 
         <h1 class="name-3d">
-            Ngọc Becon <span class="verified-3d">✔</span>
+            Ngọc Becon
         </h1>
         <p class="subtitle-3d">✨ Cosplayer • Content Creator ✨</p>
 
         <div class="bio-3d">
             💕 Xin chào mọi người! 💕<br>
-            Chào mừng đến với <span class="highlight">Wed Ngọc Becon</span> ✨<br>
-            Nơi có những điều <span class="highlight">tuyệt vời nhất</span> 🌸<br>
-            <span class="highlight">Cùng nhau tạo nên những kỷ niệm đẹp nhé</span> 💖
+            Chào mừng đến với <span class="highlight">thế giới của Ngọc Becon</span> ✨<br>
+            Nơi có những điều <span class="highlight">tuyệt vời nhất</span> đang chờ đón! 🌸<br>
+            <span class="highlight">Cùng nhau tạo nên những kỷ niệm đẹp nhé!</span> 💖
         </div>
 
         <div class="social-links-3d">
@@ -822,7 +791,7 @@
     </div>
 
     <footer id="footer" style="display: none;">
-        Made with ♡ by Ngọc Becon | ✨
+        Made with ♡ by Ngọc Becon ✨
     </footer>
 
     <audio id="bgMusic" loop>
@@ -838,10 +807,10 @@
         // Tạo particles 3D
         function createParticles() {
             const container = document.getElementById('particles-3d');
-            for (let i = 0; i < 70; i++) {
+            for (let i = 0; i < 60; i++) {
                 const particle = document.createElement('div');
                 particle.className = 'particle';
-                const size = Math.random() * 30 + 5;
+                const size = Math.random() * 25 + 5;
                 particle.style.width = size + 'px';
                 particle.style.height = size + 'px';
                 particle.style.left = Math.random() * 100 + '%';
@@ -856,13 +825,13 @@
         function createWelcomeStars() {
             const container = document.getElementById('welcomeStars');
             const emojis = ['⭐', '✨', '💖', '🌸', '💫', '🌟', '💕', '💗'];
-            for (let i = 0; i < 25; i++) {
+            for (let i = 0; i < 20; i++) {
                 const star = document.createElement('div');
                 star.className = 'star';
                 star.textContent = emojis[Math.floor(Math.random() * emojis.length)];
                 star.style.left = Math.random() * 100 + '%';
                 star.style.top = Math.random() * 100 + '%';
-                star.style.fontSize = Math.random() * 35 + 15 + 'px';
+                star.style.fontSize = Math.random() * 30 + 15 + 'px';
                 star.style.animationDelay = Math.random() * 2 + 's';
                 container.appendChild(star);
             }
@@ -872,9 +841,9 @@
         function createHeart() {
             const heart = document.createElement('div');
             heart.className = 'heart-3d';
-            heart.textContent = ['💖', '💗', '💓', '💕', '🌸', '✨', '💘', '💝', '💞', '💟'][Math.floor(Math.random() * 10)];
+            heart.textContent = ['💖', '💗', '💓', '💕', '🌸', '✨', '💘', '💝'][Math.floor(Math.random() * 8)];
             heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.fontSize = Math.random() * 50 + 20 + 'px';
+            heart.style.fontSize = Math.random() * 40 + 20 + 'px';
             heart.style.animationDuration = Math.random() * 12 + 8 + 's';
             document.body.appendChild(heart);
             setTimeout(() => heart.remove(), 25000);
@@ -903,7 +872,7 @@
                         if (Math.random() > 0.15) {
                             createHeart();
                         }
-                    }, 250);
+                    }, 300);
                 }, 1500);
             }, 4000); // 4 giây cho welcome screen
         }
