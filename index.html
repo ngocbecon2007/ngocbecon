@@ -467,7 +467,7 @@
             }
         }
 
-        /* TÍCH XANH DẠNG V NHƯ TIKTOK */
+        /* TÍCH XANH DẠNG V NHƯ TIKTOK - BẤM ĐƯỢC */
         .verified-3d {
             background: linear-gradient(135deg, #20d5ff, #0099ff);
             color: white;
@@ -486,12 +486,19 @@
             position: relative;
             vertical-align: middle;
             border: 3px solid rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.3s;
         }
 
         .verified-3d svg {
             width: 25px;
             height: 25px;
             fill: white;
+        }
+
+        .verified-3d:hover {
+            transform: scale(1.3) rotate(10deg);
+            box-shadow: 0 0 80px #20d5ff;
         }
 
         @keyframes verifiedPop {
@@ -982,7 +989,7 @@
         <div class="logo-rings"></div>
         <div class="logo-rings"></div>
         <h1 class="welcome-title">✨ Ngọc Becon ✨</h1>
-        <p class="welcome-text">💖 Chào mừng đến với trang wed của Ngọc Becon 💖</p>
+        <p class="welcome-text">💖 Chào mừng đến với wed của Ngọc Becon 💖</p>
         <div class="loading-bar">
             <div class="loading-bar-fill"></div>
         </div>
@@ -1000,18 +1007,19 @@
 
         <h1 class="name-3d">
             Ngọc Becon 
-            <span class="verified-3d">
+            <!-- TÍCH XANH BẤM ĐƯỢC -->
+            <a href="Ngocbecon.html" class="verified-3d" title="Bấm vào để vào trang riêng!">
                 <svg viewBox="0 0 24 24">
                     <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
                 </svg>
-            </span>
+            </a>
         </h1>
         <p class="subtitle-3d">✨ Cosplayer • Ngọc Becon ✨</p>
 
         <div class="bio-3d">
             💕 Xin chào 💕<br>
-            Chào mừng đến với <span class="highlight">trang wed của Ngọc Becon</span> ✨<br>
-            Nơi có những thông <span class="highlight">tin của Ngọc Becon</span>🌸<br>
+            Chào mừng đến với <span class="highlight">wed của Ngọc Becon</span> ✨<br>
+            Nơi có thông tin <span class="highlight">của Ngọc Becon </span>🌸<br>
             <span class="highlight">Kết bạn và giao lưu</span> 💖
         </div>
 
@@ -1114,7 +1122,6 @@
             music.src = tracks[index].file;
             currentSong.textContent = tracks[index].name;
             
-            // Update active state
             musicItems.forEach((item, i) => {
                 if (i === index) {
                     item.classList.add('active');
@@ -1152,7 +1159,6 @@
             playMusic();
         }
 
-        // Music item click
         musicItems.forEach((item, index) => {
             item.addEventListener('click', () => {
                 loadTrack(index);
@@ -1160,12 +1166,9 @@
             });
         });
 
-        // Controls
         playPauseBtn.addEventListener('click', togglePlay);
         nextBtn.addEventListener('click', nextTrack);
         prevBtn.addEventListener('click', prevTrack);
-
-        // Auto next when song ends
         music.addEventListener('ended', nextTrack);
 
         // Tạo particles 3D
@@ -1185,7 +1188,6 @@
             }
         }
 
-        // Tạo sao welcome
         function createWelcomeStars() {
             const container = document.getElementById('welcomeStars');
             const emojis = ['⭐', '✨', '💖', '🌸', '💫', '🌟', '💕', '💗'];
@@ -1201,7 +1203,6 @@
             }
         }
 
-        // Tạo trái tim bay
         function createHeart() {
             const heart = document.createElement('div');
             heart.className = 'heart-3d';
@@ -1213,7 +1214,6 @@
             setTimeout(() => heart.remove(), 25000);
         }
 
-        // Tự động vào website sau 4 giây
         function autoEnterWebsite() {
             setTimeout(() => {
                 welcomeScreen.style.opacity = '0';
@@ -1229,21 +1229,18 @@
 
                     footer.style.display = 'block';
 
-                    // Load và phát nhạc tự động
                     loadTrack(0);
                     playMusic();
 
-                    // Tạo trái tim liên tục
                     setInterval(() => {
                         if (Math.random() > 0.15) {
                             createHeart();
                         }
                     }, 300);
                 }, 1500);
-            }, 4000); // 4 giây cho welcome screen
+            }, 4000);
         }
 
-        // Khởi tạo
         createParticles();
         createWelcomeStars();
         autoEnterWebsite();
