@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Ngọc Becon - Trang Riêng</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&family=Playfair+Display:wght@700;900&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #0a0a2e;
+            color: white;
+            min-height: 100vh;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ====== PARTICLES BACKGROUND ====== */
+        #particles-3d {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(135deg, #1a0533, #2d1b69, #4a1942, #1a0533, #2d1b69, #4a1942);
+            background-size: 400% 400%;
+            animation: gradientShift 20s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            25% { background-position: 50% 0%; }
+            50% { background-position: 100% 50%; }
+            75% { background-position: 50% 100%; }
+        }
+
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, #ff69b4, #ff1493, transparent);
+            opacity: 0.5;
+            animation: particleFloat 25s infinite;
+            pointer-events: none;
+        }
+
+        @keyframes particleFloat {
+            0%, 100% { transform: translateY(0) translateX(0) rotate(0deg) scale(1); }
+            25% { transform: translateY(-150px) translateX(80px) rotate(180deg) scale(1.2); }
+            50% { transform: translateY(-300px) translateX(-80px) rotate(360deg) scale(0.8); }
+            75% { transform: translateY(-150px) translateX(120px) rotate(540deg) scale(1.1); }
+        }
+
+        /* ====== LOGIN SCREEN ====== */
+        #loginScreen {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            flex: 1;
+        }
+
+        .login-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 30px;
+            padding: 50px;
+            border: 2px solid rgba(255, 105, 180, 0.3);
+            box-shadow: 0 30px 100px rgba(0, 0, 0, 0.5);
+            max-width: 450px;
+            width: 100%;
+            text-align: center;
+            animation: cardEntrance 1.5s ease-out forwards;
+            opacity: 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        @keyframes cardEntrance {
+            0% { 
+                opacity: 0;
+                transform: translateZ(-400px) rotateX(45deg) scale(0.5);
+                filter: blur(10px);
+            }
+            50% {
+                opacity: 0.5;
+                transform: translateZ(100px) rotateX(20deg) scale(0.8);
+                filter: blur(5px);
+            }
+            100% { 
+                opacity: 1;
+                transform: translateZ(0) rotateX(0deg) scale(1);
+                filter: blur(0);
+            }
+        }
+
+        .login-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 105, 180, 0.15), transparent);
+            animation: bioShine 5s ease-in-out infinite;
+        }
+
+        @keyframes bioShine {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+
+        .login-logo {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #ff69b4, #ff1493, #ff6b9d, #ff1493);
+            background-size: 300% 300%;
+            animation: gradientMove 3s ease infinite;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 45px;
+            margin: 0 auto 30px;
+            box-shadow: 0 0 60px rgba(255, 20, 147, 0.6);
+        }
+
+        @keyframes gradientMove {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .login-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            background: linear-gradient(45deg, #ff69b4, #ff1493, #ff6b9d, #ff1493, #ff69b4);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientMove 3s ease infinite;
+            margin-bottom: 10px;
+        }
+
+        .login-subtitle {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.1rem;
+            margin-bottom: 40px;
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 25px;
+            text-align: left;
+        }
+
+        .input-label {
+            display: block;
+            font-size: 1rem;
+            color: #ff69b4;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 15px 20px;
+            border-radius: 15px;
+            border: 2px solid rgba(255, 105, 180, 0.3);
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            outline: none;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .input-field:focus {
+            border-color: #ff69b4;
+            box-shadow: 0 0 30px rgba(255, 105, 180, 0.3);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .input-field::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 18px;
+            border-radius: 50px;
+            border: none;
+            cursor: pointer;
+            font-size: 1.3rem;
+            font-weight: 700;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(45deg, #ff69b4, #ff1493);
+            color: white;
+            transition: all 0.3s;
+            box-shadow: 0 10px 40px rgba(255, 20, 147, 0.5);
+            position: relative;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .login-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: btnShine 3s ease-in-out infinite;
+        }
+
+        @keyframes btnShine {
+            0% { left: -100%; }
+            50% { left: 100%; }
+            100% { left: 100%; }
+        }
+
+        .login-btn:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 20px 60px rgba(255, 20, 147, 0.8);
+        }
+
+        .login-btn:active {
+            transform: translateY(0) scale(0.98);
+        }
+
+        .login-error {
+            color: #ff4444;
+            font-size: 1rem;
+            margin-top: 15px;
+            display: none;
+            text-shadow: 0 0 10px rgba(255, 68, 68, 0.5);
+        }
+
+        .login-error.show {
+            display: block;
+            animation: errorShake 0.5s ease;
+        }
+
+        @keyframes errorShake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .back-link:hover {
+            color: #ff69b4;
+            transform: scale(1.1);
+        }
+
+        /* ====== MAIN CONTENT (SAU KHI ĐĂNG NHẬP) ====== */
+        #mainContent {
+            display: none;
+            min-height: 100vh;
+            flex: 1;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .welcome-banner {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            background: linear-gradient(45deg, #ff69b4, #ff1493, #ff6b9d, #ff1493, #ff69b4);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientMove 3s ease infinite;
+            margin-bottom: 20px;
+        }
+
+        .welcome-text {
+            font-size: 1.3rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 40px;
+        }
+
+        /* ====== MINECRAFT BOT ====== */
+        .minecraft-section {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 30px;
+            padding: 30px;
+            border: 2px solid rgba(255, 105, 180, 0.3);
+            box-shadow: 0 30px 100px rgba(0, 0, 0, 0.5);
+            max-width: 600px;
+            width: 100%;
+            margin: 20px auto;
+        }
+
+        .minecraft-title {
+            font-size: 1.5rem;
+            color: #ff69b4;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .minecraft-icon {
+            font-size: 2rem;
+            animation: minecraftPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes minecraftPulse {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.2) rotate(10deg); }
+        }
+
+        .minecraft-status {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .status-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .status-item:last-child {
+            border-bottom: none;
+        }
+
+        .status-label {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1rem;
+        }
+
+        .status-value {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .status-online {
+            color: #00ff88;
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+        }
+
+        .status-offline {
+            color: #ff4444;
+            text-shadow: 0 0 10px rgba(255, 68, 68, 0.5);
+        }
+
+        .minecraft-controls {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .mc-btn {
+            padding: 15px 30px;
+            border-radius: 50px;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 700;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mc-btn-start {
+            background: linear-gradient(45deg, #00ff88, #00cc66);
+            color: #003300;
+            box-shadow: 0 10px 30px rgba(0, 255, 136, 0.4);
+        }
+
+        .mc-btn-stop {
+            background: linear-gradient(45deg, #ff4444, #cc0000);
+            color: white;
+            box-shadow: 0 10px 30px rgba(255, 68, 68, 0.4);
+        }
+
+        .mc-btn-restart {
+            background: linear-gradient(45deg, #ffaa00, #ff8800);
+            color: #332200;
+            box-shadow: 0 10px 30px rgba(255, 170, 0, 0.4);
+        }
+
+        .mc-btn:hover {
+            transform: translateY(-5px) scale(1.05);
+        }
+
+        .mc-btn:active {
+            transform: translateY(0) scale(0.95);
+        }
+
+        .mc-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: btnShine 3s ease-in-out infinite;
+        }
+
+        .minecraft-console {
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 20px;
+            font-family: monospace;
+            font-size: 0.9rem;
+            color: #00ff88;
+            max-height: 200px;
+            overflow-y: auto;
+            text-align: left;
+            border: 1px solid rgba(0, 255, 136, 0.3);
+        }
+
+        .console-line {
+            padding: 3px 0;
+            animation: consoleLine 0.3s ease;
+        }
+
+        @keyframes consoleLine {
+            0% { opacity: 0; transform: translateX(-10px); }
+            100% { opacity: 1; transform: translateX(0); }
+        }
+
+        .logout-btn {
+            margin-top: 30px;
+            padding: 12px 30px;
+            border-radius: 50px;
+            border: 2px solid #ff69b4;
+            background: transparent;
+            color: #ff69b4;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: linear-gradient(45deg, #ff69b4, #ff1493);
+            color: white;
+            transform: scale(1.05);
+        }
+
+        /* ====== FOOTER ====== */
+        footer {
+            padding: 20px;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.1rem;
+        }
+
+        /* ====== RESPONSIVE ====== */
+        @media (max-width: 768px) {
+            .login-card { padding: 35px; }
+            .login-title { font-size: 2rem; }
+            .welcome-banner { font-size: 2.5rem; }
+            .minecraft-section { padding: 20px; }
+            .mc-btn { padding: 12px 20px; font-size: 1rem; }
+        }
+
+        @media (max-width: 480px) {
+            .login-card { padding: 25px; }
+            .login-title { font-size: 1.8rem; }
+            .welcome-banner { font-size: 2rem; }
+            .minecraft-section { padding: 15px; }
+            .mc-btn { padding: 10px 15px; font-size: 0.9rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 3D Particles Background -->
+    <div id="particles-3d"></div>
+
+    <!-- LOGIN SCREEN -->
+    <div id="loginScreen">
+        <div class="login-card">
+            <div class="login-logo">🌸</div>
+            <h1 class="login-title">Ngọc Becon</h1>
+            <p class="login-subtitle">✨ Trang riêng của mình ✨</p>
+            
+            <form id="loginForm">
+                <div class="input-group">
+                    <label class="input-label">👤 Tài khoản</label>
+                    <input type="text" class="input-field" id="username" placeholder="Nhập tài khoản..." required>
+                </div>
+                
+                <div class="input-group">
+                    <label class="input-label">🔒 Mật khẩu</label>
+                    <input type="password" class="input-field" id="password" placeholder="Nhập mật khẩu..." required>
+                </div>
+                
+                <button type="submit" class="login-btn">Đăng nhập ✨</button>
+                <div class="login-error" id="loginError">❌ Sai tài khoản hoặc mật khẩu!</div>
+            </form>
+            
+            <a href="index.html" class="back-link">← Quay lại trang chính</a>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT (SAU KHI ĐĂNG NHẬP) -->
+    <div id="mainContent">
+        <h1 class="welcome-banner">🌸 Chào mừng Ngọc Becon! 🌸</h1>
+        <p class="welcome-text">✨ Đây là trang riêng của bạn ✨</p>
+
+        <!-- MINECRAFT BOT -->
+        <div class="minecraft-section">
+            <div class="minecraft-title">
+                <span class="minecraft-icon">⛏️</span>
+                Minecraft Bot
+                <span class="minecraft-icon">💎</span>
+            </div>
+
+            <div class="minecraft-status">
+                <div class="status-item">
+                    <span class="status-label">Trạng thái:</span>
+                    <span class="status-value status-offline" id="botStatus">⭕ Offline</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-label">Thời gian hoạt động:</span>
+                    <span class="status-value" id="uptime">0 phút</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-label">Số người chơi:</span>
+                    <span class="status-value" id="playerCount">0</span>
+                </div>
+            </div>
+
+            <div class="minecraft-controls">
+                <button class="mc-btn mc-btn-start" onclick="startBot()">▶️ Bật Bot</button>
+                <button class="mc-btn mc-btn-stop" onclick="stopBot()">⏹️ Tắt Bot</button>
+                <button class="mc-btn mc-btn-restart" onclick="restartBot()">🔄 Restart</button>
+            </div>
+
+            <div class="minecraft-console" id="console">
+                <div class="console-line">[Minecraft Bot] Sẵn sàng hoạt động...</div>
+                <div class="console-line">[Minecraft Bot] Đang chờ lệnh...</div>
+            </div>
+        </div>
+
+        <button class="logout-btn" onclick="logout()">🚪 Đăng xuất</button>
+    </div>
+
+    <footer>
+        Made with ♡ by Ngọc Becon ✨
+    </footer>
+
+    <script>
+        // Chặn phóng to thu nhỏ
+        document.addEventListener('gesturestart', function(e) {
+            e.preventDefault();
+        });
+
+        document.addEventListener('dblclick', function(e) {
+            e.preventDefault();
+        });
+
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function(e) {
+            const now = Date.now();
+            if (now - lastTouchEnd <= 300) {
+                e.preventDefault();
+            }
+            lastTouchEnd = now;
+        });
+
+        // Tạo particles
+        function createParticles() {
+            const container = document.getElementById('particles-3d');
+            for (let i = 0; i < 70; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                const size = Math.random() * 30 + 5;
+                particle.style.width = size + 'px';
+                particle.style.height = size + 'px';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 25 + 's';
+                particle.style.animationDuration = Math.random() * 20 + 15 + 's';
+                container.appendChild(particle);
+            }
+        }
+
+        // LOGIN
+        const loginForm = document.getElementById('loginForm');
+        const loginScreen = document.getElementById('loginScreen');
+        const mainContent = document.getElementById('mainContent');
+        const loginError = document.getElementById('loginError');
+
+        loginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            // Tài khoản: Ngocbecon, Mật khẩu: ngocbecon2007
+            if (username === 'Ngocbecon' && password === 'ngocbecon2007') {
+                loginError.classList.remove('show');
+                loginScreen.style.display = 'none';
+                mainContent.style.display = 'flex';
+                addConsoleLine('[Minecraft Bot] Đăng nhập thành công!');
+                addConsoleLine('[Minecraft Bot] Chào mừng Ngọc Becon!');
+            } else {
+                loginError.classList.add('show');
+                setTimeout(() => loginError.classList.remove('show'), 3000);
+            }
+        });
+
+        // MINECRAFT BOT
+        let botRunning = false;
+        let botUptime = 0;
+        let uptimeInterval;
+
+        function startBot() {
+            if (botRunning) {
+                addConsoleLine('[Minecraft Bot] Bot đã hoạt động!');
+                return;
+            }
+            
+            botRunning = true;
+            document.getElementById('botStatus').textContent = '🟢 Online';
+            document.getElementById('botStatus').className = 'status-value status-online';
+            
+            addConsoleLine('[Minecraft Bot] Đang khởi động bot...');
+            setTimeout(() => {
+                addConsoleLine('[Minecraft Bot] Bot đã hoạt động thành công!');
+                addConsoleLine('[Minecraft Bot] Đang kết nối đến server...');
+            }, 2000);
+            
+            uptimeInterval = setInterval(() => {
+                botUptime++;
+                document.getElementById('uptime').textContent = botUptime + ' phút';
+                document.getElementById('playerCount').textContent = Math.floor(Math.random() * 10) + 1;
+            }, 60000);
+        }
+
+        function stopBot() {
+            if (!botRunning) {
+                addConsoleLine('[Minecraft Bot] Bot chưa hoạt động!');
+                return;
+            }
+            
+            botRunning = false;
+            document.getElementById('botStatus').textContent = '⭕ Offline';
+            document.getElementById('botStatus').className = 'status-value status-offline';
+            document.getElementById('playerCount').textContent = '0';
+            
+            clearInterval(uptimeInterval);
+            botUptime = 0;
+            document.getElementById('uptime').textContent = '0 phút';
+            
+            addConsoleLine('[Minecraft Bot] Bot đã tắt!');
+        }
+
+        function restartBot() {
+            if (botRunning) {
+                stopBot();
+            }
+            
+            addConsoleLine('[Minecraft Bot] Đang restart bot...');
+            setTimeout(() => {
+                startBot();
+                addConsoleLine('[Minecraft Bot] Bot đã restart thành công!');
+            }, 2000);
+        }
+
+        function addConsoleLine(text) {
+            const console = document.getElementById('console');
+            const line = document.createElement('div');
+            line.className = 'console-line';
+            line.textContent = text;
+            console.appendChild(line);
+            console.scrollTop = console.scrollHeight;
+        }
+
+        function logout() {
+            mainContent.style.display = 'none';
+            loginScreen.style.display = 'flex';
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+            
+            if (botRunning) {
+                stopBot();
+            }
+        }
+
+        createParticles();
+    </script>
+</body>
+</html>
