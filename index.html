@@ -597,6 +597,182 @@
             font-weight: 700;
         }
 
+        /* ====== MUSIC PLAYER ====== */
+        .music-player-3d {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 30px;
+            padding: 30px;
+            margin: 30px auto;
+            border: 2px solid rgba(255, 105, 180, 0.3);
+            box-shadow: 0 30px 100px rgba(0, 0, 0, 0.4);
+            max-width: 550px;
+            width: 100%;
+            animation: musicEntrance 2s ease-out 1.3s forwards;
+            opacity: 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        @keyframes musicEntrance {
+            0% { 
+                opacity: 0;
+                transform: translateZ(-400px) rotateX(45deg) scale(0.5);
+                filter: blur(10px);
+            }
+            50% {
+                opacity: 0.5;
+                transform: translateZ(100px) rotateX(20deg) scale(0.8);
+                filter: blur(5px);
+            }
+            100% { 
+                opacity: 1;
+                transform: translateZ(0) rotateX(0deg) scale(1);
+                filter: blur(0);
+            }
+        }
+
+        .music-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .music-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #ff69b4;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .music-icon {
+            font-size: 1.5rem;
+            animation: musicIconPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes musicIconPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        .music-current {
+            font-size: 1.1rem;
+            color: white;
+            font-weight: 600;
+            background: rgba(255, 105, 180, 0.2);
+            padding: 8px 15px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 105, 180, 0.3);
+        }
+
+        .music-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .music-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px 20px;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .music-item:hover {
+            background: rgba(255, 105, 180, 0.2);
+            border-color: #ff69b4;
+            transform: translateX(10px);
+        }
+
+        .music-item.active {
+            background: linear-gradient(45deg, rgba(255, 105, 180, 0.3), rgba(255, 20, 147, 0.3));
+            border-color: #ff69b4;
+            box-shadow: 0 0 30px rgba(255, 105, 180, 0.3);
+        }
+
+        .music-item-num {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #ff69b4, #ff1493);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+
+        .music-item-name {
+            flex: 1;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .music-item-play {
+            font-size: 1.5rem;
+            transition: all 0.3s;
+        }
+
+        .music-item.active .music-item-play {
+            animation: playPulse 1s ease-in-out infinite;
+        }
+
+        @keyframes playPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.3); }
+        }
+
+        .music-controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .music-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            transition: all 0.3s;
+            background: linear-gradient(45deg, #ff69b4, #ff1493);
+            color: white;
+            box-shadow: 0 5px 20px rgba(255, 20, 147, 0.5);
+        }
+
+        .music-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 10px 30px rgba(255, 20, 147, 0.7);
+        }
+
+        .music-btn:active {
+            transform: scale(0.95);
+        }
+
+        .music-btn.main {
+            width: 70px;
+            height: 70px;
+            font-size: 2rem;
+        }
+
         /* ====== SOCIAL LINKS ====== */
         .social-links-3d {
             display: flex;
@@ -774,6 +950,9 @@
             .subtitle-3d { font-size: 1.4rem; }
             .welcome-text { font-size: 1.2rem; }
             .logo-3d { width: 140px; height: 140px; font-size: 55px; }
+            .music-title { font-size: 1.1rem; }
+            .music-current { font-size: 1rem; }
+            .music-item-name { font-size: 1rem; }
         }
 
         @media (max-width: 480px) {
@@ -786,6 +965,8 @@
             .social-links-3d { gap: 12px; }
             .bio-3d { font-size: 1.1rem; padding: 20px; }
             .subtitle-3d { font-size: 1.2rem; }
+            .music-btn { width: 45px; height: 45px; font-size: 1.3rem; }
+            .music-btn.main { width: 60px; height: 60px; font-size: 1.8rem; }
         }
     </style>
 </head>
@@ -825,13 +1006,48 @@
                 </svg>
             </span>
         </h1>
-        <p class="subtitle-3d">✨ Cosplayer • Ngọc Becon ✨</p>
+        <p class="subtitle-3d">✨ Cosplayer • Content Creator ✨</p>
 
         <div class="bio-3d">
-            💕 Xin chào mọi người! 💕<br>
+            💕 Xin chào 💕<br>
             Chào mừng đến với <span class="highlight">trang wed của Ngọc Becon</span> ✨<br>
-            Nơi có những điều <span class="highlight">tuyệt vời nhất</span>🌸<br>
-            <span class="highlight">Cùng nhau tạo nên những kỷ niệm</span> 💖
+            Nơi có những thông <span class="highlight">tin của Ngọc Becon</span>🌸<br>
+            <span class="highlight">Kết bạn và giao lưu</span> 💖
+        </div>
+
+        <!-- MUSIC PLAYER -->
+        <div class="music-player-3d">
+            <div class="music-header">
+                <div class="music-title">
+                    <span class="music-icon">🎵</span>
+                    Nhạc của Ngọc Becon
+                </div>
+                <div class="music-current" id="currentSong">Bài 1</div>
+            </div>
+
+            <div class="music-list">
+                <div class="music-item active" data-song="music.mp3" data-name="Ngọc Becon - Bài 1">
+                    <div class="music-item-num">1</div>
+                    <div class="music-item-name">Ngọc Becon - Bài 1</div>
+                    <div class="music-item-play">▶️</div>
+                </div>
+                <div class="music-item" data-song="music1.mp3" data-name="Ngọc Becon - Bài 2">
+                    <div class="music-item-num">2</div>
+                    <div class="music-item-name">Ngọc Becon - Bài 2</div>
+                    <div class="music-item-play">▶️</div>
+                </div>
+                <div class="music-item" data-song="music2.mp3" data-name="Ngọc Becon - Bài 3">
+                    <div class="music-item-num">3</div>
+                    <div class="music-item-name">Ngọc Becon - Bài 3</div>
+                    <div class="music-item-play">▶️</div>
+                </div>
+            </div>
+
+            <div class="music-controls">
+                <button class="music-btn" id="prevBtn">⏮️</button>
+                <button class="music-btn main" id="playPauseBtn">▶️</button>
+                <button class="music-btn" id="nextBtn">⏭️</button>
+            </div>
         </div>
 
         <div class="social-links-3d">
@@ -854,9 +1070,7 @@
         Made with ♡ by Ngọc Becon ✨
     </footer>
 
-    <audio id="bgMusic" loop>
-        <source src="music.mp3" type="audio/mpeg">
-    </audio>
+    <audio id="bgMusic" loop></audio>
 
     <script>
         // Chặn phóng to thu nhỏ
@@ -882,6 +1096,77 @@
         const welcomeScreen = document.getElementById('welcomeScreen');
         const mainContent = document.getElementById('mainContent');
         const footer = document.getElementById('footer');
+        const playPauseBtn = document.getElementById('playPauseBtn');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const currentSong = document.getElementById('currentSong');
+        const musicItems = document.querySelectorAll('.music-item');
+
+        let currentTrack = 0;
+        const tracks = [
+            { file: 'music.mp3', name: 'Ngọc Becon - Bài 1' },
+            { file: 'music1.mp3', name: 'Ngọc Becon - Bài 2' },
+            { file: 'music2.mp3', name: 'Ngọc Becon - Bài 3' }
+        ];
+
+        function loadTrack(index) {
+            currentTrack = index;
+            music.src = tracks[index].file;
+            currentSong.textContent = tracks[index].name;
+            
+            // Update active state
+            musicItems.forEach((item, i) => {
+                if (i === index) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+        }
+
+        function playMusic() {
+            music.play().catch(() => {});
+            playPauseBtn.textContent = '⏸️';
+        }
+
+        function pauseMusic() {
+            music.pause();
+            playPauseBtn.textContent = '▶️';
+        }
+
+        function togglePlay() {
+            if (music.paused) {
+                playMusic();
+            } else {
+                pauseMusic();
+            }
+        }
+
+        function nextTrack() {
+            loadTrack((currentTrack + 1) % tracks.length);
+            playMusic();
+        }
+
+        function prevTrack() {
+            loadTrack((currentTrack - 1 + tracks.length) % tracks.length);
+            playMusic();
+        }
+
+        // Music item click
+        musicItems.forEach((item, index) => {
+            item.addEventListener('click', () => {
+                loadTrack(index);
+                playMusic();
+            });
+        });
+
+        // Controls
+        playPauseBtn.addEventListener('click', togglePlay);
+        nextBtn.addEventListener('click', nextTrack);
+        prevBtn.addEventListener('click', prevTrack);
+
+        // Auto next when song ends
+        music.addEventListener('ended', nextTrack);
 
         // Tạo particles 3D
         function createParticles() {
@@ -944,7 +1229,9 @@
 
                     footer.style.display = 'block';
 
-                    music.play().catch(() => {});
+                    // Load và phát nhạc tự động
+                    loadTrack(0);
+                    playMusic();
 
                     // Tạo trái tim liên tục
                     setInterval(() => {
