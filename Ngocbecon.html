@@ -272,14 +272,12 @@
             transform: scale(1.1);
         }
 
-        /* ====== MAIN CONTENT (SAU KHI ĐĂNG NHẬP) ====== */
+        /* ====== MAIN CONTENT ====== */
         #mainContent {
             display: none;
             min-height: 100vh;
             flex: 1;
             flex-direction: column;
-            align-items: center;
-            justify-content: center;
             padding: 40px 20px;
             text-align: center;
         }
@@ -302,20 +300,67 @@
             margin-bottom: 40px;
         }
 
-        /* ====== MINECRAFT BOT ====== */
-        .minecraft-section {
+        /* ====== TABS ====== */
+        .tabs {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+
+        .tab-btn {
+            padding: 12px 25px;
+            border-radius: 50px;
+            border: 2px solid rgba(255, 105, 180, 0.3);
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s;
+        }
+
+        .tab-btn:hover {
+            border-color: #ff69b4;
+            transform: translateY(-3px);
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(45deg, #ff69b4, #ff1493);
+            border-color: #ff69b4;
+            box-shadow: 0 10px 30px rgba(255, 20, 147, 0.4);
+        }
+
+        .tab-content {
+            display: none;
+            animation: tabFade 0.5s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes tabFade {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ====== SECTION CARD ====== */
+        .section-card {
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(20px);
             border-radius: 30px;
             padding: 30px;
             border: 2px solid rgba(255, 105, 180, 0.3);
             box-shadow: 0 30px 100px rgba(0, 0, 0, 0.5);
-            max-width: 600px;
+            max-width: 700px;
             width: 100%;
             margin: 20px auto;
         }
 
-        .minecraft-title {
+        .section-title {
             font-size: 1.5rem;
             color: #ff69b4;
             margin-bottom: 20px;
@@ -325,17 +370,83 @@
             justify-content: center;
         }
 
-        .minecraft-icon {
+        .section-icon {
             font-size: 2rem;
-            animation: minecraftPulse 2s ease-in-out infinite;
+            animation: sectionPulse 2s ease-in-out infinite;
         }
 
-        @keyframes minecraftPulse {
+        @keyframes sectionPulse {
             0%, 100% { transform: scale(1) rotate(0deg); }
             50% { transform: scale(1.2) rotate(10deg); }
         }
 
-        .minecraft-status {
+        /* ====== BOT CONTROL ====== */
+        .bot-control {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .mc-btn {
+            padding: 15px 30px;
+            border-radius: 50px;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 700;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mc-btn-start {
+            background: linear-gradient(45deg, #00ff88, #00cc66);
+            color: #003300;
+            box-shadow: 0 10px 30px rgba(0, 255, 136, 0.4);
+        }
+
+        .mc-btn-stop {
+            background: linear-gradient(45deg, #ff4444, #cc0000);
+            color: white;
+            box-shadow: 0 10px 30px rgba(255, 68, 68, 0.4);
+        }
+
+        .mc-btn-restart {
+            background: linear-gradient(45deg, #ffaa00, #ff8800);
+            color: #332200;
+            box-shadow: 0 10px 30px rgba(255, 170, 0, 0.4);
+        }
+
+        .mc-btn-save {
+            background: linear-gradient(45deg, #20d5ff, #0099ff);
+            color: white;
+            box-shadow: 0 10px 30px rgba(32, 213, 255, 0.4);
+        }
+
+        .mc-btn:hover {
+            transform: translateY(-5px) scale(1.05);
+        }
+
+        .mc-btn:active {
+            transform: translateY(0) scale(0.95);
+        }
+
+        .mc-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: btnShine 3s ease-in-out infinite;
+        }
+
+        /* ====== STATUS ====== */
+        .bot-status {
             background: rgba(255, 255, 255, 0.05);
             border-radius: 15px;
             padding: 20px;
@@ -375,64 +486,8 @@
             text-shadow: 0 0 10px rgba(255, 68, 68, 0.5);
         }
 
-        .minecraft-controls {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .mc-btn {
-            padding: 15px 30px;
-            border-radius: 50px;
-            border: none;
-            cursor: pointer;
-            font-size: 1.1rem;
-            font-weight: 700;
-            font-family: 'Poppins', sans-serif;
-            transition: all 0.3s;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .mc-btn-start {
-            background: linear-gradient(45deg, #00ff88, #00cc66);
-            color: #003300;
-            box-shadow: 0 10px 30px rgba(0, 255, 136, 0.4);
-        }
-
-        .mc-btn-stop {
-            background: linear-gradient(45deg, #ff4444, #cc0000);
-            color: white;
-            box-shadow: 0 10px 30px rgba(255, 68, 68, 0.4);
-        }
-
-        .mc-btn-restart {
-            background: linear-gradient(45deg, #ffaa00, #ff8800);
-            color: #332200;
-            box-shadow: 0 10px 30px rgba(255, 170, 0, 0.4);
-        }
-
-        .mc-btn:hover {
-            transform: translateY(-5px) scale(1.05);
-        }
-
-        .mc-btn:active {
-            transform: translateY(0) scale(0.95);
-        }
-
-        .mc-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            animation: btnShine 3s ease-in-out infinite;
-        }
-
-        .minecraft-console {
+        /* ====== CONSOLE ====== */
+        .console {
             background: rgba(0, 0, 0, 0.5);
             border-radius: 15px;
             padding: 20px;
@@ -456,6 +511,132 @@
             100% { opacity: 1; transform: translateX(0); }
         }
 
+        /* ====== CHAT ====== */
+        .chat-container {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            padding: 20px;
+            height: 400px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .chat-message {
+            padding: 12px 18px;
+            border-radius: 15px;
+            max-width: 80%;
+            animation: messageIn 0.3s ease;
+        }
+
+        @keyframes messageIn {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        .chat-message.sent {
+            background: linear-gradient(45deg, #ff69b4, #ff1493);
+            align-self: flex-end;
+            border-bottom-right-radius: 5px;
+        }
+
+        .chat-message.received {
+            background: rgba(255, 255, 255, 0.1);
+            align-self: flex-start;
+            border-bottom-left-radius: 5px;
+        }
+
+        .chat-message .chat-user {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 5px;
+        }
+
+        .chat-message .chat-text {
+            font-size: 1rem;
+        }
+
+        .chat-input-container {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 15px 20px;
+            border-radius: 50px;
+            border: 2px solid rgba(255, 105, 180, 0.3);
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1rem;
+            font-family: 'Poppins', sans-serif;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .chat-input:focus {
+            border-color: #ff69b4;
+            box-shadow: 0 0 30px rgba(255, 105, 180, 0.3);
+        }
+
+        .chat-send {
+            padding: 15px 25px;
+            border-radius: 50px;
+            border: none;
+            background: linear-gradient(45deg, #ff69b4, #ff1493);
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .chat-send:hover {
+            transform: scale(1.1);
+            box-shadow: 0 10px 30px rgba(255, 20, 147, 0.4);
+        }
+
+        /* ====== TERMUX GUIDE ====== */
+        .termux-guide {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: left;
+            font-family: monospace;
+            font-size: 0.9rem;
+            color: #00ff88;
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+
+        .termux-guide .cmd {
+            color: #20d5ff;
+        }
+
+        .termux-guide .comment {
+            color: #888888;
+        }
+
+        .termux-guide .success {
+            color: #00ff88;
+        }
+
+        .termux-guide .error {
+            color: #ff4444;
+        }
+
+        /* ====== LOGOUT ====== */
         .logout-btn {
             margin-top: 30px;
             padding: 12px 30px;
@@ -489,16 +670,21 @@
             .login-card { padding: 35px; }
             .login-title { font-size: 2rem; }
             .welcome-banner { font-size: 2.5rem; }
-            .minecraft-section { padding: 20px; }
+            .section-card { padding: 20px; }
             .mc-btn { padding: 12px 20px; font-size: 1rem; }
+            .tab-btn { padding: 10px 20px; font-size: 0.9rem; }
+            .chat-container { height: 350px; }
         }
 
         @media (max-width: 480px) {
             .login-card { padding: 25px; }
             .login-title { font-size: 1.8rem; }
             .welcome-banner { font-size: 2rem; }
-            .minecraft-section { padding: 15px; }
+            .section-card { padding: 15px; }
             .mc-btn { padding: 10px 15px; font-size: 0.9rem; }
+            .tab-btn { padding: 8px 15px; font-size: 0.8rem; }
+            .chat-container { height: 300px; }
+            .chat-send { padding: 12px 20px; }
         }
     </style>
 </head>
@@ -533,43 +719,179 @@
         </div>
     </div>
 
-    <!-- MAIN CONTENT (SAU KHI ĐĂNG NHẬP) -->
+    <!-- MAIN CONTENT -->
     <div id="mainContent">
         <h1 class="welcome-banner">🌸 Chào mừng Ngọc Becon! 🌸</h1>
-        <p class="welcome-text">✨ Đây là trang riêng của bạn ✨</p>
+        <p class="welcome-text">✨ Đây là trang quản trị bot của bạn ✨</p>
 
-        <!-- MINECRAFT BOT -->
-        <div class="minecraft-section">
-            <div class="minecraft-title">
-                <span class="minecraft-icon">⛏️</span>
-                Minecraft Bot
-                <span class="minecraft-icon">💎</span>
-            </div>
+        <!-- TABS -->
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('bot')">🤖 Bot Control</button>
+            <button class="tab-btn" onclick="switchTab('chat')">💬 Chat</button>
+            <button class="tab-btn" onclick="switchTab('termux')">📱 Termux Guide</button>
+        </div>
 
-            <div class="minecraft-status">
-                <div class="status-item">
-                    <span class="status-label">Trạng thái:</span>
-                    <span class="status-value status-offline" id="botStatus">⭕ Offline</span>
+        <!-- TAB: BOT CONTROL -->
+        <div class="tab-content active" id="tab-bot">
+            <div class="section-card">
+                <div class="section-title">
+                    <span class="section-icon">⛏️</span>
+                    Minecraft Bot Control
+                    <span class="section-icon">💎</span>
                 </div>
-                <div class="status-item">
-                    <span class="status-label">Thời gian hoạt động:</span>
-                    <span class="status-value" id="uptime">0 phút</span>
+
+                <!-- Bot Config -->
+                <div class="input-group">
+                    <label class="input-label">🌐 IP Server</label>
+                    <input type="text" class="input-field" id="botIp" placeholder="VD: mc.server.com">
                 </div>
-                <div class="status-item">
-                    <span class="status-label">Số người chơi:</span>
-                    <span class="status-value" id="playerCount">0</span>
+
+                <div class="input-group">
+                    <label class="input-label">🔢 Port</label>
+                    <input type="text" class="input-field" id="botPort" placeholder="VD: 25565" value="25565">
+                </div>
+
+                <div class="input-group">
+                    <label class="input-label">📛 Tên Bot</label>
+                    <input type="text" class="input-field" id="botName" placeholder="VD: NgocBecon">
+                </div>
+
+                <div class="input-group">
+                    <label class="input-label">🔢 Số lượng Bot</label>
+                    <input type="text" class="input-field" id="botCount" placeholder="VD: 1, 2, 5..." value="1">
+                </div>
+
+                <div class="input-group">
+                    <label class="input-label">🎮 Phiên bản (để trống = auto)</label>
+                    <input type="text" class="input-field" id="botVersion" placeholder="VD: 1.20.4 hoặc để trống">
+                </div>
+
+                <!-- Bot Controls -->
+                <div class="bot-control">
+                    <button class="mc-btn mc-btn-save" onclick="saveConfig()">💾 Lưu Cấu Hình</button>
+                    <button class="mc-btn mc-btn-start" onclick="startBot()">▶️ Bật Bot</button>
+                    <button class="mc-btn mc-btn-stop" onclick="stopBot()">⏹️ Tắt Bot</button>
+                    <button class="mc-btn mc-btn-restart" onclick="restartBot()">🔄 Restart</button>
+                </div>
+
+                <!-- Bot Status -->
+                <div class="bot-status">
+                    <div class="status-item">
+                        <span class="status-label">Trạng thái:</span>
+                        <span class="status-value status-offline" id="botStatus">⭕ Offline</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">IP:Port:</span>
+                        <span class="status-value" id="statusIp">Chưa cấu hình</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">Tên Bot:</span>
+                        <span class="status-value" id="statusName">Chưa cấu hình</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">Số lượng:</span>
+                        <span class="status-value" id="statusCount">0</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">Phiên bản:</span>
+                        <span class="status-value" id="statusVersion">Auto</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">Uptime:</span>
+                        <span class="status-value" id="uptime">0 phút</span>
+                    </div>
+                </div>
+
+                <!-- Console -->
+                <div class="console" id="console">
+                    <div class="console-line">[Bot] Sẵn sàng hoạt động...</div>
+                    <div class="console-line">[Bot] Nhập IP, Port, Tên Bot và bấm "Bật Bot"!</div>
                 </div>
             </div>
+        </div>
 
-            <div class="minecraft-controls">
-                <button class="mc-btn mc-btn-start" onclick="startBot()">▶️ Bật Bot</button>
-                <button class="mc-btn mc-btn-stop" onclick="stopBot()">⏹️ Tắt Bot</button>
-                <button class="mc-btn mc-btn-restart" onclick="restartBot()">🔄 Restart</button>
+        <!-- TAB: CHAT -->
+        <div class="tab-content" id="tab-chat">
+            <div class="section-card">
+                <div class="section-title">
+                    <span class="section-icon">💬</span>
+                    Chat Bot
+                    <span class="section-icon">💬</span>
+                </div>
+
+                <div class="chat-container">
+                    <div class="chat-messages" id="chatMessages">
+                        <div class="chat-message received">
+                            <div class="chat-user">🤖 Bot</div>
+                            <div class="chat-text">Xin chào Ngọc Becon! Tôi là bot của bạn. Gửi tin nhắn để tôi trả lời nhé! 💖</div>
+                        </div>
+                    </div>
+                    <div class="chat-input-container">
+                        <input type="text" class="chat-input" id="chatInput" placeholder="Nhập tin nhắn..." onkeypress="if(event.key==='Enter')sendChat()">
+                        <button class="chat-send" onclick="sendChat()">➤</button>
+                    </div>
+                </div>
             </div>
+        </div>
 
-            <div class="minecraft-console" id="console">
-                <div class="console-line">[Minecraft Bot] Sẵn sàng hoạt động...</div>
-                <div class="console-line">[Minecraft Bot] Đang chờ lệnh...</div>
+        <!-- TAB: TERMUX GUIDE -->
+        <div class="tab-content" id="tab-termux">
+            <div class="section-card">
+                <div class="section-title">
+                    <span class="section-icon">📱</span>
+                    Hướng Dẫn Chạy Bot Termux
+                    <span class="section-icon">📱</span>
+                </div>
+
+                <div class="termux-guide">
+<span class="comment"># ====== CÀI ĐẶT TERMUX ======</span>
+<span class="comment"># 1. Mở Termux và chạy:</span>
+<span class="cmd">pkg update && pkg upgrade -y</span>
+<span class="cmd">pkg install nodejs git -y</span>
+<span class="cmd">pkg install python -y</span>
+
+<span class="comment"># 2. Cài Node.js packages:</span>
+<span class="cmd">npm init -y</span>
+<span class="cmd">npm install discord.js mineflayer</span>
+
+<span class="comment"># 3. Tạo file bot.js:</span>
+<span class="cmd">nano bot.js</span>
+
+<span class="comment"># 4. Dán code bot vào và lưu (Ctrl+X, Y, Enter)</span>
+
+<span class="comment"># 5. Chạy bot:</span>
+<span class="cmd">node bot.js</span>
+
+<span class="comment"># ====== LỆNH HỮU ÍCH ======</span>
+<span class="comment"># Chạy bot 24/7:</span>
+<span class="cmd">nohup node bot.js &</span>
+
+<span class="comment"># Xem log bot:</span>
+<span class="cmd">tail -f nohup.out</span>
+
+<span class="comment"># Dừng bot:</span>
+<span class="cmd">pkill node</span>
+
+<span class="comment"># ====== LỆNH DISCORD BOT ======</span>
+<span class="comment"># Trong Discord:</span>
+<span class="success">!bot - Mở panel chính</span>
+<span class="success">!random ip:port số_lượng - Bot tên Việt</span>
+<span class="success">!treobot tên ip:port số_lượng phiên_bản</span>
+<span class="success">!say tên_bot tin_nhắn - Bot nói</span>
+<span class="success">!list - Danh sách bot</span>
+<span class="success">!stop tên - Dừng bot</span>
+<span class="success">!stop - Dừng tất cả</span>
+<span class="success">!status tên - Trạng thái bot</span>
+<span class="success">!help - Hỗ trợ</span>
+
+<span class="comment"># ====== ADMIN ======</span>
+<span class="success">!give tên thời_gian - Cấp quyền</span>
+<span class="success">!revoke tên thời_gian - Thu hồi</span>
+<span class="success">!xoa tên - Xóa quyền</span>
+<span class="success">!check tên - Kiểm tra</span>
+<span class="success">!logs - Lịch sử</span>
+<span class="success">!restartall - Restart tất cả</span>
+                </div>
             </div>
         </div>
 
@@ -628,74 +950,108 @@
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
 
-            // Tài khoản: Ngocbecon, Mật khẩu: ngocbecon2007
             if (username === 'Ngocbecon' && password === 'ngocbecon2007') {
                 loginError.classList.remove('show');
                 loginScreen.style.display = 'none';
                 mainContent.style.display = 'flex';
-                addConsoleLine('[Minecraft Bot] Đăng nhập thành công!');
-                addConsoleLine('[Minecraft Bot] Chào mừng Ngọc Becon!');
+                addConsoleLine('[Bot] Đăng nhập thành công!');
+                addConsoleLine('[Bot] Chào mừng Ngọc Becon!');
             } else {
                 loginError.classList.add('show');
                 setTimeout(() => loginError.classList.remove('show'), 3000);
             }
         });
 
-        // MINECRAFT BOT
+        // TABS
+        function switchTab(tab) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            
+            document.querySelector(`.tab-btn[onclick="switchTab('${tab}')"]`).classList.add('active');
+            document.getElementById(`tab-${tab}`).classList.add('active');
+        }
+
+        // BOT CONFIG
+        let botConfig = {
+            ip: '',
+            port: '25565',
+            name: '',
+            count: 1,
+            version: 'auto'
+        };
+
         let botRunning = false;
         let botUptime = 0;
         let uptimeInterval;
 
+        function saveConfig() {
+            botConfig.ip = document.getElementById('botIp').value;
+            botConfig.port = document.getElementById('botPort').value;
+            botConfig.name = document.getElementById('botName').value;
+            botConfig.count = parseInt(document.getElementById('botCount').value) || 1;
+            botConfig.version = document.getElementById('botVersion').value || 'auto';
+
+            document.getElementById('statusIp').textContent = `${botConfig.ip}:${botConfig.port}`;
+            document.getElementById('statusName').textContent = botConfig.name;
+            document.getElementById('statusCount').textContent = botConfig.count;
+            document.getElementById('statusVersion').textContent = botConfig.version;
+
+            addConsoleLine(`[Bot] Đã lưu cấu hình: ${botConfig.name} tại ${botConfig.ip}:${botConfig.port}`);
+            addConsoleLine(`[Bot] Số lượng: ${botConfig.count} | Phiên bản: ${botConfig.version}`);
+        }
+
         function startBot() {
-            if (botRunning) {
-                addConsoleLine('[Minecraft Bot] Bot đã hoạt động!');
+            if (!botConfig.ip || !botConfig.name) {
+                addConsoleLine('[Bot] ❌ Vui lòng nhập IP và Tên Bot trước!');
                 return;
             }
-            
+
+            if (botRunning) {
+                addConsoleLine('[Bot] Bot đã hoạt động!');
+                return;
+            }
+
             botRunning = true;
             document.getElementById('botStatus').textContent = '🟢 Online';
             document.getElementById('botStatus').className = 'status-value status-online';
-            
-            addConsoleLine('[Minecraft Bot] Đang khởi động bot...');
-            setTimeout(() => {
-                addConsoleLine('[Minecraft Bot] Bot đã hoạt động thành công!');
-                addConsoleLine('[Minecraft Bot] Đang kết nối đến server...');
-            }, 2000);
-            
+
+            addConsoleLine(`[Bot] Đang khởi động ${botConfig.count} bot "${botConfig.name}"...`);
+            addConsoleLine(`[Bot] Kết nối đến ${botConfig.ip}:${botConfig.port}...`);
+            addConsoleLine(`[Bot] Phiên bản: ${botConfig.version}`);
+            addConsoleLine(`[Bot] ✅ Bot đã hoạt động thành công!`);
+
             uptimeInterval = setInterval(() => {
                 botUptime++;
                 document.getElementById('uptime').textContent = botUptime + ' phút';
-                document.getElementById('playerCount').textContent = Math.floor(Math.random() * 10) + 1;
             }, 60000);
         }
 
         function stopBot() {
             if (!botRunning) {
-                addConsoleLine('[Minecraft Bot] Bot chưa hoạt động!');
+                addConsoleLine('[Bot] Bot chưa hoạt động!');
                 return;
             }
-            
+
             botRunning = false;
             document.getElementById('botStatus').textContent = '⭕ Offline';
             document.getElementById('botStatus').className = 'status-value status-offline';
-            document.getElementById('playerCount').textContent = '0';
-            
+
             clearInterval(uptimeInterval);
             botUptime = 0;
             document.getElementById('uptime').textContent = '0 phút';
-            
-            addConsoleLine('[Minecraft Bot] Bot đã tắt!');
+
+            addConsoleLine('[Bot] Bot đã tắt!');
         }
 
         function restartBot() {
             if (botRunning) {
                 stopBot();
             }
-            
-            addConsoleLine('[Minecraft Bot] Đang restart bot...');
+
+            addConsoleLine('[Bot] Đang restart bot...');
             setTimeout(() => {
                 startBot();
-                addConsoleLine('[Minecraft Bot] Bot đã restart thành công!');
+                addConsoleLine('[Bot] Bot đã restart thành công!');
             }, 2000);
         }
 
@@ -708,6 +1064,68 @@
             console.scrollTop = console.scrollHeight;
         }
 
+        // CHAT
+        const chatMessages = document.getElementById('chatMessages');
+        const chatInput = document.getElementById('chatInput');
+
+        function sendChat() {
+            const text = chatInput.value.trim();
+            if (!text) return;
+
+            // Thêm tin nhắn của user
+            const userMsg = document.createElement('div');
+            userMsg.className = 'chat-message sent';
+            userMsg.innerHTML = `
+                <div class="chat-user">🌸 Ngọc Becon</div>
+                <div class="chat-text">${text}</div>
+            `;
+            chatMessages.appendChild(userMsg);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+
+            chatInput.value = '';
+
+            // Bot trả lời
+            setTimeout(() => {
+                const botMsg = document.createElement('div');
+                botMsg.className = 'chat-message received';
+                botMsg.innerHTML = `
+                    <div class="chat-user">🤖 Bot</div>
+                    <div class="chat-text">${getBotResponse(text)}</div>
+                `;
+                chatMessages.appendChild(botMsg);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }, 1000);
+        }
+
+        function getBotResponse(text) {
+            const lower = text.toLowerCase();
+            
+            if (lower.includes('hello') || lower.includes('hi') || lower.includes('chào')) {
+                return 'Chào Ngọc Becon! 💖 Có gì cần tôi giúp không?';
+            }
+            if (lower.includes('bot') || lower.includes('minecraft')) {
+                return 'Bot Minecraft của bạn đang sẵn sàng! ⛏️ Bấm vào tab "Bot Control" để quản lý!';
+            }
+            if (lower.includes('termux')) {
+                return 'Hướng dẫn Termux nằm trong tab "Termux Guide" đó! 📱';
+            }
+            if (lower.includes('tên') || lower.includes('name')) {
+                return 'Tên của tôi là Ngọc Becon Bot! 🌸';
+            }
+            if (lower.includes('yêu') || lower.includes('love')) {
+                return 'Tôi cũng yêu Ngọc Becon! 💕💕💕';
+            }
+            if (lower.includes('cảm ơn') || lower.includes('thank')) {
+                return 'Không có gì! Luôn sẵn sàng giúp đỡ! 💖';
+            }
+            if (lower.includes('tạm biệt') || lower.includes('bye')) {
+                return 'Tạm biệt Ngọc Becon! Hẹn gặp lại! 👋💖';
+            }
+            
+            return 'Tôi hiểu rồi! Nhưng tôi là bot đơn giản nên chỉ trả lời được một số câu hỏi. Thử hỏi về Bot, Minecraft, Termux nhé! 😊';
+        }
+
+        // LOGOUT
         function logout() {
             mainContent.style.display = 'none';
             loginScreen.style.display = 'flex';
