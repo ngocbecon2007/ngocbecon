@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Ngọc Becon - Trang Riêng</title>
+    <title>Ngọc Becon - Game Hub</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&family=Playfair+Display:wght@700;900&display=swap');
 
@@ -60,69 +60,15 @@
             75% { transform: translateY(-150px) translateX(120px) rotate(540deg) scale(1.1); }
         }
 
-        /* ====== LOGIN SCREEN ====== */
-        #loginScreen {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            flex: 1;
-        }
-
-        .login-card {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px);
-            border-radius: 30px;
-            padding: 50px;
-            border: 2px solid rgba(255, 105, 180, 0.3);
-            box-shadow: 0 30px 100px rgba(0, 0, 0, 0.5);
-            max-width: 450px;
-            width: 100%;
+        /* ====== HEADER ====== */
+        .header {
             text-align: center;
-            animation: cardEntrance 1.5s ease-out forwards;
-            opacity: 0;
-            position: relative;
-            overflow: hidden;
+            padding: 40px 20px 20px;
         }
 
-        @keyframes cardEntrance {
-            0% { 
-                opacity: 0;
-                transform: translateZ(-400px) rotateX(45deg) scale(0.5);
-                filter: blur(10px);
-            }
-            50% {
-                opacity: 0.5;
-                transform: translateZ(100px) rotateX(20deg) scale(0.8);
-                filter: blur(5px);
-            }
-            100% { 
-                opacity: 1;
-                transform: translateZ(0) rotateX(0deg) scale(1);
-                filter: blur(0);
-            }
-        }
-
-        .login-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(45deg, transparent, rgba(255, 105, 180, 0.15), transparent);
-            animation: bioShine 5s ease-in-out infinite;
-        }
-
-        @keyframes bioShine {
-            0% { transform: translateX(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) rotate(45deg); }
-        }
-
-        .login-logo {
-            width: 100px;
-            height: 100px;
+        .header-logo {
+            width: 120px;
+            height: 120px;
             border-radius: 50%;
             background: linear-gradient(45deg, #ff69b4, #ff1493, #ff6b9d, #ff1493);
             background-size: 300% 300%;
@@ -130,9 +76,10 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 45px;
-            margin: 0 auto 30px;
-            box-shadow: 0 0 60px rgba(255, 20, 147, 0.6);
+            font-size: 55px;
+            margin: 0 auto 20px;
+            box-shadow: 0 0 80px rgba(255, 20, 147, 0.6);
+            position: relative;
         }
 
         @keyframes gradientMove {
@@ -140,9 +87,26 @@
             50% { background-position: 100% 50%; }
         }
 
-        .login-title {
+        .header-logo::after {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            border: 3px solid rgba(255, 105, 180, 0.4);
+            animation: ringExpand 3s ease-out infinite;
+        }
+
+        @keyframes ringExpand {
+            0% { transform: scale(0.8); opacity: 1; }
+            100% { transform: scale(1.3); opacity: 0; }
+        }
+
+        .header-title {
             font-family: 'Playfair Display', serif;
-            font-size: 2.5rem;
+            font-size: 3.5rem;
             background: linear-gradient(45deg, #ff69b4, #ff1493, #ff6b9d, #ff1493, #ff69b4);
             background-size: 300% 300%;
             -webkit-background-clip: text;
@@ -152,75 +116,58 @@
             margin-bottom: 10px;
         }
 
-        .login-subtitle {
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 1.1rem;
-            margin-bottom: 40px;
+        .header-subtitle {
+            font-size: 1.3rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 30px;
         }
 
-        .input-group {
-            position: relative;
-            margin-bottom: 25px;
-            text-align: left;
+        /* ====== GAME SELECTION ====== */
+        .game-select {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+            padding: 0 20px;
         }
 
-        .input-label {
-            display: block;
-            font-size: 1rem;
-            color: #ff69b4;
-            margin-bottom: 8px;
-            font-weight: 600;
-        }
-
-        .input-field {
-            width: 100%;
-            padding: 15px 20px;
-            border-radius: 15px;
+        .game-btn {
+            padding: 15px 30px;
+            border-radius: 50px;
             border: 2px solid rgba(255, 105, 180, 0.3);
             background: rgba(255, 255, 255, 0.1);
             color: white;
             font-size: 1.1rem;
-            transition: all 0.3s;
-            outline: none;
-            font-family: 'Poppins', sans-serif;
-        }
-
-        .input-field:focus {
-            border-color: #ff69b4;
-            box-shadow: 0 0 30px rgba(255, 105, 180, 0.3);
-            background: rgba(255, 255, 255, 0.15);
-        }
-
-        .input-field::placeholder {
-            color: rgba(255, 255, 255, 0.5);
-        }
-
-        .login-btn {
-            width: 100%;
-            padding: 18px;
-            border-radius: 50px;
-            border: none;
-            cursor: pointer;
-            font-size: 1.3rem;
             font-weight: 700;
+            cursor: pointer;
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(45deg, #ff69b4, #ff1493);
-            color: white;
             transition: all 0.3s;
-            box-shadow: 0 10px 40px rgba(255, 20, 147, 0.5);
+            backdrop-filter: blur(10px);
             position: relative;
             overflow: hidden;
-            margin-top: 10px;
         }
 
-        .login-btn::before {
+        .game-btn:hover {
+            border-color: #ff69b4;
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 10px 30px rgba(255, 20, 147, 0.3);
+        }
+
+        .game-btn.active {
+            background: linear-gradient(45deg, #ff69b4, #ff1493);
+            border-color: #ff69b4;
+            box-shadow: 0 10px 40px rgba(255, 20, 147, 0.5);
+        }
+
+        .game-btn::before {
             content: '';
             position: absolute;
             top: 0;
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
             animation: btnShine 3s ease-in-out infinite;
         }
 
@@ -230,431 +177,77 @@
             100% { left: 100%; }
         }
 
-        .login-btn:hover {
-            transform: translateY(-5px) scale(1.02);
-            box-shadow: 0 20px 60px rgba(255, 20, 147, 0.8);
-        }
-
-        .login-btn:active {
-            transform: translateY(0) scale(0.98);
-        }
-
-        .login-error {
-            color: #ff4444;
-            font-size: 1rem;
-            margin-top: 15px;
-            display: none;
-            text-shadow: 0 0 10px rgba(255, 68, 68, 0.5);
-        }
-
-        .login-error.show {
-            display: block;
-            animation: errorShake 0.5s ease;
-        }
-
-        @keyframes errorShake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-10px); }
-            75% { transform: translateX(10px); }
-        }
-
-        .back-link {
-            display: inline-block;
-            margin-top: 20px;
-            color: rgba(255, 255, 255, 0.7);
-            text-decoration: none;
-            font-size: 1rem;
-            transition: all 0.3s;
-        }
-
-        .back-link:hover {
-            color: #ff69b4;
-            transform: scale(1.1);
-        }
-
-        /* ====== MAIN CONTENT ====== */
-        #mainContent {
-            display: none;
-            min-height: 100vh;
-            flex: 1;
-            flex-direction: column;
-            padding: 40px 20px;
-            text-align: center;
-        }
-
-        .welcome-banner {
-            font-family: 'Playfair Display', serif;
-            font-size: 3rem;
-            background: linear-gradient(45deg, #ff69b4, #ff1493, #ff6b9d, #ff1493, #ff69b4);
-            background-size: 300% 300%;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: gradientMove 3s ease infinite;
-            margin-bottom: 20px;
-        }
-
-        .welcome-text {
-            font-size: 1.3rem;
-            color: rgba(255, 255, 255, 0.8);
-            margin-bottom: 40px;
-        }
-
-        /* ====== TABS ====== */
-        .tabs {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-bottom: 30px;
-        }
-
-        .tab-btn {
-            padding: 12px 25px;
-            border-radius: 50px;
-            border: 2px solid rgba(255, 105, 180, 0.3);
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            font-family: 'Poppins', sans-serif;
-            transition: all 0.3s;
-        }
-
-        .tab-btn:hover {
-            border-color: #ff69b4;
-            transform: translateY(-3px);
-        }
-
-        .tab-btn.active {
-            background: linear-gradient(45deg, #ff69b4, #ff1493);
-            border-color: #ff69b4;
-            box-shadow: 0 10px 30px rgba(255, 20, 147, 0.4);
-        }
-
-        .tab-content {
-            display: none;
-            animation: tabFade 0.5s ease;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        @keyframes tabFade {
-            0% { opacity: 0; transform: translateY(20px); }
-            100% { opacity: 1; transform: translateY(0); }
-        }
-
-        /* ====== SECTION CARD ====== */
-        .section-card {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px);
-            border-radius: 30px;
-            padding: 30px;
-            border: 2px solid rgba(255, 105, 180, 0.3);
-            box-shadow: 0 30px 100px rgba(0, 0, 0, 0.5);
-            max-width: 700px;
+        /* ====== GAME CONTAINER ====== */
+        .game-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
             width: 100%;
-            margin: 20px auto;
-        }
-
-        .section-title {
-            font-size: 1.5rem;
-            color: #ff69b4;
-            margin-bottom: 20px;
+            flex: 1;
             display: flex;
+            flex-direction: column;
             align-items: center;
-            gap: 10px;
-            justify-content: center;
         }
 
-        .section-icon {
-            font-size: 2rem;
-            animation: sectionPulse 2s ease-in-out infinite;
-        }
-
-        @keyframes sectionPulse {
-            0%, 100% { transform: scale(1) rotate(0deg); }
-            50% { transform: scale(1.2) rotate(10deg); }
-        }
-
-        /* ====== BOT CONTROL ====== */
-        .bot-control {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-bottom: 20px;
-        }
-
-        .mc-btn {
-            padding: 15px 30px;
-            border-radius: 50px;
-            border: none;
-            cursor: pointer;
-            font-size: 1.1rem;
-            font-weight: 700;
-            font-family: 'Poppins', sans-serif;
-            transition: all 0.3s;
-            position: relative;
+        .game-frame {
+            width: 100%;
+            height: 600px;
+            border-radius: 30px;
             overflow: hidden;
+            border: 3px solid rgba(255, 105, 180, 0.3);
+            box-shadow: 0 30px 100px rgba(0, 0, 0, 0.5);
+            position: relative;
+            background: #1a1a2e;
         }
 
-        .mc-btn-start {
-            background: linear-gradient(45deg, #00ff88, #00cc66);
-            color: #003300;
-            box-shadow: 0 10px 30px rgba(0, 255, 136, 0.4);
-        }
-
-        .mc-btn-stop {
-            background: linear-gradient(45deg, #ff4444, #cc0000);
-            color: white;
-            box-shadow: 0 10px 30px rgba(255, 68, 68, 0.4);
-        }
-
-        .mc-btn-restart {
-            background: linear-gradient(45deg, #ffaa00, #ff8800);
-            color: #332200;
-            box-shadow: 0 10px 30px rgba(255, 170, 0, 0.4);
-        }
-
-        .mc-btn-save {
-            background: linear-gradient(45deg, #20d5ff, #0099ff);
-            color: white;
-            box-shadow: 0 10px 30px rgba(32, 213, 255, 0.4);
-        }
-
-        .mc-btn:hover {
-            transform: translateY(-5px) scale(1.05);
-        }
-
-        .mc-btn:active {
-            transform: translateY(0) scale(0.95);
-        }
-
-        .mc-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
+        .game-canvas {
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            animation: btnShine 3s ease-in-out infinite;
+            display: block;
+            background: #1a1a2e;
         }
 
-        /* ====== STATUS ====== */
-        .bot-status {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .status-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .status-item:last-child {
-            border-bottom: none;
-        }
-
-        .status-label {
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 1rem;
-        }
-
-        .status-value {
-            font-weight: 600;
-            font-size: 1.1rem;
-        }
-
-        .status-online {
-            color: #00ff88;
-            text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
-        }
-
-        .status-offline {
-            color: #ff4444;
-            text-shadow: 0 0 10px rgba(255, 68, 68, 0.5);
-        }
-
-        /* ====== CONSOLE ====== */
-        .console {
-            background: rgba(0, 0, 0, 0.5);
-            border-radius: 15px;
-            padding: 20px;
-            margin-top: 20px;
-            font-family: monospace;
-            font-size: 0.9rem;
-            color: #00ff88;
-            max-height: 200px;
-            overflow-y: auto;
-            text-align: left;
-            border: 1px solid rgba(0, 255, 136, 0.3);
-        }
-
-        .console-line {
-            padding: 3px 0;
-            animation: consoleLine 0.3s ease;
-        }
-
-        @keyframes consoleLine {
-            0% { opacity: 0; transform: translateX(-10px); }
-            100% { opacity: 1; transform: translateX(0); }
-        }
-
-        /* ====== CHAT ====== */
-        .chat-container {
-            background: rgba(0, 0, 0, 0.3);
+        /* ====== GAME INFO ====== */
+        .game-info {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
             border-radius: 20px;
             padding: 20px;
-            height: 400px;
-            display: flex;
-            flex-direction: column;
+            margin-top: 20px;
+            width: 100%;
+            border: 2px solid rgba(255, 105, 180, 0.3);
         }
 
-        .chat-messages {
-            flex: 1;
-            overflow-y: auto;
-            padding: 10px;
+        .game-info-title {
+            font-size: 1.3rem;
+            color: #ff69b4;
+            margin-bottom: 10px;
             display: flex;
-            flex-direction: column;
+            align-items: center;
             gap: 10px;
         }
 
-        .chat-message {
-            padding: 12px 18px;
-            border-radius: 15px;
-            max-width: 80%;
-            animation: messageIn 0.3s ease;
-        }
-
-        @keyframes messageIn {
-            0% { opacity: 0; transform: translateY(20px); }
-            100% { opacity: 1; transform: translateY(0); }
-        }
-
-        .chat-message.sent {
-            background: linear-gradient(45deg, #ff69b4, #ff1493);
-            align-self: flex-end;
-            border-bottom-right-radius: 5px;
-        }
-
-        .chat-message.received {
-            background: rgba(255, 255, 255, 0.1);
-            align-self: flex-start;
-            border-bottom-left-radius: 5px;
-        }
-
-        .chat-message .chat-user {
-            font-size: 0.8rem;
-            color: rgba(255, 255, 255, 0.7);
-            margin-bottom: 5px;
-        }
-
-        .chat-message .chat-text {
+        .game-info-text {
             font-size: 1rem;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
         }
 
-        .chat-input-container {
+        .game-controls {
             display: flex;
             gap: 10px;
+            flex-wrap: wrap;
             margin-top: 15px;
         }
 
-        .chat-input {
-            flex: 1;
-            padding: 15px 20px;
-            border-radius: 50px;
-            border: 2px solid rgba(255, 105, 180, 0.3);
+        .control-key {
             background: rgba(255, 255, 255, 0.1);
-            color: white;
-            font-size: 1rem;
-            font-family: 'Poppins', sans-serif;
-            outline: none;
-            transition: all 0.3s;
-        }
-
-        .chat-input:focus {
-            border-color: #ff69b4;
-            box-shadow: 0 0 30px rgba(255, 105, 180, 0.3);
-        }
-
-        .chat-send {
-            padding: 15px 25px;
-            border-radius: 50px;
-            border: none;
-            background: linear-gradient(45deg, #ff69b4, #ff1493);
-            color: white;
-            font-size: 1.2rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-family: 'Poppins', sans-serif;
-        }
-
-        .chat-send:hover {
-            transform: scale(1.1);
-            box-shadow: 0 10px 30px rgba(255, 20, 147, 0.4);
-        }
-
-        /* ====== TERMUX GUIDE ====== */
-        .termux-guide {
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 15px;
-            padding: 20px;
-            text-align: left;
-            font-family: monospace;
+            border: 1px solid rgba(255, 105, 180, 0.3);
+            padding: 8px 15px;
+            border-radius: 10px;
             font-size: 0.9rem;
-            color: #00ff88;
-            border: 1px solid rgba(0, 255, 136, 0.3);
-            overflow-x: auto;
-            white-space: pre-wrap;
-            word-break: break-all;
-        }
-
-        .termux-guide .cmd {
-            color: #20d5ff;
-        }
-
-        .termux-guide .comment {
-            color: #888888;
-        }
-
-        .termux-guide .success {
-            color: #00ff88;
-        }
-
-        .termux-guide .error {
-            color: #ff4444;
-        }
-
-        /* ====== LOGOUT ====== */
-        .logout-btn {
-            margin-top: 30px;
-            padding: 12px 30px;
-            border-radius: 50px;
-            border: 2px solid #ff69b4;
-            background: transparent;
+            font-family: monospace;
             color: #ff69b4;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            font-family: 'Poppins', sans-serif;
-            transition: all 0.3s;
-        }
-
-        .logout-btn:hover {
-            background: linear-gradient(45deg, #ff69b4, #ff1493);
-            color: white;
-            transform: scale(1.05);
         }
 
         /* ====== FOOTER ====== */
@@ -663,28 +256,39 @@
             text-align: center;
             color: rgba(255, 255, 255, 0.7);
             font-size: 1.1rem;
+            margin-top: auto;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 10px;
+            color: #ff69b4;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .back-link:hover {
+            transform: scale(1.1);
+            text-shadow: 0 0 20px rgba(255, 105, 180, 0.5);
         }
 
         /* ====== RESPONSIVE ====== */
         @media (max-width: 768px) {
-            .login-card { padding: 35px; }
-            .login-title { font-size: 2rem; }
-            .welcome-banner { font-size: 2.5rem; }
-            .section-card { padding: 20px; }
-            .mc-btn { padding: 12px 20px; font-size: 1rem; }
-            .tab-btn { padding: 10px 20px; font-size: 0.9rem; }
-            .chat-container { height: 350px; }
+            .header-title { font-size: 2.5rem; }
+            .header-logo { width: 100px; height: 100px; font-size: 45px; }
+            .header-logo::after { width: 120px; height: 120px; }
+            .game-frame { height: 450px; }
+            .game-btn { padding: 12px 20px; font-size: 1rem; }
         }
 
         @media (max-width: 480px) {
-            .login-card { padding: 25px; }
-            .login-title { font-size: 1.8rem; }
-            .welcome-banner { font-size: 2rem; }
-            .section-card { padding: 15px; }
-            .mc-btn { padding: 10px 15px; font-size: 0.9rem; }
-            .tab-btn { padding: 8px 15px; font-size: 0.8rem; }
-            .chat-container { height: 300px; }
-            .chat-send { padding: 12px 20px; }
+            .header-title { font-size: 2rem; }
+            .header-logo { width: 80px; height: 80px; font-size: 35px; }
+            .header-logo::after { width: 100px; height: 100px; }
+            .game-frame { height: 350px; }
+            .game-btn { padding: 10px 15px; font-size: 0.9rem; }
+            .game-info { padding: 15px; }
         }
     </style>
 </head>
@@ -693,213 +297,47 @@
     <!-- 3D Particles Background -->
     <div id="particles-3d"></div>
 
-    <!-- LOGIN SCREEN -->
-    <div id="loginScreen">
-        <div class="login-card">
-            <div class="login-logo">🌸</div>
-            <h1 class="login-title">Ngọc Becon</h1>
-            <p class="login-subtitle">✨ Trang riêng của mình ✨</p>
-            
-            <form id="loginForm">
-                <div class="input-group">
-                    <label class="input-label">👤 Tài khoản</label>
-                    <input type="text" class="input-field" id="username" placeholder="Nhập tài khoản..." required>
-                </div>
-                
-                <div class="input-group">
-                    <label class="input-label">🔒 Mật khẩu</label>
-                    <input type="password" class="input-field" id="password" placeholder="Nhập mật khẩu..." required>
-                </div>
-                
-                <button type="submit" class="login-btn">Đăng nhập ✨</button>
-                <div class="login-error" id="loginError">❌ Sai tài khoản hoặc mật khẩu!</div>
-            </form>
-            
-            <a href="index.html" class="back-link">← Quay lại trang chính</a>
-        </div>
+    <!-- HEADER -->
+    <div class="header">
+        <div class="header-logo">🎮</div>
+        <h1 class="header-title">Ngọc Becon Game Hub</h1>
+        <p class="header-subtitle">✨ Chọn game và chơi ngay! ✨</p>
     </div>
 
-    <!-- MAIN CONTENT -->
-    <div id="mainContent">
-        <h1 class="welcome-banner">🌸 Chào mừng Ngọc Becon! 🌸</h1>
-        <p class="welcome-text">✨ Đây là trang quản trị bot của bạn ✨</p>
+    <!-- GAME SELECTION -->
+    <div class="game-select">
+        <button class="game-btn active" onclick="selectGame('shooter')">🔫 Bắn Súng</button>
+        <button class="game-btn" onclick="selectGame('snake')">🐍 Rắn Săn Mồi</button>
+        <button class="game-btn" onclick="selectGame('pong')">🏓 Pong</button>
+        <button class="game-btn" onclick="selectGame('breakout')">🧱 Breakout</button>
+        <button class="game-btn" onclick="selectGame('flappy')">🐦 Flappy Bird</button>
+        <button class="game-btn" onclick="selectGame('memory')">🧠 Memory</button>
+    </div>
 
-        <!-- TABS -->
-        <div class="tabs">
-            <button class="tab-btn active" onclick="switchTab('bot')">🤖 Bot Control</button>
-            <button class="tab-btn" onclick="switchTab('chat')">💬 Chat</button>
-            <button class="tab-btn" onclick="switchTab('termux')">📱 Termux Guide</button>
+    <!-- GAME CONTAINER -->
+    <div class="game-container">
+        <div class="game-frame">
+            <canvas id="gameCanvas" class="game-canvas"></canvas>
         </div>
 
-        <!-- TAB: BOT CONTROL -->
-        <div class="tab-content active" id="tab-bot">
-            <div class="section-card">
-                <div class="section-title">
-                    <span class="section-icon">⛏️</span>
-                    Minecraft Bot Control
-                    <span class="section-icon">💎</span>
-                </div>
-
-                <!-- Bot Config -->
-                <div class="input-group">
-                    <label class="input-label">🌐 IP Server</label>
-                    <input type="text" class="input-field" id="botIp" placeholder="VD: mc.server.com">
-                </div>
-
-                <div class="input-group">
-                    <label class="input-label">🔢 Port</label>
-                    <input type="text" class="input-field" id="botPort" placeholder="VD: 25565" value="25565">
-                </div>
-
-                <div class="input-group">
-                    <label class="input-label">📛 Tên Bot</label>
-                    <input type="text" class="input-field" id="botName" placeholder="VD: NgocBecon">
-                </div>
-
-                <div class="input-group">
-                    <label class="input-label">🔢 Số lượng Bot</label>
-                    <input type="text" class="input-field" id="botCount" placeholder="VD: 1, 2, 5..." value="1">
-                </div>
-
-                <div class="input-group">
-                    <label class="input-label">🎮 Phiên bản (để trống = auto)</label>
-                    <input type="text" class="input-field" id="botVersion" placeholder="VD: 1.20.4 hoặc để trống">
-                </div>
-
-                <!-- Bot Controls -->
-                <div class="bot-control">
-                    <button class="mc-btn mc-btn-save" onclick="saveConfig()">💾 Lưu Cấu Hình</button>
-                    <button class="mc-btn mc-btn-start" onclick="startBot()">▶️ Bật Bot</button>
-                    <button class="mc-btn mc-btn-stop" onclick="stopBot()">⏹️ Tắt Bot</button>
-                    <button class="mc-btn mc-btn-restart" onclick="restartBot()">🔄 Restart</button>
-                </div>
-
-                <!-- Bot Status -->
-                <div class="bot-status">
-                    <div class="status-item">
-                        <span class="status-label">Trạng thái:</span>
-                        <span class="status-value status-offline" id="botStatus">⭕ Offline</span>
-                    </div>
-                    <div class="status-item">
-                        <span class="status-label">IP:Port:</span>
-                        <span class="status-value" id="statusIp">Chưa cấu hình</span>
-                    </div>
-                    <div class="status-item">
-                        <span class="status-label">Tên Bot:</span>
-                        <span class="status-value" id="statusName">Chưa cấu hình</span>
-                    </div>
-                    <div class="status-item">
-                        <span class="status-label">Số lượng:</span>
-                        <span class="status-value" id="statusCount">0</span>
-                    </div>
-                    <div class="status-item">
-                        <span class="status-label">Phiên bản:</span>
-                        <span class="status-value" id="statusVersion">Auto</span>
-                    </div>
-                    <div class="status-item">
-                        <span class="status-label">Uptime:</span>
-                        <span class="status-value" id="uptime">0 phút</span>
-                    </div>
-                </div>
-
-                <!-- Console -->
-                <div class="console" id="console">
-                    <div class="console-line">[Bot] Sẵn sàng hoạt động...</div>
-                    <div class="console-line">[Bot] Nhập IP, Port, Tên Bot và bấm "Bật Bot"!</div>
-                </div>
+        <!-- GAME INFO -->
+        <div class="game-info">
+            <div class="game-info-title" id="gameTitle">🔫 Bắn Súng</div>
+            <div class="game-info-text" id="gameDesc">
+                Click để bắn! Di chuyển bằng WASD hoặc mũi tên. Tiêu diệt quái vật để ghi điểm!
+            </div>
+            <div class="game-controls" id="gameControls">
+                <span class="control-key">WASD / ↑↓←→</span>
+                <span class="control-key">Click = Bắn</span>
+                <span class="control-key">Space = Nhảy</span>
             </div>
         </div>
-
-        <!-- TAB: CHAT -->
-        <div class="tab-content" id="tab-chat">
-            <div class="section-card">
-                <div class="section-title">
-                    <span class="section-icon">💬</span>
-                    Chat Bot
-                    <span class="section-icon">💬</span>
-                </div>
-
-                <div class="chat-container">
-                    <div class="chat-messages" id="chatMessages">
-                        <div class="chat-message received">
-                            <div class="chat-user">🤖 Bot</div>
-                            <div class="chat-text">Xin chào Ngọc Becon! Tôi là bot của bạn. Gửi tin nhắn để tôi trả lời nhé! 💖</div>
-                        </div>
-                    </div>
-                    <div class="chat-input-container">
-                        <input type="text" class="chat-input" id="chatInput" placeholder="Nhập tin nhắn..." onkeypress="if(event.key==='Enter')sendChat()">
-                        <button class="chat-send" onclick="sendChat()">➤</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- TAB: TERMUX GUIDE -->
-        <div class="tab-content" id="tab-termux">
-            <div class="section-card">
-                <div class="section-title">
-                    <span class="section-icon">📱</span>
-                    Hướng Dẫn Chạy Bot Termux
-                    <span class="section-icon">📱</span>
-                </div>
-
-                <div class="termux-guide">
-<span class="comment"># ====== CÀI ĐẶT TERMUX ======</span>
-<span class="comment"># 1. Mở Termux và chạy:</span>
-<span class="cmd">pkg update && pkg upgrade -y</span>
-<span class="cmd">pkg install nodejs git -y</span>
-<span class="cmd">pkg install python -y</span>
-
-<span class="comment"># 2. Cài Node.js packages:</span>
-<span class="cmd">npm init -y</span>
-<span class="cmd">npm install discord.js mineflayer</span>
-
-<span class="comment"># 3. Tạo file bot.js:</span>
-<span class="cmd">nano bot.js</span>
-
-<span class="comment"># 4. Dán code bot vào và lưu (Ctrl+X, Y, Enter)</span>
-
-<span class="comment"># 5. Chạy bot:</span>
-<span class="cmd">node bot.js</span>
-
-<span class="comment"># ====== LỆNH HỮU ÍCH ======</span>
-<span class="comment"># Chạy bot 24/7:</span>
-<span class="cmd">nohup node bot.js &</span>
-
-<span class="comment"># Xem log bot:</span>
-<span class="cmd">tail -f nohup.out</span>
-
-<span class="comment"># Dừng bot:</span>
-<span class="cmd">pkill node</span>
-
-<span class="comment"># ====== LỆNH DISCORD BOT ======</span>
-<span class="comment"># Trong Discord:</span>
-<span class="success">!bot - Mở panel chính</span>
-<span class="success">!random ip:port số_lượng - Bot tên Việt</span>
-<span class="success">!treobot tên ip:port số_lượng phiên_bản</span>
-<span class="success">!say tên_bot tin_nhắn - Bot nói</span>
-<span class="success">!list - Danh sách bot</span>
-<span class="success">!stop tên - Dừng bot</span>
-<span class="success">!stop - Dừng tất cả</span>
-<span class="success">!status tên - Trạng thái bot</span>
-<span class="success">!help - Hỗ trợ</span>
-
-<span class="comment"># ====== ADMIN ======</span>
-<span class="success">!give tên thời_gian - Cấp quyền</span>
-<span class="success">!revoke tên thời_gian - Thu hồi</span>
-<span class="success">!xoa tên - Xóa quyền</span>
-<span class="success">!check tên - Kiểm tra</span>
-<span class="success">!logs - Lịch sử</span>
-<span class="success">!restartall - Restart tất cả</span>
-                </div>
-            </div>
-        </div>
-
-        <button class="logout-btn" onclick="logout()">🚪 Đăng xuất</button>
     </div>
 
     <footer>
         Made with ♡ by Ngọc Becon ✨
+        <br>
+        <a href="index.html" class="back-link">← Quay lại trang chính</a>
     </footer>
 
     <script>
@@ -938,206 +376,937 @@
             }
         }
 
-        // LOGIN
-        const loginForm = document.getElementById('loginForm');
-        const loginScreen = document.getElementById('loginScreen');
-        const mainContent = document.getElementById('mainContent');
-        const loginError = document.getElementById('loginError');
+        // ====== GAME MANAGER ======
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        let currentGame = 'shooter';
+        let animationId = null;
+        let keys = {};
 
-        loginForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-
-            if (username === 'Ngocbecon' && password === 'ngocbecon2007') {
-                loginError.classList.remove('show');
-                loginScreen.style.display = 'none';
-                mainContent.style.display = 'flex';
-                addConsoleLine('[Bot] Đăng nhập thành công!');
-                addConsoleLine('[Bot] Chào mừng Ngọc Becon!');
-            } else {
-                loginError.classList.add('show');
-                setTimeout(() => loginError.classList.remove('show'), 3000);
+        document.addEventListener('keydown', (e) => {
+            keys[e.key.toLowerCase()] = true;
+            if (['arrowup', 'arrowdown', 'arrowleft', 'arrowright', ' '].includes(e.key.toLowerCase())) {
+                e.preventDefault();
             }
         });
 
-        // TABS
-        function switchTab(tab) {
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+        document.addEventListener('keyup', (e) => {
+            keys[e.key.toLowerCase()] = false;
+        });
+
+        function resizeCanvas() {
+            const frame = document.querySelector('.game-frame');
+            canvas.width = frame.clientWidth;
+            canvas.height = frame.clientHeight;
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+
+        function selectGame(game) {
+            currentGame = game;
             
-            document.querySelector(`.tab-btn[onclick="switchTab('${tab}')"]`).classList.add('active');
-            document.getElementById(`tab-${tab}`).classList.add('active');
+            document.querySelectorAll('.game-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelector(`.game-btn[onclick="selectGame('${game}')"]`).classList.add('active');
+
+            if (animationId) {
+                cancelAnimationFrame(animationId);
+            }
+
+            resizeCanvas();
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            const gameInfo = {
+                shooter: {
+                    title: '🔫 Bắn Súng',
+                    desc: 'Click để bắn! Di chuyển bằng WASD hoặc mũi tên. Tiêu diệt quái vật để ghi điểm!',
+                    controls: ['WASD / ↑↓←→', 'Click = Bắn', 'Space = Nhảy']
+                },
+                snake: {
+                    title: '🐍 Rắn Săn Mồi',
+                    desc: 'Điều khiển rắn ăn mồi! Tránh va vào tường và chính mình!',
+                    controls: ['↑↓←→ hoặc WASD', 'Ăn mồi để dài ra']
+                },
+                pong: {
+                    title: '🏓 Pong',
+                    desc: 'Đánh bóng qua lại! Di chuyển thanh để không bị thủng lưới!',
+                    controls: ['↑↓ = Di chuyển', 'Chơi với máy']
+                },
+                breakout: {
+                    title: '🧱 Breakout',
+                    desc: 'Phá vỡ tất cả gạch! Di chuyển thanh để hứng bóng!',
+                    controls: ['←→ = Di chuyển', 'Phá hết gạch để thắng']
+                },
+                flappy: {
+                    title: '🐦 Flappy Bird',
+                    desc: 'Click để bay! Tránh các ống nước!',
+                    controls: ['Click / Space = Bay', 'Tránh chướng ngại vật']
+                },
+                memory: {
+                    title: '🧠 Memory Game',
+                    desc: 'Tìm các cặp thẻ giống nhau! Nhớ vị trí các thẻ!',
+                    controls: ['Click = Lật thẻ', 'Tìm tất cả cặp']
+                }
+            };
+
+            document.getElementById('gameTitle').textContent = gameInfo[game].title;
+            document.getElementById('gameDesc').textContent = gameInfo[game].desc;
+            document.getElementById('gameControls').innerHTML = gameInfo[game].controls
+                .map(c => `<span class="control-key">${c}</span>`)
+                .join('');
+
+            switch(game) {
+                case 'shooter': initShooter(); break;
+                case 'snake': initSnake(); break;
+                case 'pong': initPong(); break;
+                case 'breakout': initBreakout(); break;
+                case 'flappy': initFlappy(); break;
+                case 'memory': initMemory(); break;
+            }
         }
 
-        // BOT CONFIG
-        let botConfig = {
-            ip: '',
-            port: '25565',
-            name: '',
-            count: 1,
-            version: 'auto'
-        };
+        // ====== GAME 1: SHOOTER ======
+        let shooterState;
 
-        let botRunning = false;
-        let botUptime = 0;
-        let uptimeInterval;
+        function initShooter() {
+            shooterState = {
+                player: { x: canvas.width/2, y: canvas.height/2, radius: 20, speed: 5 },
+                bullets: [],
+                enemies: [],
+                score: 0,
+                gameOver: false,
+                lastShot: 0
+            };
 
-        function saveConfig() {
-            botConfig.ip = document.getElementById('botIp').value;
-            botConfig.port = document.getElementById('botPort').value;
-            botConfig.name = document.getElementById('botName').value;
-            botConfig.count = parseInt(document.getElementById('botCount').value) || 1;
-            botConfig.version = document.getElementById('botVersion').value || 'auto';
+            // Tạo enemies
+            for (let i = 0; i < 5; i++) {
+                spawnEnemy();
+            }
 
-            document.getElementById('statusIp').textContent = `${botConfig.ip}:${botConfig.port}`;
-            document.getElementById('statusName').textContent = botConfig.name;
-            document.getElementById('statusCount').textContent = botConfig.count;
-            document.getElementById('statusVersion').textContent = botConfig.version;
-
-            addConsoleLine(`[Bot] Đã lưu cấu hình: ${botConfig.name} tại ${botConfig.ip}:${botConfig.port}`);
-            addConsoleLine(`[Bot] Số lượng: ${botConfig.count} | Phiên bản: ${botConfig.version}`);
+            gameLoop();
         }
 
-        function startBot() {
-            if (!botConfig.ip || !botConfig.name) {
-                addConsoleLine('[Bot] ❌ Vui lòng nhập IP và Tên Bot trước!');
+        function spawnEnemy() {
+            const enemy = {
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                radius: 15 + Math.random() * 10,
+                speed: 1 + Math.random() * 2,
+                angle: Math.random() * Math.PI * 2,
+                color: `hsl(${Math.random() * 360}, 70%, 50%)`
+            };
+            shooterState.enemies.push(enemy);
+        }
+
+        canvas.addEventListener('click', (e) => {
+            if (currentGame !== 'shooter' || !shooterState || shooterState.gameOver) return;
+
+            const rect = canvas.getBoundingClientRect();
+            const mouseX = e.clientX - rect.left;
+            const mouseY = e.clientY - rect.top;
+
+            const angle = Math.atan2(mouseY - shooterState.player.y, mouseX - shooterState.player.x);
+            shooterState.bullets.push({
+                x: shooterState.player.x,
+                y: shooterState.player.y,
+                vx: Math.cos(angle) * 10,
+                vy: Math.sin(angle) * 10,
+                radius: 5
+            });
+        });
+
+        function updateShooter() {
+            const state = shooterState;
+            if (state.gameOver) return;
+
+            // Di chuyển player
+            if (keys['w'] || keys['arrowup']) state.player.y -= state.player.speed;
+            if (keys['s'] || keys['arrowdown']) state.player.y += state.player.speed;
+            if (keys['a'] || keys['arrowleft']) state.player.x -= state.player.speed;
+            if (keys['d'] || keys['arrowright']) state.player.x += state.player.speed;
+
+            // Giới hạn trong canvas
+            state.player.x = Math.max(state.player.radius, Math.min(canvas.width - state.player.radius, state.player.x));
+            state.player.y = Math.max(state.player.radius, Math.min(canvas.height - state.player.radius, state.player.y));
+
+            // Di chuyển bullets
+            state.bullets = state.bullets.filter(bullet => {
+                bullet.x += bullet.vx;
+                bullet.y += bullet.vy;
+                return bullet.x > 0 && bullet.x < canvas.width && bullet.y > 0 && bullet.y < canvas.height;
+            });
+
+            // Di chuyển enemies
+            state.enemies.forEach(enemy => {
+                enemy.angle += 0.02;
+                enemy.x += Math.cos(enemy.angle) * enemy.speed;
+                enemy.y += Math.sin(enemy.angle) * enemy.speed;
+
+                // Giữ trong canvas
+                enemy.x = Math.max(enemy.radius, Math.min(canvas.width - enemy.radius, enemy.x));
+                enemy.y = Math.max(enemy.radius, Math.min(canvas.height - enemy.radius, enemy.y));
+            });
+
+            // Bắn trúng enemy
+            state.bullets.forEach(bullet => {
+                state.enemies.forEach((enemy, index) => {
+                    const dist = Math.hypot(bullet.x - enemy.x, bullet.y - enemy.y);
+                    if (dist < bullet.radius + enemy.radius) {
+                        state.enemies.splice(index, 1);
+                        state.score += 10;
+                        spawnEnemy();
+                    }
+                });
+            });
+
+            // Enemy chạm player
+            state.enemies.forEach(enemy => {
+                const dist = Math.hypot(enemy.x - state.player.x, enemy.y - state.player.y);
+                if (dist < enemy.radius + state.player.radius) {
+                    state.gameOver = true;
+                }
+            });
+        }
+
+        function drawShooter() {
+            const state = shooterState;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Vẽ player
+            ctx.beginPath();
+            ctx.arc(state.player.x, state.player.y, state.player.radius, 0, Math.PI * 2);
+            ctx.fillStyle = '#ff69b4';
+            ctx.fill();
+            ctx.strokeStyle = '#ff1493';
+            ctx.lineWidth = 3;
+            ctx.stroke();
+
+            // Vẽ bullets
+            state.bullets.forEach(bullet => {
+                ctx.beginPath();
+                ctx.arc(bullet.x, bullet.y, bullet.radius, 0, Math.PI * 2);
+                ctx.fillStyle = '#ffff00';
+                ctx.fill();
+            });
+
+            // Vẽ enemies
+            state.enemies.forEach(enemy => {
+                ctx.beginPath();
+                ctx.arc(enemy.x, enemy.y, enemy.radius, 0, Math.PI * 2);
+                ctx.fillStyle = enemy.color;
+                ctx.fill();
+                ctx.strokeStyle = 'rgba(0,0,0,0.5)';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+            });
+
+            // Vẽ score
+            ctx.fillStyle = 'white';
+            ctx.font = '30px Poppins';
+            ctx.fillText(`Điểm: ${state.score}`, 20, 40);
+
+            // Game over
+            if (state.gameOver) {
+                ctx.fillStyle = 'rgba(0,0,0,0.7)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = 'white';
+                ctx.font = '40px Poppins';
+                ctx.textAlign = 'center';
+                ctx.fillText('GAME OVER!', canvas.width/2, canvas.height/2 - 30);
+                ctx.font = '25px Poppins';
+                ctx.fillText(`Điểm: ${state.score}`, canvas.width/2, canvas.height/2 + 20);
+                ctx.fillText('Click để chơi lại', canvas.width/2, canvas.height/2 + 60);
+                ctx.textAlign = 'left';
+            }
+        }
+
+        // ====== GAME 2: SNAKE ======
+        let snakeState;
+
+        function initSnake() {
+            const gridSize = 20;
+            snakeState = {
+                snake: [{x: 5, y: 5}],
+                direction: {x: 1, y: 0},
+                food: {x: 10, y: 10},
+                score: 0,
+                gameOver: false,
+                gridSize: gridSize
+            };
+
+            placeFood();
+            gameLoop();
+        }
+
+        function placeFood() {
+            snakeState.food = {
+                x: Math.floor(Math.random() * (canvas.width / snakeState.gridSize)),
+                y: Math.floor(Math.random() * (canvas.height / snakeState.gridSize))
+            };
+        }
+
+        function updateSnake() {
+            const state = snakeState;
+            if (state.gameOver) return;
+
+            // Đổi hướng
+            if (keys['w'] || keys['arrowup']) if (state.direction.y !== 1) state.direction = {x: 0, y: -1};
+            if (keys['s'] || keys['arrowdown']) if (state.direction.y !== -1) state.direction = {x: 0, y: 1};
+            if (keys['a'] || keys['arrowleft']) if (state.direction.x !== 1) state.direction = {x: -1, y: 0};
+            if (keys['d'] || keys['arrowright']) if (state.direction.x !== -1) state.direction = {x: 1, y: 0};
+
+            // Di chuyển
+            const head = {
+                x: state.snake[0].x + state.direction.x,
+                y: state.snake[0].y + state.direction.y
+            };
+
+            // Kiểm tra va chạm
+            if (head.x < 0 || head.x >= canvas.width / state.gridSize ||
+                head.y < 0 || head.y >= canvas.height / state.gridSize) {
+                state.gameOver = true;
                 return;
             }
 
-            if (botRunning) {
-                addConsoleLine('[Bot] Bot đã hoạt động!');
-                return;
+            state.snake.unshift(head);
+
+            // Ăn food
+            if (head.x === state.food.x && head.y === state.food.y) {
+                state.score += 10;
+                placeFood();
+            } else {
+                state.snake.pop();
             }
 
-            botRunning = true;
-            document.getElementById('botStatus').textContent = '🟢 Online';
-            document.getElementById('botStatus').className = 'status-value status-online';
-
-            addConsoleLine(`[Bot] Đang khởi động ${botConfig.count} bot "${botConfig.name}"...`);
-            addConsoleLine(`[Bot] Kết nối đến ${botConfig.ip}:${botConfig.port}...`);
-            addConsoleLine(`[Bot] Phiên bản: ${botConfig.version}`);
-            addConsoleLine(`[Bot] ✅ Bot đã hoạt động thành công!`);
-
-            uptimeInterval = setInterval(() => {
-                botUptime++;
-                document.getElementById('uptime').textContent = botUptime + ' phút';
-            }, 60000);
-        }
-
-        function stopBot() {
-            if (!botRunning) {
-                addConsoleLine('[Bot] Bot chưa hoạt động!');
-                return;
-            }
-
-            botRunning = false;
-            document.getElementById('botStatus').textContent = '⭕ Offline';
-            document.getElementById('botStatus').className = 'status-value status-offline';
-
-            clearInterval(uptimeInterval);
-            botUptime = 0;
-            document.getElementById('uptime').textContent = '0 phút';
-
-            addConsoleLine('[Bot] Bot đã tắt!');
-        }
-
-        function restartBot() {
-            if (botRunning) {
-                stopBot();
-            }
-
-            addConsoleLine('[Bot] Đang restart bot...');
-            setTimeout(() => {
-                startBot();
-                addConsoleLine('[Bot] Bot đã restart thành công!');
-            }, 2000);
-        }
-
-        function addConsoleLine(text) {
-            const console = document.getElementById('console');
-            const line = document.createElement('div');
-            line.className = 'console-line';
-            line.textContent = text;
-            console.appendChild(line);
-            console.scrollTop = console.scrollHeight;
-        }
-
-        // CHAT
-        const chatMessages = document.getElementById('chatMessages');
-        const chatInput = document.getElementById('chatInput');
-
-        function sendChat() {
-            const text = chatInput.value.trim();
-            if (!text) return;
-
-            // Thêm tin nhắn của user
-            const userMsg = document.createElement('div');
-            userMsg.className = 'chat-message sent';
-            userMsg.innerHTML = `
-                <div class="chat-user">🌸 Ngọc Becon</div>
-                <div class="chat-text">${text}</div>
-            `;
-            chatMessages.appendChild(userMsg);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-
-            chatInput.value = '';
-
-            // Bot trả lời
-            setTimeout(() => {
-                const botMsg = document.createElement('div');
-                botMsg.className = 'chat-message received';
-                botMsg.innerHTML = `
-                    <div class="chat-user">🤖 Bot</div>
-                    <div class="chat-text">${getBotResponse(text)}</div>
-                `;
-                chatMessages.appendChild(botMsg);
-                chatMessages.scrollTop = chatMessages.scrollHeight;
-            }, 1000);
-        }
-
-        function getBotResponse(text) {
-            const lower = text.toLowerCase();
-            
-            if (lower.includes('hello') || lower.includes('hi') || lower.includes('chào')) {
-                return 'Chào Ngọc Becon! 💖 Có gì cần tôi giúp không?';
-            }
-            if (lower.includes('bot') || lower.includes('minecraft')) {
-                return 'Bot Minecraft của bạn đang sẵn sàng! ⛏️ Bấm vào tab "Bot Control" để quản lý!';
-            }
-            if (lower.includes('termux')) {
-                return 'Hướng dẫn Termux nằm trong tab "Termux Guide" đó! 📱';
-            }
-            if (lower.includes('tên') || lower.includes('name')) {
-                return 'Tên của tôi là Ngọc Becon Bot! 🌸';
-            }
-            if (lower.includes('yêu') || lower.includes('love')) {
-                return 'Tôi cũng yêu Ngọc Becon! 💕💕💕';
-            }
-            if (lower.includes('cảm ơn') || lower.includes('thank')) {
-                return 'Không có gì! Luôn sẵn sàng giúp đỡ! 💖';
-            }
-            if (lower.includes('tạm biệt') || lower.includes('bye')) {
-                return 'Tạm biệt Ngọc Becon! Hẹn gặp lại! 👋💖';
-            }
-            
-            return 'Tôi hiểu rồi! Nhưng tôi là bot đơn giản nên chỉ trả lời được một số câu hỏi. Thử hỏi về Bot, Minecraft, Termux nhé! 😊';
-        }
-
-        // LOGOUT
-        function logout() {
-            mainContent.style.display = 'none';
-            loginScreen.style.display = 'flex';
-            document.getElementById('username').value = '';
-            document.getElementById('password').value = '';
-            
-            if (botRunning) {
-                stopBot();
+            // Tự va chạm
+            for (let i = 1; i < state.snake.length; i++) {
+                if (head.x === state.snake[i].x && head.y === state.snake[i].y) {
+                    state.gameOver = true;
+                    return;
+                }
             }
         }
 
+        function drawSnake() {
+            const state = snakeState;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            const cellSize = state.gridSize;
+
+            // Vẽ food
+            ctx.fillStyle = '#ff0000';
+            ctx.fillRect(state.food.x * cellSize, state.food.y * cellSize, cellSize, cellSize);
+
+            // Vẽ snake
+            state.snake.forEach((segment, index) => {
+                ctx.fillStyle = index === 0 ? '#00ff88' : '#00cc66';
+                ctx.fillRect(segment.x * cellSize, segment.y * cellSize, cellSize - 2, cellSize - 2);
+            });
+
+            // Vẽ score
+            ctx.fillStyle = 'white';
+            ctx.font = '30px Poppins';
+            ctx.fillText(`Điểm: ${state.score}`, 20, 40);
+
+            // Game over
+            if (state.gameOver) {
+                ctx.fillStyle = 'rgba(0,0,0,0.7)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = 'white';
+                ctx.font = '40px Poppins';
+                ctx.textAlign = 'center';
+                ctx.fillText('GAME OVER!', canvas.width/2, canvas.height/2 - 30);
+                ctx.font = '25px Poppins';
+                ctx.fillText(`Điểm: ${state.score}`, canvas.width/2, canvas.height/2 + 20);
+                ctx.fillText('Click để chơi lại', canvas.width/2, canvas.height/2 + 60);
+                ctx.textAlign = 'left';
+            }
+        }
+
+        // ====== GAME 3: PONG ======
+        let pongState;
+
+        function initPong() {
+            pongState = {
+                player: { y: canvas.height/2 - 50, width: 15, height: 100, speed: 7 },
+                ai: { y: canvas.height/2 - 50, width: 15, height: 100, speed: 4 },
+                ball: { x: canvas.width/2, y: canvas.height/2, vx: 5, vy: 3, radius: 10 },
+                playerScore: 0,
+                aiScore: 0,
+                gameOver: false
+            };
+
+            gameLoop();
+        }
+
+        function updatePong() {
+            const state = pongState;
+            if (state.gameOver) return;
+
+            // Di chuyển player
+            if (keys['w'] || keys['arrowup']) state.player.y -= state.player.speed;
+            if (keys['s'] || keys['arrowdown']) state.player.y += state.player.speed;
+
+            // Giới hạn
+            state.player.y = Math.max(0, Math.min(canvas.height - state.player.height, state.player.y));
+
+            // AI di chuyển
+            const aiCenter = state.ai.y + state.ai.height/2;
+            if (aiCenter < state.ball.y) state.ai.y += state.ai.speed;
+            if (aiCenter > state.ball.y) state.ai.y -= state.ai.speed;
+            state.ai.y = Math.max(0, Math.min(canvas.height - state.ai.height, state.ai.y));
+
+            // Ball di chuyển
+            state.ball.x += state.ball.vx;
+            state.ball.y += state.ball.vy;
+
+            // Va chạm trên dưới
+            if (state.ball.y < 0 || state.ball.y > canvas.height) {
+                state.ball.vy *= -1;
+            }
+
+            // Va chạm player
+            if (state.ball.x - state.ball.radius < state.player.x + state.player.width &&
+                state.ball.x + state.ball.radius > state.player.x &&
+                state.ball.y > state.player.y && state.ball.y < state.player.y + state.player.height) {
+                state.ball.vx = Math.abs(state.ball.vx);
+                state.ball.vx += 0.5;
+            }
+
+            // Va chạm AI
+            if (state.ball.x + state.ball.radius > state.ai.x &&
+                state.ball.x - state.ball.radius < state.ai.x + state.ai.width &&
+                state.ball.y > state.ai.y && state.ball.y < state.ai.y + state.ai.height) {
+                state.ball.vx = -Math.abs(state.ball.vx);
+                state.ball.vx -= 0.5;
+            }
+
+            // Ghi điểm
+            if (state.ball.x < 0) {
+                state.aiScore++;
+                resetBall();
+            }
+            if (state.ball.x > canvas.width) {
+                state.playerScore++;
+                resetBall();
+            }
+
+            if (state.playerScore >= 10 || state.aiScore >= 10) {
+                state.gameOver = true;
+            }
+        }
+
+        function resetBall() {
+            pongState.ball.x = canvas.width/2;
+            pongState.ball.y = canvas.height/2;
+            pongState.ball.vx = 5 * (Math.random() > 0.5 ? 1 : -1);
+            pongState.ball.vy = 3 * (Math.random() > 0.5 ? 1 : -1);
+        }
+
+        function drawPong() {
+            const state = pongState;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Vẽ đường giữa
+            ctx.strokeStyle = 'rgba(255,255,255,0.3)';
+            ctx.setLineDash([10, 10]);
+            ctx.beginPath();
+            ctx.moveTo(canvas.width/2, 0);
+            ctx.lineTo(canvas.width/2, canvas.height);
+            ctx.stroke();
+            ctx.setLineDash([]);
+
+            // Vẽ player
+            ctx.fillStyle = '#ff69b4';
+            ctx.fillRect(0, state.player.y, state.player.width, state.player.height);
+
+            // Vẽ AI
+            ctx.fillStyle = '#20d5ff';
+            ctx.fillRect(canvas.width - state.ai.width, state.ai.y, state.ai.width, state.ai.height);
+
+            // Vẽ ball
+            ctx.beginPath();
+            ctx.arc(state.ball.x, state.ball.y, state.ball.radius, 0, Math.PI * 2);
+            ctx.fillStyle = 'white';
+            ctx.fill();
+
+            // Vẽ score
+            ctx.fillStyle = 'white';
+            ctx.font = '40px Poppins';
+            ctx.textAlign = 'center';
+            ctx.fillText(`${state.playerScore} : ${state.aiScore}`, canvas.width/2, 50);
+            ctx.textAlign = 'left';
+
+            // Game over
+            if (state.gameOver) {
+                ctx.fillStyle = 'rgba(0,0,0,0.7)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = 'white';
+                ctx.font = '40px Poppins';
+                ctx.textAlign = 'center';
+                ctx.fillText(state.playerScore > state.aiScore ? 'BẠN THẮNG!' : 'BẠN THUA!', canvas.width/2, canvas.height/2 - 30);
+                ctx.font = '25px Poppins';
+                ctx.fillText('Click để chơi lại', canvas.width/2, canvas.height/2 + 30);
+                ctx.textAlign = 'left';
+            }
+        }
+
+        // ====== GAME 4: BREAKOUT ======
+        let breakoutState;
+
+        function initBreakout() {
+            breakoutState = {
+                paddle: { x: canvas.width/2 - 50, y: canvas.height - 30, width: 100, height: 15, speed: 7 },
+                ball: { x: canvas.width/2, y: canvas.height - 50, vx: 4, vy: -4, radius: 8 },
+                bricks: [],
+                score: 0,
+                lives: 3,
+                gameOver: false
+            };
+
+            // Tạo bricks
+            const rows = 5;
+            const cols = 8;
+            const brickWidth = (canvas.width - 40) / cols;
+            const brickHeight = 25;
+
+            for (let row = 0; row < rows; row++) {
+                for (let col = 0; col < cols; col++) {
+                    breakoutState.bricks.push({
+                        x: 20 + col * brickWidth,
+                        y: 50 + row * (brickHeight + 10),
+                        width: brickWidth - 5,
+                        height: brickHeight,
+                        alive: true,
+                        color: `hsl(${row * 40}, 70%, 50%)`
+                    });
+                }
+            }
+
+            gameLoop();
+        }
+
+        function updateBreakout() {
+            const state = breakoutState;
+            if (state.gameOver) return;
+
+            // Di chuyển paddle
+            if (keys['a'] || keys['arrowleft']) state.paddle.x -= state.paddle.speed;
+            if (keys['d'] || keys['arrowright']) state.paddle.x += state.paddle.speed;
+            state.paddle.x = Math.max(0, Math.min(canvas.width - state.paddle.width, state.paddle.x));
+
+            // Ball di chuyển
+            state.ball.x += state.ball.vx;
+            state.ball.y += state.ball.vy;
+
+            // Va chạm tường
+            if (state.ball.x < 0 || state.ball.x > canvas.width) state.ball.vx *= -1;
+            if (state.ball.y < 0) state.ball.vy *= -1;
+
+            // Va chạm paddle
+            if (state.ball.y + state.ball.radius > state.paddle.y &&
+                state.ball.y - state.ball.radius < state.paddle.y + state.paddle.height &&
+                state.ball.x > state.paddle.x && state.ball.x < state.paddle.x + state.paddle.width) {
+                state.ball.vy = -Math.abs(state.ball.vy);
+            }
+
+            // Va chạm bricks
+            state.bricks.forEach(brick => {
+                if (!brick.alive) return;
+                if (state.ball.x > brick.x && state.ball.x < brick.x + brick.width &&
+                    state.ball.y > brick.y && state.ball.y < brick.y + brick.height) {
+                    brick.alive = false;
+                    state.ball.vy *= -1;
+                    state.score += 10;
+                }
+            });
+
+            // Rơi xuống
+            if (state.ball.y > canvas.height) {
+                state.lives--;
+                state.ball.x = canvas.width/2;
+                state.ball.y = canvas.height - 50;
+                state.ball.vx = 4 * (Math.random() > 0.5 ? 1 : -1);
+                state.ball.vy = -4;
+                if (state.lives <= 0) state.gameOver = true;
+            }
+
+            // Thắng
+            if (state.bricks.every(brick => !brick.alive)) {
+                state.gameOver = true;
+            }
+        }
+
+        function drawBreakout() {
+            const state = breakoutState;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Vẽ bricks
+            state.bricks.forEach(brick => {
+                if (!brick.alive) return;
+                ctx.fillStyle = brick.color;
+                ctx.fillRect(brick.x, brick.y, brick.width, brick.height);
+            });
+
+            // Vẽ paddle
+            ctx.fillStyle = '#ff69b4';
+            ctx.fillRect(state.paddle.x, state.paddle.y, state.paddle.width, state.paddle.height);
+
+            // Vẽ ball
+            ctx.beginPath();
+            ctx.arc(state.ball.x, state.ball.y, state.ball.radius, 0, Math.PI * 2);
+            ctx.fillStyle = 'white';
+            ctx.fill();
+
+            // Vẽ score
+            ctx.fillStyle = 'white';
+            ctx.font = '25px Poppins';
+            ctx.fillText(`Điểm: ${state.score}`, 20, 30);
+            ctx.fillText(`Mạng: ${state.lives}`, canvas.width - 100, 30);
+
+            // Game over
+            if (state.gameOver) {
+                ctx.fillStyle = 'rgba(0,0,0,0.7)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = 'white';
+                ctx.font = '40px Poppins';
+                ctx.textAlign = 'center';
+                ctx.fillText(state.lives > 0 ? 'BẠN THẮNG!' : 'GAME OVER!', canvas.width/2, canvas.height/2 - 30);
+                ctx.font = '25px Poppins';
+                ctx.fillText(`Điểm: ${state.score}`, canvas.width/2, canvas.height/2 + 20);
+                ctx.fillText('Click để chơi lại', canvas.width/2, canvas.height/2 + 60);
+                ctx.textAlign = 'left';
+            }
+        }
+
+        // ====== GAME 5: FLAPPY BIRD ======
+        let flappyState;
+
+        function initFlappy() {
+            flappyState = {
+                bird: { x: 50, y: canvas.height/2, vy: 0, radius: 15, gravity: 0.5, jump: -8 },
+                pipes: [],
+                score: 0,
+                gameOver: false,
+                pipeSpeed: 3,
+                pipeGap: 150,
+                pipeWidth: 60
+            };
+
+            gameLoop();
+        }
+
+        canvas.addEventListener('click', (e) => {
+            if (currentGame === 'flappy' && flappyState && !flappyState.gameOver) {
+                flappyState.bird.vy = flappyState.bird.jump;
+            }
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === ' ' && currentGame === 'flappy' && flappyState && !flappyState.gameOver) {
+                flappyState.bird.vy = flappyState.bird.jump;
+            }
+        });
+
+        function updateFlappy() {
+            const state = flappyState;
+            if (state.gameOver) return;
+
+            // Bird vật lý
+            state.bird.vy += state.bird.gravity;
+            state.bird.y += state.bird.vy;
+
+            // Tạo pipes
+            if (state.pipes.length === 0 || state.pipes[state.pipes.length - 1].x < canvas.width - 200) {
+                const gapY = 50 + Math.random() * (canvas.height - 200);
+                state.pipes.push({
+                    x: canvas.width,
+                    gapY: gapY,
+                    width: state.pipeWidth,
+                    gapHeight: state.pipeGap
+                });
+            }
+
+            // Di chuyển pipes
+            state.pipes.forEach(pipe => pipe.x -= state.pipeSpeed);
+            state.pipes = state.pipes.filter(pipe => pipe.x > -state.pipeWidth);
+
+            // Va chạm
+            state.pipes.forEach(pipe => {
+                if (state.bird.x + state.bird.radius > pipe.x && 
+                    state.bird.x - state.bird.radius < pipe.x + pipe.width) {
+                    if (state.bird.y < pipe.gapY || state.bird.y > pipe.gapY + pipe.gapHeight) {
+                        state.gameOver = true;
+                    }
+                }
+            });
+
+            // Va chạm trên dưới
+            if (state.bird.y < 0 || state.bird.y > canvas.height) {
+                state.gameOver = true;
+            }
+
+            // Ghi điểm
+            state.pipes.forEach(pipe => {
+                if (!pipe.passed && pipe.x + pipe.width < state.bird.x) {
+                    pipe.passed = true;
+                    state.score++;
+                }
+            });
+        }
+
+        function drawFlappy() {
+            const state = flappyState;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Vẽ bird
+            ctx.beginPath();
+            ctx.arc(state.bird.x, state.bird.y, state.bird.radius, 0, Math.PI * 2);
+            ctx.fillStyle = '#ffd700';
+            ctx.fill();
+            ctx.strokeStyle = '#ff8c00';
+            ctx.lineWidth = 3;
+            ctx.stroke();
+
+            // Vẽ pipes
+            state.pipes.forEach(pipe => {
+                // Trên
+                ctx.fillStyle = '#00cc66';
+                ctx.fillRect(pipe.x, 0, pipe.width, pipe.gapY);
+                // Dưới
+                ctx.fillStyle = '#00ff88';
+                ctx.fillRect(pipe.x, pipe.gapY + pipe.gapHeight, pipe.width, canvas.height - pipe.gapY - pipe.gapHeight);
+            });
+
+            // Vẽ score
+            ctx.fillStyle = 'white';
+            ctx.font = '30px Poppins';
+            ctx.textAlign = 'center';
+            ctx.fillText(`Điểm: ${state.score}`, canvas.width/2, 50);
+            ctx.textAlign = 'left';
+
+            // Game over
+            if (state.gameOver) {
+                ctx.fillStyle = 'rgba(0,0,0,0.7)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = 'white';
+                ctx.font = '40px Poppins';
+                ctx.textAlign = 'center';
+                ctx.fillText('GAME OVER!', canvas.width/2, canvas.height/2 - 30);
+                ctx.font = '25px Poppins';
+                ctx.fillText(`Điểm: ${state.score}`, canvas.width/2, canvas.height/2 + 20);
+                ctx.fillText('Click để chơi lại', canvas.width/2, canvas.height/2 + 60);
+                ctx.textAlign = 'left';
+            }
+        }
+
+        // ====== GAME 6: MEMORY ======
+        let memoryState;
+
+        function initMemory() {
+            const emojis = ['🌸', '💖', '✨', '⭐', '🎮', '🌈', '🔥', '💎'];
+            const cards = [...emojis, ...emojis].sort(() => Math.random() - 0.5);
+
+            memoryState = {
+                cards: cards.map((emoji, index) => ({
+                    emoji: emoji,
+                    flipped: false,
+                    matched: false,
+                    x: 0,
+                    y: 0,
+                    width: 0,
+                    height: 0
+                })),
+                firstCard: null,
+                secondCard: null,
+                moves: 0,
+                matchedPairs: 0,
+                gameOver: false,
+                lockBoard: false
+            };
+
+            // Tính kích thước card
+            const cols = 4;
+            const rows = 4;
+            const padding = 20;
+            const gap = 10;
+            const cardWidth = (canvas.width - padding * 2 - gap * (cols - 1)) / cols;
+            const cardHeight = (canvas.height - padding * 2 - gap * (rows - 1)) / rows;
+
+            memoryState.cards.forEach((card, index) => {
+                const row = Math.floor(index / cols);
+                const col = index % cols;
+                card.x = padding + col * (cardWidth + gap);
+                card.y = padding + row * (cardHeight + gap);
+                card.width = cardWidth;
+                card.height = cardHeight;
+            });
+
+            gameLoop();
+        }
+
+        canvas.addEventListener('click', (e) => {
+            if (currentGame !== 'memory' || !memoryState || memoryState.lockBoard) return;
+
+            const rect = canvas.getBoundingClientRect();
+            const mouseX = e.clientX - rect.left;
+            const mouseY = e.clientY - rect.top;
+
+            memoryState.cards.forEach(card => {
+                if (card.flipped || card.matched) return;
+                if (mouseX > card.x && mouseX < card.x + card.width &&
+                    mouseY > card.y && mouseY < card.y + card.height) {
+                    flipCard(card);
+                }
+            });
+        });
+
+        function flipCard(card) {
+            const state = memoryState;
+            card.flipped = true;
+            state.moves++;
+
+            if (!state.firstCard) {
+                state.firstCard = card;
+            } else if (!state.secondCard) {
+                state.secondCard = card;
+                state.lockBoard = true;
+
+                if (state.firstCard.emoji === state.secondCard.emoji) {
+                    state.firstCard.matched = true;
+                    state.secondCard.matched = true;
+                    state.matchedPairs++;
+                    state.firstCard = null;
+                    state.secondCard = null;
+                    state.lockBoard = false;
+
+                    if (state.matchedPairs === 8) {
+                        state.gameOver = true;
+                    }
+                } else {
+                    setTimeout(() => {
+                        state.firstCard.flipped = false;
+                        state.secondCard.flipped = false;
+                        state.firstCard = null;
+                        state.secondCard = null;
+                        state.lockBoard = false;
+                    }, 1000);
+                }
+            }
+        }
+
+        function drawMemory() {
+            const state = memoryState;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            state.cards.forEach(card => {
+                if (card.flipped || card.matched) {
+                    // Vẽ mặt trước
+                    ctx.fillStyle = card.matched ? 'rgba(0,255,136,0.3)' : '#ff69b4';
+                    ctx.fillRect(card.x, card.y, card.width, card.height);
+                    ctx.strokeStyle = card.matched ? '#00ff88' : '#ff1493';
+                    ctx.lineWidth = 3;
+                    ctx.strokeRect(card.x, card.y, card.width, card.height);
+
+                    ctx.fillStyle = 'white';
+                    ctx.font = `${Math.min(card.width, card.height) * 0.5}px Arial`;
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillText(card.emoji, card.x + card.width/2, card.y + card.height/2);
+                    ctx.textAlign = 'left';
+                    ctx.textBaseline = 'alphabetic';
+                } else {
+                    // Vẽ mặt sau
+                    ctx.fillStyle = '#2d1b69';
+                    ctx.fillRect(card.x, card.y, card.width, card.height);
+                    ctx.strokeStyle = '#ff69b4';
+                    ctx.lineWidth = 3;
+                    ctx.strokeRect(card.x, card.y, card.width, card.height);
+
+                    ctx.fillStyle = 'rgba(255,105,180,0.5)';
+                    ctx.font = `${Math.min(card.width, card.height) * 0.4}px Arial`;
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillText('?', card.x + card.width/2, card.y + card.height/2);
+                    ctx.textAlign = 'left';
+                    ctx.textBaseline = 'alphabetic';
+                }
+            });
+
+            // Vẽ moves
+            ctx.fillStyle = 'white';
+            ctx.font = '25px Poppins';
+            ctx.fillText(`Lượt: ${state.moves}`, 20, 30);
+
+            // Game over
+            if (state.gameOver) {
+                ctx.fillStyle = 'rgba(0,0,0,0.7)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = 'white';
+                ctx.font = '40px Poppins';
+                ctx.textAlign = 'center';
+                ctx.fillText('BẠN THẮNG!', canvas.width/2, canvas.height/2 - 30);
+                ctx.font = '25px Poppins';
+                ctx.fillText(`Lượt: ${state.moves}`, canvas.width/2, canvas.height/2 + 20);
+                ctx.fillText('Click để chơi lại', canvas.width/2, canvas.height/2 + 60);
+                ctx.textAlign = 'left';
+            }
+        }
+
+        // ====== GAME LOOP ======
+        function gameLoop() {
+            switch(currentGame) {
+                case 'shooter':
+                    updateShooter();
+                    drawShooter();
+                    break;
+                case 'snake':
+                    updateSnake();
+                    drawSnake();
+                    break;
+                case 'pong':
+                    updatePong();
+                    drawPong();
+                    break;
+                case 'breakout':
+                    updateBreakout();
+                    drawBreakout();
+                    break;
+                case 'flappy':
+                    updateFlappy();
+                    drawFlappy();
+                    break;
+                case 'memory':
+                    drawMemory();
+                    break;
+            }
+
+            animationId = requestAnimationFrame(gameLoop);
+        }
+
+        // Click để chơi lại
+        canvas.addEventListener('click', (e) => {
+            const state = getCurrentGameState();
+            if (state && state.gameOver) {
+                selectGame(currentGame);
+            }
+        });
+
+        function getCurrentGameState() {
+            switch(currentGame) {
+                case 'shooter': return shooterState;
+                case 'snake': return snakeState;
+                case 'pong': return pongState;
+                case 'breakout': return breakoutState;
+                case 'flappy': return flappyState;
+                case 'memory': return memoryState;
+            }
+            return null;
+        }
+
+        // Khởi tạo
         createParticles();
+        resizeCanvas();
+        selectGame('shooter');
     </script>
 </body>
 </html>
