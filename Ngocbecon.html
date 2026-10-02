@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Ngọc Becon - Game Hub</title>
+    <title>Ngọc Becon - 3D Game</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&family=Playfair+Display:wght@700;900&display=swap');
 
@@ -19,9 +19,10 @@
             background: #0a0a2e;
             color: white;
             min-height: 100vh;
-            overflow-x: hidden;
-            display: flex;
-            flex-direction: column;
+            overflow: hidden;
+            touch-action: none;
+            user-select: none;
+            -webkit-user-select: none;
         }
 
         /* ====== PARTICLES BACKGROUND ====== */
@@ -60,13 +61,172 @@
             75% { transform: translateY(-150px) translateX(120px) rotate(540deg) scale(1.1); }
         }
 
-        /* ====== HEADER ====== */
-        .header {
-            text-align: center;
-            padding: 40px 20px 20px;
+        /* ====== GAME CONTAINER ====== */
+        #gameContainer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            overflow: hidden;
         }
 
-        .header-logo {
+        #gameCanvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        /* ====== HUD ====== */
+        #hud {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 100;
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            padding: 10px 20px;
+            border-radius: 30px;
+            border: 2px solid rgba(255, 105, 180, 0.3);
+        }
+
+        .hud-item {
+            text-align: center;
+        }
+
+        .hud-label {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .hud-value {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #ff69b4;
+        }
+
+        /* ====== JOYSTICK ====== */
+        #joystickArea {
+            position: fixed;
+            bottom: 100px;
+            left: 30px;
+            width: 150px;
+            height: 150px;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            border: 3px solid rgba(255, 105, 180, 0.5);
+            backdrop-filter: blur(10px);
+            touch-action: none;
+        }
+
+        #joystickKnob {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, #ff69b4, #ff1493);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 30px rgba(255, 20, 147, 0.5);
+            pointer-events: none;
+        }
+
+        /* ====== ACTION BUTTONS ====== */
+        #actionButtons {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            z-index: 100;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .action-btn {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 105, 180, 0.3);
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 700;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            transition: all 0.2s;
+            touch-action: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .action-btn:active {
+            transform: scale(0.9);
+            background: rgba(255, 20, 147, 0.5);
+        }
+
+        .action-btn.jump {
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 215, 0, 0.3);
+            border-color: rgba(255, 215, 0, 0.5);
+        }
+
+        .action-btn.jump:active {
+            background: rgba(255, 215, 0, 0.6);
+        }
+
+        /* ====== GAME MENU ====== */
+        #gameMenu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(20px);
+        }
+
+        .menu-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 30px;
+            padding: 50px;
+            border: 2px solid rgba(255, 105, 180, 0.3);
+            box-shadow: 0 30px 100px rgba(0, 0, 0, 0.5);
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            animation: cardEntrance 1s ease-out forwards;
+            opacity: 0;
+        }
+
+        @keyframes cardEntrance {
+            0% { 
+                opacity: 0;
+                transform: translateZ(-400px) rotateX(45deg) scale(0.5);
+                filter: blur(10px);
+            }
+            100% { 
+                opacity: 1;
+                transform: translateZ(0) rotateX(0deg) scale(1);
+                filter: blur(0);
+            }
+        }
+
+        .menu-logo {
             width: 120px;
             height: 120px;
             border-radius: 50%;
@@ -77,7 +237,7 @@
             align-items: center;
             justify-content: center;
             font-size: 55px;
-            margin: 0 auto 20px;
+            margin: 0 auto 30px;
             box-shadow: 0 0 80px rgba(255, 20, 147, 0.6);
             position: relative;
         }
@@ -87,7 +247,7 @@
             50% { background-position: 100% 50%; }
         }
 
-        .header-logo::after {
+        .menu-logo::after {
             content: '';
             position: absolute;
             top: -10px;
@@ -104,70 +264,51 @@
             100% { transform: scale(1.3); opacity: 0; }
         }
 
-        .header-title {
+        .menu-title {
             font-family: 'Playfair Display', serif;
-            font-size: 3.5rem;
+            font-size: 3rem;
             background: linear-gradient(45deg, #ff69b4, #ff1493, #ff6b9d, #ff1493, #ff69b4);
             background-size: 300% 300%;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
             animation: gradientMove 3s ease infinite;
-            margin-bottom: 10px;
+            margin-bottom: 20px;
         }
 
-        .header-subtitle {
-            font-size: 1.3rem;
+        .menu-subtitle {
+            font-size: 1.2rem;
             color: rgba(255, 255, 255, 0.8);
             margin-bottom: 30px;
         }
 
-        /* ====== GAME SELECTION ====== */
-        .game-select {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-bottom: 30px;
-            padding: 0 20px;
-        }
-
-        .game-btn {
-            padding: 15px 30px;
+        .menu-btn {
+            display: block;
+            width: 100%;
+            padding: 18px;
             border-radius: 50px;
-            border: 2px solid rgba(255, 105, 180, 0.3);
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            font-size: 1.1rem;
-            font-weight: 700;
+            border: none;
             cursor: pointer;
+            font-size: 1.2rem;
+            font-weight: 700;
             font-family: 'Poppins', sans-serif;
+            background: linear-gradient(45deg, #ff69b4, #ff1493);
+            color: white;
             transition: all 0.3s;
-            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 40px rgba(255, 20, 147, 0.5);
+            margin-bottom: 15px;
             position: relative;
             overflow: hidden;
         }
 
-        .game-btn:hover {
-            border-color: #ff69b4;
-            transform: translateY(-5px) scale(1.05);
-            box-shadow: 0 10px 30px rgba(255, 20, 147, 0.3);
-        }
-
-        .game-btn.active {
-            background: linear-gradient(45deg, #ff69b4, #ff1493);
-            border-color: #ff69b4;
-            box-shadow: 0 10px 40px rgba(255, 20, 147, 0.5);
-        }
-
-        .game-btn::before {
+        .menu-btn::before {
             content: '';
             position: absolute;
             top: 0;
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
             animation: btnShine 3s ease-in-out infinite;
         }
 
@@ -177,118 +318,177 @@
             100% { left: 100%; }
         }
 
-        /* ====== GAME CONTAINER ====== */
-        .game-container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 20px;
-            width: 100%;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+        .menu-btn:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 20px 60px rgba(255, 20, 147, 0.8);
         }
 
-        .game-frame {
-            width: 100%;
-            height: 600px;
-            border-radius: 30px;
-            overflow: hidden;
-            border: 3px solid rgba(255, 105, 180, 0.3);
-            box-shadow: 0 30px 100px rgba(0, 0, 0, 0.5);
-            position: relative;
-            background: #1a1a2e;
+        .menu-btn:active {
+            transform: translateY(0) scale(0.98);
         }
 
-        .game-canvas {
-            width: 100%;
-            height: 100%;
-            display: block;
-            background: #1a1a2e;
-        }
-
-        /* ====== GAME INFO ====== */
-        .game-info {
+        .menu-btn.secondary {
             background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px);
-            border-radius: 20px;
-            padding: 20px;
-            margin-top: 20px;
-            width: 100%;
             border: 2px solid rgba(255, 105, 180, 0.3);
+            box-shadow: none;
         }
 
-        .game-info-title {
-            font-size: 1.3rem;
-            color: #ff69b4;
-            margin-bottom: 10px;
+        .menu-btn.secondary:hover {
+            background: rgba(255, 105, 180, 0.2);
+            border-color: #ff69b4;
+        }
+
+        .menu-stats {
             display: flex;
-            align-items: center;
-            gap: 10px;
+            justify-content: center;
+            gap: 20px;
+            margin: 20px 0;
         }
 
-        .game-info-text {
-            font-size: 1rem;
-            color: rgba(255, 255, 255, 0.8);
-            line-height: 1.6;
-        }
-
-        .game-controls {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin-top: 15px;
-        }
-
-        .control-key {
+        .stat-box {
             background: rgba(255, 255, 255, 0.1);
+            padding: 15px 25px;
+            border-radius: 15px;
             border: 1px solid rgba(255, 105, 180, 0.3);
-            padding: 8px 15px;
-            border-radius: 10px;
-            font-size: 0.9rem;
-            font-family: monospace;
-            color: #ff69b4;
         }
 
-        /* ====== FOOTER ====== */
-        footer {
-            padding: 20px;
-            text-align: center;
+        .stat-label {
+            font-size: 0.8rem;
             color: rgba(255, 255, 255, 0.7);
-            font-size: 1.1rem;
-            margin-top: auto;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #ff69b4;
         }
 
         .back-link {
             display: inline-block;
-            margin-top: 10px;
-            color: #ff69b4;
+            margin-top: 20px;
+            color: rgba(255, 255, 255, 0.7);
             text-decoration: none;
             font-size: 1rem;
             transition: all 0.3s;
         }
 
         .back-link:hover {
+            color: #ff69b4;
             transform: scale(1.1);
-            text-shadow: 0 0 20px rgba(255, 105, 180, 0.5);
+        }
+
+        /* ====== GAME OVER ====== */
+        #gameOver {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(20px);
+        }
+
+        .gameover-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 30px;
+            padding: 50px;
+            border: 2px solid rgba(255, 105, 180, 0.3);
+            box-shadow: 0 30px 100px rgba(0, 0, 0, 0.5);
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+        }
+
+        .gameover-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            color: #ff4444;
+            margin-bottom: 20px;
+            text-shadow: 0 0 30px rgba(255, 68, 68, 0.5);
+        }
+
+        .gameover-score {
+            font-size: 2rem;
+            color: #ff69b4;
+            margin-bottom: 30px;
         }
 
         /* ====== RESPONSIVE ====== */
         @media (max-width: 768px) {
-            .header-title { font-size: 2.5rem; }
-            .header-logo { width: 100px; height: 100px; font-size: 45px; }
-            .header-logo::after { width: 120px; height: 120px; }
-            .game-frame { height: 450px; }
-            .game-btn { padding: 12px 20px; font-size: 1rem; }
+            #hud {
+                top: 10px;
+                padding: 8px 15px;
+                gap: 15px;
+            }
+            .hud-value { font-size: 1rem; }
+            .hud-label { font-size: 0.7rem; }
+            
+            #joystickArea {
+                bottom: 80px;
+                left: 20px;
+                width: 120px;
+                height: 120px;
+            }
+            #joystickKnob {
+                width: 50px;
+                height: 50px;
+            }
+            
+            #actionButtons {
+                bottom: 80px;
+                right: 20px;
+                gap: 10px;
+            }
+            .action-btn {
+                width: 55px;
+                height: 55px;
+                font-size: 1.2rem;
+            }
+            .action-btn.jump {
+                width: 65px;
+                height: 65px;
+            }
+            
+            .menu-card { padding: 30px; }
+            .menu-title { font-size: 2.5rem; }
+            .menu-logo { width: 100px; height: 100px; font-size: 45px; }
+            .menu-logo::after { width: 120px; height: 120px; }
         }
 
         @media (max-width: 480px) {
-            .header-title { font-size: 2rem; }
-            .header-logo { width: 80px; height: 80px; font-size: 35px; }
-            .header-logo::after { width: 100px; height: 100px; }
-            .game-frame { height: 350px; }
-            .game-btn { padding: 10px 15px; font-size: 0.9rem; }
-            .game-info { padding: 15px; }
+            #joystickArea {
+                bottom: 70px;
+                left: 15px;
+                width: 100px;
+                height: 100px;
+            }
+            #joystickKnob {
+                width: 40px;
+                height: 40px;
+            }
+            
+            #actionButtons {
+                bottom: 70px;
+                right: 15px;
+            }
+            .action-btn {
+                width: 45px;
+                height: 45px;
+                font-size: 1rem;
+            }
+            .action-btn.jump {
+                width: 55px;
+                height: 55px;
+            }
+            
+            .menu-card { padding: 25px; }
+            .menu-title { font-size: 2rem; }
+            .menu-subtitle { font-size: 1rem; }
         }
     </style>
 </head>
@@ -297,51 +497,74 @@
     <!-- 3D Particles Background -->
     <div id="particles-3d"></div>
 
-    <!-- HEADER -->
-    <div class="header">
-        <div class="header-logo">🎮</div>
-        <h1 class="header-title">Ngọc Becon Game Hub</h1>
-        <p class="header-subtitle">✨ Chọn game và chơi ngay! ✨</p>
-    </div>
-
-    <!-- GAME SELECTION -->
-    <div class="game-select">
-        <button class="game-btn active" onclick="selectGame('shooter')">🔫 Bắn Súng</button>
-        <button class="game-btn" onclick="selectGame('snake')">🐍 Rắn Săn Mồi</button>
-        <button class="game-btn" onclick="selectGame('pong')">🏓 Pong</button>
-        <button class="game-btn" onclick="selectGame('breakout')">🧱 Breakout</button>
-        <button class="game-btn" onclick="selectGame('flappy')">🐦 Flappy Bird</button>
-        <button class="game-btn" onclick="selectGame('memory')">🧠 Memory</button>
-    </div>
-
     <!-- GAME CONTAINER -->
-    <div class="game-container">
-        <div class="game-frame">
-            <canvas id="gameCanvas" class="game-canvas"></canvas>
-        </div>
+    <div id="gameContainer">
+        <canvas id="gameCanvas"></canvas>
+    </div>
 
-        <!-- GAME INFO -->
-        <div class="game-info">
-            <div class="game-info-title" id="gameTitle">🔫 Bắn Súng</div>
-            <div class="game-info-text" id="gameDesc">
-                Click để bắn! Di chuyển bằng WASD hoặc mũi tên. Tiêu diệt quái vật để ghi điểm!
-            </div>
-            <div class="game-controls" id="gameControls">
-                <span class="control-key">WASD / ↑↓←→</span>
-                <span class="control-key">Click = Bắn</span>
-                <span class="control-key">Space = Nhảy</span>
-            </div>
+    <!-- HUD -->
+    <div id="hud">
+        <div class="hud-item">
+            <div class="hud-label">Điểm</div>
+            <div class="hud-value" id="scoreDisplay">0</div>
+        </div>
+        <div class="hud-item">
+            <div class="hud-label">Máu</div>
+            <div class="hud-value" id="healthDisplay">100</div>
+        </div>
+        <div class="hud-item">
+            <div class="hud-label">Kill</div>
+            <div class="hud-value" id="killDisplay">0</div>
         </div>
     </div>
 
-    <footer>
-        Made with ♡ by Ngọc Becon ✨
-        <br>
-        <a href="index.html" class="back-link">← Quay lại trang chính</a>
-    </footer>
+    <!-- JOYSTICK -->
+    <div id="joystickArea">
+        <div id="joystickKnob"></div>
+    </div>
+
+    <!-- ACTION BUTTONS -->
+    <div id="actionButtons">
+        <button class="action-btn" id="attackBtn">⚔️</button>
+        <button class="action-btn jump" id="jumpBtn">⬆️</button>
+    </div>
+
+    <!-- GAME MENU -->
+    <div id="gameMenu">
+        <div class="menu-card">
+            <div class="menu-logo">🎮</div>
+            <h1 class="menu-title">Ngọc Becon 3D</h1>
+            <p class="menu-subtitle">✨ Game bắn súng 3D online ✨</p>
+            
+            <div class="menu-stats">
+                <div class="stat-box">
+                    <div class="stat-label">Kill</div>
+                    <div class="stat-value" id="totalKills">0</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-label">Điểm</div>
+                    <div class="stat-value" id="totalScore">0</div>
+                </div>
+            </div>
+            
+            <button class="menu-btn" onclick="startGame()">▶️ CHƠI NGAY</button>
+            <button class="menu-btn secondary" onclick="window.location.href='index.html'">🏠 Trang Chính</button>
+            <a href="index.html" class="back-link">← Quay lại</a>
+        </div>
+    </div>
+
+    <!-- GAME OVER -->
+    <div id="gameOver">
+        <div class="gameover-card">
+            <h2 class="gameover-title">GAME OVER!</h2>
+            <div class="gameover-score" id="finalScore">Điểm: 0</div>
+            <button class="menu-btn" onclick="restartGame()">🔄 CHƠI LẠI</button>
+            <button class="menu-btn secondary" onclick="backToMenu()">🏠 MENU</button>
+        </div>
+    </div>
 
     <script>
-        // Chặn phóng to thu nhỏ
+        // ====== CHẶN PHÓNG TO ======
         document.addEventListener('gesturestart', function(e) {
             e.preventDefault();
         });
@@ -359,13 +582,13 @@
             lastTouchEnd = now;
         });
 
-        // Tạo particles
+        // ====== PARTICLES ======
         function createParticles() {
             const container = document.getElementById('particles-3d');
-            for (let i = 0; i < 70; i++) {
+            for (let i = 0; i < 50; i++) {
                 const particle = document.createElement('div');
                 particle.className = 'particle';
-                const size = Math.random() * 30 + 5;
+                const size = Math.random() * 20 + 5;
                 particle.style.width = size + 'px';
                 particle.style.height = size + 'px';
                 particle.style.left = Math.random() * 100 + '%';
@@ -376,937 +599,695 @@
             }
         }
 
-        // ====== GAME MANAGER ======
-        const canvas = document.getElementById('gameCanvas');
-        const ctx = canvas.getContext('2d');
-        let currentGame = 'shooter';
-        let animationId = null;
+        // ====== THREE.JS 3D GAME ======
+        // Sử dụng Three.js từ CDN
+        const script = document.createElement('script');
+        script.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
+        script.onload = initGame;
+        document.head.appendChild(script);
+
+        let scene, camera, renderer;
+        let player, enemies = [];
+        let bullets = [];
+        let particles = [];
+        let score = 0;
+        let kills = 0;
+        let health = 100;
+        let gameRunning = false;
+        let gamePaused = false;
+        let lastTime = 0;
+        let joystickData = { active: false, x: 0, y: 0 };
+        let isJumping = false;
+        let playerVelocity = { x: 0, y: 0, z: 0 };
         let keys = {};
 
-        document.addEventListener('keydown', (e) => {
-            keys[e.key.toLowerCase()] = true;
-            if (['arrowup', 'arrowdown', 'arrowleft', 'arrowright', ' '].includes(e.key.toLowerCase())) {
-                e.preventDefault();
+        // Tạo map
+        let ground, obstacles = [];
+        let trees = [];
+
+        function initGame() {
+            // Scene
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color(0x87CEEB);
+            scene.fog = new THREE.Fog(0x87CEEB, 100, 500);
+
+            // Camera
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.set(0, 30, 50);
+
+            // Renderer
+            renderer = new THREE.WebGLRenderer({ 
+                canvas: document.getElementById('gameCanvas'),
+                antialias: true 
+            });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.shadowMap.enabled = true;
+            renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+            // Lights
+            const ambientLight = new THREE.AmbientLight(0x404040, 0.6);
+            scene.add(ambientLight);
+
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+            directionalLight.position.set(50, 100, 50);
+            directionalLight.castShadow = true;
+            scene.add(directionalLight);
+
+            const hemisphereLight = new THREE.HemisphereLight(0xffffbb, 0x080820, 0.5);
+            scene.add(hemisphereLight);
+
+            // Ground
+            const groundGeometry = new THREE.PlaneGeometry(500, 500);
+            const groundMaterial = new THREE.MeshStandardMaterial({ 
+                color: 0x4CAF50,
+                roughness: 0.8
+            });
+            ground = new THREE.Mesh(groundGeometry, groundMaterial);
+            ground.rotation.x = -Math.PI / 2;
+            ground.receiveShadow = true;
+            scene.add(ground);
+
+            // Grid
+            const gridHelper = new THREE.GridHelper(500, 50, 0xff69b4, 0xff1493);
+            gridHelper.position.y = 0.1;
+            scene.add(gridHelper);
+
+            // Trees
+            for (let i = 0; i < 20; i++) {
+                createTree(
+                    Math.random() * 400 - 200,
+                    Math.random() * 400 - 200
+                );
             }
-        });
 
-        document.addEventListener('keyup', (e) => {
-            keys[e.key.toLowerCase()] = false;
-        });
-
-        function resizeCanvas() {
-            const frame = document.querySelector('.game-frame');
-            canvas.width = frame.clientWidth;
-            canvas.height = frame.clientHeight;
-        }
-
-        window.addEventListener('resize', resizeCanvas);
-
-        function selectGame(game) {
-            currentGame = game;
-            
-            document.querySelectorAll('.game-btn').forEach(btn => btn.classList.remove('active'));
-            document.querySelector(`.game-btn[onclick="selectGame('${game}')"]`).classList.add('active');
-
-            if (animationId) {
-                cancelAnimationFrame(animationId);
+            // Rocks
+            for (let i = 0; i < 10; i++) {
+                createRock(
+                    Math.random() * 400 - 200,
+                    Math.random() * 400 - 200
+                );
             }
 
-            resizeCanvas();
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            // Player
+            createPlayer();
 
-            const gameInfo = {
-                shooter: {
-                    title: '🔫 Bắn Súng',
-                    desc: 'Click để bắn! Di chuyển bằng WASD hoặc mũi tên. Tiêu diệt quái vật để ghi điểm!',
-                    controls: ['WASD / ↑↓←→', 'Click = Bắn', 'Space = Nhảy']
-                },
-                snake: {
-                    title: '🐍 Rắn Săn Mồi',
-                    desc: 'Điều khiển rắn ăn mồi! Tránh va vào tường và chính mình!',
-                    controls: ['↑↓←→ hoặc WASD', 'Ăn mồi để dài ra']
-                },
-                pong: {
-                    title: '🏓 Pong',
-                    desc: 'Đánh bóng qua lại! Di chuyển thanh để không bị thủng lưới!',
-                    controls: ['↑↓ = Di chuyển', 'Chơi với máy']
-                },
-                breakout: {
-                    title: '🧱 Breakout',
-                    desc: 'Phá vỡ tất cả gạch! Di chuyển thanh để hứng bóng!',
-                    controls: ['←→ = Di chuyển', 'Phá hết gạch để thắng']
-                },
-                flappy: {
-                    title: '🐦 Flappy Bird',
-                    desc: 'Click để bay! Tránh các ống nước!',
-                    controls: ['Click / Space = Bay', 'Tránh chướng ngại vật']
-                },
-                memory: {
-                    title: '🧠 Memory Game',
-                    desc: 'Tìm các cặp thẻ giống nhau! Nhớ vị trí các thẻ!',
-                    controls: ['Click = Lật thẻ', 'Tìm tất cả cặp']
-                }
-            };
-
-            document.getElementById('gameTitle').textContent = gameInfo[game].title;
-            document.getElementById('gameDesc').textContent = gameInfo[game].desc;
-            document.getElementById('gameControls').innerHTML = gameInfo[game].controls
-                .map(c => `<span class="control-key">${c}</span>`)
-                .join('');
-
-            switch(game) {
-                case 'shooter': initShooter(); break;
-                case 'snake': initSnake(); break;
-                case 'pong': initPong(); break;
-                case 'breakout': initBreakout(); break;
-                case 'flappy': initFlappy(); break;
-                case 'memory': initMemory(); break;
-            }
-        }
-
-        // ====== GAME 1: SHOOTER ======
-        let shooterState;
-
-        function initShooter() {
-            shooterState = {
-                player: { x: canvas.width/2, y: canvas.height/2, radius: 20, speed: 5 },
-                bullets: [],
-                enemies: [],
-                score: 0,
-                gameOver: false,
-                lastShot: 0
-            };
-
-            // Tạo enemies
+            // Enemies
             for (let i = 0; i < 5; i++) {
                 spawnEnemy();
             }
 
-            gameLoop();
+            // Event listeners
+            window.addEventListener('resize', onWindowResize);
+            document.addEventListener('keydown', onKeyDown);
+            document.addEventListener('keyup', onKeyUp);
+
+            // Joystick
+            setupJoystick();
+
+            // Action buttons
+            document.getElementById('attackBtn').addEventListener('touchstart', attack);
+            document.getElementById('attackBtn').addEventListener('mousedown', attack);
+            document.getElementById('jumpBtn').addEventListener('touchstart', jump);
+            document.getElementById('jumpBtn').addEventListener('mousedown', jump);
+
+            // Start animation
+            animate(0);
+        }
+
+        function createPlayer() {
+            // Body
+            const bodyGeometry = new THREE.BoxGeometry(2, 3, 1);
+            const bodyMaterial = new THREE.MeshStandardMaterial({ 
+                color: 0xff69b4,
+                metalness: 0.3,
+                roughness: 0.4
+            });
+            const body = new THREE.Mesh(bodyGeometry, bodyMaterial);
+            body.position.y = 1.5;
+            body.castShadow = true;
+
+            // Head
+            const headGeometry = new THREE.SphereGeometry(0.8, 16, 16);
+            const headMaterial = new THREE.MeshStandardMaterial({ 
+                color: 0xffb6c1,
+                metalness: 0.3,
+                roughness: 0.4
+            });
+            const head = new THREE.Mesh(headGeometry, headMaterial);
+            head.position.y = 3.5;
+            head.castShadow = true;
+
+            // Eyes
+            const eyeGeometry = new THREE.SphereGeometry(0.15, 8, 8);
+            const eyeMaterial = new THREE.MeshStandardMaterial({ color: 0x000000 });
+            
+            const leftEye = new THREE.Mesh(eyeGeometry, eyeMaterial);
+            leftEye.position.set(-0.3, 3.6, 0.7);
+            
+            const rightEye = new THREE.Mesh(eyeGeometry, eyeMaterial);
+            rightEye.position.set(0.3, 3.6, 0.7);
+
+            // Gun
+            const gunGeometry = new THREE.BoxGeometry(0.3, 0.3, 2);
+            const gunMaterial = new THREE.MeshStandardMaterial({ 
+                color: 0x333333,
+                metalness: 0.8,
+                roughness: 0.2
+            });
+            const gun = new THREE.Mesh(gunGeometry, gunMaterial);
+            gun.position.set(0, 1.5, 1.5);
+            gun.castShadow = true;
+
+            // Group
+            player = new THREE.Group();
+            player.add(body);
+            player.add(head);
+            player.add(leftEye);
+            player.add(rightEye);
+            player.add(gun);
+            player.position.set(0, 0, 0);
+            scene.add(player);
+        }
+
+        function createTree(x, z) {
+            const treeGroup = new THREE.Group();
+
+            // Trunk
+            const trunkGeometry = new THREE.CylinderGeometry(0.5, 0.7, 3);
+            const trunkMaterial = new THREE.MeshStandardMaterial({ 
+                color: 0x8B4513,
+                roughness: 0.8
+            });
+            const trunk = new THREE.Mesh(trunkGeometry, trunkMaterial);
+            trunk.position.y = 1.5;
+            trunk.castShadow = true;
+
+            // Leaves
+            const leavesGeometry = new THREE.SphereGeometry(2, 8, 8);
+            const leavesMaterial = new THREE.MeshStandardMaterial({ 
+                color: 0x228B22,
+                roughness: 0.6
+            });
+            const leaves = new THREE.Mesh(leavesGeometry, leavesMaterial);
+            leaves.position.y = 3.5;
+            leaves.castShadow = true;
+
+            treeGroup.add(trunk);
+            treeGroup.add(leaves);
+            treeGroup.position.set(x, 0, z);
+            scene.add(treeGroup);
+            trees.push(treeGroup);
+        }
+
+        function createRock(x, z) {
+            const rockGeometry = new THREE.DodecahedronGeometry(1.5, 1);
+            const rockMaterial = new THREE.MeshStandardMaterial({ 
+                color: 0x808080,
+                roughness: 0.9
+            });
+            const rock = new THREE.Mesh(rockGeometry, rockMaterial);
+            rock.position.set(x, 0.5, z);
+            rock.scale.y = 0.5;
+            rock.castShadow = true;
+            scene.add(rock);
+            obstacles.push(rock);
         }
 
         function spawnEnemy() {
-            const enemy = {
-                x: Math.random() * canvas.width,
-                y: Math.random() * canvas.height,
-                radius: 15 + Math.random() * 10,
-                speed: 1 + Math.random() * 2,
-                angle: Math.random() * Math.PI * 2,
-                color: `hsl(${Math.random() * 360}, 70%, 50%)`
-            };
-            shooterState.enemies.push(enemy);
-        }
+            const enemyGroup = new THREE.Group();
 
-        canvas.addEventListener('click', (e) => {
-            if (currentGame !== 'shooter' || !shooterState || shooterState.gameOver) return;
-
-            const rect = canvas.getBoundingClientRect();
-            const mouseX = e.clientX - rect.left;
-            const mouseY = e.clientY - rect.top;
-
-            const angle = Math.atan2(mouseY - shooterState.player.y, mouseX - shooterState.player.x);
-            shooterState.bullets.push({
-                x: shooterState.player.x,
-                y: shooterState.player.y,
-                vx: Math.cos(angle) * 10,
-                vy: Math.sin(angle) * 10,
-                radius: 5
+            // Body
+            const bodyGeometry = new THREE.BoxGeometry(1.5, 2, 1);
+            const bodyMaterial = new THREE.MeshStandardMaterial({ 
+                color: 0xff0000,
+                metalness: 0.3,
+                roughness: 0.4
             });
-        });
+            const body = new THREE.Mesh(bodyGeometry, bodyMaterial);
+            body.position.y = 1;
+            body.castShadow = true;
 
-        function updateShooter() {
-            const state = shooterState;
-            if (state.gameOver) return;
-
-            // Di chuyển player
-            if (keys['w'] || keys['arrowup']) state.player.y -= state.player.speed;
-            if (keys['s'] || keys['arrowdown']) state.player.y += state.player.speed;
-            if (keys['a'] || keys['arrowleft']) state.player.x -= state.player.speed;
-            if (keys['d'] || keys['arrowright']) state.player.x += state.player.speed;
-
-            // Giới hạn trong canvas
-            state.player.x = Math.max(state.player.radius, Math.min(canvas.width - state.player.radius, state.player.x));
-            state.player.y = Math.max(state.player.radius, Math.min(canvas.height - state.player.radius, state.player.y));
-
-            // Di chuyển bullets
-            state.bullets = state.bullets.filter(bullet => {
-                bullet.x += bullet.vx;
-                bullet.y += bullet.vy;
-                return bullet.x > 0 && bullet.x < canvas.width && bullet.y > 0 && bullet.y < canvas.height;
+            // Head
+            const headGeometry = new THREE.SphereGeometry(0.6, 16, 16);
+            const headMaterial = new THREE.MeshStandardMaterial({ 
+                color: 0xcc0000,
+                metalness: 0.3,
+                roughness: 0.4
             });
+            const head = new THREE.Mesh(headGeometry, headMaterial);
+            head.position.y = 2.5;
+            head.castShadow = true;
 
-            // Di chuyển enemies
-            state.enemies.forEach(enemy => {
-                enemy.angle += 0.02;
-                enemy.x += Math.cos(enemy.angle) * enemy.speed;
-                enemy.y += Math.sin(enemy.angle) * enemy.speed;
+            // Eyes
+            const eyeGeometry = new THREE.SphereGeometry(0.1, 8, 8);
+            const eyeMaterial = new THREE.MeshStandardMaterial({ color: 0xffff00 });
+            
+            const leftEye = new THREE.Mesh(eyeGeometry, eyeMaterial);
+            leftEye.position.set(-0.25, 2.6, 0.55);
+            
+            const rightEye = new THREE.Mesh(eyeGeometry, eyeMaterial);
+            rightEye.position.set(0.25, 2.6, 0.55);
 
-                // Giữ trong canvas
-                enemy.x = Math.max(enemy.radius, Math.min(canvas.width - enemy.radius, enemy.x));
-                enemy.y = Math.max(enemy.radius, Math.min(canvas.height - enemy.radius, enemy.y));
-            });
+            enemyGroup.add(body);
+            enemyGroup.add(head);
+            enemyGroup.add(leftEye);
+            enemyGroup.add(rightEye);
 
-            // Bắn trúng enemy
-            state.bullets.forEach(bullet => {
-                state.enemies.forEach((enemy, index) => {
-                    const dist = Math.hypot(bullet.x - enemy.x, bullet.y - enemy.y);
-                    if (dist < bullet.radius + enemy.radius) {
-                        state.enemies.splice(index, 1);
-                        state.score += 10;
-                        spawnEnemy();
-                    }
-                });
-            });
+            // Random position
+            const angle = Math.random() * Math.PI * 2;
+            const radius = 50 + Math.random() * 100;
+            enemyGroup.position.set(
+                player.position.x + Math.cos(angle) * radius,
+                0,
+                player.position.z + Math.sin(angle) * radius
+            );
 
-            // Enemy chạm player
-            state.enemies.forEach(enemy => {
-                const dist = Math.hypot(enemy.x - state.player.x, enemy.y - state.player.y);
-                if (dist < enemy.radius + state.player.radius) {
-                    state.gameOver = true;
-                }
+            scene.add(enemyGroup);
+            enemies.push({
+                mesh: enemyGroup,
+                health: 100,
+                speed: 3 + Math.random() * 3,
+                attackRange: 5,
+                attackCooldown: 0
             });
         }
 
-        function drawShooter() {
-            const state = shooterState;
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        function attack() {
+            if (!gameRunning || gamePaused) return;
 
-            // Vẽ player
-            ctx.beginPath();
-            ctx.arc(state.player.x, state.player.y, state.player.radius, 0, Math.PI * 2);
-            ctx.fillStyle = '#ff69b4';
-            ctx.fill();
-            ctx.strokeStyle = '#ff1493';
-            ctx.lineWidth = 3;
-            ctx.stroke();
+            // Tạo bullet
+            const bulletGeometry = new THREE.SphereGeometry(0.2, 8, 8);
+            const bulletMaterial = new THREE.MeshStandardMaterial({ 
+                color: 0xffff00,
+                emissive: 0xffff00,
+                emissiveIntensity: 0.5
+            });
+            const bullet = new THREE.Mesh(bulletGeometry, bulletMaterial);
+            bullet.position.copy(player.position);
+            bullet.position.y = 2;
 
-            // Vẽ bullets
-            state.bullets.forEach(bullet => {
-                ctx.beginPath();
-                ctx.arc(bullet.x, bullet.y, bullet.radius, 0, Math.PI * 2);
-                ctx.fillStyle = '#ffff00';
-                ctx.fill();
+            // Hướng bắn
+            const direction = new THREE.Vector3(0, 0, -1);
+            direction.applyQuaternion(player.quaternion);
+
+            scene.add(bullet);
+            bullets.push({
+                mesh: bullet,
+                velocity: direction.multiplyScalar(50),
+                life: 2
             });
 
-            // Vẽ enemies
-            state.enemies.forEach(enemy => {
-                ctx.beginPath();
-                ctx.arc(enemy.x, enemy.y, enemy.radius, 0, Math.PI * 2);
-                ctx.fillStyle = enemy.color;
-                ctx.fill();
-                ctx.strokeStyle = 'rgba(0,0,0,0.5)';
-                ctx.lineWidth = 2;
-                ctx.stroke();
+            // Muzzle flash
+            createMuzzleFlash();
+        }
+
+        function createMuzzleFlash() {
+            const flashGeometry = new THREE.SphereGeometry(0.3, 8, 8);
+            const flashMaterial = new THREE.MeshBasicMaterial({ 
+                color: 0xffff00,
+                transparent: true,
+                opacity: 1
+            });
+            const flash = new THREE.Mesh(flashGeometry, flashMaterial);
+            flash.position.copy(player.position);
+            flash.position.y = 2;
+            scene.add(flash);
+
+            particles.push({
+                mesh: flash,
+                life: 0.1,
+                maxLife: 0.1
+            });
+        }
+
+        function jump() {
+            if (!gameRunning || gamePaused) return;
+            if (player.position.y <= 0.1) {
+                playerVelocity.y = 10;
+                isJumping = true;
+            }
+        }
+
+        function setupJoystick() {
+            const joystickArea = document.getElementById('joystickArea');
+            const joystickKnob = document.getElementById('joystickKnob');
+            let joystickCenter = { x: 0, y: 0 };
+
+            joystickArea.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                const touch = e.touches[0];
+                const rect = joystickArea.getBoundingClientRect();
+                joystickCenter = {
+                    x: rect.left + rect.width / 2,
+                    y: rect.top + rect.height / 2
+                };
+                joystickData.active = true;
+                updateJoystick(touch.clientX, touch.clientY);
             });
 
-            // Vẽ score
-            ctx.fillStyle = 'white';
-            ctx.font = '30px Poppins';
-            ctx.fillText(`Điểm: ${state.score}`, 20, 40);
-
-            // Game over
-            if (state.gameOver) {
-                ctx.fillStyle = 'rgba(0,0,0,0.7)';
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-                ctx.fillStyle = 'white';
-                ctx.font = '40px Poppins';
-                ctx.textAlign = 'center';
-                ctx.fillText('GAME OVER!', canvas.width/2, canvas.height/2 - 30);
-                ctx.font = '25px Poppins';
-                ctx.fillText(`Điểm: ${state.score}`, canvas.width/2, canvas.height/2 + 20);
-                ctx.fillText('Click để chơi lại', canvas.width/2, canvas.height/2 + 60);
-                ctx.textAlign = 'left';
-            }
-        }
-
-        // ====== GAME 2: SNAKE ======
-        let snakeState;
-
-        function initSnake() {
-            const gridSize = 20;
-            snakeState = {
-                snake: [{x: 5, y: 5}],
-                direction: {x: 1, y: 0},
-                food: {x: 10, y: 10},
-                score: 0,
-                gameOver: false,
-                gridSize: gridSize
-            };
-
-            placeFood();
-            gameLoop();
-        }
-
-        function placeFood() {
-            snakeState.food = {
-                x: Math.floor(Math.random() * (canvas.width / snakeState.gridSize)),
-                y: Math.floor(Math.random() * (canvas.height / snakeState.gridSize))
-            };
-        }
-
-        function updateSnake() {
-            const state = snakeState;
-            if (state.gameOver) return;
-
-            // Đổi hướng
-            if (keys['w'] || keys['arrowup']) if (state.direction.y !== 1) state.direction = {x: 0, y: -1};
-            if (keys['s'] || keys['arrowdown']) if (state.direction.y !== -1) state.direction = {x: 0, y: 1};
-            if (keys['a'] || keys['arrowleft']) if (state.direction.x !== 1) state.direction = {x: -1, y: 0};
-            if (keys['d'] || keys['arrowright']) if (state.direction.x !== -1) state.direction = {x: 1, y: 0};
-
-            // Di chuyển
-            const head = {
-                x: state.snake[0].x + state.direction.x,
-                y: state.snake[0].y + state.direction.y
-            };
-
-            // Kiểm tra va chạm
-            if (head.x < 0 || head.x >= canvas.width / state.gridSize ||
-                head.y < 0 || head.y >= canvas.height / state.gridSize) {
-                state.gameOver = true;
-                return;
-            }
-
-            state.snake.unshift(head);
-
-            // Ăn food
-            if (head.x === state.food.x && head.y === state.food.y) {
-                state.score += 10;
-                placeFood();
-            } else {
-                state.snake.pop();
-            }
-
-            // Tự va chạm
-            for (let i = 1; i < state.snake.length; i++) {
-                if (head.x === state.snake[i].x && head.y === state.snake[i].y) {
-                    state.gameOver = true;
-                    return;
-                }
-            }
-        }
-
-        function drawSnake() {
-            const state = snakeState;
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-            const cellSize = state.gridSize;
-
-            // Vẽ food
-            ctx.fillStyle = '#ff0000';
-            ctx.fillRect(state.food.x * cellSize, state.food.y * cellSize, cellSize, cellSize);
-
-            // Vẽ snake
-            state.snake.forEach((segment, index) => {
-                ctx.fillStyle = index === 0 ? '#00ff88' : '#00cc66';
-                ctx.fillRect(segment.x * cellSize, segment.y * cellSize, cellSize - 2, cellSize - 2);
+            joystickArea.addEventListener('touchmove', (e) => {
+                e.preventDefault();
+                const touch = e.touches[0];
+                updateJoystick(touch.clientX, touch.clientY);
             });
 
-            // Vẽ score
-            ctx.fillStyle = 'white';
-            ctx.font = '30px Poppins';
-            ctx.fillText(`Điểm: ${state.score}`, 20, 40);
+            joystickArea.addEventListener('touchend', (e) => {
+                e.preventDefault();
+                joystickData.active = false;
+                joystickData.x = 0;
+                joystickData.y = 0;
+                joystickKnob.style.transform = 'translate(-50%, -50%)';
+            });
 
-            // Game over
-            if (state.gameOver) {
-                ctx.fillStyle = 'rgba(0,0,0,0.7)';
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-                ctx.fillStyle = 'white';
-                ctx.font = '40px Poppins';
-                ctx.textAlign = 'center';
-                ctx.fillText('GAME OVER!', canvas.width/2, canvas.height/2 - 30);
-                ctx.font = '25px Poppins';
-                ctx.fillText(`Điểm: ${state.score}`, canvas.width/2, canvas.height/2 + 20);
-                ctx.fillText('Click để chơi lại', canvas.width/2, canvas.height/2 + 60);
-                ctx.textAlign = 'left';
-            }
-        }
+            // Mouse support
+            joystickArea.addEventListener('mousedown', (e) => {
+                const rect = joystickArea.getBoundingClientRect();
+                joystickCenter = {
+                    x: rect.left + rect.width / 2,
+                    y: rect.top + rect.height / 2
+                };
+                joystickData.active = true;
+                updateJoystick(e.clientX, e.clientY);
+            });
 
-        // ====== GAME 3: PONG ======
-        let pongState;
-
-        function initPong() {
-            pongState = {
-                player: { y: canvas.height/2 - 50, width: 15, height: 100, speed: 7 },
-                ai: { y: canvas.height/2 - 50, width: 15, height: 100, speed: 4 },
-                ball: { x: canvas.width/2, y: canvas.height/2, vx: 5, vy: 3, radius: 10 },
-                playerScore: 0,
-                aiScore: 0,
-                gameOver: false
-            };
-
-            gameLoop();
-        }
-
-        function updatePong() {
-            const state = pongState;
-            if (state.gameOver) return;
-
-            // Di chuyển player
-            if (keys['w'] || keys['arrowup']) state.player.y -= state.player.speed;
-            if (keys['s'] || keys['arrowdown']) state.player.y += state.player.speed;
-
-            // Giới hạn
-            state.player.y = Math.max(0, Math.min(canvas.height - state.player.height, state.player.y));
-
-            // AI di chuyển
-            const aiCenter = state.ai.y + state.ai.height/2;
-            if (aiCenter < state.ball.y) state.ai.y += state.ai.speed;
-            if (aiCenter > state.ball.y) state.ai.y -= state.ai.speed;
-            state.ai.y = Math.max(0, Math.min(canvas.height - state.ai.height, state.ai.y));
-
-            // Ball di chuyển
-            state.ball.x += state.ball.vx;
-            state.ball.y += state.ball.vy;
-
-            // Va chạm trên dưới
-            if (state.ball.y < 0 || state.ball.y > canvas.height) {
-                state.ball.vy *= -1;
-            }
-
-            // Va chạm player
-            if (state.ball.x - state.ball.radius < state.player.x + state.player.width &&
-                state.ball.x + state.ball.radius > state.player.x &&
-                state.ball.y > state.player.y && state.ball.y < state.player.y + state.player.height) {
-                state.ball.vx = Math.abs(state.ball.vx);
-                state.ball.vx += 0.5;
-            }
-
-            // Va chạm AI
-            if (state.ball.x + state.ball.radius > state.ai.x &&
-                state.ball.x - state.ball.radius < state.ai.x + state.ai.width &&
-                state.ball.y > state.ai.y && state.ball.y < state.ai.y + state.ai.height) {
-                state.ball.vx = -Math.abs(state.ball.vx);
-                state.ball.vx -= 0.5;
-            }
-
-            // Ghi điểm
-            if (state.ball.x < 0) {
-                state.aiScore++;
-                resetBall();
-            }
-            if (state.ball.x > canvas.width) {
-                state.playerScore++;
-                resetBall();
-            }
-
-            if (state.playerScore >= 10 || state.aiScore >= 10) {
-                state.gameOver = true;
-            }
-        }
-
-        function resetBall() {
-            pongState.ball.x = canvas.width/2;
-            pongState.ball.y = canvas.height/2;
-            pongState.ball.vx = 5 * (Math.random() > 0.5 ? 1 : -1);
-            pongState.ball.vy = 3 * (Math.random() > 0.5 ? 1 : -1);
-        }
-
-        function drawPong() {
-            const state = pongState;
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-            // Vẽ đường giữa
-            ctx.strokeStyle = 'rgba(255,255,255,0.3)';
-            ctx.setLineDash([10, 10]);
-            ctx.beginPath();
-            ctx.moveTo(canvas.width/2, 0);
-            ctx.lineTo(canvas.width/2, canvas.height);
-            ctx.stroke();
-            ctx.setLineDash([]);
-
-            // Vẽ player
-            ctx.fillStyle = '#ff69b4';
-            ctx.fillRect(0, state.player.y, state.player.width, state.player.height);
-
-            // Vẽ AI
-            ctx.fillStyle = '#20d5ff';
-            ctx.fillRect(canvas.width - state.ai.width, state.ai.y, state.ai.width, state.ai.height);
-
-            // Vẽ ball
-            ctx.beginPath();
-            ctx.arc(state.ball.x, state.ball.y, state.ball.radius, 0, Math.PI * 2);
-            ctx.fillStyle = 'white';
-            ctx.fill();
-
-            // Vẽ score
-            ctx.fillStyle = 'white';
-            ctx.font = '40px Poppins';
-            ctx.textAlign = 'center';
-            ctx.fillText(`${state.playerScore} : ${state.aiScore}`, canvas.width/2, 50);
-            ctx.textAlign = 'left';
-
-            // Game over
-            if (state.gameOver) {
-                ctx.fillStyle = 'rgba(0,0,0,0.7)';
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-                ctx.fillStyle = 'white';
-                ctx.font = '40px Poppins';
-                ctx.textAlign = 'center';
-                ctx.fillText(state.playerScore > state.aiScore ? 'BẠN THẮNG!' : 'BẠN THUA!', canvas.width/2, canvas.height/2 - 30);
-                ctx.font = '25px Poppins';
-                ctx.fillText('Click để chơi lại', canvas.width/2, canvas.height/2 + 30);
-                ctx.textAlign = 'left';
-            }
-        }
-
-        // ====== GAME 4: BREAKOUT ======
-        let breakoutState;
-
-        function initBreakout() {
-            breakoutState = {
-                paddle: { x: canvas.width/2 - 50, y: canvas.height - 30, width: 100, height: 15, speed: 7 },
-                ball: { x: canvas.width/2, y: canvas.height - 50, vx: 4, vy: -4, radius: 8 },
-                bricks: [],
-                score: 0,
-                lives: 3,
-                gameOver: false
-            };
-
-            // Tạo bricks
-            const rows = 5;
-            const cols = 8;
-            const brickWidth = (canvas.width - 40) / cols;
-            const brickHeight = 25;
-
-            for (let row = 0; row < rows; row++) {
-                for (let col = 0; col < cols; col++) {
-                    breakoutState.bricks.push({
-                        x: 20 + col * brickWidth,
-                        y: 50 + row * (brickHeight + 10),
-                        width: brickWidth - 5,
-                        height: brickHeight,
-                        alive: true,
-                        color: `hsl(${row * 40}, 70%, 50%)`
-                    });
-                }
-            }
-
-            gameLoop();
-        }
-
-        function updateBreakout() {
-            const state = breakoutState;
-            if (state.gameOver) return;
-
-            // Di chuyển paddle
-            if (keys['a'] || keys['arrowleft']) state.paddle.x -= state.paddle.speed;
-            if (keys['d'] || keys['arrowright']) state.paddle.x += state.paddle.speed;
-            state.paddle.x = Math.max(0, Math.min(canvas.width - state.paddle.width, state.paddle.x));
-
-            // Ball di chuyển
-            state.ball.x += state.ball.vx;
-            state.ball.y += state.ball.vy;
-
-            // Va chạm tường
-            if (state.ball.x < 0 || state.ball.x > canvas.width) state.ball.vx *= -1;
-            if (state.ball.y < 0) state.ball.vy *= -1;
-
-            // Va chạm paddle
-            if (state.ball.y + state.ball.radius > state.paddle.y &&
-                state.ball.y - state.ball.radius < state.paddle.y + state.paddle.height &&
-                state.ball.x > state.paddle.x && state.ball.x < state.paddle.x + state.paddle.width) {
-                state.ball.vy = -Math.abs(state.ball.vy);
-            }
-
-            // Va chạm bricks
-            state.bricks.forEach(brick => {
-                if (!brick.alive) return;
-                if (state.ball.x > brick.x && state.ball.x < brick.x + brick.width &&
-                    state.ball.y > brick.y && state.ball.y < brick.y + brick.height) {
-                    brick.alive = false;
-                    state.ball.vy *= -1;
-                    state.score += 10;
+            document.addEventListener('mousemove', (e) => {
+                if (joystickData.active) {
+                    updateJoystick(e.clientX, e.clientY);
                 }
             });
 
-            // Rơi xuống
-            if (state.ball.y > canvas.height) {
-                state.lives--;
-                state.ball.x = canvas.width/2;
-                state.ball.y = canvas.height - 50;
-                state.ball.vx = 4 * (Math.random() > 0.5 ? 1 : -1);
-                state.ball.vy = -4;
-                if (state.lives <= 0) state.gameOver = true;
-            }
-
-            // Thắng
-            if (state.bricks.every(brick => !brick.alive)) {
-                state.gameOver = true;
-            }
-        }
-
-        function drawBreakout() {
-            const state = breakoutState;
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-            // Vẽ bricks
-            state.bricks.forEach(brick => {
-                if (!brick.alive) return;
-                ctx.fillStyle = brick.color;
-                ctx.fillRect(brick.x, brick.y, brick.width, brick.height);
+            document.addEventListener('mouseup', () => {
+                joystickData.active = false;
+                joystickData.x = 0;
+                joystickData.y = 0;
+                joystickKnob.style.transform = 'translate(-50%, -50%)';
             });
 
-            // Vẽ paddle
-            ctx.fillStyle = '#ff69b4';
-            ctx.fillRect(state.paddle.x, state.paddle.y, state.paddle.width, state.paddle.height);
-
-            // Vẽ ball
-            ctx.beginPath();
-            ctx.arc(state.ball.x, state.ball.y, state.ball.radius, 0, Math.PI * 2);
-            ctx.fillStyle = 'white';
-            ctx.fill();
-
-            // Vẽ score
-            ctx.fillStyle = 'white';
-            ctx.font = '25px Poppins';
-            ctx.fillText(`Điểm: ${state.score}`, 20, 30);
-            ctx.fillText(`Mạng: ${state.lives}`, canvas.width - 100, 30);
-
-            // Game over
-            if (state.gameOver) {
-                ctx.fillStyle = 'rgba(0,0,0,0.7)';
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-                ctx.fillStyle = 'white';
-                ctx.font = '40px Poppins';
-                ctx.textAlign = 'center';
-                ctx.fillText(state.lives > 0 ? 'BẠN THẮNG!' : 'GAME OVER!', canvas.width/2, canvas.height/2 - 30);
-                ctx.font = '25px Poppins';
-                ctx.fillText(`Điểm: ${state.score}`, canvas.width/2, canvas.height/2 + 20);
-                ctx.fillText('Click để chơi lại', canvas.width/2, canvas.height/2 + 60);
-                ctx.textAlign = 'left';
-            }
-        }
-
-        // ====== GAME 5: FLAPPY BIRD ======
-        let flappyState;
-
-        function initFlappy() {
-            flappyState = {
-                bird: { x: 50, y: canvas.height/2, vy: 0, radius: 15, gravity: 0.5, jump: -8 },
-                pipes: [],
-                score: 0,
-                gameOver: false,
-                pipeSpeed: 3,
-                pipeGap: 150,
-                pipeWidth: 60
-            };
-
-            gameLoop();
-        }
-
-        canvas.addEventListener('click', (e) => {
-            if (currentGame === 'flappy' && flappyState && !flappyState.gameOver) {
-                flappyState.bird.vy = flappyState.bird.jump;
-            }
-        });
-
-        document.addEventListener('keydown', (e) => {
-            if (e.key === ' ' && currentGame === 'flappy' && flappyState && !flappyState.gameOver) {
-                flappyState.bird.vy = flappyState.bird.jump;
-            }
-        });
-
-        function updateFlappy() {
-            const state = flappyState;
-            if (state.gameOver) return;
-
-            // Bird vật lý
-            state.bird.vy += state.bird.gravity;
-            state.bird.y += state.bird.vy;
-
-            // Tạo pipes
-            if (state.pipes.length === 0 || state.pipes[state.pipes.length - 1].x < canvas.width - 200) {
-                const gapY = 50 + Math.random() * (canvas.height - 200);
-                state.pipes.push({
-                    x: canvas.width,
-                    gapY: gapY,
-                    width: state.pipeWidth,
-                    gapHeight: state.pipeGap
-                });
-            }
-
-            // Di chuyển pipes
-            state.pipes.forEach(pipe => pipe.x -= state.pipeSpeed);
-            state.pipes = state.pipes.filter(pipe => pipe.x > -state.pipeWidth);
-
-            // Va chạm
-            state.pipes.forEach(pipe => {
-                if (state.bird.x + state.bird.radius > pipe.x && 
-                    state.bird.x - state.bird.radius < pipe.x + pipe.width) {
-                    if (state.bird.y < pipe.gapY || state.bird.y > pipe.gapY + pipe.gapHeight) {
-                        state.gameOver = true;
-                    }
-                }
-            });
-
-            // Va chạm trên dưới
-            if (state.bird.y < 0 || state.bird.y > canvas.height) {
-                state.gameOver = true;
-            }
-
-            // Ghi điểm
-            state.pipes.forEach(pipe => {
-                if (!pipe.passed && pipe.x + pipe.width < state.bird.x) {
-                    pipe.passed = true;
-                    state.score++;
-                }
-            });
-        }
-
-        function drawFlappy() {
-            const state = flappyState;
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-            // Vẽ bird
-            ctx.beginPath();
-            ctx.arc(state.bird.x, state.bird.y, state.bird.radius, 0, Math.PI * 2);
-            ctx.fillStyle = '#ffd700';
-            ctx.fill();
-            ctx.strokeStyle = '#ff8c00';
-            ctx.lineWidth = 3;
-            ctx.stroke();
-
-            // Vẽ pipes
-            state.pipes.forEach(pipe => {
-                // Trên
-                ctx.fillStyle = '#00cc66';
-                ctx.fillRect(pipe.x, 0, pipe.width, pipe.gapY);
-                // Dưới
-                ctx.fillStyle = '#00ff88';
-                ctx.fillRect(pipe.x, pipe.gapY + pipe.gapHeight, pipe.width, canvas.height - pipe.gapY - pipe.gapHeight);
-            });
-
-            // Vẽ score
-            ctx.fillStyle = 'white';
-            ctx.font = '30px Poppins';
-            ctx.textAlign = 'center';
-            ctx.fillText(`Điểm: ${state.score}`, canvas.width/2, 50);
-            ctx.textAlign = 'left';
-
-            // Game over
-            if (state.gameOver) {
-                ctx.fillStyle = 'rgba(0,0,0,0.7)';
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-                ctx.fillStyle = 'white';
-                ctx.font = '40px Poppins';
-                ctx.textAlign = 'center';
-                ctx.fillText('GAME OVER!', canvas.width/2, canvas.height/2 - 30);
-                ctx.font = '25px Poppins';
-                ctx.fillText(`Điểm: ${state.score}`, canvas.width/2, canvas.height/2 + 20);
-                ctx.fillText('Click để chơi lại', canvas.width/2, canvas.height/2 + 60);
-                ctx.textAlign = 'left';
-            }
-        }
-
-        // ====== GAME 6: MEMORY ======
-        let memoryState;
-
-        function initMemory() {
-            const emojis = ['🌸', '💖', '✨', '⭐', '🎮', '🌈', '🔥', '💎'];
-            const cards = [...emojis, ...emojis].sort(() => Math.random() - 0.5);
-
-            memoryState = {
-                cards: cards.map((emoji, index) => ({
-                    emoji: emoji,
-                    flipped: false,
-                    matched: false,
-                    x: 0,
-                    y: 0,
-                    width: 0,
-                    height: 0
-                })),
-                firstCard: null,
-                secondCard: null,
-                moves: 0,
-                matchedPairs: 0,
-                gameOver: false,
-                lockBoard: false
-            };
-
-            // Tính kích thước card
-            const cols = 4;
-            const rows = 4;
-            const padding = 20;
-            const gap = 10;
-            const cardWidth = (canvas.width - padding * 2 - gap * (cols - 1)) / cols;
-            const cardHeight = (canvas.height - padding * 2 - gap * (rows - 1)) / rows;
-
-            memoryState.cards.forEach((card, index) => {
-                const row = Math.floor(index / cols);
-                const col = index % cols;
-                card.x = padding + col * (cardWidth + gap);
-                card.y = padding + row * (cardHeight + gap);
-                card.width = cardWidth;
-                card.height = cardHeight;
-            });
-
-            gameLoop();
-        }
-
-        canvas.addEventListener('click', (e) => {
-            if (currentGame !== 'memory' || !memoryState || memoryState.lockBoard) return;
-
-            const rect = canvas.getBoundingClientRect();
-            const mouseX = e.clientX - rect.left;
-            const mouseY = e.clientY - rect.top;
-
-            memoryState.cards.forEach(card => {
-                if (card.flipped || card.matched) return;
-                if (mouseX > card.x && mouseX < card.x + card.width &&
-                    mouseY > card.y && mouseY < card.y + card.height) {
-                    flipCard(card);
-                }
-            });
-        });
-
-        function flipCard(card) {
-            const state = memoryState;
-            card.flipped = true;
-            state.moves++;
-
-            if (!state.firstCard) {
-                state.firstCard = card;
-            } else if (!state.secondCard) {
-                state.secondCard = card;
-                state.lockBoard = true;
-
-                if (state.firstCard.emoji === state.secondCard.emoji) {
-                    state.firstCard.matched = true;
-                    state.secondCard.matched = true;
-                    state.matchedPairs++;
-                    state.firstCard = null;
-                    state.secondCard = null;
-                    state.lockBoard = false;
-
-                    if (state.matchedPairs === 8) {
-                        state.gameOver = true;
-                    }
+            function updateJoystick(clientX, clientY) {
+                const dx = clientX - joystickCenter.x;
+                const dy = clientY - joystickCenter.y;
+                const maxDist = 50;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                
+                if (dist > maxDist) {
+                    const scale = maxDist / dist;
+                    joystickData.x = (dx * scale) / maxDist;
+                    joystickData.y = (dy * scale) / maxDist;
                 } else {
-                    setTimeout(() => {
-                        state.firstCard.flipped = false;
-                        state.secondCard.flipped = false;
-                        state.firstCard = null;
-                        state.secondCard = null;
-                        state.lockBoard = false;
-                    }, 1000);
+                    joystickData.x = dx / maxDist;
+                    joystickData.y = dy / maxDist;
                 }
+
+                joystickKnob.style.transform = `translate(${joystickData.x * 50}px, ${joystickData.y * 50}px)`;
             }
         }
 
-        function drawMemory() {
-            const state = memoryState;
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-            state.cards.forEach(card => {
-                if (card.flipped || card.matched) {
-                    // Vẽ mặt trước
-                    ctx.fillStyle = card.matched ? 'rgba(0,255,136,0.3)' : '#ff69b4';
-                    ctx.fillRect(card.x, card.y, card.width, card.height);
-                    ctx.strokeStyle = card.matched ? '#00ff88' : '#ff1493';
-                    ctx.lineWidth = 3;
-                    ctx.strokeRect(card.x, card.y, card.width, card.height);
-
-                    ctx.fillStyle = 'white';
-                    ctx.font = `${Math.min(card.width, card.height) * 0.5}px Arial`;
-                    ctx.textAlign = 'center';
-                    ctx.textBaseline = 'middle';
-                    ctx.fillText(card.emoji, card.x + card.width/2, card.y + card.height/2);
-                    ctx.textAlign = 'left';
-                    ctx.textBaseline = 'alphabetic';
-                } else {
-                    // Vẽ mặt sau
-                    ctx.fillStyle = '#2d1b69';
-                    ctx.fillRect(card.x, card.y, card.width, card.height);
-                    ctx.strokeStyle = '#ff69b4';
-                    ctx.lineWidth = 3;
-                    ctx.strokeRect(card.x, card.y, card.width, card.height);
-
-                    ctx.fillStyle = 'rgba(255,105,180,0.5)';
-                    ctx.font = `${Math.min(card.width, card.height) * 0.4}px Arial`;
-                    ctx.textAlign = 'center';
-                    ctx.textBaseline = 'middle';
-                    ctx.fillText('?', card.x + card.width/2, card.y + card.height/2);
-                    ctx.textAlign = 'left';
-                    ctx.textBaseline = 'alphabetic';
-                }
-            });
-
-            // Vẽ moves
-            ctx.fillStyle = 'white';
-            ctx.font = '25px Poppins';
-            ctx.fillText(`Lượt: ${state.moves}`, 20, 30);
-
-            // Game over
-            if (state.gameOver) {
-                ctx.fillStyle = 'rgba(0,0,0,0.7)';
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-                ctx.fillStyle = 'white';
-                ctx.font = '40px Poppins';
-                ctx.textAlign = 'center';
-                ctx.fillText('BẠN THẮNG!', canvas.width/2, canvas.height/2 - 30);
-                ctx.font = '25px Poppins';
-                ctx.fillText(`Lượt: ${state.moves}`, canvas.width/2, canvas.height/2 + 20);
-                ctx.fillText('Click để chơi lại', canvas.width/2, canvas.height/2 + 60);
-                ctx.textAlign = 'left';
+        function onKeyDown(e) {
+            keys[e.key.toLowerCase()] = true;
+            if (e.key === ' ') {
+                jump();
+                e.preventDefault();
             }
+        }
+
+        function onKeyUp(e) {
+            keys[e.key.toLowerCase()] = false;
+        }
+
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
         }
 
         // ====== GAME LOOP ======
-        function gameLoop() {
-            switch(currentGame) {
-                case 'shooter':
-                    updateShooter();
-                    drawShooter();
-                    break;
-                case 'snake':
-                    updateSnake();
-                    drawSnake();
-                    break;
-                case 'pong':
-                    updatePong();
-                    drawPong();
-                    break;
-                case 'breakout':
-                    updateBreakout();
-                    drawBreakout();
-                    break;
-                case 'flappy':
-                    updateFlappy();
-                    drawFlappy();
-                    break;
-                case 'memory':
-                    drawMemory();
-                    break;
+        function animate(time) {
+            requestAnimationFrame(animate);
+
+            if (!gameRunning || gamePaused) {
+                renderer.render(scene, camera);
+                return;
             }
 
-            animationId = requestAnimationFrame(gameLoop);
+            const delta = (time - lastTime) / 1000;
+            lastTime = time;
+
+            // Update player
+            updatePlayer(delta);
+            updateCamera();
+            updateEnemies(delta);
+            updateBullets(delta);
+            updateParticles(delta);
+            updateUI();
+
+            renderer.render(scene, camera);
         }
 
-        // Click để chơi lại
-        canvas.addEventListener('click', (e) => {
-            const state = getCurrentGameState();
-            if (state && state.gameOver) {
-                selectGame(currentGame);
-            }
-        });
+        function updatePlayer(delta) {
+            // Keyboard input
+            let moveX = 0;
+            let moveZ = 0;
 
-        function getCurrentGameState() {
-            switch(currentGame) {
-                case 'shooter': return shooterState;
-                case 'snake': return snakeState;
-                case 'pong': return pongState;
-                case 'breakout': return breakoutState;
-                case 'flappy': return flappyState;
-                case 'memory': return memoryState;
+            if (keys['w'] || keys['arrowup']) moveZ -= 1;
+            if (keys['s'] || keys['arrowdown']) moveZ += 1;
+            if (keys['a'] || keys['arrowleft']) moveX -= 1;
+            if (keys['d'] || keys['arrowright']) moveX += 1;
+
+            // Joystick input
+            if (joystickData.active) {
+                moveX = joystickData.x;
+                moveZ = joystickData.y;
             }
-            return null;
+
+            // Normalize
+            const length = Math.sqrt(moveX * moveX + moveZ * moveZ);
+            if (length > 0) {
+                moveX = moveX / length;
+                moveZ = moveZ / length;
+
+                // Rotate player
+                const angle = Math.atan2(moveX, moveZ);
+                player.rotation.y = angle;
+
+                // Move player
+                const speed = 15;
+                player.position.x += moveX * speed * delta;
+                player.position.z += moveZ * speed * delta;
+            }
+
+            // Jump physics
+            playerVelocity.y -= 20 * delta;
+            player.position.y += playerVelocity.y * delta;
+
+            if (player.position.y <= 0) {
+                player.position.y = 0;
+                playerVelocity.y = 0;
+                isJumping = false;
+            }
+
+            // Bounds
+            player.position.x = Math.max(-250, Math.min(250, player.position.x));
+            player.position.z = Math.max(-250, Math.min(250, player.position.z));
+
+            // Collision with trees
+            trees.forEach(tree => {
+                const dx = player.position.x - tree.position.x;
+                const dz = player.position.z - tree.position.z;
+                const dist = Math.sqrt(dx * dx + dz * dz);
+                if (dist < 2) {
+                    player.position.x = tree.position.x + (dx / dist) * 2;
+                    player.position.z = tree.position.z + (dz / dist) * 2;
+                }
+            });
+
+            // Collision with rocks
+            obstacles.forEach(rock => {
+                const dx = player.position.x - rock.position.x;
+                const dz = player.position.z - rock.position.z;
+                const dist = Math.sqrt(dx * dx + dz * dz);
+                if (dist < 2) {
+                    player.position.x = rock.position.x + (dx / dist) * 2;
+                    player.position.z = rock.position.z + (dz / dist) * 2;
+                }
+            });
         }
 
-        // Khởi tạo
+        function updateCamera() {
+            // Camera follow player
+            const cameraOffset = new THREE.Vector3(0, 20, 15);
+            const cameraTarget = player.position.clone().add(cameraOffset);
+            camera.position.lerp(cameraTarget, 0.1);
+            camera.lookAt(player.position);
+        }
+
+        function updateEnemies(delta) {
+            enemies.forEach((enemy, index) => {
+                // Move towards player
+                const direction = new THREE.Vector3()
+                    .subVectors(player.position, enemy.mesh.position);
+                direction.y = 0;
+                const dist = direction.length();
+
+                if (dist > 3) {
+                    direction.normalize();
+                    enemy.mesh.position.add(direction.multiplyScalar(enemy.speed * delta));
+                    enemy.mesh.rotation.y = Math.atan2(direction.x, direction.z);
+                }
+
+                // Attack
+                if (dist < enemy.attackRange) {
+                    enemy.attackCooldown -= delta;
+                    if (enemy.attackCooldown <= 0) {
+                        health -= 10;
+                        enemy.attackCooldown = 2;
+                        if (health <= 0) {
+                            gameOver();
+                        }
+                    }
+                }
+
+                // Bobbing animation
+                enemy.mesh.position.y = Math.sin(time * 3 + index) * 0.2;
+            });
+        }
+
+        function updateBullets(delta) {
+            bullets = bullets.filter(bullet => {
+                bullet.life -= delta;
+                bullet.mesh.position.add(bullet.velocity.clone().multiplyScalar(delta));
+
+                // Check collision with enemies
+                enemies.forEach((enemy, enemyIndex) => {
+                    const dist = bullet.mesh.position.distanceTo(enemy.mesh.position);
+                    if (dist < 2) {
+                        enemy.health -= 50;
+                        scene.remove(bullet.mesh);
+                        bullet.life = 0;
+
+                        if (enemy.health <= 0) {
+                            // Kill enemy
+                            scene.remove(enemy.mesh);
+                            enemies.splice(enemyIndex, 1);
+                            kills++;
+                            score += 100;
+                            spawnEnemy();
+                            createExplosion(enemy.mesh.position);
+                        }
+                    }
+                });
+
+                return bullet.life > 0;
+            });
+
+            // Remove dead bullets
+            bullets.forEach(bullet => {
+                if (bullet.life <= 0) {
+                    scene.remove(bullet.mesh);
+                }
+            });
+            bullets = bullets.filter(bullet => bullet.life > 0);
+        }
+
+        function createExplosion(position) {
+            // Particle explosion
+            for (let i = 0; i < 20; i++) {
+                const particleGeometry = new THREE.SphereGeometry(0.1, 4, 4);
+                const particleMaterial = new THREE.MeshBasicMaterial({ 
+                    color: new THREE.Color().setHSL(Math.random(), 1, 0.5),
+                    transparent: true
+                });
+                const particle = new THREE.Mesh(particleGeometry, particleMaterial);
+                particle.position.copy(position);
+                scene.add(particle);
+
+                particles.push({
+                    mesh: particle,
+                    velocity: new THREE.Vector3(
+                        (Math.random() - 0.5) * 20,
+                        Math.random() * 10,
+                        (Math.random() - 0.5) * 20
+                    ),
+                    life: 1,
+                    maxLife: 1
+                });
+            }
+        }
+
+        function updateParticles(delta) {
+            particles = particles.filter(particle => {
+                particle.life -= delta;
+                
+                if (particle.velocity) {
+                    particle.mesh.position.add(particle.velocity.clone().multiplyScalar(delta));
+                    particle.velocity.y -= 10 * delta;
+                }
+
+                const opacity = particle.life / particle.maxLife;
+                if (particle.mesh.material) {
+                    particle.mesh.material.opacity = opacity;
+                }
+
+                if (particle.life <= 0) {
+                    scene.remove(particle.mesh);
+                    return false;
+                }
+                return true;
+            });
+        }
+
+        function updateUI() {
+            document.getElementById('scoreDisplay').textContent = score;
+            document.getElementById('healthDisplay').textContent = Math.max(0, Math.round(health));
+            document.getElementById('killDisplay').textContent = kills;
+        }
+
+        // ====== GAME CONTROL ======
+        function startGame() {
+            document.getElementById('gameMenu').style.display = 'none';
+            document.getElementById('gameOver').style.display = 'none';
+            
+            // Reset game
+            score = 0;
+            kills = 0;
+            health = 100;
+            player.position.set(0, 0, 0);
+            
+            // Clear enemies
+            enemies.forEach(enemy => scene.remove(enemy.mesh));
+            enemies = [];
+            
+            // Spawn new enemies
+            for (let i = 0; i < 5; i++) {
+                spawnEnemy();
+            }
+            
+            gameRunning = true;
+            gamePaused = false;
+            lastTime = performance.now();
+        }
+
+        function gameOver() {
+            gameRunning = false;
+            document.getElementById('finalScore').textContent = `Điểm: ${score}`;
+            document.getElementById('gameOver').style.display = 'flex';
+            
+            // Update total stats
+            document.getElementById('totalKills').textContent = kills;
+            document.getElementById('totalScore').textContent = score;
+        }
+
+        function restartGame() {
+            startGame();
+        }
+
+        function backToMenu() {
+            document.getElementById('gameOver').style.display = 'none';
+            document.getElementById('gameMenu').style.display = 'flex';
+            gameRunning = false;
+        }
+
+        // ====== INIT ======
         createParticles();
-        resizeCanvas();
-        selectGame('shooter');
     </script>
 </body>
 </html>
