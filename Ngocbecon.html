@@ -2,10 +2,10 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Ngọc Becon - Free Fọt</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Ngọc Becon - Free Fire 3D</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&family=Playfair+Display:wght@700;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap');
 
         * {
             margin: 0;
@@ -14,15 +14,18 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        body {
+        html, body {
             font-family: 'Poppins', sans-serif;
-            background: #0a0a2e;
+            background: #000;
             color: white;
             min-height: 100vh;
             overflow: hidden;
             touch-action: none;
             user-select: none;
             -webkit-user-select: none;
+            position: fixed;
+            width: 100%;
+            height: 100%;
         }
 
         /* ====== GAME CONTAINER ====== */
@@ -50,28 +53,29 @@
             transform: translateX(-50%);
             z-index: 100;
             display: flex;
-            gap: 15px;
+            gap: 10px;
             align-items: center;
-            background: rgba(0, 0, 0, 0.7);
+            background: rgba(0, 0, 0, 0.6);
             backdrop-filter: blur(10px);
-            padding: 8px 20px;
-            border-radius: 30px;
+            padding: 5px 15px;
+            border-radius: 25px;
             border: 2px solid rgba(255, 105, 180, 0.3);
             pointer-events: none;
+            white-space: nowrap;
         }
 
         .hud-item {
             text-align: center;
-            min-width: 60px;
+            min-width: 40px;
         }
 
         .hud-label {
-            font-size: 0.7rem;
+            font-size: 0.5rem;
             color: rgba(255, 255, 255, 0.7);
         }
 
         .hud-value {
-            font-size: 1.1rem;
+            font-size: 0.9rem;
             font-weight: 700;
             color: #ff69b4;
         }
@@ -79,10 +83,10 @@
         /* ====== JOYSTICK ====== */
         #joystickArea {
             position: fixed;
-            bottom: 80px;
+            bottom: 100px;
             left: 20px;
-            width: 130px;
-            height: 130px;
+            width: 110px;
+            height: 110px;
             z-index: 100;
             background: rgba(255, 255, 255, 0.1);
             border-radius: 50%;
@@ -95,8 +99,8 @@
             position: absolute;
             top: 50%;
             left: 50%;
-            width: 50px;
-            height: 50px;
+            width: 40px;
+            height: 40px;
             background: linear-gradient(45deg, #ff69b4, #ff1493);
             border-radius: 50%;
             transform: translate(-50%, -50%);
@@ -107,25 +111,25 @@
         /* ====== ACTION BUTTONS ====== */
         #actionButtons {
             position: fixed;
-            bottom: 80px;
-            right: 15px;
+            bottom: 100px;
+            right: 10px;
             z-index: 100;
             display: flex;
-            gap: 10px;
+            gap: 5px;
             align-items: center;
             flex-wrap: wrap;
             justify-content: flex-end;
-            max-width: 200px;
+            max-width: 120px;
         }
 
         .action-btn {
-            width: 55px;
-            height: 55px;
+            width: 45px;
+            height: 45px;
             border-radius: 50%;
             border: 2px solid rgba(255, 255, 255, 0.3);
             background: rgba(255, 105, 180, 0.3);
             color: white;
-            font-size: 1.2rem;
+            font-size: 1rem;
             font-weight: 700;
             cursor: pointer;
             backdrop-filter: blur(10px);
@@ -143,43 +147,43 @@
         }
 
         .action-btn.jump {
-            width: 65px;
-            height: 65px;
+            width: 55px;
+            height: 55px;
             background: rgba(255, 215, 0, 0.3);
             border-color: rgba(255, 215, 0, 0.5);
         }
 
         .action-btn.small {
-            width: 45px;
-            height: 45px;
-            font-size: 0.9rem;
+            width: 35px;
+            height: 35px;
+            font-size: 0.8rem;
         }
 
         /* ====== WEAPON BAR ====== */
         #weaponBar {
             position: fixed;
-            bottom: 15px;
+            bottom: 10px;
             left: 50%;
             transform: translateX(-50%);
             z-index: 100;
             display: flex;
-            gap: 10px;
-            background: rgba(0, 0, 0, 0.7);
+            gap: 5px;
+            background: rgba(0, 0, 0, 0.6);
             backdrop-filter: blur(10px);
-            padding: 8px;
-            border-radius: 20px;
+            padding: 4px;
+            border-radius: 15px;
             border: 2px solid rgba(255, 105, 180, 0.3);
         }
 
         .weapon-slot {
-            width: 50px;
-            height: 50px;
-            border-radius: 15px;
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
             border: 2px solid rgba(255, 255, 255, 0.2);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             cursor: pointer;
             transition: all 0.3s;
             background: rgba(255, 255, 255, 0.1);
@@ -200,12 +204,12 @@
             z-index: 1000;
             background: rgba(20, 10, 40, 0.95);
             backdrop-filter: blur(20px);
-            border-radius: 30px;
-            padding: 30px;
+            border-radius: 25px;
+            padding: 20px;
             border: 2px solid rgba(255, 105, 180, 0.5);
             box-shadow: 0 30px 100px rgba(0, 0, 0, 0.8);
-            width: 90%;
-            max-width: 500px;
+            width: 85%;
+            max-width: 400px;
             max-height: 80vh;
             overflow-y: auto;
             transition: transform 0.3s ease;
@@ -216,32 +220,31 @@
         }
 
         .menu-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 2rem;
+            font-size: 1.5rem;
             background: linear-gradient(45deg, #ff69b4, #ff1493);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             text-align: center;
         }
 
         .menu-tabs {
             display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
+            gap: 5px;
+            margin-bottom: 15px;
             flex-wrap: wrap;
         }
 
         .menu-tab {
-            padding: 10px 20px;
-            border-radius: 20px;
+            padding: 8px 12px;
+            border-radius: 15px;
             border: 2px solid rgba(255, 105, 180, 0.3);
             background: rgba(255, 255, 255, 0.1);
             color: white;
             cursor: pointer;
             font-family: 'Poppins', sans-serif;
-            font-size: 0.9rem;
+            font-size: 0.75rem;
             transition: all 0.3s;
         }
 
@@ -259,24 +262,24 @@
         }
 
         .menu-section {
-            margin-bottom: 20px;
+            margin-bottom: 10px;
         }
 
         .menu-section-title {
-            font-size: 1rem;
+            font-size: 0.85rem;
             color: #ff69b4;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
 
         .menu-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-            gap: 10px;
+            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            gap: 5px;
         }
 
         .menu-item {
-            padding: 10px;
-            border-radius: 15px;
+            padding: 8px;
+            border-radius: 10px;
             border: 2px solid rgba(255, 105, 180, 0.2);
             background: rgba(255, 255, 255, 0.1);
             cursor: pointer;
@@ -290,43 +293,40 @@
         }
 
         .menu-item-icon {
-            font-size: 1.5rem;
-            margin-bottom: 5px;
+            font-size: 1.2rem;
+            margin-bottom: 3px;
         }
 
         .menu-item-name {
-            font-size: 0.8rem;
+            font-size: 0.65rem;
         }
 
         .menu-input {
             width: 100%;
-            padding: 12px;
-            border-radius: 15px;
+            padding: 10px;
+            border-radius: 10px;
             border: 2px solid rgba(255, 105, 180, 0.3);
             background: rgba(255, 255, 255, 0.1);
             color: white;
             font-family: 'Poppins', sans-serif;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             outline: none;
-        }
-
-        .menu-input:focus {
-            border-color: #ff69b4;
+            font-size: 0.85rem;
         }
 
         .menu-btn {
             width: 100%;
-            padding: 15px;
-            border-radius: 20px;
+            padding: 10px;
+            border-radius: 12px;
             border: none;
             background: linear-gradient(45deg, #ff69b4, #ff1493);
             color: white;
             font-family: 'Poppins', sans-serif;
-            font-size: 1rem;
+            font-size: 0.85rem;
             font-weight: 700;
             cursor: pointer;
             transition: all 0.3s;
-            margin-bottom: 10px;
+            margin-bottom: 5px;
         }
 
         .menu-btn:hover {
@@ -348,34 +348,13 @@
             top: 10px;
             right: 10px;
             z-index: 100;
-            width: 120px;
-            height: 120px;
-            border-radius: 20px;
+            width: 80px;
+            height: 80px;
+            border-radius: 12px;
             border: 2px solid rgba(255, 105, 180, 0.3);
             background: rgba(0, 0, 0, 0.5);
             backdrop-filter: blur(10px);
             overflow: hidden;
-        }
-
-        /* ====== CHAT ====== */
-        #chatBox {
-            position: fixed;
-            bottom: 160px;
-            left: 20px;
-            z-index: 100;
-            max-width: 300px;
-            max-height: 200px;
-            overflow-y: auto;
-            display: none;
-        }
-
-        .chat-message {
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(10px);
-            padding: 8px 12px;
-            border-radius: 10px;
-            margin-bottom: 5px;
-            font-size: 0.9rem;
         }
 
         /* ====== LOBBY ====== */
@@ -404,11 +383,11 @@
         .lobby-card {
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(20px);
-            border-radius: 30px;
-            padding: 40px;
+            border-radius: 25px;
+            padding: 25px;
             border: 2px solid rgba(255, 105, 180, 0.3);
             box-shadow: 0 30px 100px rgba(0, 0, 0, 0.5);
-            max-width: 600px;
+            max-width: 400px;
             width: 90%;
             text-align: center;
             animation: cardEntrance 1s ease-out forwards;
@@ -429,8 +408,8 @@
         }
 
         .lobby-logo {
-            width: 100px;
-            height: 100px;
+            width: 80px;
+            height: 80px;
             border-radius: 50%;
             background: linear-gradient(45deg, #ff69b4, #ff1493);
             background-size: 300% 300%;
@@ -438,8 +417,8 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 45px;
-            margin: 0 auto 20px;
+            font-size: 35px;
+            margin: 0 auto 15px;
             box-shadow: 0 0 60px rgba(255, 20, 147, 0.6);
             position: relative;
         }
@@ -454,8 +433,8 @@
             position: absolute;
             top: -10px;
             left: -10px;
-            width: 120px;
-            height: 120px;
+            width: 100px;
+            height: 100px;
             border-radius: 50%;
             border: 3px solid rgba(255, 105, 180, 0.4);
             animation: ringExpand 3s ease-out infinite;
@@ -467,35 +446,34 @@
         }
 
         .lobby-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 2.5rem;
+            font-size: 2rem;
             background: linear-gradient(45deg, #ff69b4, #ff1493);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
         }
 
         .lobby-subtitle {
-            font-size: 1rem;
+            font-size: 0.85rem;
             color: rgba(255, 255, 255, 0.8);
-            margin-bottom: 30px;
+            margin-bottom: 15px;
         }
 
         .player-id {
             background: rgba(255, 255, 255, 0.1);
-            padding: 15px;
-            border-radius: 15px;
-            margin-bottom: 20px;
+            padding: 10px;
+            border-radius: 10px;
+            margin-bottom: 15px;
         }
 
         .player-id-label {
-            font-size: 0.8rem;
+            font-size: 0.65rem;
             color: rgba(255, 255, 255, 0.7);
         }
 
         .player-id-value {
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             color: #ff69b4;
             font-weight: 700;
         }
@@ -503,18 +481,18 @@
         .lobby-btn {
             display: block;
             width: 100%;
-            padding: 15px;
+            padding: 12px;
             border-radius: 50px;
             border: none;
             cursor: pointer;
-            font-size: 1.1rem;
+            font-size: 0.95rem;
             font-weight: 700;
             font-family: 'Poppins', sans-serif;
             background: linear-gradient(45deg, #ff69b4, #ff1493);
             color: white;
             transition: all 0.3s;
             box-shadow: 0 10px 40px rgba(255, 20, 147, 0.5);
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
 
         .lobby-btn:hover {
@@ -528,111 +506,75 @@
             box-shadow: none;
         }
 
-        /* ====== RESPONSIVE ====== */
-        @media (max-width: 768px) {
-            #hud {
-                top: 10px;
-                padding: 6px 12px;
-                gap: 10px;
-            }
-            .hud-value { font-size: 0.9rem; }
-            .hud-label { font-size: 0.6rem; }
-            .hud-item { min-width: 50px; }
-            
-            #joystickArea {
-                bottom: 70px;
-                left: 15px;
-                width: 110px;
-                height: 110px;
-            }
-            #joystickKnob {
-                width: 45px;
-                height: 45px;
-            }
-            
-            #actionButtons {
-                bottom: 70px;
-                right: 10px;
-                gap: 8px;
-            }
-            .action-btn {
-                width: 45px;
-                height: 45px;
-                font-size: 1rem;
-            }
-            .action-btn.jump {
-                width: 55px;
-                height: 55px;
-            }
-            .action-btn.small {
-                width: 35px;
-                height: 35px;
-                font-size: 0.8rem;
-            }
-            
-            #weaponBar {
-                bottom: 10px;
-                padding: 5px;
-                gap: 5px;
-            }
-            .weapon-slot {
-                width: 40px;
-                height: 40px;
-                font-size: 1.2rem;
-            }
-            
-            #miniMap {
-                width: 90px;
-                height: 90px;
-                top: 10px;
-                right: 10px;
-            }
-            
-            .lobby-card { padding: 25px; }
-            .lobby-title { font-size: 2rem; }
-            .lobby-logo { width: 80px; height: 80px; font-size: 35px; }
-            .lobby-logo::after { width: 100px; height: 100px; }
+        /* ====== ROTATE SCREEN ====== */
+        #rotateScreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+            background: linear-gradient(135deg, #1a0533, #2d1b69);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
         }
 
-        @media (max-width: 480px) {
-            #joystickArea {
-                bottom: 60px;
-                left: 10px;
-                width: 90px;
-                height: 90px;
-            }
-            #joystickKnob {
-                width: 35px;
-                height: 35px;
-            }
+        #rotateScreen .rotate-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+            animation: rotatePhone 2s ease-in-out infinite;
+        }
+
+        @keyframes rotatePhone {
+            0%, 100% { transform: rotate(0deg); }
+            50% { transform: rotate(90deg); }
+        }
+
+        #rotateScreen .rotate-text {
+            font-size: 1.2rem;
+            color: #ff69b4;
+            font-weight: 700;
+        }
+
+        /* ====== RESPONSIVE ====== */
+        @media (max-width: 768px) {
+            #hud { padding: 5px 10px; gap: 8px; }
+            .hud-value { font-size: 0.85rem; }
+            .hud-label { font-size: 0.5rem; }
+            .hud-item { min-width: 35px; }
             
-            #actionButtons {
-                bottom: 60px;
-                right: 10px;
-                max-width: 140px;
-            }
-            .action-btn {
-                width: 40px;
-                height: 40px;
-                font-size: 0.9rem;
-            }
-            .action-btn.jump {
-                width: 50px;
-                height: 50px;
-            }
+            #joystickArea { bottom: 90px; left: 15px; width: 100px; height: 100px; }
+            #joystickKnob { width: 35px; height: 35px; }
             
-            #weaponBar {
-                gap: 3px;
-            }
-            .weapon-slot {
-                width: 35px;
-                height: 35px;
-                font-size: 1rem;
-            }
+            #actionButtons { bottom: 90px; right: 10px; max-width: 100px; }
+            .action-btn { width: 40px; height: 40px; font-size: 0.9rem; }
+            .action-btn.jump { width: 50px; height: 50px; }
+            .action-btn.small { width: 32px; height: 32px; font-size: 0.7rem; }
+            
+            #weaponBar { bottom: 10px; padding: 4px; gap: 4px; }
+            .weapon-slot { width: 35px; height: 35px; font-size: 1rem; }
+            
+            #miniMap { width: 70px; height: 70px; }
+            
+            .lobby-card { padding: 20px; }
+            .lobby-title { font-size: 1.8rem; }
+            .lobby-logo { width: 70px; height: 70px; font-size: 30px; }
+            .lobby-logo::after { width: 90px; height: 90px; }
         }
     </style>
 </head>
 <body>
+
+    <!-- ROTATE SCREEN -->
+    <div id="rotateScreen">
+        <div>
+            <div class="rotate-icon">📱</div>
+            <div class="rotate-text">Xoay màn hình ngang để chơi!</div>
+        </div>
+    </div>
 
     <!-- GAME CONTAINER -->
     <div id="gameContainer">
@@ -660,7 +602,7 @@
     </div>
 
     <!-- MINI MAP -->
-    <canvas id="miniMap" width="120" height="120"></canvas>
+    <canvas id="miniMap" width="80" height="80"></canvas>
 
     <!-- JOYSTICK -->
     <div id="joystickArea">
@@ -671,11 +613,10 @@
     <div id="actionButtons">
         <button class="action-btn" id="attackBtn">🔫</button>
         <button class="action-btn jump" id="jumpBtn">⬆️</button>
-        <button class="action-btn" id="crouchBtn">🙇</button>
-        <button class="action-btn" id="proneBtn">🛌</button>
-        <button class="action-btn" id="healBtn">💊</button>
-        <button class="action-btn" id="grenadeBtn">💣</button>
-        <button class="action-btn" id="menuBtn">⚙️</button>
+        <button class="action-btn small" id="crouchBtn">🙇</button>
+        <button class="action-btn small" id="healBtn">💊</button>
+        <button class="action-btn small" id="grenadeBtn">💣</button>
+        <button class="action-btn small" id="menuBtn">⚙️</button>
     </div>
 
     <!-- WEAPON BAR -->
@@ -686,9 +627,6 @@
         <div class="weapon-slot" onclick="selectWeapon(3)">🧨</div>
     </div>
 
-    <!-- CHAT BOX -->
-    <div id="chatBox"></div>
-
     <!-- MENU PANEL -->
     <div id="menuPanel">
         <div class="menu-title">⚙️ ADMIN PANEL</div>
@@ -697,7 +635,7 @@
             <button class="menu-tab active" onclick="switchTab('hack')">💀 HACK</button>
             <button class="menu-tab" onclick="switchTab('weapons')">🔫 SÚNG</button>
             <button class="menu-tab" onclick="switchTab('vehicles')">🚗 XE</button>
-            <button class="menu-tab" onclick="switchTab('players')">👥 PLAYER</button>
+            <button class="menu-tab" onclick="switchTab('login')">🔐 LOGIN</button>
         </div>
 
         <div class="menu-content active" id="tab-hack">
@@ -707,8 +645,7 @@
                 <button class="menu-btn success" onclick="toggleFly()">🕊️ FLY: OFF</button>
                 <button class="menu-btn success" onclick="toggleAutoKill()">⚔️ AUTO KILL: OFF</button>
                 <button class="menu-btn success" onclick="toggleGodMode()">🛡️ GOD MODE: OFF</button>
-                <button class="menu-btn success" onclick="toggleSpeedHack()">⚡ SPEED HACK: OFF</button>
-                <button class="menu-btn danger" onclick="resetGame()">🔄 RESET GAME</button>
+                <button class="menu-btn success" onclick="toggleSpeedHack()">⚡ SPEED: OFF</button>
             </div>
         </div>
 
@@ -732,13 +669,13 @@
                         <div class="menu-item-icon">🎯</div>
                         <div class="menu-item-name">Sniper</div>
                     </div>
-                    <div class="menu-item" onclick="giveWeapon('smg')">
-                        <div class="menu-item-icon">⚡</div>
-                        <div class="menu-item-name">SMG</div>
-                    </div>
                     <div class="menu-item" onclick="giveWeapon('ak')">
                         <div class="menu-item-icon">🔥</div>
                         <div class="menu-item-name">AK-47</div>
+                    </div>
+                    <div class="menu-item" onclick="giveWeapon('smg')">
+                        <div class="menu-item-icon">⚡</div>
+                        <div class="menu-item-name">SMG</div>
                     </div>
                 </div>
             </div>
@@ -755,17 +692,16 @@
             </div>
         </div>
 
-        <div class="menu-content" id="tab-players">
+        <div class="menu-content" id="tab-login">
             <div class="menu-section">
-                <div class="menu-section-title">👥 THÔNG TIN</div>
-                <div class="player-id">
-                    <div class="player-id-label">ID CỦA BẠN</div>
-                    <div class="player-id-value" id="myPlayerId">-</div>
-                </div>
-                <div class="menu-section-title">🔑 ĐĂNG NHẬP ADMIN</div>
+                <div class="menu-section-title">🔐 ĐĂNG NHẬP ADMIN</div>
                 <input class="menu-input" type="text" id="adminUser" placeholder="Tên đăng nhập">
                 <input class="menu-input" type="password" id="adminPass" placeholder="Mật khẩu">
                 <button class="menu-btn" onclick="loginAdmin()">🔐 ĐĂNG NHẬP</button>
+                <div class="player-id">
+                    <div class="player-id-label">🆔 ID CỦA BẠN</div>
+                    <div class="player-id-value" id="myPlayerId">-</div>
+                </div>
             </div>
         </div>
     </div>
@@ -778,13 +714,12 @@
             <p class="lobby-subtitle">Game Free Fire 3D Online</p>
             
             <div class="player-id">
-                <div class="player-id-label">ID CỦA BẠN</div>
+                <div class="player-id-label">🆔 ID CỦA BẠN</div>
                 <div class="player-id-value" id="lobbyPlayerId">-</div>
             </div>
             
             <button class="lobby-btn" onclick="joinGame()">🎮 VÀO GAME</button>
             <button class="lobby-btn secondary" onclick="window.location.href='index.html'">🏠 TRANG CHÍNH</button>
-            <button class="lobby-btn secondary" onclick="window.location.href='nhavat.html'">🎒 VẬT PHẨM</button>
         </div>
     </div>
 
@@ -800,33 +735,29 @@
             lastTouchEnd = now;
         });
 
-        // ====== PLAYER ID ======
-        let playerId = '';
-        let playerName = '';
-
-        // Tạo ID ngẫu nhiên
-        function generatePlayerId() {
-            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-            let id = '';
-            for (let i = 0; i < 6; i++) {
-                id += chars.charAt(Math.floor(Math.random() * chars.length));
+        // ====== ROTATE SCREEN ======
+        function checkOrientation() {
+            const rotateScreen = document.getElementById('rotateScreen');
+            if (window.innerHeight > window.innerWidth) {
+                rotateScreen.style.display = 'flex';
+            } else {
+                rotateScreen.style.display = 'none';
             }
-            return id;
         }
 
-        // Kiểm tra ID trong localStorage
+        window.addEventListener('resize', checkOrientation);
+        checkOrientation();
+
+        // ====== PLAYER ID ======
+        let playerId = '';
         if (localStorage.getItem('ngocbecon_player_id')) {
             playerId = localStorage.getItem('ngocbecon_player_id');
         } else {
-            playerId = generatePlayerId();
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            for (let i = 0; i < 6; i++) {
+                playerId += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
             localStorage.setItem('ngocbecon_player_id', playerId);
-        }
-
-        if (localStorage.getItem('ngocbecon_player_name')) {
-            playerName = localStorage.getItem('ngocbecon_player_name');
-        } else {
-            playerName = 'Player_' + playerId;
-            localStorage.setItem('ngocbecon_player_name', playerName);
         }
 
         document.getElementById('lobbyPlayerId').textContent = playerId;
@@ -845,6 +776,8 @@
         let vehicles = [];
         let lootBoxes = [];
         let buildings = [];
+        let trees = [];
+        let rocks = [];
         let score = 0, kills = 0, health = 100;
         let gameRunning = false;
         let lastTime = 0;
@@ -852,8 +785,6 @@
         let keys = {};
         let playerVelocity = { x: 0, y: 0, z: 0 };
         let currentWeapon = 0;
-        let isCrouching = false;
-        let isProne = false;
         let isAdmin = false;
         let aimbot = false;
         let fly = false;
@@ -862,9 +793,9 @@
         let speedHack = false;
         let time = 0;
         let ground;
-        let isInVehicle = false;
         let currentVehicle = null;
-        let otherPlayers = [];
+        let playerWeapon = { damage: 20, fireRate: 300, name: 'Pistol' };
+        let cameraMode = 'third'; // third, first
 
         // ====== ADMIN LOGIN ======
         function loginAdmin() {
@@ -880,7 +811,7 @@
             }
         }
 
-        // ====== MENU PANEL ======
+        // ====== MENU ======
         document.getElementById('menuBtn').addEventListener('click', () => {
             document.getElementById('menuPanel').classList.toggle('show');
         });
@@ -921,7 +852,7 @@
         function toggleSpeedHack() {
             if (!isAdmin) { alert('❌ CẦN ĐĂNG NHẬP ADMIN!'); return; }
             speedHack = !speedHack;
-            event.target.textContent = `⚡ SPEED HACK: ${speedHack ? 'ON' : 'OFF'}`;
+            event.target.textContent = `⚡ SPEED: ${speedHack ? 'ON' : 'OFF'}`;
         }
 
         // ====== WEAPONS ======
@@ -953,18 +884,10 @@
             let vehicleMesh;
             
             switch(type) {
-                case 'car':
-                    vehicleMesh = createCar();
-                    break;
-                case 'moto':
-                    vehicleMesh = createMoto();
-                    break;
-                case 'plane':
-                    vehicleMesh = createPlane();
-                    break;
-                case 'heli':
-                    vehicleMesh = createHelicopter();
-                    break;
+                case 'car': vehicleMesh = createCar(); break;
+                case 'moto': vehicleMesh = createMoto(); break;
+                case 'plane': vehicleMesh = createPlane(); break;
+                case 'heli': vehicleMesh = createHelicopter(); break;
             }
             
             vehicleMesh.position.copy(player.position);
@@ -984,15 +907,12 @@
             if (currentVehicle) {
                 scene.remove(currentVehicle.mesh);
                 currentVehicle = null;
-                isInVehicle = false;
                 alert('❌ ĐÃ XÓA XE!');
             }
         }
 
         function createCar() {
             const car = new THREE.Group();
-            
-            // Body
             const body = new THREE.Mesh(
                 new THREE.BoxGeometry(2, 1, 4),
                 new THREE.MeshStandardMaterial({ color: 0xff0000, metalness: 0.5 })
@@ -1000,7 +920,6 @@
             body.position.y = 0.8;
             car.add(body);
             
-            // Cabin
             const cabin = new THREE.Mesh(
                 new THREE.BoxGeometry(1.5, 0.8, 2),
                 new THREE.MeshStandardMaterial({ color: 0x00aaff, transparent: true, opacity: 0.7 })
@@ -1008,7 +927,6 @@
             cabin.position.set(0, 1.6, -0.5);
             car.add(cabin);
             
-            // Wheels
             const wheelGeo = new THREE.CylinderGeometry(0.4, 0.4, 0.2, 16);
             const wheelMat = new THREE.MeshStandardMaterial({ color: 0x333333 });
             
@@ -1025,8 +943,6 @@
 
         function createMoto() {
             const moto = new THREE.Group();
-            
-            // Body
             const body = new THREE.Mesh(
                 new THREE.BoxGeometry(0.5, 0.5, 2),
                 new THREE.MeshStandardMaterial({ color: 0x00ff00, metalness: 0.5 })
@@ -1034,7 +950,6 @@
             body.position.y = 0.8;
             moto.add(body);
             
-            // Wheels
             const wheelGeo = new THREE.CylinderGeometry(0.4, 0.4, 0.2, 16);
             const wheelMat = new THREE.MeshStandardMaterial({ color: 0x333333 });
             
@@ -1053,15 +968,12 @@
 
         function createPlane() {
             const plane = new THREE.Group();
-            
-            // Body
             const body = new THREE.Mesh(
                 new THREE.BoxGeometry(2, 1, 6),
                 new THREE.MeshStandardMaterial({ color: 0xffffff, metalness: 0.5 })
             );
             plane.add(body);
             
-            // Wings
             const wing = new THREE.Mesh(
                 new THREE.BoxGeometry(8, 0.2, 1.5),
                 new THREE.MeshStandardMaterial({ color: 0x888888 })
@@ -1069,7 +981,6 @@
             wing.position.y = 0.5;
             plane.add(wing);
             
-            // Tail
             const tail = new THREE.Mesh(
                 new THREE.BoxGeometry(0.2, 2, 1),
                 new THREE.MeshStandardMaterial({ color: 0xff0000 })
@@ -1082,8 +993,6 @@
 
         function createHelicopter() {
             const heli = new THREE.Group();
-            
-            // Body
             const body = new THREE.Mesh(
                 new THREE.SphereGeometry(1.5, 16, 16),
                 new THREE.MeshStandardMaterial({ color: 0x00ff88, metalness: 0.5 })
@@ -1091,7 +1000,6 @@
             body.scale.set(1, 0.7, 1.5);
             heli.add(body);
             
-            // Tail
             const tail = new THREE.Mesh(
                 new THREE.BoxGeometry(0.5, 0.5, 3),
                 new THREE.MeshStandardMaterial({ color: 0x00aa66 })
@@ -1099,7 +1007,6 @@
             tail.position.set(0, 1, -2);
             heli.add(tail);
             
-            // Rotor
             const rotor = new THREE.Mesh(
                 new THREE.BoxGeometry(5, 0.1, 0.5),
                 new THREE.MeshStandardMaterial({ color: 0x333333 })
@@ -1111,8 +1018,6 @@
         }
 
         // ====== WEAPON SELECT ======
-        let playerWeapon = { damage: 20, fireRate: 300, name: 'Pistol' };
-
         function selectWeapon(index) {
             currentWeapon = index;
             document.querySelectorAll('.weapon-slot').forEach((slot, i) => {
@@ -1135,8 +1040,6 @@
         document.getElementById('jumpBtn').addEventListener('mousedown', jump);
         document.getElementById('crouchBtn').addEventListener('touchstart', toggleCrouch);
         document.getElementById('crouchBtn').addEventListener('mousedown', toggleCrouch);
-        document.getElementById('proneBtn').addEventListener('touchstart', toggleProne);
-        document.getElementById('proneBtn').addEventListener('mousedown', toggleProne);
         document.getElementById('healBtn').addEventListener('touchstart', heal);
         document.getElementById('healBtn').addEventListener('mousedown', heal);
         document.getElementById('grenadeBtn').addEventListener('touchstart', throwGrenade);
@@ -1145,17 +1048,12 @@
         function attack() {
             if (!gameRunning) return;
             
-            // Aimbot
-            if (aimbot && enemies.length > 0) {
-                const target = enemies[0];
-                const direction = new THREE.Vector3()
-                    .subVectors(target.mesh.position, player.position);
-                player.rotation.y = Math.atan2(direction.x, direction.z);
-            }
+            // Bắn về phía trước mặt
+            const direction = new THREE.Vector3(0, 0, -1);
+            direction.applyQuaternion(player.quaternion);
             
-            // Create bullet
             const bullet = new THREE.Mesh(
-                new THREE.SphereGeometry(0.2, 8, 8),
+                new THREE.SphereGeometry(0.15, 8, 8),
                 new THREE.MeshStandardMaterial({ 
                     color: 0xffff00,
                     emissive: 0xffff00,
@@ -1164,9 +1062,6 @@
             );
             bullet.position.copy(player.position);
             bullet.position.y = 2;
-            
-            const direction = new THREE.Vector3(0, 0, -1);
-            direction.applyQuaternion(player.quaternion);
             
             scene.add(bullet);
             bullets.push({
@@ -1178,25 +1073,15 @@
 
         function jump() {
             if (!gameRunning) return;
-            if (player.position.y <= 0.1 && !isProne) {
-                playerVelocity.y = isCrouching ? 7 : 10;
+            if (player.position.y <= 0.1) {
+                playerVelocity.y = 10;
             }
         }
 
         function toggleCrouch() {
             if (!gameRunning) return;
-            isCrouching = !isCrouching;
-            isProne = false;
-            player.scale.y = isCrouching ? 0.6 : 1;
-            player.position.y = isCrouching ? 0.5 : 0;
-        }
-
-        function toggleProne() {
-            if (!gameRunning) return;
-            isProne = !isProne;
-            isCrouching = false;
-            player.scale.y = isProne ? 0.3 : 1;
-            player.position.y = isProne ? 0.2 : 0;
+            player.scale.y = player.scale.y === 1 ? 0.6 : 1;
+            player.position.y = player.scale.y === 0.6 ? 0.5 : 0;
         }
 
         function heal() {
@@ -1309,6 +1194,9 @@
                 jump();
                 e.preventDefault();
             }
+            if (e.key === 'v') {
+                cameraMode = cameraMode === 'third' ? 'first' : 'third';
+            }
         });
 
         document.addEventListener('keyup', (e) => {
@@ -1317,16 +1205,13 @@
 
         // ====== INIT GAME ======
         function initGame() {
-            // Scene
             scene = new THREE.Scene();
             scene.background = new THREE.Color(0x87CEEB);
             scene.fog = new THREE.Fog(0x87CEEB, 100, 500);
 
-            // Camera
             camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
             camera.position.set(0, 30, 50);
 
-            // Renderer
             renderer = new THREE.WebGLRenderer({ 
                 canvas: document.getElementById('gameCanvas'),
                 antialias: true 
@@ -1335,7 +1220,6 @@
             renderer.shadowMap.enabled = true;
             renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
-            // Lights
             const ambientLight = new THREE.AmbientLight(0x404040, 0.6);
             scene.add(ambientLight);
 
@@ -1344,7 +1228,6 @@
             directionalLight.castShadow = true;
             scene.add(directionalLight);
 
-            // Ground
             const groundGeo = new THREE.PlaneGeometry(500, 500);
             const groundMat = new THREE.MeshStandardMaterial({ 
                 color: 0x4CAF50,
@@ -1355,30 +1238,21 @@
             ground.receiveShadow = true;
             scene.add(ground);
 
-            // Grid
-            const grid = new THREE.GridHelper(500, 50, 0xff69b4, 0xff1493);
-            grid.position.y = 0.1;
-            scene.add(grid);
-
-            // Create world
             createBuildings();
             createTrees();
+            createRocks();
             createLootBoxes();
             createPlayer();
 
-            // Spawn enemies
             for (let i = 0; i < 5; i++) {
                 spawnEnemy();
             }
 
-            // Spawn boss
             setTimeout(spawnBoss, 10000);
 
-            // Event listeners
             window.addEventListener('resize', onWindowResize);
             setupJoystick();
 
-            // Start animation
             animate(0);
         }
 
@@ -1386,10 +1260,9 @@
         function createBuildings() {
             const buildingColors = [0x888888, 0x666666, 0x999999];
             
-            for (let i = 0; i < 10; i++) {
+            for (let i = 0; i < 8; i++) {
                 const building = new THREE.Group();
                 
-                // Walls
                 const width = 5 + Math.random() * 5;
                 const height = 3 + Math.random() * 5;
                 const depth = 5 + Math.random() * 5;
@@ -1399,7 +1272,6 @@
                     roughness: 0.8
                 });
                 
-                // Floor
                 const floor = new THREE.Mesh(
                     new THREE.BoxGeometry(width, 0.1, depth),
                     wallMat
@@ -1407,7 +1279,6 @@
                 floor.position.y = height / 2;
                 building.add(floor);
                 
-                // Walls
                 const wallPositions = [
                     [0, height/2, depth/2], [0, height/2, -depth/2],
                     [width/2, height/2, 0], [-width/2, height/2, 0]
@@ -1422,7 +1293,6 @@
                     building.add(wall);
                 });
                 
-                // Roof
                 const roof = new THREE.Mesh(
                     new THREE.BoxGeometry(width, 0.1, depth),
                     wallMat
@@ -1430,7 +1300,6 @@
                 roof.position.y = height;
                 building.add(roof);
                 
-                // Random position
                 const angle = Math.random() * Math.PI * 2;
                 const radius = 30 + Math.random() * 100;
                 building.position.set(
@@ -1445,10 +1314,9 @@
         }
 
         function createTrees() {
-            for (let i = 0; i < 20; i++) {
+            for (let i = 0; i < 15; i++) {
                 const tree = new THREE.Group();
                 
-                // Trunk
                 const trunk = new THREE.Mesh(
                     new THREE.CylinderGeometry(0.5, 0.7, 3),
                     new THREE.MeshStandardMaterial({ color: 0x8B4513 })
@@ -1456,7 +1324,6 @@
                 trunk.position.y = 1.5;
                 tree.add(trunk);
                 
-                // Leaves
                 const leaves = new THREE.Mesh(
                     new THREE.SphereGeometry(2, 8, 8),
                     new THREE.MeshStandardMaterial({ color: 0x228B22 })
@@ -1473,14 +1340,39 @@
                 );
                 
                 scene.add(tree);
+                trees.push(tree);
+            }
+        }
+
+        function createRocks() {
+            for (let i = 0; i < 10; i++) {
+                const rock = new THREE.Mesh(
+                    new THREE.DodecahedronGeometry(1 + Math.random() * 2, 1),
+                    new THREE.MeshStandardMaterial({ 
+                        color: 0x888888,
+                        roughness: 0.9
+                    })
+                );
+                
+                const angle = Math.random() * Math.PI * 2;
+                const radius = 10 + Math.random() * 150;
+                rock.position.set(
+                    Math.cos(angle) * radius,
+                    0.5,
+                    Math.sin(angle) * radius
+                );
+                rock.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI);
+                rock.scale.set(1, 0.5 + Math.random(), 1);
+                
+                scene.add(rock);
+                rocks.push(rock);
             }
         }
 
         function createLootBoxes() {
-            for (let i = 0; i < 15; i++) {
+            for (let i = 0; i < 10; i++) {
                 const lootBox = new THREE.Group();
                 
-                // Box
                 const box = new THREE.Mesh(
                     new THREE.BoxGeometry(1, 1, 1),
                     new THREE.MeshStandardMaterial({ 
@@ -1491,7 +1383,6 @@
                 );
                 lootBox.add(box);
                 
-                // Glow
                 const glow = new THREE.Mesh(
                     new THREE.SphereGeometry(1.2, 8, 8),
                     new THREE.MeshStandardMaterial({
@@ -1518,7 +1409,7 @@
             }
         }
 
-        // ====== CREATE PLAYER ======
+        // ====== CREATE PLAYER (Hình dáng người) ======
         function createPlayer() {
             player = new THREE.Group();
             
@@ -1582,11 +1473,23 @@
             rightLeg.position.set(0.4, 0.5, 0);
             player.add(rightLeg);
             
+            // Arms
+            const armMat = new THREE.MeshStandardMaterial({ color: 0xffb6c1 });
+            const armGeo = new THREE.BoxGeometry(0.3, 1, 0.3);
+            
+            const leftArm = new THREE.Mesh(armGeo, armMat);
+            leftArm.position.set(-1, 1.5, 0);
+            player.add(leftArm);
+            
+            const rightArm = new THREE.Mesh(armGeo, armMat);
+            rightArm.position.set(1, 1.5, 0);
+            player.add(rightArm);
+            
             player.position.set(0, 0, 0);
             scene.add(player);
         }
 
-        // ====== SPAWN ENEMY ======
+        // ====== SPAWN ENEMY (Hình dáng người) ======
         function spawnEnemy() {
             const enemy = new THREE.Group();
             
@@ -1622,6 +1525,18 @@
             rightEye.position.set(0.2, 2.6, 0.45);
             enemy.add(rightEye);
             
+            // Legs
+            const legMat = new THREE.MeshStandardMaterial({ color: 0x880000 });
+            const legGeo = new THREE.BoxGeometry(0.3, 0.8, 0.3);
+            
+            const leftLeg = new THREE.Mesh(legGeo, legMat);
+            leftLeg.position.set(-0.3, 0.4, 0);
+            enemy.add(leftLeg);
+            
+            const rightLeg = new THREE.Mesh(legGeo, legMat);
+            rightLeg.position.set(0.3, 0.4, 0);
+            enemy.add(rightLeg);
+            
             const angle = Math.random() * Math.PI * 2;
             const radius = 30 + Math.random() * 80;
             enemy.position.set(
@@ -1646,7 +1561,6 @@
             
             const bossGroup = new THREE.Group();
             
-            // Body
             const body = new THREE.Mesh(
                 new THREE.BoxGeometry(3, 4, 2),
                 new THREE.MeshStandardMaterial({ 
@@ -1658,7 +1572,6 @@
             body.position.y = 2.5;
             bossGroup.add(body);
             
-            // Head
             const head = new THREE.Mesh(
                 new THREE.SphereGeometry(1, 16, 16),
                 new THREE.MeshStandardMaterial({ color: 0x660000 })
@@ -1666,7 +1579,6 @@
             head.position.y = 5;
             bossGroup.add(head);
             
-            // Eyes
             const eyeMat = new THREE.MeshStandardMaterial({ color: 0xff0000, emissive: 0xff0000 });
             const eyeGeo = new THREE.SphereGeometry(0.3, 8, 8);
             
@@ -1678,7 +1590,6 @@
             rightEye.position.set(0.4, 5.2, 0.9);
             bossGroup.add(rightEye);
             
-            // Crown
             const crown = new THREE.Mesh(
                 new THREE.ConeGeometry(0.8, 1, 8),
                 new THREE.MeshStandardMaterial({ 
@@ -1729,7 +1640,6 @@
             updateMiniMap();
             updateUI();
             
-            // Auto kill
             if (autoKill && enemies.length > 0) {
                 enemies.forEach((enemy, index) => {
                     scene.remove(enemy.mesh);
@@ -1744,8 +1654,7 @@
         }
 
         function updatePlayer(delta) {
-            if (isInVehicle && currentVehicle) {
-                // Vehicle movement
+            if (currentVehicle) {
                 let moveX = 0;
                 let moveZ = 0;
                 
@@ -1772,7 +1681,6 @@
                 return;
             }
             
-            // Normal movement
             let moveX = 0;
             let moveZ = 0;
             
@@ -1796,20 +1704,16 @@
                 
                 let speed = 15;
                 if (speedHack) speed = 40;
-                if (isCrouching) speed *= 0.5;
-                if (isProne) speed *= 0.3;
                 
                 player.position.x += moveX * speed * delta;
                 player.position.z += moveZ * speed * delta;
             }
             
-            // Fly hack
             if (fly) {
                 player.position.y += (keys[' '] ? 10 : 0) * delta;
                 player.position.y -= (keys['shift'] ? 10 : 0) * delta;
                 player.position.y = Math.max(0, player.position.y);
             } else {
-                // Jump physics
                 playerVelocity.y -= 20 * delta;
                 player.position.y += playerVelocity.y * delta;
                 
@@ -1819,14 +1723,13 @@
                 }
             }
             
-            // Bounds
             player.position.x = Math.max(-250, Math.min(250, player.position.x));
             player.position.z = Math.max(-250, Math.min(250, player.position.z));
             
-            // Animation
+            // Animation chân khi di chuyển
             if (length > 0 && player.position.y <= 0.1) {
                 player.children.forEach((child, index) => {
-                    if (index >= 6) { // Legs
+                    if (index >= 6) {
                         child.rotation.x = Math.sin(time * 10) * 0.5;
                     }
                 });
@@ -1834,10 +1737,20 @@
         }
 
         function updateCamera() {
-            const cameraOffset = new THREE.Vector3(0, 15, 12);
-            const cameraTarget = player.position.clone().add(cameraOffset);
-            camera.position.lerp(cameraTarget, 0.1);
-            camera.lookAt(player.position);
+            if (cameraMode === 'first') {
+                // Camera góc nhìn thứ nhất
+                const direction = new THREE.Vector3(0, 0, -1);
+                direction.applyQuaternion(player.quaternion);
+                camera.position.copy(player.position);
+                camera.position.y += 2;
+                camera.lookAt(player.position.clone().add(direction.multiplyScalar(10)));
+            } else {
+                // Camera góc nhìn thứ 3
+                const cameraOffset = new THREE.Vector3(0, 15, 12);
+                const cameraTarget = player.position.clone().add(cameraOffset);
+                camera.position.lerp(cameraTarget, 0.1);
+                camera.lookAt(player.position);
+            }
         }
 
         function updateEnemies(delta) {
@@ -1905,7 +1818,6 @@
                 bullet.life -= delta;
                 bullet.mesh.position.add(bullet.velocity.clone().multiplyScalar(delta));
                 
-                // Check enemy collision
                 enemies.forEach((enemy, enemyIndex) => {
                     const dist = bullet.mesh.position.distanceTo(enemy.mesh.position);
                     if (dist < 2) {
@@ -1925,7 +1837,6 @@
                     }
                 });
                 
-                // Check boss collision
                 if (boss) {
                     const dist = bullet.mesh.position.distanceTo(boss.mesh.position);
                     if (dist < 3) {
@@ -1964,11 +1875,9 @@
                     grenade.velocity.y -= 10 * delta;
                     
                     if (grenade.life <= 0) {
-                        // Explode
                         grenade.exploded = true;
                         createExplosion(grenade.mesh.position);
                         
-                        // Damage enemies
                         enemies.forEach((enemy, index) => {
                             const dist = grenade.mesh.position.distanceTo(enemy.mesh.position);
                             if (dist < 5) {
@@ -1984,7 +1893,6 @@
                             }
                         });
                         
-                        // Damage boss
                         if (boss) {
                             const dist = grenade.mesh.position.distanceTo(boss.mesh.position);
                             if (dist < 5) {
@@ -2039,7 +1947,6 @@
                     lootBox.collected = true;
                     scene.remove(lootBox.mesh);
                     
-                    // Random loot
                     const loots = ['súng', 'giáp', 'bom', 'keo', 'máu'];
                     const loot = loots[Math.floor(Math.random() * loots.length)];
                     
@@ -2060,8 +1967,6 @@
                             health = Math.min(100, health + 40);
                             break;
                     }
-                    
-                    showChatMessage(`🎁 Nhặt được: ${loot}!`);
                 }
             });
         }
@@ -2080,14 +1985,11 @@
             const miniMap = document.getElementById('miniMap');
             const ctx = miniMap.getContext('2d');
             
-            ctx.clearRect(0, 0, 120, 120);
-            
-            // Background
+            ctx.clearRect(0, 0, 80, 80);
             ctx.fillStyle = 'rgba(0, 255, 0, 0.2)';
-            ctx.fillRect(0, 0, 120, 120);
+            ctx.fillRect(0, 0, 80, 80);
             
-            // Player
-            const scale = 120 / 500;
+            const scale = 80 / 500;
             const playerX = (player.position.x + 250) * scale;
             const playerZ = (player.position.z + 250) * scale;
             
@@ -2096,7 +1998,6 @@
             ctx.arc(playerX, playerZ, 4, 0, Math.PI * 2);
             ctx.fill();
             
-            // Enemies
             enemies.forEach(enemy => {
                 const x = (enemy.mesh.position.x + 250) * scale;
                 const z = (enemy.mesh.position.z + 250) * scale;
@@ -2107,18 +2008,16 @@
                 ctx.fill();
             });
             
-            // Boss
             if (boss) {
                 const x = (boss.mesh.position.x + 250) * scale;
                 const z = (boss.mesh.position.z + 250) * scale;
                 
                 ctx.fillStyle = '#ff0000';
                 ctx.beginPath();
-                ctx.arc(x, z, 6, 0, Math.PI * 2);
+                ctx.arc(x, z, 5, 0, Math.PI * 2);
                 ctx.fill();
             }
             
-            // Loot boxes
             lootBoxes.forEach(loot => {
                 if (loot.collected) return;
                 const x = (loot.mesh.position.x + 250) * scale;
@@ -2194,22 +2093,6 @@
             });
         }
 
-        function showChatMessage(message) {
-            const chatBox = document.getElementById('chatBox');
-            const msg = document.createElement('div');
-            msg.className = 'chat-message';
-            msg.textContent = message;
-            chatBox.appendChild(msg);
-            chatBox.style.display = 'block';
-            
-            setTimeout(() => {
-                msg.remove();
-                if (chatBox.children.length === 0) {
-                    chatBox.style.display = 'none';
-                }
-            }, 3000);
-        }
-
         function onWindowResize() {
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
@@ -2221,8 +2104,6 @@
             document.getElementById('lobby').style.display = 'none';
             gameRunning = true;
             lastTime = performance.now();
-            showChatMessage(`🎮 Chào mừng ${playerName} đã vào game!`);
-            showChatMessage(`🆔 ID của bạn: ${playerId}`);
         }
 
         function gameOver() {
@@ -2234,9 +2115,6 @@
         function resetGame() {
             window.location.reload();
         }
-
-        // ====== INIT ======
-        // Khởi tạo
     </script>
 </body>
 </html>
