@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Ngọc Becon - Free Fire 3D</title>
+    <title>Ngọc Becon - Free Fire 3D Ultimate</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap');
 
@@ -85,8 +85,8 @@
             position: fixed;
             bottom: 100px;
             left: 20px;
-            width: 110px;
-            height: 110px;
+            width: 120px;
+            height: 120px;
             z-index: 100;
             background: rgba(255, 255, 255, 0.1);
             border-radius: 50%;
@@ -99,12 +99,44 @@
             position: absolute;
             top: 50%;
             left: 50%;
-            width: 40px;
-            height: 40px;
+            width: 45px;
+            height: 45px;
             background: linear-gradient(45deg, #ff69b4, #ff1493);
             border-radius: 50%;
             transform: translate(-50%, -50%);
             box-shadow: 0 0 30px rgba(255, 20, 147, 0.5);
+            pointer-events: none;
+        }
+
+        /* ====== CAMERA JOYSTICK ====== */
+        #cameraJoystick {
+            position: fixed;
+            bottom: 100px;
+            left: 150px;
+            width: 80px;
+            height: 80px;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            border: 2px solid rgba(255, 105, 180, 0.3);
+            backdrop-filter: blur(10px);
+            touch-action: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        #cameraJoystickKnob {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 30px;
+            height: 30px;
+            background: rgba(255, 105, 180, 0.5);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
             pointer-events: none;
         }
 
@@ -119,17 +151,17 @@
             align-items: center;
             flex-wrap: wrap;
             justify-content: flex-end;
-            max-width: 120px;
+            max-width: 130px;
         }
 
         .action-btn {
-            width: 45px;
-            height: 45px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
             border: 2px solid rgba(255, 255, 255, 0.3);
             background: rgba(255, 105, 180, 0.3);
             color: white;
-            font-size: 1rem;
+            font-size: 1.1rem;
             font-weight: 700;
             cursor: pointer;
             backdrop-filter: blur(10px);
@@ -147,16 +179,16 @@
         }
 
         .action-btn.jump {
-            width: 55px;
-            height: 55px;
+            width: 60px;
+            height: 60px;
             background: rgba(255, 215, 0, 0.3);
             border-color: rgba(255, 215, 0, 0.5);
         }
 
         .action-btn.small {
-            width: 35px;
-            height: 35px;
-            font-size: 0.8rem;
+            width: 40px;
+            height: 40px;
+            font-size: 0.9rem;
         }
 
         /* ====== WEAPON BAR ====== */
@@ -176,14 +208,14 @@
         }
 
         .weapon-slot {
-            width: 40px;
-            height: 40px;
+            width: 45px;
+            height: 45px;
             border-radius: 10px;
             border: 2px solid rgba(255, 255, 255, 0.2);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             cursor: pointer;
             transition: all 0.3s;
             background: rgba(255, 255, 255, 0.1);
@@ -209,7 +241,7 @@
             border: 2px solid rgba(255, 105, 180, 0.5);
             box-shadow: 0 30px 100px rgba(0, 0, 0, 0.8);
             width: 85%;
-            max-width: 400px;
+            max-width: 450px;
             max-height: 80vh;
             overflow-y: auto;
             transition: transform 0.3s ease;
@@ -348,8 +380,8 @@
             top: 10px;
             right: 10px;
             z-index: 100;
-            width: 80px;
-            height: 80px;
+            width: 90px;
+            height: 90px;
             border-radius: 12px;
             border: 2px solid rgba(255, 105, 180, 0.3);
             background: rgba(0, 0, 0, 0.5);
@@ -365,7 +397,7 @@
             width: 100%;
             height: 100%;
             z-index: 2000;
-            display: flex;
+            display: none;
             align-items: center;
             justify-content: center;
             background: linear-gradient(135deg, #1a0533, #2d1b69, #4a1942);
@@ -506,37 +538,130 @@
             box-shadow: none;
         }
 
-        /* ====== ROTATE SCREEN ====== */
-        #rotateScreen {
+        /* ====== LOGIN SCREEN ====== */
+        #loginScreen {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: 9999;
-            background: linear-gradient(135deg, #1a0533, #2d1b69);
-            display: none;
+            z-index: 3000;
+            display: flex;
             align-items: center;
             justify-content: center;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(20px);
+        }
+
+        .login-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            padding: 25px;
+            border: 2px solid rgba(255, 105, 180, 0.5);
+            box-shadow: 0 30px 100px rgba(0, 0, 0, 0.8);
+            max-width: 350px;
+            width: 90%;
             text-align: center;
-            padding: 20px;
         }
 
-        #rotateScreen .rotate-icon {
-            font-size: 80px;
-            margin-bottom: 20px;
-            animation: rotatePhone 2s ease-in-out infinite;
+        .login-title {
+            font-size: 1.8rem;
+            background: linear-gradient(45deg, #ff69b4, #ff1493);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 15px;
         }
 
-        @keyframes rotatePhone {
-            0%, 100% { transform: rotate(0deg); }
-            50% { transform: rotate(90deg); }
+        .login-input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 12px;
+            border: 2px solid rgba(255, 105, 180, 0.3);
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            margin-bottom: 10px;
+            outline: none;
+            font-size: 0.9rem;
         }
 
-        #rotateScreen .rotate-text {
-            font-size: 1.2rem;
-            color: #ff69b4;
+        .login-btn {
+            width: 100%;
+            padding: 12px;
+            border-radius: 12px;
+            border: none;
+            background: linear-gradient(45deg, #ff69b4, #ff1493);
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.9rem;
             font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(255, 20, 147, 0.5);
+        }
+
+        .login-hint {
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.5);
+            margin-top: 10px;
+        }
+
+        /* ====== CHAT ====== */
+        #chatBox {
+            position: fixed;
+            bottom: 160px;
+            left: 20px;
+            z-index: 100;
+            max-width: 300px;
+            max-height: 200px;
+            overflow-y: auto;
+            display: none;
+        }
+
+        .chat-message {
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            padding: 8px 12px;
+            border-radius: 10px;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+        }
+
+        /* ====== KILL FEED ====== */
+        #killFeed {
+            position: fixed;
+            top: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            align-items: center;
+            pointer-events: none;
+        }
+
+        .kill-message {
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            padding: 5px 15px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            color: #ff69b4;
+            animation: fadeInOut 3s ease forwards;
+        }
+
+        @keyframes fadeInOut {
+            0% { opacity: 0; transform: translateY(-20px); }
+            10% { opacity: 1; transform: translateY(0); }
+            90% { opacity: 1; }
+            100% { opacity: 0; transform: translateY(-20px); }
         }
 
         /* ====== RESPONSIVE ====== */
@@ -549,13 +674,16 @@
             #joystickArea { bottom: 90px; left: 15px; width: 100px; height: 100px; }
             #joystickKnob { width: 35px; height: 35px; }
             
-            #actionButtons { bottom: 90px; right: 10px; max-width: 100px; }
-            .action-btn { width: 40px; height: 40px; font-size: 0.9rem; }
+            #cameraJoystick { bottom: 90px; left: 125px; width: 60px; height: 60px; }
+            #cameraJoystickKnob { width: 25px; height: 25px; }
+            
+            #actionButtons { bottom: 90px; right: 10px; max-width: 110px; }
+            .action-btn { width: 42px; height: 42px; font-size: 0.9rem; }
             .action-btn.jump { width: 50px; height: 50px; }
-            .action-btn.small { width: 32px; height: 32px; font-size: 0.7rem; }
+            .action-btn.small { width: 35px; height: 35px; font-size: 0.7rem; }
             
             #weaponBar { bottom: 10px; padding: 4px; gap: 4px; }
-            .weapon-slot { width: 35px; height: 35px; font-size: 1rem; }
+            .weapon-slot { width: 38px; height: 38px; font-size: 1.1rem; }
             
             #miniMap { width: 70px; height: 70px; }
             
@@ -568,11 +696,14 @@
 </head>
 <body>
 
-    <!-- ROTATE SCREEN -->
-    <div id="rotateScreen">
-        <div>
-            <div class="rotate-icon">📱</div>
-            <div class="rotate-text">Xoay màn hình ngang để chơi!</div>
+    <!-- LOGIN SCREEN -->
+    <div id="loginScreen">
+        <div class="login-card">
+            <div class="login-title">🔐 ĐĂNG NHẬP</div>
+            <input class="login-input" type="text" id="loginUser" placeholder="Tên đăng nhập">
+            <input class="login-input" type="password" id="loginPass" placeholder="Mật khẩu">
+            <button class="login-btn" onclick="checkLogin()">ĐĂNG NHẬP</button>
+            <div class="login-hint">Admin: tk 1 - mk 2</div>
         </div>
     </div>
 
@@ -599,14 +730,27 @@
             <div class="hud-label">Boss</div>
             <div class="hud-value" id="bossDisplay">0</div>
         </div>
+        <div class="hud-item">
+            <div class="hud-label">Gold</div>
+            <div class="hud-value" id="goldDisplay">0</div>
+        </div>
     </div>
 
+    <!-- KILL FEED -->
+    <div id="killFeed"></div>
+
     <!-- MINI MAP -->
-    <canvas id="miniMap" width="80" height="80"></canvas>
+    <canvas id="miniMap" width="90" height="90"></canvas>
 
     <!-- JOYSTICK -->
     <div id="joystickArea">
         <div id="joystickKnob"></div>
+    </div>
+
+    <!-- CAMERA JOYSTICK -->
+    <div id="cameraJoystick">
+        <div id="cameraJoystickKnob"></div>
+        <span style="font-size:0.6rem;">Xoay</span>
     </div>
 
     <!-- ACTION BUTTONS -->
@@ -614,6 +758,7 @@
         <button class="action-btn" id="attackBtn">🔫</button>
         <button class="action-btn jump" id="jumpBtn">⬆️</button>
         <button class="action-btn small" id="crouchBtn">🙇</button>
+        <button class="action-btn small" id="proneBtn">🛌</button>
         <button class="action-btn small" id="healBtn">💊</button>
         <button class="action-btn small" id="grenadeBtn">💣</button>
         <button class="action-btn small" id="menuBtn">⚙️</button>
@@ -635,7 +780,8 @@
             <button class="menu-tab active" onclick="switchTab('hack')">💀 HACK</button>
             <button class="menu-tab" onclick="switchTab('weapons')">🔫 SÚNG</button>
             <button class="menu-tab" onclick="switchTab('vehicles')">🚗 XE</button>
-            <button class="menu-tab" onclick="switchTab('login')">🔐 LOGIN</button>
+            <button class="menu-tab" onclick="switchTab('powers')">⚡ NĂNG LỰC</button>
+            <button class="menu-tab" onclick="switchTab('info')">ℹ️ INFO</button>
         </div>
 
         <div class="menu-content active" id="tab-hack">
@@ -646,6 +792,10 @@
                 <button class="menu-btn success" onclick="toggleAutoKill()">⚔️ AUTO KILL: OFF</button>
                 <button class="menu-btn success" onclick="toggleGodMode()">🛡️ GOD MODE: OFF</button>
                 <button class="menu-btn success" onclick="toggleSpeedHack()">⚡ SPEED: OFF</button>
+                <button class="menu-btn success" onclick="toggleInfiniteAmmo()">∞ ĐẠN VÔ HẠN: OFF</button>
+                <button class="menu-btn success" onclick="toggleOneShot()">💀 ONE SHOT: OFF</button>
+                <button class="menu-btn success" onclick="toggleInvisible()">👻 TÀNG HÌNH: OFF</button>
+                <button class="menu-btn success" onclick="toggleSuperJump()">🦘 SUPER JUMP: OFF</button>
             </div>
         </div>
 
@@ -677,6 +827,14 @@
                         <div class="menu-item-icon">⚡</div>
                         <div class="menu-item-name">SMG</div>
                     </div>
+                    <div class="menu-item" onclick="giveWeapon('minigun')">
+                        <div class="menu-item-icon">💪</div>
+                        <div class="menu-item-name">Minigun</div>
+                    </div>
+                    <div class="menu-item" onclick="giveWeapon('laser')">
+                        <div class="menu-item-icon">🔆</div>
+                        <div class="menu-item-name">Laser</div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -688,20 +846,34 @@
                 <button class="menu-btn" onclick="spawnVehicle('moto')">🏍️ XE MOTO</button>
                 <button class="menu-btn" onclick="spawnVehicle('plane')">✈️ MÁY BAY</button>
                 <button class="menu-btn" onclick="spawnVehicle('heli')">🚁 TRỰC THĂNG</button>
+                <button class="menu-btn" onclick="spawnVehicle('tank')">🛡️ XE TĂNG</button>
                 <button class="menu-btn danger" onclick="removeVehicle()">❌ XÓA XE</button>
             </div>
         </div>
 
-        <div class="menu-content" id="tab-login">
+        <div class="menu-content" id="tab-powers">
             <div class="menu-section">
-                <div class="menu-section-title">🔐 ĐĂNG NHẬP ADMIN</div>
-                <input class="menu-input" type="text" id="adminUser" placeholder="Tên đăng nhập">
-                <input class="menu-input" type="password" id="adminPass" placeholder="Mật khẩu">
-                <button class="menu-btn" onclick="loginAdmin()">🔐 ĐĂNG NHẬP</button>
+                <div class="menu-section-title">⚡ NĂNG LỰC</div>
+                <button class="menu-btn success" onclick="toggleShield()">🛡️ KHIÊN: OFF</button>
+                <button class="menu-btn success" onclick="toggleRage()">😡 RAGE: OFF</button>
+                <button class="menu-btn success" onclick="toggleRegen()">💚 REGEN: OFF</button>
+                <button class="menu-btn success" onclick="toggleFreeze()">❄️ FREEZE: OFF</button>
+                <button class="menu-btn success" onclick="toggleTeleport()">🌀 TELEPORT: OFF</button>
+            </div>
+        </div>
+
+        <div class="menu-content" id="tab-info">
+            <div class="menu-section">
+                <div class="menu-section-title">ℹ️ THÔNG TIN</div>
                 <div class="player-id">
                     <div class="player-id-label">🆔 ID CỦA BẠN</div>
                     <div class="player-id-value" id="myPlayerId">-</div>
                 </div>
+                <div class="player-id">
+                    <div class="player-id-label">👤 TÊN</div>
+                    <div class="player-id-value">Ngọc Becon</div>
+                </div>
+                <button class="menu-btn danger" onclick="resetGame()">🔄 RESET GAME</button>
             </div>
         </div>
     </div>
@@ -711,7 +883,7 @@
         <div class="lobby-card">
             <div class="lobby-logo">🎮</div>
             <h1 class="lobby-title">Ngọc Becon 3D</h1>
-            <p class="lobby-subtitle">Game Free Fire 3D Online</p>
+            <p class="lobby-subtitle">Game Free Fire 3D Ultimate</p>
             
             <div class="player-id">
                 <div class="player-id-label">🆔 ID CỦA BẠN</div>
@@ -722,6 +894,9 @@
             <button class="lobby-btn secondary" onclick="window.location.href='index.html'">🏠 TRANG CHÍNH</button>
         </div>
     </div>
+
+    <!-- CHAT BOX -->
+    <div id="chatBox"></div>
 
     <script>
         // ====== CHẶN PHÓNG TO ======
@@ -735,18 +910,21 @@
             lastTouchEnd = now;
         });
 
-        // ====== ROTATE SCREEN ======
-        function checkOrientation() {
-            const rotateScreen = document.getElementById('rotateScreen');
-            if (window.innerHeight > window.innerWidth) {
-                rotateScreen.style.display = 'flex';
+        // ====== LOGIN ======
+        let isAdmin = false;
+
+        function checkLogin() {
+            const user = document.getElementById('loginUser').value;
+            const pass = document.getElementById('loginPass').value;
+            
+            if (user === '1' && pass === '2') {
+                isAdmin = true;
+                document.getElementById('loginScreen').style.display = 'none';
+                document.getElementById('lobby').style.display = 'flex';
             } else {
-                rotateScreen.style.display = 'none';
+                alert('❌ SAI TÊN ĐĂNG NHẬP HOẶC MẬT KHẨU!');
             }
         }
-
-        window.addEventListener('resize', checkOrientation);
-        checkOrientation();
 
         // ====== PLAYER ID ======
         let playerId = '';
@@ -782,34 +960,34 @@
         let gameRunning = false;
         let lastTime = 0;
         let joystickData = { active: false, x: 0, y: 0 };
+        let cameraJoystickData = { active: false, x: 0, y: 0 };
         let keys = {};
         let playerVelocity = { x: 0, y: 0, z: 0 };
         let currentWeapon = 0;
-        let isAdmin = false;
         let aimbot = false;
         let fly = false;
         let autoKill = false;
         let godMode = false;
         let speedHack = false;
+        let infiniteAmmo = false;
+        let oneShot = false;
+        let invisible = false;
+        let superJump = false;
+        let shield = false;
+        let rage = false;
+        let regen = false;
+        let freeze = false;
+        let teleport = false;
         let time = 0;
         let ground;
         let currentVehicle = null;
-        let playerWeapon = { damage: 20, fireRate: 300, name: 'Pistol' };
-        let cameraMode = 'third'; // third, first
-
-        // ====== ADMIN LOGIN ======
-        function loginAdmin() {
-            const user = document.getElementById('adminUser').value;
-            const pass = document.getElementById('adminPass').value;
-            
-            if (user === 'Ngocbecon' && pass === 'ngocbecon2007') {
-                isAdmin = true;
-                alert('✅ ĐĂNG NHẬP THÀNH CÔNG! Bạn là ADMIN!');
-                document.getElementById('menuPanel').classList.remove('show');
-            } else {
-                alert('❌ SAI TÊN ĐĂNG NHẬP HOẶC MẬT KHẨU!');
-            }
-        }
+        let playerWeapon = { damage: 20, fireRate: 300, name: 'Pistol', ammo: Infinity };
+        let cameraAngle = 0;
+        let isCrouching = false;
+        let isProne = false;
+        let gold = 0;
+        let lastShotTime = 0;
+        let shieldHealth = 0;
 
         // ====== MENU ======
         document.getElementById('menuBtn').addEventListener('click', () => {
@@ -855,6 +1033,63 @@
             event.target.textContent = `⚡ SPEED: ${speedHack ? 'ON' : 'OFF'}`;
         }
 
+        function toggleInfiniteAmmo() {
+            if (!isAdmin) { alert('❌ CẦN ĐĂNG NHẬP ADMIN!'); return; }
+            infiniteAmmo = !infiniteAmmo;
+            event.target.textContent = `∞ ĐẠN VÔ HẠN: ${infiniteAmmo ? 'ON' : 'OFF'}`;
+        }
+
+        function toggleOneShot() {
+            if (!isAdmin) { alert('❌ CẦN ĐĂNG NHẬP ADMIN!'); return; }
+            oneShot = !oneShot;
+            event.target.textContent = `💀 ONE SHOT: ${oneShot ? 'ON' : 'OFF'}`;
+        }
+
+        function toggleInvisible() {
+            if (!isAdmin) { alert('❌ CẦN ĐĂNG NHẬP ADMIN!'); return; }
+            invisible = !invisible;
+            player.visible = !invisible;
+            event.target.textContent = `👻 TÀNG HÌNH: ${invisible ? 'ON' : 'OFF'}`;
+        }
+
+        function toggleSuperJump() {
+            if (!isAdmin) { alert('❌ CẦN ĐĂNG NHẬP ADMIN!'); return; }
+            superJump = !superJump;
+            event.target.textContent = `🦘 SUPER JUMP: ${superJump ? 'ON' : 'OFF'}`;
+        }
+
+        // ====== POWERS ======
+        function toggleShield() {
+            if (!isAdmin) { alert('❌ CẦN ĐĂNG NHẬP ADMIN!'); return; }
+            shield = !shield;
+            shieldHealth = shield ? 100 : 0;
+            event.target.textContent = `🛡️ KHIÊN: ${shield ? 'ON' : 'OFF'}`;
+        }
+
+        function toggleRage() {
+            if (!isAdmin) { alert('❌ CẦN ĐĂNG NHẬP ADMIN!'); return; }
+            rage = !rage;
+            event.target.textContent = `😡 RAGE: ${rage ? 'ON' : 'OFF'}`;
+        }
+
+        function toggleRegen() {
+            if (!isAdmin) { alert('❌ CẦN ĐĂNG NHẬP ADMIN!'); return; }
+            regen = !regen;
+            event.target.textContent = `💚 REGEN: ${regen ? 'ON' : 'OFF'}`;
+        }
+
+        function toggleFreeze() {
+            if (!isAdmin) { alert('❌ CẦN ĐĂNG NHẬP ADMIN!'); return; }
+            freeze = !freeze;
+            event.target.textContent = `❄️ FREEZE: ${freeze ? 'ON' : 'OFF'}`;
+        }
+
+        function toggleTeleport() {
+            if (!isAdmin) { alert('❌ CẦN ĐĂNG NHẬP ADMIN!'); return; }
+            teleport = !teleport;
+            event.target.textContent = `🌀 TELEPORT: ${teleport ? 'ON' : 'OFF'}`;
+        }
+
         // ====== WEAPONS ======
         function giveWeapon(type) {
             if (!isAdmin) { alert('❌ CẦN ĐĂNG NHẬP ADMIN!'); return; }
@@ -865,11 +1100,13 @@
                 shotgun: { damage: 50, fireRate: 500, name: 'Shotgun' },
                 sniper: { damage: 100, fireRate: 1000, name: 'Sniper' },
                 smg: { damage: 25, fireRate: 100, name: 'SMG' },
-                ak: { damage: 45, fireRate: 120, name: 'AK-47' }
+                ak: { damage: 45, fireRate: 120, name: 'AK-47' },
+                minigun: { damage: 30, fireRate: 50, name: 'Minigun' },
+                laser: { damage: 200, fireRate: 200, name: 'Laser' }
             };
             
             playerWeapon = weapons[type];
-            alert(`✅ ĐÃ NHẬN ${playerWeapon.name.toUpperCase()}!`);
+            showChatMessage(`✅ ĐÃ NHẬN ${playerWeapon.name.toUpperCase()}!`);
         }
 
         // ====== VEHICLES ======
@@ -888,6 +1125,7 @@
                 case 'moto': vehicleMesh = createMoto(); break;
                 case 'plane': vehicleMesh = createPlane(); break;
                 case 'heli': vehicleMesh = createHelicopter(); break;
+                case 'tank': vehicleMesh = createTank(); break;
             }
             
             vehicleMesh.position.copy(player.position);
@@ -897,17 +1135,17 @@
             currentVehicle = {
                 mesh: vehicleMesh,
                 type: type,
-                speed: type === 'plane' || type === 'heli' ? 50 : 25
+                speed: type === 'plane' || type === 'heli' ? 50 : type === 'tank' ? 15 : 25
             };
             
-            alert(`✅ ĐÃ SPAWN ${type.toUpperCase()}!`);
+            showChatMessage(`✅ ĐÃ SPAWN ${type.toUpperCase()}!`);
         }
 
         function removeVehicle() {
             if (currentVehicle) {
                 scene.remove(currentVehicle.mesh);
                 currentVehicle = null;
-                alert('❌ ĐÃ XÓA XE!');
+                showChatMessage('❌ ĐÃ XÓA XE!');
             }
         }
 
@@ -1017,6 +1255,48 @@
             return heli;
         }
 
+        function createTank() {
+            const tank = new THREE.Group();
+            const body = new THREE.Mesh(
+                new THREE.BoxGeometry(3, 1.5, 5),
+                new THREE.MeshStandardMaterial({ color: 0x4a6741, metalness: 0.5 })
+            );
+            body.position.y = 1;
+            tank.add(body);
+            
+            const turret = new THREE.Mesh(
+                new THREE.CylinderGeometry(0.8, 0.8, 1, 16),
+                new THREE.MeshStandardMaterial({ color: 0x333333, metalness: 0.5 })
+            );
+            turret.position.y = 2;
+            tank.add(turret);
+            
+            const barrel = new THREE.Mesh(
+                new THREE.CylinderGeometry(0.3, 0.3, 3, 16),
+                new THREE.MeshStandardMaterial({ color: 0x333333, metalness: 0.5 })
+            );
+            barrel.position.set(0, 2, -2.5);
+            barrel.rotation.x = Math.PI / 2;
+            tank.add(barrel);
+            
+            const wheelGeo = new THREE.CylinderGeometry(0.5, 0.5, 0.3, 16);
+            const wheelMat = new THREE.MeshStandardMaterial({ color: 0x222222 });
+            
+            for (let i = 0; i < 6; i++) {
+                const wheel = new THREE.Mesh(wheelGeo, wheelMat);
+                wheel.position.set(-1.2, 0.5, -1.5 + i);
+                wheel.rotation.z = Math.PI / 2;
+                tank.add(wheel);
+                
+                const wheel2 = new THREE.Mesh(wheelGeo, wheelMat);
+                wheel2.position.set(1.2, 0.5, -1.5 + i);
+                wheel2.rotation.z = Math.PI / 2;
+                tank.add(wheel2);
+            }
+            
+            return tank;
+        }
+
         // ====== WEAPON SELECT ======
         function selectWeapon(index) {
             currentWeapon = index;
@@ -1040,6 +1320,8 @@
         document.getElementById('jumpBtn').addEventListener('mousedown', jump);
         document.getElementById('crouchBtn').addEventListener('touchstart', toggleCrouch);
         document.getElementById('crouchBtn').addEventListener('mousedown', toggleCrouch);
+        document.getElementById('proneBtn').addEventListener('touchstart', toggleProne);
+        document.getElementById('proneBtn').addEventListener('mousedown', toggleProne);
         document.getElementById('healBtn').addEventListener('touchstart', heal);
         document.getElementById('healBtn').addEventListener('mousedown', heal);
         document.getElementById('grenadeBtn').addEventListener('touchstart', throwGrenade);
@@ -1047,6 +1329,18 @@
 
         function attack() {
             if (!gameRunning) return;
+            
+            const now = Date.now();
+            if (now - lastShotTime < playerWeapon.fireRate && !infiniteAmmo) return;
+            lastShotTime = now;
+            
+            // Aimbot
+            if (aimbot && enemies.length > 0) {
+                const target = enemies[0];
+                const direction = new THREE.Vector3()
+                    .subVectors(target.mesh.position, player.position);
+                player.rotation.y = Math.atan2(direction.x, direction.z);
+            }
             
             // Bắn về phía trước mặt
             const direction = new THREE.Vector3(0, 0, -1);
@@ -1074,20 +1368,31 @@
         function jump() {
             if (!gameRunning) return;
             if (player.position.y <= 0.1) {
-                playerVelocity.y = 10;
+                playerVelocity.y = superJump ? 25 : 10;
             }
         }
 
         function toggleCrouch() {
             if (!gameRunning) return;
-            player.scale.y = player.scale.y === 1 ? 0.6 : 1;
-            player.position.y = player.scale.y === 0.6 ? 0.5 : 0;
+            isCrouching = !isCrouching;
+            isProne = false;
+            player.scale.y = isCrouching ? 0.6 : 1;
+            player.position.y = isCrouching ? 0.5 : 0;
+        }
+
+        function toggleProne() {
+            if (!gameRunning) return;
+            isProne = !isProne;
+            isCrouching = false;
+            player.scale.y = isProne ? 0.3 : 1;
+            player.position.y = isProne ? 0.2 : 0;
         }
 
         function heal() {
             if (!gameRunning) return;
             if (health < 100) {
                 health = Math.min(100, health + 30);
+                showChatMessage('💊 ĐÃ HỒI MÁU!');
             }
         }
 
@@ -1187,6 +1492,80 @@
             }
         }
 
+        // ====== CAMERA JOYSTICK ======
+        function setupCameraJoystick() {
+            const camJoystick = document.getElementById('cameraJoystick');
+            const camKnob = document.getElementById('cameraJoystickKnob');
+            let camCenter = { x: 0, y: 0 };
+
+            camJoystick.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                const touch = e.touches[0];
+                const rect = camJoystick.getBoundingClientRect();
+                camCenter = {
+                    x: rect.left + rect.width / 2,
+                    y: rect.top + rect.height / 2
+                };
+                cameraJoystickData.active = true;
+                updateCamJoystick(touch.clientX, touch.clientY);
+            });
+
+            camJoystick.addEventListener('touchmove', (e) => {
+                e.preventDefault();
+                const touch = e.touches[0];
+                updateCamJoystick(touch.clientX, touch.clientY);
+            });
+
+            camJoystick.addEventListener('touchend', (e) => {
+                e.preventDefault();
+                cameraJoystickData.active = false;
+                cameraJoystickData.x = 0;
+                cameraJoystickData.y = 0;
+                camKnob.style.transform = 'translate(-50%, -50%)';
+            });
+
+            camJoystick.addEventListener('mousedown', (e) => {
+                const rect = camJoystick.getBoundingClientRect();
+                camCenter = {
+                    x: rect.left + rect.width / 2,
+                    y: rect.top + rect.height / 2
+                };
+                cameraJoystickData.active = true;
+                updateCamJoystick(e.clientX, e.clientY);
+            });
+
+            document.addEventListener('mousemove', (e) => {
+                if (cameraJoystickData.active) {
+                    updateCamJoystick(e.clientX, e.clientY);
+                }
+            });
+
+            document.addEventListener('mouseup', () => {
+                cameraJoystickData.active = false;
+                cameraJoystickData.x = 0;
+                cameraJoystickData.y = 0;
+                camKnob.style.transform = 'translate(-50%, -50%)';
+            });
+
+            function updateCamJoystick(clientX, clientY) {
+                const dx = clientX - camCenter.x;
+                const dy = clientY - camCenter.y;
+                const maxDist = 30;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                
+                if (dist > maxDist) {
+                    const scale = maxDist / dist;
+                    cameraJoystickData.x = (dx * scale) / maxDist;
+                    cameraJoystickData.y = (dy * scale) / maxDist;
+                } else {
+                    cameraJoystickData.x = dx / maxDist;
+                    cameraJoystickData.y = dy / maxDist;
+                }
+
+                camKnob.style.transform = `translate(${cameraJoystickData.x * 30}px, ${cameraJoystickData.y * 30}px)`;
+            }
+        }
+
         // ====== KEYBOARD ======
         document.addEventListener('keydown', (e) => {
             keys[e.key.toLowerCase()] = true;
@@ -1194,8 +1573,17 @@
                 jump();
                 e.preventDefault();
             }
-            if (e.key === 'v') {
-                cameraMode = cameraMode === 'third' ? 'first' : 'third';
+            if (e.key === 'c') {
+                toggleCrouch();
+            }
+            if (e.key === 'z') {
+                toggleProne();
+            }
+            if (e.key === 'h') {
+                heal();
+            }
+            if (e.key === 'g') {
+                throwGrenade();
             }
         });
 
@@ -1252,6 +1640,7 @@
 
             window.addEventListener('resize', onWindowResize);
             setupJoystick();
+            setupCameraJoystick();
 
             animate(0);
         }
@@ -1409,11 +1798,10 @@
             }
         }
 
-        // ====== CREATE PLAYER (Hình dáng người) ======
+        // ====== CREATE PLAYER ======
         function createPlayer() {
             player = new THREE.Group();
             
-            // Body
             const body = new THREE.Mesh(
                 new THREE.BoxGeometry(1.5, 2, 0.8),
                 new THREE.MeshStandardMaterial({ 
@@ -1425,7 +1813,6 @@
             body.position.y = 1.5;
             player.add(body);
             
-            // Head
             const head = new THREE.Mesh(
                 new THREE.SphereGeometry(0.6, 16, 16),
                 new THREE.MeshStandardMaterial({ 
@@ -1437,7 +1824,6 @@
             head.position.y = 3;
             player.add(head);
             
-            // Eyes
             const eyeMat = new THREE.MeshStandardMaterial({ color: 0x000000 });
             const eyeGeo = new THREE.SphereGeometry(0.12, 8, 8);
             
@@ -1449,7 +1835,6 @@
             rightEye.position.set(0.25, 3.1, 0.55);
             player.add(rightEye);
             
-            // Gun
             const gun = new THREE.Mesh(
                 new THREE.BoxGeometry(0.2, 0.2, 1.5),
                 new THREE.MeshStandardMaterial({ 
@@ -1461,7 +1846,6 @@
             gun.position.set(0, 1.5, 1);
             player.add(gun);
             
-            // Legs
             const legMat = new THREE.MeshStandardMaterial({ color: 0x4444aa });
             const legGeo = new THREE.BoxGeometry(0.4, 1, 0.4);
             
@@ -1473,7 +1857,6 @@
             rightLeg.position.set(0.4, 0.5, 0);
             player.add(rightLeg);
             
-            // Arms
             const armMat = new THREE.MeshStandardMaterial({ color: 0xffb6c1 });
             const armGeo = new THREE.BoxGeometry(0.3, 1, 0.3);
             
@@ -1489,11 +1872,10 @@
             scene.add(player);
         }
 
-        // ====== SPAWN ENEMY (Hình dáng người) ======
+        // ====== SPAWN ENEMY ======
         function spawnEnemy() {
             const enemy = new THREE.Group();
             
-            // Body
             const body = new THREE.Mesh(
                 new THREE.BoxGeometry(1.2, 1.8, 0.8),
                 new THREE.MeshStandardMaterial({ 
@@ -1505,7 +1887,6 @@
             body.position.y = 1.2;
             enemy.add(body);
             
-            // Head
             const head = new THREE.Mesh(
                 new THREE.SphereGeometry(0.5, 16, 16),
                 new THREE.MeshStandardMaterial({ color: 0xcc0000 })
@@ -1513,7 +1894,6 @@
             head.position.y = 2.5;
             enemy.add(head);
             
-            // Eyes
             const eyeMat = new THREE.MeshStandardMaterial({ color: 0xffff00 });
             const eyeGeo = new THREE.SphereGeometry(0.1, 8, 8);
             
@@ -1525,7 +1905,6 @@
             rightEye.position.set(0.2, 2.6, 0.45);
             enemy.add(rightEye);
             
-            // Legs
             const legMat = new THREE.MeshStandardMaterial({ color: 0x880000 });
             const legGeo = new THREE.BoxGeometry(0.3, 0.8, 0.3);
             
@@ -1640,14 +2019,35 @@
             updateMiniMap();
             updateUI();
             
+            // Auto kill
             if (autoKill && enemies.length > 0) {
                 enemies.forEach((enemy, index) => {
                     scene.remove(enemy.mesh);
                     enemies.splice(index, 1);
                     kills++;
                     score += 100;
+                    gold += 50;
                     spawnEnemy();
+                    addKillFeed('💀 AUTO KILL');
                 });
+            }
+            
+            // Regen
+            if (regen && health < 100) {
+                health = Math.min(100, health + 5 * delta);
+            }
+            
+            // Freeze enemies
+            if (freeze) {
+                enemies.forEach(enemy => {
+                    enemy.speed = 0;
+                });
+                if (boss) boss.speed = 0;
+            } else {
+                enemies.forEach(enemy => {
+                    enemy.speed = 3 + Math.random() * 2;
+                });
+                if (boss) boss.speed = 5;
             }
             
             renderer.render(scene, camera);
@@ -1704,6 +2104,7 @@
                 
                 let speed = 15;
                 if (speedHack) speed = 40;
+                if (rage) speed = 25;
                 
                 player.position.x += moveX * speed * delta;
                 player.position.z += moveZ * speed * delta;
@@ -1737,20 +2138,19 @@
         }
 
         function updateCamera() {
-            if (cameraMode === 'first') {
-                // Camera góc nhìn thứ nhất
-                const direction = new THREE.Vector3(0, 0, -1);
-                direction.applyQuaternion(player.quaternion);
-                camera.position.copy(player.position);
-                camera.position.y += 2;
-                camera.lookAt(player.position.clone().add(direction.multiplyScalar(10)));
-            } else {
-                // Camera góc nhìn thứ 3
-                const cameraOffset = new THREE.Vector3(0, 15, 12);
-                const cameraTarget = player.position.clone().add(cameraOffset);
-                camera.position.lerp(cameraTarget, 0.1);
-                camera.lookAt(player.position);
+            // Xoay camera theo joystick camera
+            if (cameraJoystickData.active) {
+                cameraAngle += cameraJoystickData.x * 0.05;
             }
+            
+            const cameraOffset = new THREE.Vector3(
+                Math.sin(cameraAngle) * 15,
+                15,
+                Math.cos(cameraAngle) * 12
+            );
+            const cameraTarget = player.position.clone().add(cameraOffset);
+            camera.position.lerp(cameraTarget, 0.1);
+            camera.lookAt(player.position);
         }
 
         function updateEnemies(delta) {
@@ -1770,7 +2170,12 @@
                     enemy.attackCooldown -= delta;
                     if (enemy.attackCooldown <= 0) {
                         if (!godMode) {
-                            health -= 10;
+                            if (shield && shieldHealth > 0) {
+                                shieldHealth -= 10;
+                                if (shieldHealth <= 0) shield = false;
+                            } else {
+                                health -= 10;
+                            }
                         }
                         enemy.attackCooldown = 2;
                         if (health <= 0) {
@@ -1801,7 +2206,12 @@
                 boss.attackCooldown -= delta;
                 if (boss.attackCooldown <= 0) {
                     if (!godMode) {
-                        health -= 25;
+                        if (shield && shieldHealth > 0) {
+                            shieldHealth -= 25;
+                            if (shieldHealth <= 0) shield = false;
+                        } else {
+                            health -= 25;
+                        }
                     }
                     boss.attackCooldown = 1;
                     if (health <= 0) {
@@ -1821,7 +2231,8 @@
                 enemies.forEach((enemy, enemyIndex) => {
                     const dist = bullet.mesh.position.distanceTo(enemy.mesh.position);
                     if (dist < 2) {
-                        enemy.health -= playerWeapon.damage;
+                        const damage = oneShot ? 1000 : playerWeapon.damage;
+                        enemy.health -= damage;
                         scene.remove(bullet.mesh);
                         bullet.life = 0;
                         
@@ -1830,9 +2241,11 @@
                             enemies.splice(enemyIndex, 1);
                             kills++;
                             score += 100;
+                            gold += 50;
                             spawnEnemy();
                             createExplosion(enemy.mesh.position);
                             dropLoot(enemy.mesh.position);
+                            addKillFeed(`🎯 BẠN ĐÃ TIÊU DIỆT ${enemy.name || 'QUÁI VẬT'}`);
                         }
                     }
                 });
@@ -1840,7 +2253,8 @@
                 if (boss) {
                     const dist = bullet.mesh.position.distanceTo(boss.mesh.position);
                     if (dist < 3) {
-                        boss.health -= playerWeapon.damage;
+                        const damage = oneShot ? 1000 : playerWeapon.damage;
+                        boss.health -= damage;
                         scene.remove(bullet.mesh);
                         bullet.life = 0;
                         
@@ -1848,9 +2262,11 @@
                             scene.remove(boss.mesh);
                             boss = null;
                             score += 1000;
+                            gold += 500;
                             document.getElementById('bossDisplay').textContent = '0';
                             createExplosion(boss.mesh.position);
                             dropLoot(boss.mesh.position);
+                            addKillFeed('👑 ĐÃ TIÊU DIỆT BOSS!');
                         }
                     }
                 }
@@ -1887,8 +2303,10 @@
                                     enemies.splice(index, 1);
                                     kills++;
                                     score += 100;
+                                    gold += 50;
                                     spawnEnemy();
                                     dropLoot(enemy.mesh.position);
+                                    addKillFeed('💣 NỔ BOM!');
                                 }
                             }
                         });
@@ -1901,8 +2319,10 @@
                                     scene.remove(boss.mesh);
                                     boss = null;
                                     score += 1000;
+                                    gold += 500;
                                     document.getElementById('bossDisplay').textContent = '0';
                                     dropLoot(boss.mesh.position);
+                                    addKillFeed('👑 ĐÃ TIÊU DIỆT BOSS!');
                                 }
                             }
                         }
@@ -1947,24 +2367,33 @@
                     lootBox.collected = true;
                     scene.remove(lootBox.mesh);
                     
-                    const loots = ['súng', 'giáp', 'bom', 'keo', 'máu'];
+                    const loots = ['súng', 'giáp', 'bom', 'keo', 'máu', 'vàng'];
                     const loot = loots[Math.floor(Math.random() * loots.length)];
                     
                     switch(loot) {
                         case 'súng':
                             playerWeapon.damage += 10;
+                            showChatMessage('🔫 NHẶT ĐƯỢC SÚNG!');
                             break;
                         case 'giáp':
                             health = Math.min(150, health + 50);
+                            showChatMessage('🛡️ NHẶT ĐƯỢC GIÁP!');
                             break;
                         case 'bom':
                             score += 50;
+                            showChatMessage('💣 NHẶT ĐƯỢC BOM!');
                             break;
                         case 'keo':
                             score += 25;
+                            showChatMessage('🩹 NHẶT ĐƯỢC KEO!');
                             break;
                         case 'máu':
                             health = Math.min(100, health + 40);
+                            showChatMessage('💊 NHẶT ĐƯỢC MÁU!');
+                            break;
+                        case 'vàng':
+                            gold += 100;
+                            showChatMessage('💰 NHẶT ĐƯỢC VÀNG!');
                             break;
                     }
                 }
@@ -1985,11 +2414,11 @@
             const miniMap = document.getElementById('miniMap');
             const ctx = miniMap.getContext('2d');
             
-            ctx.clearRect(0, 0, 80, 80);
+            ctx.clearRect(0, 0, 90, 90);
             ctx.fillStyle = 'rgba(0, 255, 0, 0.2)';
-            ctx.fillRect(0, 0, 80, 80);
+            ctx.fillRect(0, 0, 90, 90);
             
-            const scale = 80 / 500;
+            const scale = 90 / 500;
             const playerX = (player.position.x + 250) * scale;
             const playerZ = (player.position.z + 250) * scale;
             
@@ -2034,6 +2463,7 @@
             document.getElementById('scoreDisplay').textContent = score;
             document.getElementById('healthDisplay').textContent = Math.max(0, Math.round(health));
             document.getElementById('killDisplay').textContent = kills;
+            document.getElementById('goldDisplay').textContent = gold;
         }
 
         function createExplosion(position) {
@@ -2093,6 +2523,34 @@
             });
         }
 
+        function showChatMessage(message) {
+            const chatBox = document.getElementById('chatBox');
+            const msg = document.createElement('div');
+            msg.className = 'chat-message';
+            msg.textContent = message;
+            chatBox.appendChild(msg);
+            chatBox.style.display = 'block';
+            
+            setTimeout(() => {
+                msg.remove();
+                if (chatBox.children.length === 0) {
+                    chatBox.style.display = 'none';
+                }
+            }, 3000);
+        }
+
+        function addKillFeed(message) {
+            const killFeed = document.getElementById('killFeed');
+            const msg = document.createElement('div');
+            msg.className = 'kill-message';
+            msg.textContent = message;
+            killFeed.appendChild(msg);
+            
+            setTimeout(() => {
+                msg.remove();
+            }, 3000);
+        }
+
         function onWindowResize() {
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
@@ -2104,11 +2562,13 @@
             document.getElementById('lobby').style.display = 'none';
             gameRunning = true;
             lastTime = performance.now();
+            showChatMessage('🎮 CHÀO MỪNG ĐẾN VỚI GAME!');
+            showChatMessage(`🆔 ID CỦA BẠN: ${playerId}`);
         }
 
         function gameOver() {
             gameRunning = false;
-            alert(`💀 GAME OVER!\nĐiểm: ${score}\nKill: ${kills}`);
+            alert(`💀 GAME OVER!\nĐiểm: ${score}\nKill: ${kills}\nVàng: ${gold}`);
             window.location.reload();
         }
 
